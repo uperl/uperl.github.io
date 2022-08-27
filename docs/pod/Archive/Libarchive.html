@@ -796,13 +796,13 @@ name="HISTORY"
 
 <p>I think also the interface that I chose was wrong. I opted to provide a very thin layer over <code>libarchive</code>, to avoid as much object-oriented overhead as possible. I intended to one day make an object-oriented layer over this thin layer to make it easier to use, but I never found the time to do this. I think a better approach would have been to bite the bullet provide only an object-oriented interface, because the ease of using a library that automatically free&#39;s its pointers when an object falls out of scope is worth the performance penalty of object oriented invocation.</p>
 
-<p>I did, however, learn a lot about XS and FFI, and I started to think about what would make FFI easier in Perl. At the time the only viable FFI on cpan was <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+<p>I did, however, learn a lot about XS and FFI, and I started to think about what would make FFI easier in Perl. At the time the only viable FFI on cpan was <a href="https://pl.atypus.org/pod/FFI/Raw.html" class="podlinkpod"
 >FFI::Raw</a>, and I contributed a number of enhancements and fixes to that project, and even got it working on Strawberry Perl. But I was starting to crave a better experience writing FFI bindings in Perl.</p>
 
-<p>BULK88 was in the audience for a DC / Baltimore version of my <i>Never Need to Write XS</i> talk and he pointed me to a feature in XS that would make FFI calls much faster than what was possible in <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+<p>BULK88 was in the audience for a DC / Baltimore version of my <i>Never Need to Write XS</i> talk and he pointed me to a feature in XS that would make FFI calls much faster than what was possible in <a href="https://pl.atypus.org/pod/FFI/Raw.html" class="podlinkpod"
 >FFI::Raw</a>. Using the <code>any_ptr</code> it is possible to remove method calls from an FFI interface, which, due to their dynamic nature.</p>
 
-<p>I was loosing faith in <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+<p>I was loosing faith in <a href="https://pl.atypus.org/pod/FFI/Raw.html" class="podlinkpod"
 >FFI::Raw</a> being tenable or performant for large APIs, so I I gathered up my ideas of what would make a better FFI experience in Perl and the <code>any_ptr</code> feature that Bulk had shown me and I started working on a prototype FFI library. I gave a talk at the Pittsburgh workshop based on the work of that prototype.</p>
 
 <dl>
@@ -811,15 +811,15 @@ name="HISTORY"
 >FFI Performance</a></a></dt>
 </dl>
 
-<p>I didn&#39;t release that prototype, because I kept hoping that FFI would catch fire and someone else would write a killer FFI for Perl. Since it didn&#39;t seem to be happening I re-worked my prototype into what eventually became <a href="https://metacpan.org/pod/FFI%3A%3APlatypus" class="podlinkpod"
+<p>I didn&#39;t release that prototype, because I kept hoping that FFI would catch fire and someone else would write a killer FFI for Perl. Since it didn&#39;t seem to be happening I re-worked my prototype into what eventually became <a href="https://pl.atypus.org/pod/FFI/Platypus.html" class="podlinkpod"
 >FFI::Platypus</a>. I wrote lots of bindings for Perl using Platypus, and I always had the idea that I would circle back to my FFI bindings for <code>libarchive</code> (<a href="https://metacpan.org/pod/Archive%3A%3ALibarchive%3A%3AFFI" class="podlinkpod"
->Archive::Libarchive::FFI</a>) and rework it using Platypus instead of <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+>Archive::Libarchive::FFI</a>) and rework it using Platypus instead of <a href="https://pl.atypus.org/pod/FFI/Raw.html" class="podlinkpod"
 >FFI::Raw</a>. The problem is that the project has since atrophied, and the problems with the dual module and automation tools that I chose made this not really a viable enterprise.</p>
 
 <p>I next thing that FFI needs in Perl is some good tools to introspect C and generate bindings automatically. There are lots of challenges in this area. One being that exactly what a function signature (assuming you can even introspect that) can be ambiguous. For example a <code>char</code> could either be a 8 bit integer value (it could even be signed or unsigned depending on architecture) or it could be a single character. A pointer <code>int *</code> could actually be used by the callee as an array. There are lots of things that are unsafe about C, and a ton of corner cases because of the way the C pre-processor works, but if we can surmount these challenges then it would be very useful, because even when two different non-C languages are trying to talk to each other, they are usually using the C ABI to do it. This sort of drives me crazy but it is the way the world works, at least today.</p>
 
-<p>I&#39;ve been working on some low-level tools that I&#39;m hoping we can build on to do some of this introspection. <a href="https://metacpan.org/pod/Const%3A%3AIntrospect%3A%3AC" class="podlinkpod"
->Const::Introspect::C</a> is able to extract <code>#define</code> constants from a C header file, and <a href="https://metacpan.org/pod/Clang%3A%3ACastXML" class="podlinkpod"
+<p>I&#39;ve been working on some low-level tools that I&#39;m hoping we can build on to do some of this introspection. <a href="https://pl.atypus.org/pod/Const/Introspect/C.html" class="podlinkpod"
+>Const::Introspect::C</a> is able to extract <code>#define</code> constants from a C header file, and <a href="https://pl.atypus.org/pod/Clang/CastXML.html" class="podlinkpod"
 >Clang::CastXML</a> uses the <code>castxml</code> project to extract a model of the functions and <code>strct</code>s in a C header file. I&#39;m hoping with a middle layer these modules could be used to write a <code>h2ffi</code> tool similar to <a href="https://metacpan.org/pod/h2xs" class="podlinkpod"
 >h2xs</a>. I&#39;ve had a number of false starts writing this middle layer: so I&#39;ve decided to write some custom introspection with <code>libarchive</code>, which is a very FFI-friendly library, and one that I am familiar with, but that also has some interesting challenges and edge cases. I&#39;m hoping this work will help design a more general middle layer that will be usable for other libraries.</p>
 
@@ -933,7 +933,7 @@ name="SEE_ALSO"
 >Alien::Libarchive3</a></a></dt>
 
 <dd>
-<p>If a suitable system <code>libarchive</code> can&#39;t be found, then this <a href="https://metacpan.org/pod/Alien" class="podlinkpod"
+<p>If a suitable system <code>libarchive</code> can&#39;t be found, then this <a href="https://alienfile.org/pod/Alien.html" class="podlinkpod"
 >Alien</a> will be installed to provide it.</p>
 
 <dt><a name="libarchive.org"
@@ -975,7 +975,12 @@ name="COPYRIGHT_AND_LICENSE"
 
 
     <div class="nx-footer">
-      <p>Copyright &copy; 2022 Graham Ollis</p>
+      <p>[
+        <a href="https://alienfile.org">alienfile.org</a> |
+        <a href="https://pl.atypus.org">pl.atypus.org</a> |
+        <a href="https://perlwasm.github.io">perlwasm</a> |
+        <a href="https://uperl.github.io">uperl</a>
+      ] Copyright &copy; 2022 Graham Ollis</p>
     </div>
   </body>
 </html>
