@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Alt::ExtUtils::PkgConfig::PLICEASE</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Alt::ExtUtils::PkgConfig::PLICEASE</div>
+    <!--Alt::ExtUtils::PkgConfig::PLICEASE--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Alt::ExtUtils::PkgConfig::PLICEASE - Simplistic interface to pkgconf (like pkg-config)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.15</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> env PERL_ALT_INSTALL=OVERWRITE cpanm Alt::ExtUtils::PkgConfig::PLICEASE</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This distribution provides an alternative implementation of <a href="/pod/ExtUtils/PkgConfig.html" class="podlinkpod"
+>ExtUtils::PkgConfig</a> which uses <a href="https://metacpan.org/pod/PkgConfig%3A%3ALibPkgConf" class="podlinkpod"
+>PkgConfig::LibPkgConf</a> (itself using <code>libpkgconf</code> which is the C library interface to <code>pkgconf</code>) instead of <code>pkg-config</code>. It is unlikely to replace the original module, but is intended to gather reliability statistics for <a href="https://metacpan.org/pod/PkgConfig%3A%3ALibPkgConf" class="podlinkpod"
+>PkgConfig::LibPkgConf</a> as compared with the original version and <code>pkg-config</code>.</p>
+
+<p>That being said, all effort has been made to make this module correct, and if you are in an environment where you have <code>libpkgconf</code> but not <code>pkg-config</code>, then this module may be of use to you. In order to get it to install you MUST set the environment variable <code>PERL_ALT_INSTALL</code> to <code>OVERWRITE</code>. For further rationale and details on this and other &#34;Alternative&#34; implementation modules see <a href="https://metacpan.org/pod/Alt" class="podlinkpod"
+>Alt</a>.</p>
+
+<p>Here are some differences between my version and the original:</p>
+
+<dl>
+<dt><a name="no_forking"
+>no forking</a></dt>
+
+<dd>
+<p>Because this implementation uses a library instead of a program to query the <code>.pc</code> file database, this version does not need to use <code>fork</code> or <code>system</code>.</p>
+
+<dt><a name="no_AUTOLOAD"
+>no <code>AUTOLOAD</code></a></dt>
+
+<dd>
+<p>This version doesn&#39;t use <code>AUTOLOAD</code>. As a result, dashed versions of the methods (<code>cflags-only-I</code>) are not supported. You must use the underscore methods (<code>cflags_only_I</code>). As the dashed versions were probably unintentional that is probably okay.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Alt"
+><a href="https://metacpan.org/pod/Alt" class="podlinkpod"
+>Alt</a></a></dt>
+
+<dd>
+<dt><a name="ExtUtils::PkgConfig"
+><a href="/pod/ExtUtils/PkgConfig.html" class="podlinkpod"
+>ExtUtils::PkgConfig</a></a></dt>
+
+<dd>
+<dt><a name="PkgConfig"
+><a href="https://metacpan.org/pod/PkgConfig" class="podlinkpod"
+>PkgConfig</a></a></dt>
+
+<dd>
+<dt><a name="PkgConfig::LibPkgConf"
+><a href="https://metacpan.org/pod/PkgConfig%3A%3ALibPkgConf" class="podlinkpod"
+>PkgConfig::LibPkgConf</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is Copyright (c) 2016 by Graham Ollis.</p>
+
+<p>This is free software, licensed under:</p>
+
+<pre class="sh_perl">  The GNU Lesser General Public License, Version 2.1, February 1999</pre>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

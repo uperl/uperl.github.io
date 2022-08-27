@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Exception::Class::DBI</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Exception::Class::DBI</div>
+    <!--Name--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#Name'>Name</a>
+  <li class='indexItem indexItem1'><a href='#Synopsis'>Synopsis</a>
+  <li class='indexItem indexItem1'><a href='#Description'>Description</a>
+  <li class='indexItem indexItem1'><a href='#Interface'>Interface</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Class_Method'>Class Method</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Classes'>Classes</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Exception%3A%3AClass%3A%3ADBI'>Exception::Class::DBI</a>
+    <li class='indexItem indexItem2'><a href='#Exception%3A%3AClass%3A%3ADBI%3A%3AH'>Exception::Class::DBI::H</a>
+    <li class='indexItem indexItem2'><a href='#Exception%3A%3AClass%3A%3ADBI%3A%3ADRH'>Exception::Class::DBI::DRH</a>
+    <li class='indexItem indexItem2'><a href='#Exception%3A%3AClass%3A%3ADBI%3A%3ADBH'>Exception::Class::DBI::DBH</a>
+    <li class='indexItem indexItem2'><a href='#Exception%3A%3AClass%3A%3ADBI%3A%3ASTH'>Exception::Class::DBI::STH</a>
+    <li class='indexItem indexItem2'><a href='#Exception%3A%3AClass%3A%3ADBI%3A%3AUnknown'>Exception::Class::DBI::Unknown</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Note'>Note</a>
+  <li class='indexItem indexItem1'><a href='#Subclassing'>Subclassing</a>
+  <li class='indexItem indexItem1'><a href='#To_Do'>To Do</a>
+  <li class='indexItem indexItem1'><a href='#Support'>Support</a>
+  <li class='indexItem indexItem1'><a href='#Author'>Author</a>
+  <li class='indexItem indexItem1'><a href='#See_Also'>See Also</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Name"
+>Name</a></h1>
+
+<p>Exception::Class::DBI - DBI Exception objects</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Synopsis"
+>Synopsis</a></h1>
+
+<pre class="sh_perl">  use DBI;
+  use Exception::Class::DBI;
+
+  my $dbh = DBI-&#62;connect($dsn, $user, $pass, {
+      PrintError  =&#62; 0,
+      RaiseError  =&#62; 0,
+      HandleError =&#62; Exception::Class::DBI-&#62;handler,
+  });
+
+  eval { $dbh-&#62;do($sql) };
+
+  if (my $ex = $@) {
+      print STDERR &#34;DBI Exception:\n&#34;;
+      print STDERR &#34;  Exception Type: &#34;, ref $ex, &#34;\n&#34;;
+      print STDERR &#34;  Error:          &#34;, $ex-&#62;error, &#34;\n&#34;;
+      print STDERR &#34;  Err:            &#34;, $ex-&#62;err, &#34;\n&#34;;
+      print STDERR &#34;  Errstr:         &#34;, $ex-&#62;errstr, &#34;\n&#34;;
+      print STDERR &#34;  State:          &#34;, $ex-&#62;state, &#34;\n&#34;;
+      print STDERR &#34;  Return Value:   &#34;, ($ex-&#62;retval || &#39;undef&#39;), &#34;\n&#34;;
+  }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Description"
+>Description</a></h1>
+
+<p>This module offers a set of DBI-specific exception classes. They inherit from Exception::Class, the base class for all exception objects created by the <a href="https://metacpan.org/pod/Exception%3A%3AClass" class="podlinkpod"
+>Exception::Class</a> module from the CPAN. Exception::Class::DBI itself offers a single class method, <code>handler()</code>, that returns a code reference appropriate for passing to the DBI <code>HandleError</code> attribute.</p>
+
+<p>The exception classes created by Exception::Class::DBI are designed to be thrown in certain DBI contexts; the code reference returned by <code>handler()</code> and passed to the DBI <code>HandleError</code> attribute determines the context and throws the appropriate exception.</p>
+
+<p>Each of the Exception::Class::DBI classes offers a set of object accessor methods in addition to those provided by Exception::Class. These can be used to output detailed diagnostic information in the event of an exception.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Interface"
+>Interface</a></h1>
+
+<p>Exception::Class::DBI inherits from Exception::Class, and thus its entire interface. Refer to the Exception::Class documentation for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Class_Method"
+>Class Method</a></h2>
+
+<dl>
+<dt><a name="handler"
+><code>handler</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $dbh = DBI-&#62;connect($data_source, $username, $auth, {
+      PrintError  =&#62; 0,
+      RaiseError  =&#62; 0,
+      HandleError =&#62; Exception::Class::DBI-&#62;handler
+  });</pre>
+
+<p>This method returns a code reference appropriate for passing to the DBI <code>HandleError</code> attribute. When DBI encounters an error, it checks its <code>PrintError</code>, <code>RaiseError</code>, and <code>HandleError</code> attributes to decide what to do about it. When <code>HandleError</code> has been set to a code reference, DBI executes it, passing it the error string that would be printed for <code>PrintError</code>, the DBI handle object that was executing the method call that triggered the error, and the return value of that method call (usually <code>undef</code>). Using these arguments, the code reference provided by <code>handler()</code> determines what type of exception to throw. Exception::Class::DBI contains the subclasses detailed below, each relevant to the DBI handle that triggered the error.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Classes"
+>Classes</a></h1>
+
+<p>Exception::Class::DBI creates a number of exception classes, each one specific to a particular DBI error context. Most of the object methods described below correspond to like-named attributes in the DBI itself. Thus the documentation below summarizes the DBI attribute documentation, so you should refer to <a href="https://metacpan.org/pod/DBI" class="podlinkpod"
+>DBI</a> itself for more in-depth information.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Exception::Class::DBI"
+>Exception::Class::DBI</a></h2>
+
+<p>All of the Exception::Class::DBI classes documented below inherit from Exception::Class::DBI. It offers the several object methods in addition to those it inherits from <i>its</i> parent, Exception::Class. These methods correspond to the <a href="https://metacpan.org/pod/DBI#DBI_Dynamic_Attributes" class="podlinkpod"
+>DBI dynamic attributes</a>, as well as to the values passed to the <code>handler()</code> exception handler via the DBI <code>HandleError</code> attribute. Exceptions of this base class are only thrown when there is no DBI handle object executing, e.g. in the DBI <code>connect()</code> method. <b>Note:</b> This functionality is not yet implemented in DBI -- see the discusion that starts here: <a href="http://archive.develooper.com/dbi-dev@perl.org/msg01438.html" class="podlinkurl"
+>http://archive.develooper.com/dbi-dev@perl.org/msg01438.html</a>.</p>
+
+<dl>
+<dt><a name="error"
+><code>error</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $error = $ex-&#62;error;</pre>
+
+<p>Exception::Class::DBI actually inherits this method from Exception::Class. It contains the error string that DBI prints when its <code>PrintError</code> attribute is enabled, or <code>die</code>s with when its &#60;RaiseError&#62; attribute is enabled.</p>
+
+<dt><a name="err"
+><code>err</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $err = $ex-&#62;err;</pre>
+
+<p>Corresponds to the <code>$DBI::err</code> dynamic attribute. Returns the native database engine error code from the last driver method called.</p>
+
+<dt><a name="errstr"
+><code>errstr</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $errstr = $ex-&#62;errstr;</pre>
+
+<p>Corresponds to the <code>$DBI::errstr</code> dynamic attribute. Returns the native database engine error message from the last driver method called.</p>
+
+<dt><a name="state"
+><code>state</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $state = $ex-&#62;state;</pre>
+
+<p>Corresponds to the <code>$DBI::state</code> dynamic attribute. Returns an error code in the standard SQLSTATE five character format.</p>
+
+<dt><a name="retval"
+><code>retval</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $retval = $ex-&#62;retval;</pre>
+
+<p>The first value being returned by the DBI method that failed (typically <code>undef</code>).</p>
+
+<dt><a name="handle"
+><code>handle</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $db_handle = $ex-&#62;handle;</pre>
+
+<p>The DBI handle appropriate to the exception class. For Exception::Class::DBI::DRH, it will be a driver handle. For Exception::Class::DBI::DBH it will be a database handle. And for Exception::Class::DBI::STH it will be a statement handle. If there is no handle thrown in the exception (because, say, the exception was thrown before a driver handle could be created), the <code>handle</code> will be <code>undef</code>.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Exception::Class::DBI::H"
+>Exception::Class::DBI::H</a></h2>
+
+<p>This class inherits from <a href="#Exception%3A%3AClass%3A%3ADBI" class="podlinkpod"
+>Exception::Class::DBI</a>, and is the base class for all DBI handle exceptions (see below). It will not be thrown directly. Its methods correspond to the <a href="https://metacpan.org/pod/DBI#ATTRIBUTES_COMMON_TO_ALL_HANDLES" class="podlinkpod"
+>DBI attributes common to all handles</a>.</p>
+
+<dl>
+<dt><a name="warn"
+><code>warn</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $warn = $ex-&#62;warn;</pre>
+
+<p>Boolean value indicating whether DBI warnings have been enabled. Corresponds to the DBI <code>Warn</code> attribute.</p>
+
+<dt><a name="active"
+><code>active</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $active = $ex-&#62;active;</pre>
+
+<p>Boolean value indicating whether the DBI handle that encountered the error is active. Corresponds to the DBI <code>Active</code> attribute.</p>
+
+<dt><a name="kids"
+><code>kids</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $kids = $ex-&#62;kids;</pre>
+
+<p>For a driver handle, Kids is the number of currently existing database handles that were created from that driver handle. For a database handle, Kids is the number of currently existing statement handles that were created from that database handle. Corresponds to the DBI <code>Kids</code> attribute.</p>
+
+<dt><a name="active_kids"
+><code>active_kids</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $active_kids = $ex-&#62;active_kids;</pre>
+
+<p>Like <code>kids</code>, but only counting those that are <code>active</code> (as above). Corresponds to the DBI <code>ActiveKids</code> attribute.</p>
+
+<dt><a name="compat_mode"
+><code>compat_mode</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $compat_mode = $ex-&#62;compat_mode;</pre>
+
+<p>Boolean value indicating whether an emulation layer (such as Oraperl) enables compatible behavior in the underlying driver (e.g., DBD::Oracle) for this handle. Corresponds to the DBI <code>CompatMode</code> attribute.</p>
+
+<dt><a name="inactive_destroy"
+><code>inactive_destroy</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $inactive_destroy = $ex-&#62;inactive_destroy;</pre>
+
+<p>Boolean value indicating whether the DBI has disabled the database engine related effect of <code>DESTROY</code>ing a handle. Corresponds to the DBI <code>InactiveDestroy</code> attribute.</p>
+
+<dt><a name="trace_level"
+><code>trace_level</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $trace_level = $ex-&#62;trace_level;</pre>
+
+<p>Returns the DBI trace level set on the handle that encountered the error. Corresponds to the DBI <code>TraceLevel</code> attribute.</p>
+
+<dt><a name="fetch_hash_key_name"
+><code>fetch_hash_key_name</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $fetch_hash_key_name = $ex-&#62;fetch_hash_key_name;</pre>
+
+<p>Returns the attribute name the DBI <code>fetchrow_hashref()</code> method should use to get the field names for the hash keys. Corresponds to the DBI <code>FetchHashKeyName</code> attribute.</p>
+
+<dt><a name="chop_blanks"
+><code>chop_blanks</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $chop_blanks = $ex-&#62;chop_blanks;</pre>
+
+<p>Boolean value indicating whether DBI trims trailing space characters from fixed width character (CHAR) fields. Corresponds to the DBI <code>ChopBlanks</code> attribute.</p>
+
+<dt><a name="long_read_len"
+><code>long_read_len</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $long_read_len = $ex-&#62;long_read_len;</pre>
+
+<p>Returns the maximum length of long fields (&#34;blob&#34;, &#34;memo&#34;, etc.) which the DBI driver will read from the database automatically when it fetches each row of data. Corresponds to the DBI <code>LongReadLen</code> attribute.</p>
+
+<dt><a name="long_trunc_ok"
+><code>long_trunc_ok</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $long_trunc_ok = $ex-&#62;long_trunc_ok;</pre>
+
+<p>Boolean value indicating whether the DBI will truncate values it retrieves from long fields that are longer than the value returned by <code>long_read_len()</code>. Corresponds to the DBI <code>LongTruncOk</code> attribute.</p>
+
+<dt><a name="taint"
+><code>taint</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $taint = $ex-&#62;taint;</pre>
+
+<p>Boolean value indicating whether data fetched from the database is considered tainted. Corresponds to the DBI <code>Taint</code> attribute.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Exception::Class::DBI::DRH"
+>Exception::Class::DBI::DRH</a></h2>
+
+<p>DBI driver handle exceptions objects. This class inherits from <a href="#Exception%3A%3AClass%3A%3ADBI%3A%3AH" class="podlinkpod"
+>Exception::Class::DBI::H</a>, and offers no extra methods of its own.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Exception::Class::DBI::DBH"
+>Exception::Class::DBI::DBH</a></h2>
+
+<p>DBI database handle exceptions objects. This class inherits from <a href="#Exception%3A%3AClass%3A%3ADBI%3A%3AH" class="podlinkpod"
+>Exception::Class::DBI::H</a> Its methods correspond to the <a href="https://metacpan.org/pod/DBI#Database_Handle_Attributes" class="podlinkpod"
+>DBI database handle attributes</a>.</p>
+
+<dl>
+<dt><a name="auto_commit"
+><code>auto_commit</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $auto_commit = $ex-&#62;auto_commit;</pre>
+
+<p>Returns true if the database handle <code>AutoCommit</code> attribute is enabled. meaning that database changes cannot be rolled back. Corresponds to the DBI database handle <code>AutoCommit</code> attribute.</p>
+
+<dt><a name="db_name"
+><code>db_name</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $db_name = $ex-&#62;db_name;</pre>
+
+<p>Returns the &#34;name&#34; of the database. Corresponds to the DBI database handle <code>Name</code> attribute.</p>
+
+<dt><a name="statement"
+><code>statement</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $statement = $ex-&#62;statement;</pre>
+
+<p>Returns the statement string passed to the most recent call to the DBI <code>prepare()</code> method in this database handle. If it was the <code>prepare()</code> method that encountered the error and triggered the exception, the statement string will be the statement passed to <code>prepare()</code>. Corresponds to the DBI database handle <code>Statement</code> attribute.</p>
+
+<dt><a name="row_cache_size"
+><code>row_cache_size</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $row_cache_size = $ex-&#62;row_cache_size;</pre>
+
+<p>Returns the hint to the database driver indicating the size of the local row cache that the application would like the driver to use for future <code>SELECT</code> statements. Corresponds to the DBI database handle <code>RowCacheSize</code> attribute.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Exception::Class::DBI::STH"
+>Exception::Class::DBI::STH</a></h2>
+
+<p>DBI statement handle exceptions objects. This class inherits from <a href="#Exception%3A%3AClass%3A%3ADBI%3A%3AH" class="podlinkpod"
+>Exception::Class::DBI::H</a> Its methods correspond to the <a href="https://metacpan.org/pod/DBI#Statement_Handle_Attributes" class="podlinkpod"
+>DBI statement handle attributes</a>.</p>
+
+<dl>
+<dt><a name="num_of_fields"
+><code>num_of_fields</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $num_of_fields = $ex-&#62;num_of_fields;</pre>
+
+<p>Returns the number of fields (columns) the prepared statement will return. Corresponds to the DBI statement handle <code>NUM_OF_FIELDS</code> attribute.</p>
+
+<dt><a name="num_of_params"
+><code>num_of_params</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $num_of_params = $ex-&#62;num_of_params;</pre>
+
+<p>Returns the number of parameters (placeholders) in the prepared statement. Corresponds to the DBI statement handle <code>NUM_OF_PARAMS</code> attribute.</p>
+
+<dt><a name="field_names"
+><code>field_names</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $field_names = $ex-&#62;field_names;</pre>
+
+<p>Returns a reference to an array of field names for each column. Corresponds to the DBI statement handle <code>NAME</code> attribute.</p>
+
+<dt><a name="type"
+><code>type</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $type = $ex-&#62;type;</pre>
+
+<p>Returns a reference to an array of integer values for each column. The value indicates the data type of the corresponding column. Corresponds to the DBI statement handle <code>TYPE</code> attribute.</p>
+
+<dt><a name="precision"
+><code>precision</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $precision = $ex-&#62;precision;</pre>
+
+<p>Returns a reference to an array of integer values for each column. For non-numeric columns, the value generally refers to either the maximum length or the defined length of the column. For numeric columns, the value refers to the maximum number of significant digits used by the data type (without considering a sign character or decimal point). Corresponds to the DBI statement handle <code>PRECISION</code> attribute.</p>
+
+<dt><a name="scale"
+><code>scale</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $scale = $ex-&#62;scale;</pre>
+
+<p>Returns a reference to an array of integer values for each column. Corresponds to the DBI statement handle <code>SCALE</code> attribute.</p>
+
+<dt><a name="nullable"
+><code>nullable</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $nullable = $ex-&#62;nullable;</pre>
+
+<p>Returns a reference to an array indicating the possibility of each column returning a null. Possible values are 0 (or an empty string) = no, 1 = yes, 2 = unknown. Corresponds to the DBI statement handle <code>NULLABLE</code> attribute.</p>
+
+<dt><a name="cursor_name"
+><code>cursor_name</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $cursor_name = $ex-&#62;cursor_name;</pre>
+
+<p>Returns the name of the cursor associated with the statement handle, if available. Corresponds to the DBI statement handle <code>CursorName</code> attribute.</p>
+
+<dt><a name="param_values"
+><code>param_values</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $param_values = $ex-&#62;param_values;</pre>
+
+<p>Returns a reference to a hash containing the values currently bound to placeholders. Corresponds to the DBI statement handle <code>ParamValues</code> attribute.</p>
+
+<dt><a name="statement"
+><code>statement</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $statement = $ex-&#62;statement;</pre>
+
+<p>Returns the statement string passed to the DBI <code>prepare()</code> method. Corresponds to the DBI statement handle <code>Statement</code> attribute.</p>
+
+<dt><a name="rows_in_cache"
+><code>rows_in_cache</code></a></dt>
+
+<dd>
+<pre class="sh_perl">  my $rows_in_cache = $ex-&#62;rows_in_cache;</pre>
+
+<p>the number of unfetched rows in the cache if the driver supports a local row cache for <code>SELECT</code> statements. Corresponds to the DBI statement handle <code>RowsInCache</code> attribute.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Exception::Class::DBI::Unknown"
+>Exception::Class::DBI::Unknown</a></h2>
+
+<p>Exceptions of this class are thrown when the context for a DBI error cannot be determined. Inherits from <a href="#Exception%3A%3AClass%3A%3ADBI" class="podlinkpod"
+>Exception::Class::DBI</a>, but implements no methods of its own.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Note"
+>Note</a></h1>
+
+<p><b>Note:</b> Not <i>all</i> of the attributes offered by the DBI are exploited by these exception classes. For example, the <code>PrintError</code> and <code>RaiseError</code> attributes seemed redundant. But if folks think it makes sense to include the missing attributes for the sake of completeness, let me know. Enough interest will motivate me to get them in.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Subclassing"
+>Subclassing</a></h1>
+
+<p>It is possible to subclass Exception::Class::DBI. The trick is to subclass its subclasses, too. Similar to subclassing DBI itself, this means that the handle subclasses should exist as subnamespaces of your base subclass.</p>
+
+<p>It&#39;s easier to explain with an example. Say that you wanted to add a new method to all DBI exceptions that outputs a nicely formatted error message. You might do it like this:</p>
+
+<pre class="sh_perl">  package MyApp::Ex::DBI;
+  use base &#39;Exception::Class::DBI&#39;;
+
+  sub full_message {
+      my $self = shift;
+      return $self-&#62;SUPER::full_message unless $self-&#62;can(&#39;statement&#39;);
+      return $self-&#62;SUPER::full_message
+          . &#39; [for Statement &#34;&#39;
+          . $self-&#62;statement . &#39;&#34;]&#39;;
+  }</pre>
+
+<p>You can then use this subclass just like Exception::Class::DBI itself:</p>
+
+<pre class="sh_perl">  my $dbh = DBI-&#62;connect($dsn, $user, $pass, {
+      PrintError  =&#62; 0,
+      RaiseError  =&#62; 0,
+      HandleError =&#62; MyApp::Ex::DBI-&#62;handler,
+  });</pre>
+
+<p>And that&#39;s all well and good, except that none of Exception::Class::DBI&#39;s own subclasses inherit from your class, so most exceptions won&#39;t be able to use your spiffy new method.</p>
+
+<p>The solution is to create subclasses of both the Exception::Class::DBI subclasses and your own base subclass, as long as they each use the same package name as your subclass, plus &#34;H&#34;, &#34;DRH&#34;, &#34;DBH&#34;, &#34;STH&#34;, and &#34;Unknown&#34;. Here&#39;s what it looks like:</p>
+
+<pre class="sh_perl">  package MyApp::Ex::DBI::H;
+  use base &#39;MyApp::Ex::DBI&#39;, &#39;Exception::Class::DBI::H&#39;;
+
+  package MyApp::Ex::DBI::DRH;
+  use base &#39;MyApp::Ex::DBI&#39;, &#39;Exception::Class::DBI::DRH&#39;;
+
+  package MyApp::Ex::DBI::DBH;
+  use base &#39;MyApp::Ex::DBI&#39;, &#39;Exception::Class::DBI::DBH&#39;;
+
+  package MyApp::Ex::DBI::STH;
+  use base &#39;MyApp::Ex::DBI&#39;, &#39;Exception::Class::DBI::STH&#39;;
+
+  package MyApp::Ex::DBI::Unknown;
+  use base &#39;MyApp::Ex::DBI&#39;, &#39;Exception::Class::DBI::Unknown&#39;;</pre>
+
+<p>And then things should work just spiffy! Of course, you probably don&#39;t need the H subclass unless you want to add other methods for the DRH, DBH, and STH classes to inherit from.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="To_Do"
+>To Do</a></h1>
+
+<ul>
+<li>I need to figure out a non-database specific way of testing STH exceptions. DBD::ExampleP works well for DRH and DBH exceptions, but not so well for STH exceptions.</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Support"
+>Support</a></h1>
+
+<p>This module is stored in an open <a href="http://github.com/plicease/Exception-Class-DBI/" class="podlinkurl"
+>GitHub repository</a>. Feel free to fork and contribute!</p>
+
+<p>Please file bug reports via <a href="http://github.com/plicease/Exception-Class-DBI/issues/" class="podlinkurl"
+>GitHub Issues</a> or by sending mail to <a href="mailto:bug-Exception-Class-DBI@rt.cpan.org" class="podlinkurl"
+>bug-Exception-Class-DBI@rt.cpan.org</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Author"
+>Author</a></h1>
+
+<p>Original Author is David E. Wheeler &#60;david@justatheory.com&#62;</p>
+
+<p>Current maintainer is Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="See_Also"
+>See Also</a></h1>
+
+<p>You should really only be using this module in conjunction with Tim Bunce&#39;s <a href="https://metacpan.org/pod/DBI" class="podlinkpod"
+>DBI</a>, so it pays to be familiar with its documentation.</p>
+
+<p>See the documentation for Dave Rolsky&#39;s <a href="https://metacpan.org/pod/Exception%3A%3AClass" class="podlinkpod"
+>Exception::Class</a> module for details on the methods this module&#39;s classes inherit from it. There&#39;s lots more information in these exception objects, so use them!</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>Copyright (c) 2002-2019, David E. Wheeler. Some Rights Reserved.</p>
+
+<p>This module is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

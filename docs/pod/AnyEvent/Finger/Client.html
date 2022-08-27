@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Finger::Client</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/Finger.html">Finger</a>::Client</div>
+    <!--AnyEvent::Finger::Client--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#finger'>finger</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Finger::Client - Simple asynchronous finger client</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.12</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use AnyEvent;
+ use AnyEvent::Finger::Client;
+ 
+ my $done = AnyEvent-&#62;condvar;
+ 
+ my $client = AnyEvent::Finger::Client-&#62;new(
+   hostname =&#62; &#39;localhost&#39;,
+ );
+ 
+ $client-&#62;finger(&#39;username&#39;, sub {
+   my($lines) = @_;
+   print &#34;[response]\n&#34;;
+   print join &#34;\n&#34;, @$lines;
+ }, on_error =&#62; sub {
+   print STDERR shift;
+ });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Provide a simple asynchronous finger client.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<pre class="sh_perl"> my $client = AnyEvent::Finger::Client-&#62;new(%options);</pre>
+
+<p>The constructor takes the following optional arguments:</p>
+
+<ul>
+<li>hostname (default 127.0.0.1)
+<p>The hostname to connect to.</p>
+</li>
+
+<li>port (default 79)
+<p>The port to connect to.</p>
+</li>
+
+<li>timeout (default 60)
+<p>The connection timeout.</p>
+</li>
+
+<li>on_error (carp error)
+<p>A callback subref to be called on error (either connection or transmission error). Passes the error string as the first argument to the callback.</p>
+</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="finger"
+>finger</a></h2>
+
+<pre class="sh_perl"> $client-&#62;finger($request, $callback, [ \%options ])</pre>
+
+<p>Connect to the finger server make the given request and call the given callback when the response is complete. The response will be passed to the callback as an array reference of lines. Each line will have the new line (\n or \r or \r\n) removed. Any of the arguments passed into the constructor as passed above may be overridden specifying them in the options hash (third argument).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="AnyEvent::Finger"
+><a href="/pod/AnyEvent/Finger.html" class="podlinkpod"
+>AnyEvent::Finger</a></a></dt>
+
+<dd>
+<dt><a name="AnyEvent::Server"
+><a href="https://metacpan.org/pod/AnyEvent%3A%3AServer" class="podlinkpod"
+>AnyEvent::Server</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

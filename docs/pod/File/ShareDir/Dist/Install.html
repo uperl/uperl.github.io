@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>File::ShareDir::Dist::Install</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> File::ShareDir::<a href="/pod/File/ShareDir/Dist.html">Dist</a>::Install</div>
+    <!--File::ShareDir::Dist::Install--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#install_dir'>install_dir</a>
+    <li class='indexItem indexItem2'><a href='#install'>install</a>
+    <li class='indexItem indexItem2'><a href='#install_config_get'>install_config_get</a>
+    <li class='indexItem indexItem2'><a href='#install_config_set'>install_config_set</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>File::ShareDir::Dist::Install - Install per-dist shared files</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.07</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use File::ShareDir::Dist;
+ install_config_set &#39;Foo-Bar-Baz&#39; =&#62; {
+   key1 =&#62; &#39;value1&#39;;
+   key2 =&#62; &#39;value2&#39;;
+ };</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This is <a href="/pod/File/ShareDir/Dist.html" class="podlinkpod"
+>File::ShareDir::Dist</a>&#39;s install-time companion. Unlike <a href="https://metacpan.org/pod/File%3A%3AShareDir%3A%3AInstall" class="podlinkpod"
+>File::ShareDir::Install</a> it does not integrate with EUMM out of the box, possibly a feature or a bug depending on your point of view. Provides a simple interface for getting and setting the dist configuration at install time. The dist config is just a <code>config.pl</code> in the share directory that contains a hash that can be read at runtime.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="install_dir"
+>install_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = install_dir $dist_name;</pre>
+
+<p>Returns the directory for the share dir at install time. This will be of the form <code>blib/lib/auto/share/dist/...</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="install"
+>install</a></h2>
+
+<pre class="sh_perl"> install $source_dir, $dist_name;
+ % perl -MFile::ShareDir::Dist= -e install $source_dir $dist_name</pre>
+
+<p>Install the given source directory to the dist share dir <code>$dist_name</code>. Can be called from Perl, or at the command-line as shown.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="install_config_get"
+>install_config_get</a></h2>
+
+<pre class="sh_perl"> my $config = install_config_get $dist_name;</pre>
+
+<p>Get the config for the dist.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="install_config_set"
+>install_config_set</a></h2>
+
+<pre class="sh_perl"> install_config_set $dist_name, $config;
+ install_config_set $dist_name, $key =&#62; $value;
+ % perl -MFile::ShareDir::Dist= -e install_config_set $dist_name $key $value</pre>
+
+<p>Set the config for the dist. Can be a hash, which REPLACES the existing config, a key/value pair which adds to the config. Can also be run at the command-line as shown.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Yanick Champoux (yanick)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017,2018 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

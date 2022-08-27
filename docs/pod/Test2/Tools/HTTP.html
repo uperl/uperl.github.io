@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::HTTP</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::HTTP</div>
+    <!--Test2::Tools::HTTP--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#http_request_%5Breq%5D'>http_request [req]</a>
+    <li class='indexItem indexItem2'><a href='#http_response_%5Bres%5D'>http_response [res]</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#http_code_%5Bcode%5D'>http_code [code]</a>
+      <li class='indexItem indexItem3'><a href='#http_message_%5Bmessage%5D'>http_message [message]</a>
+      <li class='indexItem indexItem3'><a href='#http_content_%5Bcontent%5D'>http_content [content]</a>
+      <li class='indexItem indexItem3'><a href='#http_is_info%2C_http_is_success%2C_http_is_redirect%2C_http_is_error%2C_http_is_client_error%2C_http_is_server_error'>http_is_info, http_is_success, http_is_redirect, http_is_error, http_is_client_error, http_is_server_error</a>
+      <li class='indexItem indexItem3'><a href='#http_isnt_info%2C_http_isnt_success%2C_http_isnt_redirect%2C_http_isnt_error%2C_http_isnt_client_error%2C_http_isnt_server_error'>http_isnt_info, http_isnt_success, http_isnt_redirect, http_isnt_error, http_isnt_client_error, http_isnt_server_error</a>
+      <li class='indexItem indexItem3'><a href='#http_headers_%5Bheaders%5D'>http_headers [headers]</a>
+      <li class='indexItem indexItem3'><a href='#http_header_%5Bheader%5D'>http_header [header]</a>
+      <li class='indexItem indexItem3'><a href='#http_content_type_%5Bcontent_type%5D%2C_http_content_type_charset_%5Bcharset%5D'>http_content_type [content_type], http_content_type_charset [charset]</a>
+      <li class='indexItem indexItem3'><a href='#http_content_length_%5Bcontent_length%5D'>http_content_length [content_length]</a>
+      <li class='indexItem indexItem3'><a href='#http_content_length_ok_%5Bcontent_length_ok%5D'>http_content_length_ok [content_length_ok]</a>
+      <li class='indexItem indexItem3'><a href='#http_location_%5Blocation%5D%2C_http_location_uri_%5Blocation_uri%5D'>http_location [location], http_location_uri [location_uri]</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#http_tx_%5Btx%5D'>http_tx [tx]</a>
+    <li class='indexItem indexItem2'><a href='#http_base_url'>http_base_url</a>
+    <li class='indexItem indexItem2'><a href='#http_ua_%5Bua%5D'>http_ua [ua]</a>
+    <li class='indexItem indexItem2'><a href='#psgi_app_add_%5Bapp_add%5D'>psgi_app_add [app_add]</a>
+    <li class='indexItem indexItem2'><a href='#psgi_app_del'>psgi_app_del</a>
+    <li class='indexItem indexItem2'><a href='#psgi_app_guard'>psgi_app_guard</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::HTTP - Test HTTP / PSGI</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.10</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test2::Tools::HTTP;
+ use HTTP::Request::Common;
+ 
+ psgi_add_app sub { [ 200, [ &#39;Content-Type&#39; =&#62; &#39;text/plain;charset=utf-8&#39; ], [ &#34;Test Document\n&#34; ] ] };
+ 
+ # Internally test the app from within the .t file itself
+ http_request(
+   # if no host/port/protocol is given then
+   # the default PSGI app above is assumed
+   GET(&#39;/&#39;),
+   http_response {
+ 
+     http_code 200;
+ 
+     # http_response {} is a subclass of object {}
+     # for HTTP::Response objects only, so you can
+     # also use object {} style comparisons:
+     call code =&#62; 200;
+ 
+     http_content_type match qr/^text\/(html|plain)$/;
+     http_content_type_charset &#39;UTF-8&#39;;
+     http_content match qr/Test/;
+   }
+ );
+ 
+ use Test2::Tools::JSON::Pointer;
+ 
+ # test an external website
+ http_request(
+   # you can also test against a real HTTP server
+   GET(&#39;http://example.test&#39;),
+   http_response {
+     http_is_success;
+     # JSON pointer { &#34;key&#34;:&#34;val&#34; }
+     http_content json &#39;/key&#39; =&#62; &#39;val&#39;;
+   }
+ );
+ 
+ done_testing;</pre>
+
+<p>with short names:</p>
+
+<pre class="sh_perl"> use Test2::Tools::HTTP &#39;:short&#39;;
+ use HTTP::Request::Common;
+ 
+ app_add { [ 200, [ &#39;Content-Type =&#62; &#39;text/plain&#39; ], [ &#34;Test Document\n&#34; ] ] };
+ 
+ req (
+   GET(&#39;/&#39;),
+   res {
+     code 200;
+     message &#39;OK&#39;;
+     content_type &#39;text/plain&#39;;
+     content match qr/Test/;
+   },
+ );
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides an interface for testing websites and PSGI based apps with a <a href="https://metacpan.org/pod/Test2" class="podlinkpod"
+>Test2</a> style comparisons interface. You can specify a PSGI app with a URL and responses from that URL will automatically be routed to that app, without having to actually need a separate server process. Requests to URLs that haven&#39;t been registered will be made against the actual networks servers as appropriate. You can also use the user agent returned from <code>http_ua</code> to make requests against PSGI apps. <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> is the user agent used by default, but it is possible to use others assuming an appropriate user agent wrapper class is available (<a href="/pod/Test2/Tools/HTTP/UA.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA</a>).</p>
+
+<p>By default it uses long function names with either a <code>http_</code> or <code>psgi_app_</code> prefix. The intent is to make the module usable when you are importing lots of symbols from lots of different testing tools while reducing the chance of name collisions. You can instead import <code>:short</code> which will give you the most commonly used tools with short names. The short names are indicated below in square brackets, and were chosen to not conflict with <a href="https://metacpan.org/pod/Test2%3A%3AV0" class="podlinkpod"
+>Test2::V0</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="http_request_[req]"
+>http_request [req]</a></h2>
+
+<pre class="sh_perl"> http_request($request);
+ http_request($request, $check);
+ http_request($request, $check, $message);
+ http_request([$request, %options], ... );</pre>
+
+<p>Make a HTTP request. If there is a client level error then it will fail immediately. Otherwise you can use a <code>object {}</code> or <code>http_request</code> comparison check to inspect the HTTP response and ensure that it matches what you expect. By default only one request is made. If the response is a forward (has a <code>Location</code> header) you can use the <code>http_tx-</code>location&#62; method to make the next request.</p>
+
+<p>Options:</p>
+
+<dl>
+<dt><a name="follow_redirects"
+>follow_redirects</a></dt>
+
+<dd>
+<p>This allows the user agent to follow redirects.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="http_response_[res]"
+>http_response [res]</a></h2>
+
+<pre class="sh_perl"> my $check = http_response {
+   ... # object or http checks
+ };</pre>
+
+<p>This is a comparison check specific to HTTP::Response objects. You may include these subchecks:</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_code_[code]"
+>http_code [code]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_code $check;
+ };</pre>
+
+<p>The HTTP status code should match the given check.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_message_[message]"
+>http_message [message]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_message $check;
+ };</pre>
+
+<p>The HTTP status message (&#39;OK&#39; for 200, &#39;Not Found&#39; for 404, etc) should match the given check.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_content_[content]"
+>http_content [content]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_content $check;
+ };</pre>
+
+<p>The response body content. Attempt to decode using the <a href="https://metacpan.org/pod/HTTP%3A%3AMessage" class="podlinkpod"
+>HTTP::Message</a> method <code>decoded_content</code>, otherwise use the raw response body. If you want specifically the decoded content or the raw content you can use <code>call</code> to specifically check against them:</p>
+
+<pre class="sh_perl"> http_response {
+   call content =&#62; $check1;
+   call decoded_content =&#62; $check2;
+ };</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_is_info,_http_is_success,_http_is_redirect,_http_is_error,_http_is_client_error,_http_is_server_error"
+>http_is_info, http_is_success, http_is_redirect, http_is_error, http_is_client_error, http_is_server_error</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_is_info;
+   http_is_success;
+   http_is_redirect;
+   http_is_error;
+   http_is_client_error;
+   http_is_server_error;
+ };</pre>
+
+<p>Checks that the response is of the specified type. See <a href="https://metacpan.org/pod/HTTP%3A%3AStatus" class="podlinkpod"
+>HTTP::Status</a> for the meaning of each of these.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_isnt_info,_http_isnt_success,_http_isnt_redirect,_http_isnt_error,_http_isnt_client_error,_http_isnt_server_error"
+>http_isnt_info, http_isnt_success, http_isnt_redirect, http_isnt_error, http_isnt_client_error, http_isnt_server_error</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_isnt_info;
+   http_isnt_success;
+   http_isnt_redirect;
+   http_isnt_error;
+   http_isnt_client_error;
+   http_isnt_server_error;
+ };</pre>
+
+<p>Checks that the response is NOT of the specified type. See <a href="https://metacpan.org/pod/HTTP%3A%3AStatus" class="podlinkpod"
+>HTTP::Status</a> for the meaning of each of these.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_headers_[headers]"
+>http_headers [headers]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_headers $check;
+ };</pre>
+
+<p>Check the HTTP headers as converted into a Perl hash. If the same header appears twice, then the values are joined together using the <code>,</code> character. Example:</p>
+
+<pre class="sh_perl"> http_request(
+   GET(&#39;http://example.test&#39;),
+   http_response {
+     http_headers hash {
+       field &#39;Content-Type&#39; =&#62; &#39;text/plain;charset=utf-8&#39;;
+       etc;
+     };
+   },
+ );</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_header_[header]"
+>http_header [header]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_header $name, $check;
+ };</pre>
+
+<p>Check an HTTP header against the given check. Can be used with either scalar or array checks. In scalar mode, any list values will be joined with <code>,</code> character. Example:</p>
+
+<pre class="sh_perl"> http_request(
+   GET(&#39;http://example.test&#39;),
+   http_response {
+ 
+     # single value
+     http_header &#39;X-Foo&#39;, &#39;Bar&#39;;
+ 
+     # list as scalar, will match either:
+     #     X-Foo: A
+     #     X-Foo: B
+     # or
+     #     X-Foo: A,B
+     http_header &#39;X-Foo&#39;, &#39;A,B&#39;;
+ 
+     # list mode, with an array ref:
+     http_header &#39;X-Foo&#39;, [&#39;A&#39;,&#39;B&#39;];
+ 
+     # list mode, with an array check:
+     http_header &#39;X-Foo&#39;, array { item &#39;A&#39;; item &#39;B&#39; };
+   },
+ );</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_content_type_[content_type],_http_content_type_charset_[charset]"
+>http_content_type [content_type], http_content_type_charset [charset]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_content_type $check;
+   http_content_type_charset $check;
+ };</pre>
+
+<p>Check that the <code>Content-Type</code> header matches the given checks. <code>http_content_type</code> checks just the content type, not the character set, and <code>http_content_type_charset</code> matches just the character set. Hence:</p>
+
+<pre class="sh_perl"> http_response {
+   http_content_type &#39;text/html&#39;;
+   http_content_type_charset &#39;UTF-8&#39;;
+ };</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_content_length_[content_length]"
+>http_content_length [content_length]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_content_length $check;
+ };</pre>
+
+<p>Check that the <code>Content-Length</code> header matches the given check.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_content_length_ok_[content_length_ok]"
+>http_content_length_ok [content_length_ok]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_content_length_ok;
+ };</pre>
+
+<p>Checks that the <code>Content-Length</code> header matches the actual length of the content.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="http_location_[location],_http_location_uri_[location_uri]"
+>http_location [location], http_location_uri [location_uri]</a></h3>
+
+<pre class="sh_perl"> http_response {
+   http_location $check;
+   http_location_uri $check;
+ };</pre>
+
+<p>Check the <code>Location</code> HTTP header. The <code>http_location_uri</code> variant converts <code>Location</code> to a <a href="https://metacpan.org/pod/URI" class="podlinkpod"
+>URI</a> using the base URL of the response so that it can be tested with <a href="/pod/Test2/Tools/URL.html" class="podlinkpod"
+>Test2::Tools::URL</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="http_tx_[tx]"
+>http_tx [tx]</a></h2>
+
+<pre class="sh_perl"> my $req    = http_tx-&#62;req;
+ my $res    = http_tx-&#62;res;
+ my $bool   = http_tx-&#62;ok;
+ my $string = http_tx-&#62;connection_error;
+ my $url    = http_tx-&#62;location;
+ http_tx-&#62;note;
+ http_tx-&#62;diag;</pre>
+
+<p>This returns the most recent transaction object, which you can use to get the last request, response and status information related to the most recent <code>http_request</code>.</p>
+
+<dl>
+<dt><a name="http_tx-&#62;req"
+>http_tx-&#62;req</a></dt>
+
+<dd>
+<p>The <a href="https://metacpan.org/pod/HTTP%3A%3ARequest" class="podlinkpod"
+>HTTP::Request</a> object.</p>
+
+<dt><a name="http_tx-&#62;res"
+>http_tx-&#62;res</a></dt>
+
+<dd>
+<p>The <a href="https://metacpan.org/pod/HTTP%3A%3AResponse" class="podlinkpod"
+>HTTP::Response</a> object.</p>
+
+<p>Warning: Depending on the user agent class in use, in the case of a connection error, this may be either a synthetic response or not defined. For example <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> produced a synthetic response, while <a href="https://metacpan.org/pod/Mojo%3A%3AUserAgent" class="podlinkpod"
+>Mojo::UserAgent</a> does not produce a response in the event of a connection error.</p>
+
+<dt><a name="http_tx-&#62;ok"
+>http_tx-&#62;ok</a></dt>
+
+<dd>
+<p>True if the most recent call to <code>http_request</code> passed.</p>
+
+<dt><a name="http_tx-&#62;connection_error."
+>http_tx-&#62;connection_error.</a></dt>
+
+<dd>
+<p>The connection error if any from the most recent <code>http_reequest</code>.</p>
+
+<dt><a name="http_tx-&#62;location"
+>http_tx-&#62;location</a></dt>
+
+<dd>
+<p>The <code>Location</code> header converted to an absolute URL, if included in the response.</p>
+
+<dt><a name="http_tx-&#62;note"
+>http_tx-&#62;note</a></dt>
+
+<dd>
+<p>Send the request, response and ok to Test2&#39;s &#34;note&#34; output. Note that the message bodies may be decoded, but the headers will not be modified.</p>
+
+<dt><a name="http_tx-&#62;diag"
+>http_tx-&#62;diag</a></dt>
+
+<dd>
+<p>Send the request, response and ok to Test2&#39;s &#34;diag&#34; output. Note that the message bodies may be decoded, but the headers will not be modified.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="http_base_url"
+>http_base_url</a></h2>
+
+<pre class="sh_perl"> http_base_url($url);
+ my $url = http_base_url;</pre>
+
+<p>Sets the base URL for all requests made by <code>http_request</code>. This is used if you do not provide a fully qualified URL. For example:</p>
+
+<pre class="sh_perl"> http_base_url &#39;http://httpbin.org&#39;;
+ http_request(
+   GET(&#39;/status/200&#39;) # actually makes a request against http://httpbin.org
+ );</pre>
+
+<p>If you use <code>psgi_add_app</code> without a URL, then this is the URL which will be used to access your app. If you do not specify a base URL, then localhost with a random unused port will be picked.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="http_ua_[ua]"
+>http_ua [ua]</a></h2>
+
+<pre class="sh_perl"> http_ua(LWP::UserAgent-&#62;new);
+ my $ua = http_ua;</pre>
+
+<p>Gets/sets the <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> object used to make requests against real web servers. For tests against a PSGI app, this will NOT be used. If not provided, the default <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> will call <code>env_proxy</code> and add an in-memory cookie jar.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="psgi_app_add_[app_add]"
+>psgi_app_add [app_add]</a></h2>
+
+<pre class="sh_perl"> psgi_app_add $app;
+ psgi_app_add $url, $app;</pre>
+
+<p>Add the given PSGI app to the testing environment. If you provide a URL, then requests to that URL will be intercepted by <code>http_request</code> and routed to the app instead of making a real HTTP request via <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="psgi_app_del"
+>psgi_app_del</a></h2>
+
+<pre class="sh_perl"> psgi_app_del;
+ psgi_app_del $url;</pre>
+
+<p>Remove the app at the given (or default) URL.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="psgi_app_guard"
+>psgi_app_guard</a></h2>
+
+<pre class="sh_perl"> my $guard = psgi_app_guard $app;
+ my $guard = psgi_app_guard $url, $app;
+ my $guard = psgi_app_guard $url, $app, ...;</pre>
+
+<p>Similar to <code>psgi_app_add</code> except a guard object is returned. When the guard object falls out of scope, the old apps are restored automatically. The intent is for this to be used in subtests or other scoped blocks to temporarily override the internet or other PSGI apps.</p>
+
+<pre class="sh_perl"> psgi_add_add &#39;http://foo.test&#39; =&#62; sub { ... };
+ 
+ subtest &#39;mysubtest&#39; =&#62; sub {
+   my $guard = psgi_app_guard
+     &#39;http://foo.test&#39; =&#62; sub { ... },
+     &#39;https://www.google.com&#39; =&#62; sub { ... };
+ 
+   http_request
+     # gets the foo.test for this scope.
+     GET(&#39;http://foo.test&#39;),
+     http_response {
+       ...
+     };
+ 
+   http_request
+     # gets the mock google
+     GET(&#39;https://www.google.com&#39;),
+     http_response {
+       ...;
+     };
+ };
+ 
+ http_request
+   # gets the original foo.test mock
+   GET(&#39;http://foo.test&#39;),
+   http_response {
+     ...;
+   };
+ 
+ http_request
+   # gets the real google
+   GET(&#39;https://www.google.com&#39;),
+   http_response {
+     ...;
+   };</pre>
+
+<p>Because calling a function that returns a guard in void context is usually a mistake, this function will throw an exception if you attempt to call it in void context.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test::Mojo"
+><a href="https://metacpan.org/pod/Test%3A%3AMojo" class="podlinkpod"
+>Test::Mojo</a></a></dt>
+
+<dd>
+<p>This is a very capable web application testing module. Definitely worth checking out, even if you aren&#39;t developing a <a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a> app since it can be used (with <a href="https://metacpan.org/pod/Test%3A%3AMojo%3A%3ARole%3A%3APSGI" class="podlinkpod"
+>Test::Mojo::Role::PSGI</a>) to test any PSGI application.</p>
+
+<dt><a name="Plack::Test"
+><a href="https://metacpan.org/pod/Plack%3A%3ATest" class="podlinkpod"
+>Plack::Test</a></a></dt>
+
+<dd>
+<p>Also allows you to make <a href="https://metacpan.org/pod/HTTP%3A%3ARequest" class="podlinkpod"
+>HTTP::Request</a> requests against a <a href="https://metacpan.org/pod/PSGI" class="podlinkpod"
+>PSGI</a> app and get the appropriate <a href="https://metacpan.org/pod/HTTP%3A%3AResponse" class="podlinkpod"
+>HTTP::Response</a> response back. Doesn&#39;t provide any special tools for interrogating that response. This module in fact uses this one internally.</p>
+
+<dt><a name="Test::LWP::UserAgent"
+><a href="https://metacpan.org/pod/Test%3A%3ALWP%3A%3AUserAgent" class="podlinkpod"
+>Test::LWP::UserAgent</a></a></dt>
+
+<dd>
+<p>This is a subclass of <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> that can return responses from a local PSGI app, similar to the way this module instruments an instance of <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> for similar purposes. The limitation to this approach is that it cannot be used with classes which cannot be used with subclasses of <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a>. By contrast, this module can instrument an existing <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> object without having to rebless it into another class or other such shenanigans. If you can at least get access to another class&#39;s user agent instance, it can be used with <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a>&#39;s mock website system. Doesn&#39;t work with anything that is not an <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> object.</p>
+
+<dt><a name="LWP::Protocol::PSGI"
+><a href="https://metacpan.org/pod/LWP%3A%3AProtocol%3A%3APSGI" class="podlinkpod"
+>LWP::Protocol::PSGI</a></a></dt>
+
+<dd>
+<p>Provides a similar functionality to <a href="https://metacpan.org/pod/Test%3A%3ALWP%3A%3AUserAgent" class="podlinkpod"
+>Test::LWP::UserAgent</a>, but registers apps globally using <a href="https://metacpan.org/pod/LWP%3A%3AProtocol" class="podlinkpod"
+>LWP::Protocol</a> so that you do not need access to a specific <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> object. Does not work with anything that is not an <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> object. <a href="/pod/Test2/Tools/HTTP/UA.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA</a> provides similar functionality, but is an abstraction layer which can be used with any appropriately adapted user agent class or instance, although we use <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> by default. Support for <a href="https://metacpan.org/pod/Mojo%3A%3AUserAgent" class="podlinkpod"
+>Mojo::UserAgent</a> and <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a> is available, although not bundled with this distribution. One advantage of this abstraction is that it can be used to instrument either a single instance or all objects belonging to a particular class.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

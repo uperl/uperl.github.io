@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Time::Timezone</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Time::Timezone</div>
+    <!--Time::Timezone--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Time::Timezone -- miscellaneous timezone manipulations routines</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">        use Time::Timezone;
+        print tz2zone();
+        print tz2zone($ENV{&#39;TZ&#39;});
+        print tz2zone($ENV{&#39;TZ&#39;}, time());
+        print tz2zone($ENV{&#39;TZ&#39;}, undef, $isdst);
+        $offset = tz_local_offset();
+        $offset = tz_offset($TZ);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This is a collection of miscellaneous timezone manipulation routines.</p>
+
+<p><code>tz2zone()</code> parses the TZ environment variable and returns a timezone string suitable for inclusion in <a href="https://metacpan.org/pod/date" class="podlinkpod"
+>date</a>-like output. It optionally takes a timezone string, a time, and a is-dst flag.</p>
+
+<p><code>tz_local_offset()</code> determines the offset from GMT time in seconds. It only does the calculation once.</p>
+
+<p><code>tz_offset()</code> determines the offset from GMT in seconds of a specified timezone.</p>
+
+<p><code>tz_name()</code> determines the name of the timezone based on its offset</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<p>Graham Barr &#60;bodg@tiuk.ti.com&#62; David Muir Sharnoff &#60;muir@idiom.org&#62; Paul Foley &#60;paul@ascent.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>David Muir Sharnoff disclaims any copyright and puts his contribution to this module in the public domain.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

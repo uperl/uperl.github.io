@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dist::Zilla::Plugin::MathInt64</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Dist::Zilla::Plugin::MathInt64</div>
+    <!--Dist::Zilla::Plugin::MathInt64--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#dir'>dir</a>
+    <li class='indexItem indexItem2'><a href='#typemap'>typemap</a>
+    <li class='indexItem indexItem2'><a href='#typemap_path'>typemap_path</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#BUNDLED_SOFTWARE'>BUNDLED SOFTWARE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Dist::Zilla::Plugin::MathInt64 - Include the Math::Int64 C client API in your distribution</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.10</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>in your dist.ini</p>
+
+<pre class="sh_perl"> [PPPort]
+ [MathInt64]
+ [ModuleBuild]
+ mb_class = MyDist::ModuleBuild</pre>
+
+<p>in your xs (lib/MyDist.xs):</p>
+
+<pre class="sh_perl"> #include &#34;EXTERN.h&#34;
+ #include &#34;perl.h&#34;
+ #include &#34;XSUB.h&#34;
+ #include &#34;ppport.h&#34;
+ 
+ /* provides int64_t and uint64_t if not   *
+  * already available                      */
+ #include &#34;perl_math_int64_types.h&#34;
+ 
+ /* #define MATH_INT64_NATIVE_IF_AVAILABLE */
+ #include &#34;perl_math_int64.h&#34;
+ 
+ MODULE = MyDist  PACKAGE = MyDist
+ 
+ int64_t
+ function_that_returns_64bit_integer()
+ 
+ void
+ function_that_takes_64bit_integer(number)
+     int64_t number
+ 
+ SV *
+ same_idea_but_with_xs(sv_number)
+     SV *sv_number
+   CODE:
+     int64_t native_number = SvI64(sv_number);
+     ...
+     RETVAL = newSVi64(native_number);
+   OUTPUT:
+     RETVAL</pre>
+
+<p>See <a href="https://metacpan.org/pod/Math%3A%3AInt64%23C-API" class="podlinkpod"
+>Math::Int64#C-API</a> for details.</p>
+
+<p>in your Module::Build subclass (inc/MyDist/ModuleBuild.pm):</p>
+
+<pre class="sh_perl"> package MyDist::ModuleBuild;
+ 
+ use base qw( Module::Build );
+ 
+ sub new
+ {
+   my($class, %args) = @_;
+   $args{c_source} = &#39;.&#39;;
+   $class-&#62;SUPER::new(%args);
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><a href="https://metacpan.org/pod/Math%3A%3AInt64" class="podlinkpod"
+>Math::Int64</a> provides an API for Perl and XS modules for dealing with 64 bit integers.</p>
+
+<p>This plugin imports the C client API from <a href="https://metacpan.org/pod/Math%3A%3AInt64" class="podlinkpod"
+>Math::Int64</a> into your distribution. The C client API depends on ppport.h, so make sure that you also get that (the easiest way is via the <a href="https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APPPort" class="podlinkpod"
+>PPPort plugin</a>.</p>
+
+<p>This plugin will also create an appropriate <code>typemap</code> or update an existing <code>typemap</code> to automatically support the types <code>int64_t</code> and <code>uint64_t</code> in your XS code. (You can turn this off by setting typemap = 0).</p>
+
+<p>This plugin will also declare <a href="https://metacpan.org/pod/Math%3A%3AInt64" class="podlinkpod"
+>Math::Int64</a> as a prerequisite for your distribution.</p>
+
+<p>One thing this plugin does NOT do is, it doesn&#39;t tell either <a href="https://metacpan.org/pod/Module%3A%3ABuild" class="podlinkpod"
+>Module::Build</a> or <a href="https://metacpan.org/pod/ExtUtils%3A%3AMakeMaker" class="podlinkpod"
+>ExtUtils::MakeMaker</a> where to find the C and XS sources. One way of doing this would be to create your own <a href="https://metacpan.org/pod/Module%3A%3ABuild" class="podlinkpod"
+>Module::Build</a> subclass and set the <code>c_source</code> attribute to where the C header and source code go (see the synopsis above as an example).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="dir"
+>dir</a></h2>
+
+<p>Directory to dump the C source and header files into. If not specified, they go into the distribution root. If you use this option you probably need to tell the <a href="https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APPPort" class="podlinkpod"
+>PPPort plugin</a> to put the <code>ppport.h</code> file in the same place.</p>
+
+<pre class="sh_perl"> [PPPort]
+ filename = xs/ppport.h
+ [MathInt64]
+ dir = xs</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="typemap"
+>typemap</a></h2>
+
+<p>If set to true (the default), then create a typemap file if it does not already exist with the appropriate typemaps for 64 bit integers, or if a typemap already exists, add the 64 bit integer mappings.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="typemap_path"
+>typemap_path</a></h2>
+
+<p>The path to the typemap file (if typemap is true). The default is simply &#39;typemap&#39;.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>This plugin uses <a href="https://metacpan.org/pod/ExtUtils%3A%3ATypemaps" class="podlinkpod"
+>ExtUtils::Typemaps</a> to munge the typemaps file, which strips any comments from the typemap file, but should be semantically identical. Versions prior to 0.05 did its own parsing but would retain comments.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUNDLED_SOFTWARE"
+>BUNDLED SOFTWARE</a></h1>
+
+<p>This distribution comes bundled with C source code placed in the public domain by Salvador Fandino.</p>
+
+<p>Thanks to Salvador Fandino for writing <a href="https://metacpan.org/pod/Math%3A%3AInt64" class="podlinkpod"
+>Math::Int64</a> and providing a XS / C Client API for other distribution authors.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

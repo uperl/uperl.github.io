@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>File::BaseDir</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> File::BaseDir</div>
+    <!--File::BaseDir--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#data_home'>data_home</a>
+    <li class='indexItem indexItem2'><a href='#data_dirs'>data_dirs</a>
+    <li class='indexItem indexItem2'><a href='#data_files'>data_files</a>
+    <li class='indexItem indexItem2'><a href='#config_home'>config_home</a>
+    <li class='indexItem indexItem2'><a href='#config_dirs'>config_dirs</a>
+    <li class='indexItem indexItem2'><a href='#config_files'>config_files</a>
+    <li class='indexItem indexItem2'><a href='#cache_home'>cache_home</a>
+    <li class='indexItem indexItem2'><a href='#xdg_data_home'>xdg_data_home</a>
+    <li class='indexItem indexItem2'><a href='#xdg_data_dirs'>xdg_data_dirs</a>
+    <li class='indexItem indexItem2'><a href='#xdg_config_home'>xdg_config_home</a>
+    <li class='indexItem indexItem2'><a href='#xdg_config_dirs'>xdg_config_dirs</a>
+    <li class='indexItem indexItem2'><a href='#xdg_cache_home'>xdg_cache_home</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#NON-UNIX_PLATFORMS'>NON-UNIX PLATFORMS</a>
+  <li class='indexItem indexItem1'><a href='#BACKWARDS_COMPATIBILITY'>BACKWARDS COMPATIBILITY</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>File::BaseDir - Use the Freedesktop.org base directory specification</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use File::BaseDir qw/xdg_data_files/;
+ for ( xdg_data_files(&#39;mime/globs&#39;) ) {
+   # do something
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module can be used to find directories and files as specified by the Freedesktop.org Base Directory Specification. This specifications gives a mechanism to locate directories for configuration, application data and cache data. It is suggested that desktop applications for e.g. the GNOME, KDE or Xfce platforms follow this layout. However, the same layout can just as well be used for non-GUI applications.</p>
+
+<p>This module forked from <a href="https://metacpan.org/pod/File%3A%3AMimeInfo" class="podlinkpod"
+>File::MimeInfo</a>.</p>
+
+<p>This module follows version 0.6 of BaseDir specification.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $bd = File::BaseDir-&#62;new;</pre>
+
+<p>Simple constructor to allow calling functions as object oriented methods.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<p>None of these are exported by default, but all functions can be exported by request. Also the groups <code>:lookup</code> and <code>:vars</code> are defined. The <code>:vars</code> group contains all the routines with a <code>xdg_</code> prefix. The <code>:lookup</code> group contains the routines to locate files and directories.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="data_home"
+>data_home</a></h2>
+
+<pre class="sh_perl"> my $path = data_home(@path);
+ my $path = $bd-&#62;data_home(@path);</pre>
+
+<p>Takes a list of file path elements and returns a new path by appending them to the data home directory. The new path does not need to exist. Use this when writing user specific application data.</p>
+
+<p>Example:</p>
+
+<pre class="sh_perl"> # data_home is: /home/USER/.local/share
+ $path = $bd-&#62;data_home(&#39;Foo&#39;, &#39;Bar&#39;, &#39;Baz&#39;);
+ # returns: /home/USER/.local/share/Foo/Bar/Baz</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="data_dirs"
+>data_dirs</a></h2>
+
+<pre class="sh_perl"> # :lookup
+ my $dir = data_dirs(@path);
+ my $dir = $bd-&#62;data_dirs(@path);
+ my @dirs = data_dirs(@path);
+ my @dirs = $bd-&#62;data_dirs(@path);</pre>
+
+<p>Looks for directories specified by <code>@path</code> in the data home and other data directories. Returns (possibly empty) list of readable directories. In scalar context only the first directory found is returned. Use this to lookup application data.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="data_files"
+>data_files</a></h2>
+
+<pre class="sh_perl"> # :lookup
+ my $file = data_files(@path);
+ my $file = $bd-&#62;data_files(@path);
+ my @files = data_files(@path);
+ my @files = $bd-&#62;data_files(@path);</pre>
+
+<p>Looks for files specified by <code>@path</code> in the data home and other data directories. Only returns files that are readable. In scalar context only the first file found is returned. Use this to lookup application data.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_home"
+>config_home</a></h2>
+
+<pre class="sh_perl"> # :lookup
+ my $dir = config_home(@path);
+ my $dir = $bd-&#62;config_home(@path);</pre>
+
+<p>Takes a list of path elements and appends them to the config home directory returning a new path. The new path does not need to exist. Use this when writing user specific configuration.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_dirs"
+>config_dirs</a></h2>
+
+<pre class="sh_perl"> # :lookup
+ my $dir = config_dirs(@path);
+ my $dir = $bd-&#62;config_dirs(@path);
+ my @dirs = config_dirs(@path);
+ my @dirs = $bd-&#62;config_dirs(@path);</pre>
+
+<p>Looks for directories specified by <code>@path</code> in the config home and other config directories. Returns (possibly empty) list of readable directories. In scalar context only the first directory found is returned. Use this to lookup configuration.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_files"
+>config_files</a></h2>
+
+<pre class="sh_perl"> # :lookup
+ my $file = config_files(@path);
+ my $file = $bd-&#62;config_files(@path);
+ my @files = config_files(@path);
+ my @files = $bd-&#62;config_files(@path);</pre>
+
+<p>Looks for files specified by <code>@path</code> in the config home and other config directories. Returns a (possibly empty) list of files that are readable. In scalar context only the first file found is returned. Use this to lookup configuration.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cache_home"
+>cache_home</a></h2>
+
+<pre class="sh_perl"> # :lookup
+ my $dir = cache_home(@path);
+ my $dir = $bd-&#62;cache_home(@path);</pre>
+
+<p>Takes a list of path elements and appends them to the cache home directory returning a new path. The new path does not need to exist.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_data_home"
+>xdg_data_home</a></h2>
+
+<pre class="sh_perl"> # :var
+ my $dir = xdg_data_home;
+ my $dir = $bd-&#62;xdg_data_home;</pre>
+
+<p>Returns either <code>$ENV{XDG_DATA_HOME}</code> or it&#39;s default value. Default is <em>$HOME/.local/share</em>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_data_dirs"
+>xdg_data_dirs</a></h2>
+
+<pre class="sh_perl"> # :var
+ my @dirs = xdg_data_dirs;
+ my @dirs = $bd-&#62;xdg_data_dirs;</pre>
+
+<p>Returns either <code>$ENV{XDG_DATA_DIRS}</code> or it&#39;s default value as list. Default is <em>/usr/local/share</em>, <em>/usr/share</em>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_config_home"
+>xdg_config_home</a></h2>
+
+<pre class="sh_perl"> # :var
+ my $dir = xdg_config_home;
+ my $dir = $bd-&#62;xdg_config_home;</pre>
+
+<p>Returns either <code>$ENV{XDG_CONFIG_HOME}</code> or it&#39;s default value. Default is <em>$HOME/.config</em>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_config_dirs"
+>xdg_config_dirs</a></h2>
+
+<pre class="sh_perl"> # :var
+ my @dirs = xdg_config_dirs;
+ my @dirs = $bd-&#62;xdg_config_dirs;</pre>
+
+<p>Returns either <code>$ENV{XDG_CONFIG_DIRS}</code> or it&#39;s default value as list. Default is <em>/etc/xdg</em>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_cache_home"
+>xdg_cache_home</a></h2>
+
+<pre class="sh_perl"> # :var
+ my $dir = xdg_cache_home;
+ my $dir = $bd-&#62;xdg_cache_home;</pre>
+
+<p>Returns either <code>$ENV{XDG_CACHE_HOME}</code> or it&#39;s default value. Default is <em>$HOME/.cache</em>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NON-UNIX_PLATFORMS"
+>NON-UNIX PLATFORMS</a></h1>
+
+<p>The use of <a href="https://metacpan.org/pod/File%3A%3ASpec" class="podlinkpod"
+>File::Spec</a> ensures that all paths are returned in their native formats regardless of platform. On Windows this module will use the native environment variables, rather than the default on UNIX (which is traditionally <code>$HOME</code>).</p>
+
+<p>Please note that the specification is targeting Unix platforms only and will only have limited relevance on other platforms. Any platform dependent behavior in this module should be considered an extension of the spec.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BACKWARDS_COMPATIBILITY"
+>BACKWARDS COMPATIBILITY</a></h1>
+
+<p>The methods <code>xdg_data_files()</code> and <code>xdg_config_files()</code> are exported for backwards compatibility with version 0.02. They are identical to <code>data_files()</code> and <code>config_files()</code> respectively but without the <code>wantarray</code> behavior.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Jaap Karssenberg || Pardus [Larus] &#60;pardus@cpan.org&#62;</li>
+
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2003-2021 by Jaap Karssenberg || Pardus [Larus] &#60;pardus@cpan.org&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>WebService::DailyConnect</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> WebService::DailyConnect</div>
+    <!--WebService::DailyConnect--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#ua'>ua</a>
+    <li class='indexItem indexItem2'><a href='#base_url'>base_url</a>
+    <li class='indexItem indexItem2'><a href='#req'>req</a>
+    <li class='indexItem indexItem2'><a href='#res'>res</a>
+    <li class='indexItem indexItem2'><a href='#METHODS'>METHODS</a>
+    <li class='indexItem indexItem2'><a href='#login'>login</a>
+    <li class='indexItem indexItem2'><a href='#user_info'>user_info</a>
+    <li class='indexItem indexItem2'><a href='#kid_summary'>kid_summary</a>
+    <li class='indexItem indexItem2'><a href='#kid_summary_by_date'>kid_summary_by_date</a>
+    <li class='indexItem indexItem2'><a href='#kid_status'>kid_status</a>
+    <li class='indexItem indexItem2'><a href='#kid_status_by_date'>kid_status_by_date</a>
+    <li class='indexItem indexItem2'><a href='#photo'>photo</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>WebService::DailyConnect - Web client to download events from Daily Connect</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.03</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use WebService::DailyConnect;
+ use Term::Clui qw( ask ask_password );
+ use Path::Tiny qw( path );
+ 
+ my $user = ask(&#34;email:&#34;);
+ my $pass = ask_password(&#34;pass :&#34;);
+ 
+ my $dc = WebService::DailyConnect-&#62;new;
+ $dc-&#62;login($user, $pass) || die &#34;bad email/pass&#34;;
+ 
+ my $user_info = $dc-&#62;user_info;
+ 
+ foreach my $kid (@{ $dc-&#62;user_info-&#62;{myKids} })
+ {
+   my $kid_id = $kid-&#62;{Id};
+   my $name   = lc $kid-&#62;{Name};
+   foreach my $photo_id (map { $_-&#62;{Photo} || () } @{ $dc-&#62;kid_status($kid_id)-&#62;{list} })
+   {
+     my $dest = path(&#34;~/Pictures/dc/$name-$photo_id.jpg&#34;);
+     next if -f $dest;
+     print &#34;new photo: $dest\n&#34;;
+     $dest-&#62;parent-&#62;mkpath;
+     $dc-&#62;photo($photo_id, $dest);
+   }
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><b>NOTE</b>: I no longer use DailyConnect, and happy to let someone who does need it maintain it. This module is otherwise unsupported.</p>
+
+<p>Interface to DailyConnect, which is a service that can provide information about your kids at daycare. This is more or less a port of a node API that I found here:</p>
+
+<p><a href="https://github.com/Flet/dailyconnect" class="podlinkurl"
+>https://github.com/Flet/dailyconnect</a></p>
+
+<p>I wrote this module for more or less the same reasons as that author, although I wanted to be able to use it in perl.</p>
+
+<p>It uses <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a>, so should work with any Perl user agent supported by that layer.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ua"
+>ua</a></h2>
+
+<p>An instance of <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a>. If a user agent supported by <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a> (such as <a href="https://metacpan.org/pod/HTTP%3A%3ATiny" class="podlinkpod"
+>HTTP::Tiny</a> or <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a>) is provided, a new instance of <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a> will wrap around that user agent instance. The only requirement is that the underlying user agent must support cookies.</p>
+
+<p>If a <code>ua</code> attribute is not provided, then an instance of <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a> will be created wrapped around a <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> using the default proxy and a cookie jar.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="base_url"
+>base_url</a></h2>
+
+<p>The base URL for daily connect. The default should be correct.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="req"
+>req</a></h2>
+
+<p>The most recent request. The format of the request object is subject to change, and therefore should only be used for debugging.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="res"
+>res</a></h2>
+
+<p>The most recent response. The format of the response object is subject to change, and therefore should only be used for debugging.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h2>
+
+<p>Beside login, methods typically return a hash or file content depending on the type of object requested. On error they return <code>undef</code>. Further details for the failure can be deduced from the response object stored in <code>res</code> above.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="login"
+>login</a></h2>
+
+<pre class="sh_perl"> my $bool = $dc-&#62;login($email, $pass);</pre>
+
+<p>Login to daily connect using the given email and password. The remaining methods only work once you have successfully logged in.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="user_info"
+>user_info</a></h2>
+
+<pre class="sh_perl"> my $hash = $dc-&#62;user_info;</pre>
+
+<p>Get a hash of the user information.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="kid_summary"
+>kid_summary</a></h2>
+
+<pre class="sh_perl"> my $hash = $dc-&#62;kid_summary($kid_id);</pre>
+
+<p>Get today&#39;s summary for the given kid.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="kid_summary_by_date"
+>kid_summary_by_date</a></h2>
+
+<pre class="sh_perl"> my $hash = $dc-&#62;kid_summary_by_date($kid_id, $date);</pre>
+
+<p>Get the summary for the given kid on the given day. <code>$date</code> is in the form YYMMDD.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="kid_status"
+>kid_status</a></h2>
+
+<pre class="sh_perl"> my $hash = $dc-&#62;kid_status($kid_id);</pre>
+
+<p>Get today&#39;s status for the given kid.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="kid_status_by_date"
+>kid_status_by_date</a></h2>
+
+<pre class="sh_perl"> my $hash = $dc-&#62;kid_status_by_date($kid_id, $date);</pre>
+
+<p>Get the status for the given kid on the given date. <code>$date</code> is in the form YYMMDD.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="photo"
+>photo</a></h2>
+
+<pre class="sh_perl"> $dc-&#62;photo($photo_id);
+ $dc-&#62;photo($photo_id, $dest);</pre>
+
+<p>Get the photo with the given <code>$photo_id</code>. If <code>$dest</code> is not provided then the content of the photo in JPEG format will be returned. If <code>$dest</code> is a scalar reference, then the content will be stored in that scalar. If <code>$dest</code> is a string, then that string will be assumed to be a file, and the photo will be saved there. If a <a href="https://metacpan.org/pod/Path%3A%3ATiny" class="podlinkpod"
+>Path::Tiny</a> or <a href="https://metacpan.org/pod/Path%3A%3AClass%3A%3AFile" class="podlinkpod"
+>Path::Class::File</a> object are passed in, then the content will be written to the files at that location.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>DailyConnect does not provide a standard RESTful API, so it is entirely possible they might change the interface of their app, and break this module.</p>
+
+<p>My kiddo is an only child so I haven&#39;t been able to test this for more than one kiddo. May be a problem if you have twins or septuplets.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018,2019 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

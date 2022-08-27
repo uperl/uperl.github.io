@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Term::Clui::FileSelect</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Term::<a href="/pod/Term/Clui.html">Clui</a>::FileSelect</div>
+    <!--Term::Clui::FileSelect--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#SUBROUTINES'>SUBROUTINES</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#CREDITS'>CREDITS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Term::Clui::FileSelect - Perl module to ask the user to select a file.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Term::Clui::FileSelect;
+ $file = &#38;select_file(-Readable=&#62;1, -TopDir=&#62;&#34;/home&#34;, -FPat=&#62;&#34;*.html&#34;);
+ @files = &#38;select_file(-Chdir=&#62;0, -Path=&#62;$ENV{PWD}, -FPat=&#62;&#34;*.mp3&#34;);
+ chdir &#38;select_file(-Directory=&#62;1, -Path=&#62;$ENV{PWD});</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module asks the user to select a file from the filesystem. It uses the Command-line user-interface Term::Clui to dialogue with the user. It offers <i>Rescan</i> and <i>ShowAll</i> buttons. To ease the re-learning burden for the programmer, the options are modelled on those of Tk::FileDialog and of Tk::SimpleFileSelect, but various new options are introduced, namely <i>-TopDir</i>, <i>-TextFile</i>, <i>-Readable</i>, <i>-Writeable</i>, <i>-Executable</i>, <i>-Owned</i> and <i>-Directory</i></p>
+
+<p>Multiple choice is possible in a limited circumstance; when <i>file_select</i> is invoked in a list context, with -Chdir=&#62;0 and without -Create. It is currently not possible to select multiple files lying in different directories.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SUBROUTINES"
+>SUBROUTINES</a></h1>
+
+<dl>
+<dt><a name="select_file(_%options_);"
+><i>select_file</i>( %options );</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<dl>
+<dt><a name="-Chdir"
+><i>-Chdir</i></a></dt>
+
+<dd>
+<p>Enable the user to change directories. The default is 1. If it is set to 0, and <i>select_file</i> is invoked in a list context, and <i>-Create</i> is not set, then the user can select multiple files.</p>
+
+<dt><a name="-Create"
+><i>-Create</i></a></dt>
+
+<dd>
+<p>Enable the user to specify a file that does not exist. The default is 0.</p>
+
+<dt><a name="-ShowAll_or_-dotfiles"
+><i>-ShowAll</i> or <i>-dotfiles</i></a></dt>
+
+<dd>
+<p>Determines whether hidden files (.*) are displayed. The default is 0.</p>
+
+<dt><a name="-DisableShowAll"
+><i>-DisableShowAll</i></a></dt>
+
+<dd>
+<p>Disables the ability of the user to change the status of the ShowAll flag. The default is 0 (i.e. the user is by default allowed to change the status).</p>
+
+<dt><a name="-SelDir"
+><i>-SelDir</i></a></dt>
+
+<dd>
+<p>If True, enables selection of a directory rather than a file. The default is 0. To <i>enforce</i> selection of a directory, use the <i>-Directory</i> option.</p>
+
+<dt><a name="-FPat_or_-filter"
+><i>-FPat</i> or <i>-filter</i></a></dt>
+
+<dd>
+<p>Sets the default file selection pattern, in glob format, e.g. <i>*.html</i>. Only files matching this pattern will be displayed. If you want multiple patterns, you can use formats like <i>*.[ch]</i> or <i>{*.cgi,*.pl}</i> - see <i>File::Glob</i> for more details. The default is &#34;*&#34;.</p>
+
+<dt><a name="-File"
+><i>-File</i></a></dt>
+
+<dd>
+<p>The file selected, or the default file. The default default is whatever the user selected last time in this directory.</p>
+
+<dt><a name="-Path_or_-initialdir"
+><i>-Path</i> or <i>-initialdir</i></a></dt>
+
+<dd>
+<p>The path of the selected file, or the initial path. The default is $ENV{HOME}.</p>
+
+<dt><a name="-Title"
+><i>-Title</i></a></dt>
+
+<dd>
+<p>The Title of the dialog box. If <i>-Title</i> is specified, then Clui::FileSelect dynamically appends &#34;in <i>/where/ever</i>&#34; to it. If <i>-Title</i> is not specified, Clui::FileSelect displays &#34;in directory <i>/where/ever</i>&#34;.</p>
+
+<dt><a name="-TopDir"
+><i>-TopDir</i></a></dt>
+
+<dd>
+<p>Restricts the user to remain within a directory or its subdirectories. The default is &#34;/&#34;. This option, and the following, are not offered by Tk::FileDialog.</p>
+
+<dt><a name="-TextFile"
+><i>-TextFile</i></a></dt>
+
+<dd>
+<p>Only text files will be displayed. The default is 0.</p>
+
+<dt><a name="-Readable"
+><i>-Readable</i></a></dt>
+
+<dd>
+<p>Only readable files will be displayed. The default is 0.</p>
+
+<dt><a name="-Writeable"
+><i>-Writeable</i></a></dt>
+
+<dd>
+<p>Only writeable files will be displayed. The default is 0.</p>
+
+<dt><a name="-Executable"
+><i>-Executable</i></a></dt>
+
+<dd>
+<p>Only executable files will be displayed. The default is 0.</p>
+
+<dt><a name="-Owned"
+><i>-Owned</i></a></dt>
+
+<dd>
+<p>Only files owned by the current user will be displayed. This is useful if the user is being asked to choose a file for a <i>chmod</i> or <i>chgrp</i> operation, for example. The default is 0.</p>
+
+<dt><a name="-Directory"
+><i>-Directory</i></a></dt>
+
+<dd>
+<p>Only directories will be displayed. The default is 0.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUGS"
+>BUGS</a></h1>
+
+<p>Three problem filenames will, if present in your file-system, cause confusion. They are <i>Create New File</i>, <i>Show DotFiles</i> and <i>Hide DotFiles</i></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author:</p>
+
+<p>Peter J Billam www.pjb.com.au/comp/contact.html</p>
+
+<p>Current maintainer:</p>
+
+<p>Graham Ollis</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CREDITS"
+>CREDITS</a></h1>
+
+<p>Based on an old Perl4 library, <i>filemgr.pl</i>, with the options modelled after <i>Tk::FileDialog</i> and <i>Tk::SimpleFileSelect</i>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>http://www.pjb.com.au/ , http://search.cpan.org/~pjb , File::Glob , Term::Clui , Tk::FileDialog , Tk::SimpleFileSelect , perl(1) .</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

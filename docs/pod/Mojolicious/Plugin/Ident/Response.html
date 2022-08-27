@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mojolicious::Plugin::Ident::Response</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Mojolicious::Plugin::<a href="/pod/Mojolicious/Plugin/Ident.html">Ident</a>::Response</div>
+    <!--Mojolicious::Plugin::Ident::Response--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#%24ident-%3Eusername'>$ident-&#62;username</a>
+    <li class='indexItem indexItem2'><a href='#%24ident-%3Eos'>$ident-&#62;os</a>
+    <li class='indexItem indexItem2'><a href='#%24ident-%3Eis_success'>$ident-&#62;is_success</a>
+    <li class='indexItem indexItem2'><a href='#%24ident-%3Eerror_type'>$ident-&#62;error_type</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#%24ident-%3Esame_user'>$ident-&#62;same_user</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Mojolicious::Plugin::Ident::Response - Ident response object</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.31</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents the responses as they come back from the remote ident server.</p>
+
+<p><a href="/pod/Mojolicious/Plugin/Ident/Response.html" class="podlinkpod"
+>Mojolicious::Plugin::Ident::Response</a> is a <a href="/pod/AnyEvent/Ident/Response.html" class="podlinkpod"
+>AnyEvent::Ident::Response</a>.
+The base class is subject to change in a future version,
+although it this class will always provide the interface documented here.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$ident-&#62;username"
+>$ident-&#62;username</a></h2>
+
+<p>The username of the remote connection as provided by the remote ident server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$ident-&#62;os"
+>$ident-&#62;os</a></h2>
+
+<p>The operating system of the remote connection as provided by the remote ident server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$ident-&#62;is_success"
+>$ident-&#62;is_success</a></h2>
+
+<p>True if the ident response was not an error.
+Only useful in non-blocking mode,
+as in blocking mode an exception will be thrown in the case of error.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$ident-&#62;error_type"
+>$ident-&#62;error_type</a></h2>
+
+<p>The error type returned by the ident server,
+if an error happened.
+Only useful in non-blocking mode,
+as in blocking mode an exception will be thrown in the case of error.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$ident-&#62;same_user"
+>$ident-&#62;same_user</a></h2>
+
+<p>Returns true if the remote user is the same as the one which started the Mojolicious application.
+The user is considered the same if the remote connection came over the loopback address (127.0.0.1) and the username matches either the server&#39;s username or real uid.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="/pod/Mojolicious/Plugin/Ident.html" class="podlinkpod"
+>Mojolicious::Plugin::Ident</a>,
+<a href="/pod/AnyEvent/Ident/Response.html" class="podlinkpod"
+>AnyEvent::Ident::Response</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

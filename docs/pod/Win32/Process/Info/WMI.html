@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Win32::Process::Info::WMI</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Win32::Process::<a href="/pod/Win32/Process/Info.html">Info</a>::WMI</div>
+    <!--Win32::Process::Info::WMI--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#REQUIREMENTS'>REQUIREMENTS</a>
+  <li class='indexItem indexItem1'><a href='#ACKNOWLEDGMENTS'>ACKNOWLEDGMENTS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Win32::Process::Info::WMI - Provide process information via WMI.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>This package fetches process information on a given Windows machine,
+using Microsoft&#39;s Windows Management Implementation.</p>
+
+<pre class="sh_perl"> use Win32::Process::Info
+ $pi = Win32::Process::Info-&#62;new (undef, &#39;WMI&#39;);
+ $pi-&#62;Set (elapsed_as_seconds =&#62; 0);    # In clunks, not seconds.
+ @pids = $pi-&#62;ListPids ();      # Get all known PIDs
+ @info = $pi-&#62;GetProcInfo ();   # Get the max</pre>
+
+<p>CAVEAT USER:</p>
+
+<p>This package is <b>not</b> intended to be used independently; instead, it is a subclass of Win32::Process::Info, and should only be called via that package.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This package implements the WMI-specific methods of Win32::Process::Info.</p>
+
+<p>This package returns Windows process IDs, even under Cygwin.</p>
+
+<p>The following methods should be considered public:</p>
+
+<dl>
+<dt><a name="@info_=_$pi-&#62;GetProcInfo_();"
+>@info = $pi-&#62;GetProcInfo ();</a></dt>
+
+<dd>
+<p>This method returns a list of anonymous hashes, each containing information on one process. If no arguments are passed, the list represents all processes in the system. You can pass a list of process IDs, and get out a list of the attributes of all such processes that actually exist. If you call this method in scalar context, you get a reference to the list.</p>
+
+<p>What keys are available depend both on the variant in use and the setting of b&#60;use_wmi_names&#62;. Assuming <b>use_wmi_names</b> is TRUE, you can hope to get at least the following keys for a &#34;normal&#34; process (i.e. not the idle process, which is PID 0, nor the system, which is PID 8) to which you have access:</p>
+
+<pre class="sh_perl">    CSCreationClassName
+    CSName (= machine name)
+    Caption (seems to generally equal Name)
+    CreationClassName
+    CreationDate
+    Description (seems to equal Caption)
+    ExecutablePath
+    KernelModeTime
+    MaximumWorkingSetSize
+    MinimumWorkingSetSize
+    Name
+    OSCreationClassName
+    OSName
+    OtherOperationCount
+    OtherTransferCount
+    Owner (*)
+    OwnerSid (*)
+    PageFaults
+    ParentProcessId
+    PeakWorkingSetSize
+    ProcessId
+    ReadOperationCount
+    ReadTransferCount
+    UserModeTime
+    WindowsVersion
+    WorkingSetSize
+    WriteOperationCount
+    WriteTransferCount</pre>
+
+<p>You may find other keys available as well.</p>
+
+<p>* - Keys marked with an asterisk are computed, and may not always be present.</p>
+
+<dt><a name="@pids_=_$pi-&#62;ListPids_();"
+>@pids = $pi-&#62;ListPids ();</a></dt>
+
+<dd>
+<p>This method lists all known process IDs in the system. If called in scalar context, it returns a reference to the list of PIDs. If you pass in a list of pids, the return will be the intersection of the argument list and the actual PIDs in the system.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REQUIREMENTS"
+>REQUIREMENTS</a></h1>
+
+<p>It should be obvious that this library must run under some flavor of Windows.</p>
+
+<p>This library uses the following libraries:</p>
+
+<pre class="sh_perl">  Carp
+  Time::Local
+  Win32::OLE
+  use Win32::OLE::Const;
+  use Win32::OLE::Variant;</pre>
+
+<p>As of ActivePerl 630, none of the variant libraries use any libraries that are not included with ActivePerl. Your mileage may vary.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ACKNOWLEDGMENTS"
+>ACKNOWLEDGMENTS</a></h1>
+
+<p>This module would not exist without the following people:</p>
+
+<p>Jenda Krynicky, whose &#34;How2 create a PPM distribution&#34; (<em>http://jenda.krynicky.cz/perl/PPM.html</em>) gave me a leg up on both PPM and tar distributions.</p>
+
+<p>Dave Roth, <em>http://www.roth.net/perl/</em>, author of <b>Win32 Perl Programming: Administrators Handbook</b>, which is published by Macmillan Technical Publishing, ISBN 1-57870-215-1</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Thomas R. Wyant, III (<em>wyant at cpan dot org</em>)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>Copyright (C) 2001-2005 by E. I. DuPont de Nemours and Company, Inc.</p>
+
+<p>Copyright (C) 2007, 2010-2011, 2013-2014 by Thomas R. Wyant, III</p>
+
+<p>This program is free software; you can redistribute it and/or modify it under the same terms as Perl 5.10.0. For more details, see the full text of the licenses in the directory LICENSES.</p>
+
+<p>This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

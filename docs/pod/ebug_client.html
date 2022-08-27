@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ebug_client</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> ebug_client</div>
+    <!--ebug_client--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#EXAMPLE'>EXAMPLE</a>
+  <li class='indexItem indexItem1'><a href='#NOTE'>NOTE</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#cut'>cut</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>ebug_client - Debugger client for remote debugging Perl script</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.64</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> ebug_client -key &#60;secret&#62; -port &#60;port&#62;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><a href="/pod/ebug_client.html" class="podlinkpod"
+>ebug_client</a> is an debugger front end for attaching to remotely executing perl script, running on <a href="/pod/ebug_server.html" class="podlinkpod"
+>ebug_server</a>.</p>
+
+<p>To invoke <a href="/pod/ebug_client.html" class="podlinkpod"
+>ebug_client</a>, you must first invoke <a href="/pod/ebug_server.html" class="podlinkpod"
+>ebug_server</a> to run debuggee and generate &#34;key&#34; and &#34;port&#34; needed for connection. When <a href="/pod/ebug_server.html" class="podlinkpod"
+>ebug_server</a> is invoked, it will show exact command-line to invoke <a href="/pod/ebug_client.html" class="podlinkpod"
+>ebug_client</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLE"
+>EXAMPLE</a></h1>
+
+<pre class="sh_perl"> # Attach to ebug_server running on port 4023, with key &#34;begripra&#34;
+ $ ebug_client -key begripra -port 4023</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NOTE"
+>NOTE</a></h1>
+
+<p>Currently, you cannot &#34;restart&#34; debuggee. You&#39;ll need to restart one manually by re-invoking both <a href="/pod/ebug_server.html" class="podlinkpod"
+>ebug_server</a> and <a href="/pod/ebug_client.html" class="podlinkpod"
+>ebug_client</a>.</p>
+
+<p>Since Devel::ebug::Backend listens to &#34;localhost&#34; socket, you will need to relay I/O using tool like socat for true remote debugging.</p>
+
+<p>Internally, thanks for it being free software, it is almost a complete ripoff of Devel::ebug source.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://metacpan.org/pod/Devel%3A%3Adebug" class="podlinkpod"
+>Devel::debug</a>, <a href="/pod/ebug.html" class="podlinkpod"
+>ebug</a>, <a href="/pod/ebug_server.html" class="podlinkpod"
+>ebug_server</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="cut"
+>cut</a></h1>
+
+<p>package Devel::ebug;</p>
+
+<p>use Devel::ebug; use IO::Socket::INET;</p>
+
+<p>our $ARG = {};</p>
+
+<p># Replace &#39;load&#39; with one that just attaches sub load { my $self = shift; $self-&#62;attach($ARG-&#62;{port}, $ARG-&#62;{key}); }</p>
+
+<p>package main;</p>
+
+<p>use Devel::ebug::Console; use Getopt::Long;</p>
+
+<p>GetOptions( my $OPT = {}, &#39;help&#39;, &#39;port=i&#39;, &#39;key=s&#39; ) || help(); help() if $OPT-&#62;{help};</p>
+
+<p>$Devel::ebug::ARG = $OPT; my $console = Devel::ebug::Console-&#62;new(); $console-&#62;run(); exit(0);</p>
+
+<p>sub help { print STDERR &#60;&#60;EOF; Usage: $0 -key &#60;secret&#62; -port &#60;port&#62; -- debuggee args... EOF exit(1); }</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: Leon Brocard &#60;acme@astray.com&#62;</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Brock Wilcox &#60;awwaiid@thelackthereof.org&#62;</p>
+
+<p>Taisuke Yamada</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2005-2021 by Leon Brocard.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

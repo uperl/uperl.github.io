@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::AnyEventFTPServer</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::AnyEventFTPServer</div>
+    <!--Test::AnyEventFTPServer--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#test_uri'>test_uri</a>
+    <li class='indexItem indexItem2'><a href='#res'>res</a>
+    <li class='indexItem indexItem2'><a href='#content'>content</a>
+    <li class='indexItem indexItem2'><a href='#auto_login'>auto_login</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#create_ftpserver_ok'>create_ftpserver_ok</a>
+    <li class='indexItem indexItem2'><a href='#connect_ftpclient_ok'>connect_ftpclient_ok</a>
+    <li class='indexItem indexItem2'><a href='#help_coverage_ok'>help_coverage_ok</a>
+    <li class='indexItem indexItem2'><a href='#command_ok'>command_ok</a>
+    <li class='indexItem indexItem2'><a href='#code_is'>code_is</a>
+    <li class='indexItem indexItem2'><a href='#code_like'>code_like</a>
+    <li class='indexItem indexItem2'><a href='#message_like'>message_like</a>
+    <li class='indexItem indexItem2'><a href='#message_is'>message_is</a>
+    <li class='indexItem indexItem2'><a href='#list_ok'>list_ok</a>
+    <li class='indexItem indexItem2'><a href='#nlst_ok'>nlst_ok</a>
+    <li class='indexItem indexItem2'><a href='#content_is'>content_is</a>
+    <li class='indexItem indexItem2'><a href='#global_timeout_ok'>global_timeout_ok</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::AnyEventFTPServer - Test (non-blocking) ftp clients against a real FTP server</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2:V0;
+ use Test::AnyEventFTPServer;
+ 
+ # exit this script after 30s to avoid hung test
+ global_timeout_ok;
+ 
+ # $test_server isa AnyEvent::FTP::Server
+ # and          isa Test::AnyEventFTPServer
+ my $test_server = create_ftpserver_ok;
+ 
+ $test_server-&#62;command_ok(&#39;HELP&#39;)
+             -&#62;code_is(214)
+             -&#62;message_like(qr{the following commands are recognize});
+ 
+ # $res isa AnyEvent::FTP::Client::Response
+ # from that last HELP command
+ my $res = $test_server-&#62;res;
+ 
+ # $client isa AnyEvent::FTP::Client
+ my $client = $test_server-&#62;connect_ftpclient_ok;
+ 
+ # check to make sure that all FTP commands have help
+ $test_server-&#62;help_coverage_ok;
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module makes it easy to test ftp clients against a real <a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a> FTP server. The FTP server is non-blocking in and does not <code>fork</code>, so if you are testing a FTP client that blocks then you will need to do it in a separate process. <a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a> is a client that doesn&#39;t block and so is safe to use in testing against the server.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="test_uri"
+>test_uri</a></h2>
+
+<pre class="sh_perl"> my $uri = $test_server-&#62;test_uri</pre>
+
+<p>The full URL (including host, port, username and password) of the test ftp server. This is returned as <a href="https://metacpan.org/pod/URI" class="podlinkpod"
+>URI</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="res"
+>res</a></h2>
+
+<pre class="sh_perl"> my $res = $test_server-&#62;res</pre>
+
+<p>The last <a href="/pod/AnyEvent/FTP/Client/Response.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Response</a> object returned from the server after calling the <code>command_ok</code> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="content"
+>content</a></h2>
+
+<pre class="sh_perl"> my $content = $test_server-&#62;content</pre>
+
+<p>The last content retrieved from a <code>list_ok</code>, <code>nlst_ok</code> or <code>transfer_ok</code> test.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_login"
+>auto_login</a></h2>
+
+<pre class="sh_perl"> my $bool = $test_server-&#62;auto_login</pre>
+
+<p>If true (the default) automatically login using the correct credentials. Normally if you are testing file transfers you want to keep this to the default value, if you are testing the authentication of a server context then you want to set this to false.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="create_ftpserver_ok"
+>create_ftpserver_ok</a></h2>
+
+<pre class="sh_perl"> my $test_server = create_ftpserver_ok;
+ my $test_server = create_ftpserver_ok($default_context);
+ my $test_server = create_ftpserver_ok($default_context, $test_name);</pre>
+
+<p>Create the FTP server with a random username and password for logging in. You can get the username/password from the <code>test_uri</code> attribute, or connect to the server using <a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a> automatically with the <code>connect_ftpclient_ok</code> method below.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="connect_ftpclient_ok"
+>connect_ftpclient_ok</a></h2>
+
+<pre class="sh_perl"> my $client = $test_server-&#62;connect_ftpclient_ok;
+ my $client = $test_server-&#62;connect_ftpclient_ok($test_name);</pre>
+
+<p>Connect to the FTP server, return the <a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a> object which can be used for testing.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="help_coverage_ok"
+>help_coverage_ok</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;help_coverage_ok;
+ $test_server-&#62;help_coverage_ok($context_class);
+ $test_server-&#62;help_coverage_ok($context_class, $test_name);</pre>
+
+<p>Test that there is a <code>help_*</code> method for each <code>cmd_*</code> method in the given context class (the server&#39;s default context class is used if it isn&#39;t provided). This can also be used to test help coverage of context roles.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="command_ok"
+>command_ok</a></h2>
+
+<pre class="sh_perl"> $test_command-&#62;command_ok( $command, $arguments );
+ $test_command-&#62;command_ok( $command, $arguments, $test_name );</pre>
+
+<p>Execute the given command with the given arguments on the remote server. Fails only if a valid FTP response is not returned from the server (even error responses are okay).</p>
+
+<p>The response is stored in the <code>res</code> attribute.</p>
+
+<p>This method returns the test server object, so you can chain this command:</p>
+
+<pre class="sh_perl"> $server-&#62;command_ok(&#39;HELP&#39;, &#39;HELP&#39;) # get help on the help command
+        -&#62;code_is(214)               # returns status code 214
+        -&#62;message_like(qr{HELP});    # the help command mentions the help command</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="code_is"
+>code_is</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;code_is($code);
+ $test_server-&#62;code_is($code, $test_name);</pre>
+
+<p>Verifies that the status code of the last command executed matches the given code exactly.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="code_like"
+>code_like</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;code_like($regex);
+ $test_server-&#62;code_like($regex, $test_name);</pre>
+
+<p>Verifies that the status code of the last command executed matches the given regular expression..</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="message_like"
+>message_like</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;message_like($regex);
+ $test_server-&#62;message_like($regex, $test_name);</pre>
+
+<p>Verifies that the message portion of the response of the last command executed matches the given regular expression.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="message_is"
+>message_is</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;message_is($string);
+ $test_server-&#62;message_is($string, $test_name);</pre>
+
+<p>Verifies that the message portion of the response of the last command executed matches the given string.</p>
+
+<p>If the response message has multiple lines, then only one of the lines needs to match the given string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="list_ok"
+>list_ok</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;list_ok;
+ $test_server-&#62;list_ok($location);
+ $test_server-&#62;list_ok($location, $test_name)</pre>
+
+<p>Execute a the <code>LIST</code> command on the given <code>$location</code> and wait for the results. You can see the result using the <code>content</code> attribute or test it with the <code>content_is</code> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="nlst_ok"
+>nlst_ok</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;nlst_ok;
+ $test_server-&#62;nlst_ok( $location );
+ $test_server-&#62;nlst_ok( $location, $test_name );</pre>
+
+<p>Execute a the <code>NLST</code> command on the given <code>$location</code> and wait for the results. You can see the result using the <code>content</code> attribute or test it with the <code>content_is</code> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="content_is"
+>content_is</a></h2>
+
+<pre class="sh_perl"> $test_server-&#62;content_is($string);
+ $test_server-&#62;content_is($string, $test_name);</pre>
+
+<p>Test that the given <code>$string</code> matches the content returned by the last <code>list_ok</code> or <code>nlst_ok</code> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="global_timeout_ok"
+>global_timeout_ok</a></h2>
+
+<pre class="sh_perl"> global_timeout_ok;
+ global_timeout_ok($timeout);
+ global_timeout_ok($timeout, $test_name)</pre>
+
+<p>Set a global timeout on the entire test script. If the timeout is exceeded the test will exit. Handy if you have test automation and your test automation doesn&#39;t handle hung tests.</p>
+
+<p>The default timeout is 120 seconds.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

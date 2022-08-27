@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::Version</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::Version</div>
+    <!--Test::Version--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#version_ok'>version_ok</a>
+    <li class='indexItem indexItem2'><a href='#version_all_ok'>version_all_ok</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CONFIGURATION_AND_ENVIRONMENT'>CONFIGURATION AND ENVIRONMENT</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#has_version'>has_version</a>
+    <li class='indexItem indexItem2'><a href='#is_strict'>is_strict</a>
+    <li class='indexItem indexItem2'><a href='#consistent'>consistent</a>
+    <li class='indexItem indexItem2'><a href='#ignore_unindexable'>ignore_unindexable</a>
+    <li class='indexItem indexItem2'><a href='#filename_match'>filename_match</a>
+    <li class='indexItem indexItem2'><a href='#multiple'>multiple</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
+  <li class='indexItem indexItem1'><a href='#CONTRIBUTORS'>CONTRIBUTORS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::Version - Check to see that version&#39;s in modules are sane</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">  use Test::More;
+  use Test::Version 1.001001 qw( version_all_ok ), {
+      is_strict   =&#62; 0,
+      has_version =&#62; 1,
+      consistent  =&#62; 1,
+    };
+
+  # test blib or lib by default
+  version_all_ok();
+
+  done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module&#39;s goal is to be a one stop shop for checking to see that your versions across your dist are sane. Please ensure that you use version <code>0.04</code> or later only, as earlier versions are old code and may not work correctly. Current feature list:</p>
+
+<dl>
+<dt><a name="module_has_a_version"
+>module has a version</a></dt>
+
+<dd>
+<p>Tests to insure that all modules checked have a VERSION defined, Can replace <a href="https://metacpan.org/pod/Test%3A%3AHasVersion" class="podlinkpod"
+>Test::HasVersion</a></p>
+
+<dt><a name="module_has_a_valid_version"
+>module has a valid version</a></dt>
+
+<dd>
+<p>Tests to insure that all versions are valid, according to the rules of <a href="https://metacpan.org/pod/version" class="podlinkpod"
+>version</a> method <code>is_lax</code>. To quote:</p>
+
+<p><i>The lax criteria corresponds to what is currently allowed by the version parser. All of the following formats are acceptable for dotted-decimal formats strings:</i></p>
+
+<pre class="sh_perl">  v1.2
+  1.2345.6
+  v1.23_4
+  1.2345
+  1.2345_01</pre>
+
+<p><i>If you want to limit yourself to a much more narrow definition of what a version string constitutes, is_strict() is limited to version strings like the following list:</i></p>
+
+<pre class="sh_perl">  v1.234.5
+  2.3456</pre>
+
+<p>you can cause your tests to fail if not strict by setting <a href="#is_strict" class="podlinkpod"
+>is_strict</a> to <code>1</code></p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="version_ok"
+>version_ok</a></h2>
+
+<pre class="sh_perl">  version_ok( $filename, [ $name ] );</pre>
+
+<p>Test a single <code>.pm</code> file by passing a path to the function. Checks if the module has a version, and that it is valid with <code>is_lax</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="version_all_ok"
+>version_all_ok</a></h2>
+
+<pre class="sh_perl">  version_all_ok( [ $directory, [ $name ]] );</pre>
+
+<p>Test all modules in a directory with <code>version_ok</code>. By default it will check <code>blib</code> or <code>lib</code> if you haven&#39;t passed it a directory.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONFIGURATION_AND_ENVIRONMENT"
+>CONFIGURATION AND ENVIRONMENT</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="has_version"
+>has_version</a></h2>
+
+<pre class="sh_perl">  use Test::Version qw( version_all_ok ), { has_version =&#62; 0 };</pre>
+
+<p>Allows disabling whether a module has to have a version. If set to 0 version tests will be skipped in any module where no version is found.</p>
+
+<p>really doesn&#39;t make sense to use with just <a href="#version_ok" class="podlinkpod"
+>version_ok</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_strict"
+>is_strict</a></h2>
+
+<pre class="sh_perl">  use Test::Version { is_strict =&#62; 1 };</pre>
+
+<p>this allows enabling of <a href="https://metacpan.org/pod/version" class="podlinkpod"
+>version</a>s <code>is_strict</code> checks to ensure that your version is strict.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="consistent"
+>consistent</a></h2>
+
+<pre class="sh_perl">  use Test::Version { consistent =&#62; 1 };</pre>
+
+<p>Check if every module has the same version number.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ignore_unindexable"
+>ignore_unindexable</a></h2>
+
+<pre class="sh_perl">  use Test::Version { ignore_unindexable =&#62; 0};</pre>
+
+<p>if you have at least <a href="https://metacpan.org/pod/Module%3A%3AMetadata" class="podlinkpod"
+>Module::Metadata</a> v<code>1.000020</code> Test::Version will by default skip any files not considered <a href="https://metacpan.org/pod/Module%3A%3AMetadata#is_indexable" class="podlinkpod"
+>is_indexable</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename_match"
+>filename_match</a></h2>
+
+<pre class="sh_perl">  use Test::Version 2.0 { filename_match =&#62; [qr{Foo/Bar.pm$}] };</pre>
+
+<p>Only test files that match the given pattern. Pattern may be a list of strings, regular expressions or code references. The filename will match if it matches one or more patterns.</p>
+
+<dl>
+<dt><a name="string"
+>string</a></dt>
+
+<dd>
+<p>The file matches if it matches the pattern string exactly.</p>
+
+<dt><a name="regular_expression"
+>regular expression</a></dt>
+
+<dd>
+<p>The file matches if it matches the regular expression.</p>
+
+<dt><a name="code_reference"
+>code reference</a></dt>
+
+<dd>
+<p>The file matches if the code reference returns a true value. The filename is passed in as the only argument to the code reference.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="multiple"
+>multiple</a></h2>
+
+<pre class="sh_perl">  use Test::Version 2.02 { multiple =&#62; 1 };</pre>
+
+<p>Test each version for each package if multiple packages are found in a file.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>The goal is to have the functionality of all of these.</p>
+
+<dl>
+<dt><a name="Test::HasVersion"
+><a href="https://metacpan.org/pod/Test%3A%3AHasVersion" class="podlinkpod"
+>Test::HasVersion</a></a></dt>
+
+<dd>
+<dt><a name="Test::ConsistentVersion"
+><a href="https://metacpan.org/pod/Test%3A%3AConsistentVersion" class="podlinkpod"
+>Test::ConsistentVersion</a></a></dt>
+
+<dd>
+<dt><a name="Test::GreaterVersion"
+><a href="https://metacpan.org/pod/Test%3A%3AGreaterVersion" class="podlinkpod"
+>Test::GreaterVersion</a></a></dt>
+</dl>
+
+<p>If you are using <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a> there is a plugin</p>
+
+<dl>
+<dt><a name="Dist::Zilla::Plugin::Test::Version"
+><a href="/pod/Dist/Zilla/Plugin/Test/Version.html" class="podlinkpod"
+>Dist::Zilla::Plugin::Test::Version</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUGS"
+>BUGS</a></h1>
+
+<p>Please report any bugs or feature requests on the bugtracker website <a href="https://github.com/plicease/test-version/issues" class="podlinkurl"
+>https://github.com/plicease/test-version/issues</a></p>
+
+<p>When submitting a bug or request, please include a test-file or a patch to an existing test-file that illustrates the bug or desired feature.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONTRIBUTORS"
+>CONTRIBUTORS</a></h1>
+
+<ul>
+<li>Damyan Ivanov &#60;dmn@debian.org&#62;</li>
+
+<li>Dave Rolsky &#60;autarch@urth.org&#62;</li>
+
+<li>Gabor Szabo &#60;gabor@szabgab.com&#62;</li>
+
+<li>Karen Etheridge &#60;ether@cpan.org&#62;</li>
+
+<li>Michael G. Schwern &#60;schwern@pobox.com&#62;</li>
+
+<li>Mike Doherty &#60;doherty@cs.dal.ca&#62;</li>
+
+<li>particle &#60;particle@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+
+<li>Caleb Cushing &#60;xenoterracide@gmail.com&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is Copyright (c) 2018 by Caleb Cushing.</p>
+
+<p>This is free software, licensed under:</p>
+
+<pre class="sh_perl">  The Artistic License 2.0 (GPL Compatible)</pre>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

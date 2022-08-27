@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>cpangitify</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> cpangitify</div>
+    <!--cpangitify--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#--resume'>--resume</a>
+    <li class='indexItem indexItem2'><a href='#--output_%7C_-o_directory'>--output | -o directory</a>
+    <li class='indexItem indexItem2'><a href='#--skip_version'>--skip version</a>
+    <li class='indexItem indexItem2'><a href='#--trace'>--trace</a>
+    <li class='indexItem indexItem2'><a href='#--backpan_index_url'>--backpan_index_url</a>
+    <li class='indexItem indexItem2'><a href='#--backpan_url'>--backpan_url</a>
+    <li class='indexItem indexItem2'><a href='#--metacpan_url'>--metacpan_url</a>
+    <li class='indexItem indexItem2'><a href='#--branch_%7C_-b'>--branch | -b</a>
+    <li class='indexItem indexItem2'><a href='#--help_%7C_-h'>--help | -h</a>
+    <li class='indexItem indexItem2'><a href='#--version'>--version</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>cpangitify - Convert cpan distribution from BackPAN to a git repository</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> % cpangitify Foo::Bar</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This script fetches all known revisions of a distribution from CPAN/BackPAN and creates a git repository with one revision and one tag for each version of the distribution.</p>
+
+<p>The idea is to create a starting point for a git work flow when adopting a CPAN module for which you don&#39;t have access to the original repository. It is of course better to import from Subversion or to clone an existing git repository, but that may not be an option.</p>
+
+<p>If the distribution you are migrating changed names during its history, simply specify each name it had on the command line. Be sure to specify the current name first (this will be used when creating a directory name for the repository). For example <a href="/pod/Mojolicious/Plugin/TtRenderer.html" class="podlinkpod"
+>Mojolicious::Plugin::TtRenderer</a> was once called <code>MojoX::Renderer::TT</code>, so you would get both names in the history like this:</p>
+
+<pre class="sh_perl"> % cpangitify Mojolicious::Plugin::TtRenderer MojoX::Renderer::TT</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--resume"
+>--resume</a></h2>
+
+<p>Resume the import from CPAN. Note that any local changes will be overwritten by the CPAN upstream (your modifications will remain in the repository history).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--output_|_-o_directory"
+>--output | -o <i>directory</i></a></h2>
+
+<p>Creat the new repository in the given directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--skip_version"
+>--skip <i>version</i></a></h2>
+
+<p>Skip the given versions. Can be specified multiple times and can be provided as a comma separated list.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--trace"
+>--trace</a></h2>
+
+<p>Print each git command before it is executed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--backpan_index_url"
+>--backpan_index_url</a></h2>
+
+<p>The URL to use for the BackPAN index</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--backpan_url"
+>--backpan_url</a></h2>
+
+<p>The URL to use for BackPAN</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--metacpan_url"
+>--metacpan_url</a></h2>
+
+<p>The URL to use for metacpan.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--branch_|_-b"
+>--branch | -b</a></h2>
+
+<p>Default branch. As on 0.18 this is <code>main</code> by default. Previously the old git default was used.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--help_|_-h"
+>--help | -h</a></h2>
+
+<p>Print out help and exit.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--version"
+>--version</a></h2>
+
+<p>Print out version and exit.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Each commit belongs to the CPAN author who submitted the corresponding release, therefore <code>git blame</code> may not be that useful for the imported portion of your new repository history.</p>
+
+<p>The commits are ordered by date, so where there are interleaving of releases that belong to development and production branches this simple minded script will probably do the wrong thing.</p>
+
+<p>Patches are welcome.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Here are some similar projects:</p>
+
+<ul>
+<li><a href="https://metacpan.org/pod/Git%3A%3ACPAN%3A%3APatch" class="podlinkpod"
+>Git::CPAN::Patch</a>
+<p>Comes with a <code>git cpan import</code> which does something similar. With this incantation I was able to get a repository for <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a> (including history, but without authors and without the correct dates):</p>
+
+<pre class="sh_perl"> % mkdir YAML
+ % git init .
+ % git cpan import --backpan YAML
+ % git merge remotes/cpan/master</pre>
+
+<p>One advantage here over <code>cpangitify</code> is that you should then later be able to import/merge future CPAN releases into yours. <a href="https://metacpan.org/pod/Git%3A%3ACPAN%3A%3APatch" class="podlinkpod"
+>Git::CPAN::Patch</a> also has a bunch of other useful tools for creating and submitting patches and may be worth checking out.</p>
+
+<p>If you do an internet search for this sort of thing you may see references to <code>git-backpan-init</code>, but this does not appear to be part of the <a href="https://metacpan.org/pod/Git%3A%3ACPAN%3A%3APatch" class="podlinkpod"
+>Git::CPAN::Patch</a> anymore (I believe <code>git-import</code> with the <code>--backpan</code> option is the equivalent).</p>
+
+<p>In general <code>cpangitify</code> is a one trick poney (though good at that one thing), and <a href="https://metacpan.org/pod/Git%3A%3ACPAN%3A%3APatch" class="podlinkpod"
+>Git::CPAN::Patch</a> is a Batman&#39;s utility belt with documentation that (for me at least) is pretty impenetrable.</p>
+</li>
+
+<li><a href="https://github.com/gitpan" class="podlinkurl"
+>gitpan</a>
+<p>Doesn&#39;t appear to have been updated in a number of years.</p>
+</li>
+
+<li><a href="https://github.com/ggoossen/cpan2git" class="podlinkurl"
+>ggoosen&#39;s cpan2git</a></li>
+</ul>
+
+<p>The reason I am not using the latter two is that they are designed to mirror the whole of CPAN/BackPAN, but I&#39;m mostly just interested in one or two distributions here and there.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Mohammad S Anwar (MANWAR)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

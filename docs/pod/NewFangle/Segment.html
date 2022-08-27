@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NewFangle::Segment</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> <a href="/pod/NewFangle.html">NewFangle</a>::Segment</div>
+    <!--NewFangle::Segment--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#transaction'>transaction</a>
+    <li class='indexItem indexItem2'><a href='#end'>end</a>
+    <li class='indexItem indexItem2'><a href='#set_parent'>set_parent</a>
+    <li class='indexItem indexItem2'><a href='#set_parent_root'>set_parent_root</a>
+    <li class='indexItem indexItem2'><a href='#set_timing'>set_timing</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>NewFangle::Segment - NewRelic segment class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use NewFangle;
+ my $app = NewFangle::App-&#62;new;
+ my $txn = $app-&#62;start_web_transaction(&#34;txn_name&#34;);
+ my $seg = $txn-&#62;start_segment(&#34;seg_name&#34;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>NewRelic segment class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="transaction"
+>transaction</a></h2>
+
+<pre class="sh_perl"> my $txn = $seg-&#62;transaction</pre>
+
+<p>Returns the transaction for this segment.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="end"
+>end</a></h2>
+
+<pre class="sh_perl"> my $bool = $seg-&#62;end;</pre>
+
+<p>Ends the segment.</p>
+
+<p>(csdk: newrelic_end_segment)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_parent"
+>set_parent</a></h2>
+
+<pre class="sh_perl"> my $bool = $seg-&#62;set_parent($seg2);</pre>
+
+<p>(csdk: newrelic_set_segment_parent)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_parent_root"
+>set_parent_root</a></h2>
+
+<pre class="sh_perl"> my $bool = $seg-&#62;set_parent_root;</pre>
+
+<p>(csdk: newrelic_set_segment_parent_root)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_timing"
+>set_timing</a></h2>
+
+<pre class="sh_perl"> my $bool = $seg-&#62;set_timing($start_time, $duration);</pre>
+
+<p>(csdk: newrelic_set_segment_timing)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="NewFangle"
+><a href="/pod/NewFangle.html" class="podlinkpod"
+>NewFangle</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Owen Allsopp (ALLSOPP)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2020-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

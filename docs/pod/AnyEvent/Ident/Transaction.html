@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Ident::Transaction</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/Ident.html">Ident</a>::Transaction</div>
+    <!--AnyEvent::Ident::Transaction--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#req'>req</a>
+    <li class='indexItem indexItem2'><a href='#reply_with_user'>reply_with_user</a>
+    <li class='indexItem indexItem2'><a href='#reply_with_error'>reply_with_error</a>
+    <li class='indexItem indexItem2'><a href='#remote_port'>remote_port</a>
+    <li class='indexItem indexItem2'><a href='#local_port'>local_port</a>
+    <li class='indexItem indexItem2'><a href='#remote_address'>remote_address</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Ident::Transaction - Simple asynchronous ident transaction</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="req"
+>req</a></h2>
+
+<pre class="sh_perl"> my $req = $tx-&#62;req;</pre>
+
+<p>Returns the request object for the transaction (an instance of <a href="/pod/AnyEvent/Ident/Request.html" class="podlinkpod"
+>AnyEvent::Ident::Request</a>).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="reply_with_user"
+>reply_with_user</a></h2>
+
+<pre class="sh_perl"> $tx-&#62;reply_with_user($os, $username);
+ $tx-&#62;reply_with_user($os);</pre>
+
+<p>Reply to the client with the given username and operating system. If <code>$os</code> is not specified then &#34;OTHER&#34; is used for the operating system. The operating system should be one specified in <a href="http://tools.ietf.org/html/rfc1340" class="podlinkurl"
+>RFC-952</a> under SYSTEM NAMES, or <code>OTHER</code>. Common system names include <code>UNIX</code>, <code>WIN32</code> and <code>VMS</code>. <code>OTHER</code> should be used when the identification ($username) does not map directly to a user or email address on the server system. Here are a couple of examples where <code>OTHER</code> should be used:</p>
+
+<ul>
+<li>The username is actually an encrypted audit token</li>
+
+<li>The username is actually a real name and phone number.</li>
+</ul>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="reply_with_error"
+>reply_with_error</a></h2>
+
+<pre class="sh_perl"> $tx-&#62;reply_with_error( $error_type );</pre>
+
+<p>Reply to the client with the given error. Should be one of</p>
+
+<ul>
+<li>INVALID-PORT
+<p>Usually detected and handled by <a href="/pod/AnyEvent/Ident/Server.html" class="podlinkpod"
+>AnyEvent::Ident::Server</a> itself.</p>
+</li>
+
+<li>NO-USER
+<p>No user for the port pair, or the port pair does not refer to a currently open TCP connection.</p>
+</li>
+
+<li>HIDDEN-USER
+<p>The port pair was valid and the ident server was able to determine the user, but the user declined to provide this information (typically via user configuration).</p>
+</li>
+
+<li>UNKNOWN-ERROR
+<p>Used for all other errors.</p>
+</li>
+</ul>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remote_port"
+>remote_port</a></h2>
+
+<pre class="sh_perl"> my $port = $tx-&#62;remote_port;</pre>
+
+<p>Returns the remote TCP port being used to make the request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="local_port"
+>local_port</a></h2>
+
+<pre class="sh_perl"> my $port = $tx-&#62;local_port;</pre>
+
+<p>Returns the local TCP port being used to make the request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remote_address"
+>remote_address</a></h2>
+
+<pre class="sh_perl"> my $address = $tx-&#62;remote_address;</pre>
+
+<p>Returns the IP address from whence the ident request is coming from.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

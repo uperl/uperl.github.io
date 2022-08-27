@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Log::Log4perl::Appender::TAP</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Log::Log4perl::Appender::TAP</div>
+    <!--Log::Log4perl::Appender::TAP--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Log::Log4perl::Appender::TAP - Append to TAP output</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Log::Log4perl;
+ 
+ LOG::Log4perl::init(\&#60;&#60;CONF);
+ log4perl.rootLogger=ERROR, TAP
+ log4perl.appender.TAP=Log::Log4perl::Appender::TAP
+ log4perl.appender.TAP.method=diag
+ log4perl.appender.TAP=layout=PatternLayout
+ log4perl.appender.TAP=layout.ConversionPattern=&#34;[%rms] %m%n&#34;
+ CONF
+ 
+ DEBUG &#34;this message doesn&#39;t see the light of day&#34;;
+ ERROR &#34;This gets logged to TAP using diag&#34;;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This very simple appender sends log output via <a href="https://metacpan.org/pod/Test2%3A%3AAPI" class="podlinkpod"
+>Test2::API</a> to TAP (or any other format supported by <a href="https://metacpan.org/pod/Test2%3A%3AAPI" class="podlinkpod"
+>Test2::API</a>). It also works with <a href="https://metacpan.org/pod/Test%3A%3ABuilder" class="podlinkpod"
+>Test::Builder</a> and <a href="https://metacpan.org/pod/Test%3A%3AMore" class="podlinkpod"
+>Test::More</a> so long as you have <a href="https://metacpan.org/pod/Test2%3A%3AAPI" class="podlinkpod"
+>Test2::API</a> installed. It only takes one special argument, the method, which can be either <code>diag</code> or <code>note</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

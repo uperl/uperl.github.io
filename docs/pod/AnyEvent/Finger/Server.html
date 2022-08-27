@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Finger::Server</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/Finger.html">Finger</a>::Server</div>
+    <!--AnyEvent::Finger::Server--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#start'>start</a>
+    <li class='indexItem indexItem2'><a href='#bindport'>bindport</a>
+    <li class='indexItem indexItem2'><a href='#stop'>stop</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Finger::Server - Simple asynchronous finger server</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.12</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use AnyEvent::Finger::Server;
+ my $server = AnyEvent::Finger::Server-&#62;new;
+ 
+ my %users = (
+   grimlock =&#62; &#34;ME GRIMLOCK HAVE PLAN&#34;,
+   optimus  =&#62; &#34;Freedom is the right of all sentient beings.&#34;,
+ );
+ 
+ $server-&#62;start(sub {
+   my($tx) = @_;
+   if($tx-&#62;req-&#62;listing_request)
+   {
+     # respond if remote requests list of users
+     $tx-&#62;res-&#62;say(&#39;users:&#39;, keys %users);
+   }
+   else
+   {
+     # respond if user exists
+     if(defined $users{$tx-&#62;req-&#62;username})
+     {
+       $tx-&#62;res-&#62;say($users{$tx-&#62;req-&#62;username});
+     }
+     # respond if user does not exist
+     else
+     {
+       $tx-&#62;res-&#62;say(&#39;no such user&#39;);
+     }
+   }
+   # required! done generating the reply,
+   # close the connection with the client.
+   $tx-&#62;res-&#62;done;
+ });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Provide a simple asynchronous finger server.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $server = AnyEvent::Finger::Server-&#62;new(%args);</pre>
+
+<p>The constructor takes the following optional arguments:</p>
+
+<ul>
+<li>hostname (default 127.0.0.1)
+<p>The hostname to connect to.</p>
+</li>
+
+<li>port (default 79)
+<p>The port to connect to.</p>
+</li>
+
+<li>on_error (carp error)
+<p>A callback subref to be called on error (either connection or transmission error). Passes the error string as the first argument to the callback.</p>
+</li>
+
+<li>on_bind
+<p>A callback subref to be called when the port number is known. This is useful when ephemeral port is used but other parts of the code depend on it. The first argument to the callback will be the <a href="/pod/AnyEvent/Finger/Server.html" class="podlinkpod"
+>AnyEvent::Finger::Server</a> object.</p>
+</li>
+
+<li>forward_deny (0)
+<p>Deny forward requests, (for example: <code>finger@host1@host2@...</code> style requests). If neither <code>forward_deny</code> or <code>forward</code> is specified then forward requests will be passed on to the callback, like all other requests.</p>
+</li>
+
+<li>forward (0)
+<p>Forward forward requests. This can be set to either 1, or an instance of <a href="/pod/AnyEvent/Finger/Client.html" class="podlinkpod"
+>AnyEvent::Finger::Client</a> which will be used to forward requests. If neither <code>forward_deny</code> or <code>forward</code> is specified then forward requests will be passed on to the callback, like all other requests.</p>
+</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="start"
+>start</a></h2>
+
+<pre class="sh_perl"> $server-&#62;start( $callback )</pre>
+
+<p>Start the finger server. The callback will be called each time a client connects.</p>
+
+<pre class="sh_perl"> $callback-&#62;($tx)</pre>
+
+<p>The first argument passed to the callback is the transaction object, which is an instance of <a href="/pod/AnyEvent/Finger/Transaction.html" class="podlinkpod"
+>AnyEvent::Finger::Transaction</a>. The most important members of these objects that you will want to interact with are <code>$tx-&#62;req</code> for the request (an instance of <a href="/pod/AnyEvent/Finger/Request.html" class="podlinkpod"
+>AnyEvent::Finger::Request</a>) and <code>$tx-&#62;res</code> for the response interface (an instance of <a href="/pod/AnyEvent/Finger/Response.html" class="podlinkpod"
+>AnyEvent::Finger::Response</a>).</p>
+
+<p>With the response object you can return a whole response at one time:</p>
+
+<pre class="sh_perl"> $tx-&#62;res-&#62;say(
+   &#34;this is the first line&#34;,
+   &#34;this is the second line&#34;,
+   &#34;there will be no forth line&#34;,
+ );
+ $tx-&#62;res-&#62;done;</pre>
+
+<p>or you can send line one at a time as they become available (possibly asynchronously).</p>
+
+<pre class="sh_perl"> # $dbh is a DBI database handle
+ my $sth = $dbh-&#62;prepare(&#34;select user_name from user_list&#34;);
+ while(my $h = $sth-&#62;fetchrow_hashref)
+ {
+   $tx-&#62;res-&#62;say($h-&#62;{user_name});
+ }
+ $tx-&#62;res-&#62;done;</pre>
+
+<p>The server will unbind from its port and stop if the server object falls out of scope, or if the <code>stop</code> method (see below) is called.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="bindport"
+>bindport</a></h2>
+
+<pre class="sh_perl"> $server-&#62;bindport</pre>
+
+<p>The bind port. If port is set to zero in the constructor or on start, then an ephemeral port will be used, and you can get the port number here. This value is not available until the socket has been allocated and bound to a port, so if you need this value after calling <code>start</code> but before any clients have connected use the <code>on_bind</code> callback.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stop"
+>stop</a></h2>
+
+<pre class="sh_perl"> $server-&#62;stop</pre>
+
+<p>Stop the server and unbind to the port.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<ul>
+<li><a href="/pod/AnyEvent/Finger.html" class="podlinkpod"
+>AnyEvent::Finger</a></li>
+
+<li><a href="/pod/AnyEvent/Finger/Client.html" class="podlinkpod"
+>AnyEvent::Finger::Client</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

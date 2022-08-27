@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Win32::Vcpkg::Package</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Win32::<a href="/pod/Win32/Vcpkg.html">Vcpkg</a>::Package</div>
+    <!--Win32::Vcpkg::Package--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+    <li class='indexItem indexItem2'><a href='#version'>version</a>
+    <li class='indexItem indexItem2'><a href='#root'>root</a>
+    <li class='indexItem indexItem2'><a href='#triplet'>triplet</a>
+    <li class='indexItem indexItem2'><a href='#cflags'>cflags</a>
+    <li class='indexItem indexItem2'><a href='#libs'>libs</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Win32::Vcpkg::Package - Interface to Microsoft Vcpkg Packages</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Win32::Vcpkg::Package;
+ 
+ my $package = Win32::Vcpkg::Package-&#62;new(
+   lib =&#62; [&#39;foo&#39;,&#39;bar&#39;],
+ );
+ 
+ my $cflags = $package-&#62;cflags;
+ my $libs   = $package-&#62;libs;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides an interface to a <code>Vcpkg</code> package. <code>Vcpkg</code> is a Visual C++ library package manager, and as such is useful in building XS and FFI extensions for Visual C++ builds of Perl. Given a list of libraries, this module will search for them, and if found you can get the compiler and linker flags needed to compile and link against them.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $package = Win32::Vcpkg::Package-&#62;new(%options);</pre>
+
+<p>Creates a package instance. If the libraries specified are not found then an exception will be thrown.</p>
+
+<dl>
+<dt><a name="root"
+>root</a></dt>
+
+<dd>
+<p>The <code>Vcpkg</code> root. By default this is what <code>root</code> from <a href="/pod/Win32/Vcpkg.html" class="podlinkpod"
+>Win32::Vcpkg</a> returns.</p>
+
+<dt><a name="triplet"
+>triplet</a></dt>
+
+<dd>
+<p>The <code>Vcpkg</code> triplet. By default this is what <code>perl_triplet</code> from <a href="/pod/Win32/Vcpkg.html" class="podlinkpod"
+>Win32::Vcpkg</a> returns.</p>
+
+<dt><a name="lib"
+>lib</a></dt>
+
+<dd>
+<p>Array reference of library names. Do not include the <code>.lib</code> extension. If not provided, then no libraries will be linked against, but this might be useful to get the compiler flags (<code>cflags</code>) and linker flags (<code>libs</code>) needed for <code>Vcpkg</code>.</p>
+
+<dt><a name="include"
+>include</a></dt>
+
+<dd>
+<p>Array reference of include names. Some packages put their header files in a subdirectory, here you can specify the name of the subdirectory so that it will be included in <code>cflags</code>.</p>
+
+<dt><a name="debug"
+>debug</a></dt>
+
+<dd>
+<p>If true, link against the debug version of the libraries.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<pre class="sh_perl"> my $name = $package-&#62;name;</pre>
+
+<p>Returns the name of the package, if known.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="version"
+>version</a></h2>
+
+<pre class="sh_perl"> my $version = $package-&#62;version;</pre>
+
+<p>Returns the version of the package, if known.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="root"
+>root</a></h2>
+
+<pre class="sh_perl"> my $root = $package-&#62;root;</pre>
+
+<p>The <code>Vcpkg</code> root. This is an <a href="https://metacpan.org/pod/Path%3A%3ATiny" class="podlinkpod"
+>Path::Tiny</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="triplet"
+>triplet</a></h2>
+
+<pre class="sh_perl"> my $triplet = $package-&#62;triplet;</pre>
+
+<p>The <code>Vcpkg</code> triplet.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cflags"
+>cflags</a></h2>
+
+<pre class="sh_perl"> my $cflags = $package-&#62;cflags;</pre>
+
+<p>The compiler flags needed to compile against the package.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="libs"
+>libs</a></h2>
+
+<pre class="sh_perl"> my $libs = $package-&#62;libs;</pre>
+
+<p>The linker flags needed to link against the package.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Win32::Vcpkg"
+><a href="/pod/Win32/Vcpkg.html" class="podlinkpod"
+>Win32::Vcpkg</a></a></dt>
+
+<dd>
+<dt><a name="Win32::Vcpkg::List"
+><a href="/pod/Win32/Vcpkg/List.html" class="podlinkpod"
+>Win32::Vcpkg::List</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2020 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

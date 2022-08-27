@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ExtUtils::PkgConfig</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> ExtUtils::PkgConfig</div>
+    <!--ExtUtils::PkgConfig--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#USAGE'>USAGE</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#BUNDLED_CODE'>BUNDLED CODE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>ExtUtils::PkgConfig - simplistic interface to pkgconf via libpkgconf (similar to pkg-config)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.15</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use ExtUtils::PkgConfig;
+
+ $package = &#39;gtk+-2.0&#39;;
+
+ %pkg_info = ExtUtils::PkgConfig-&#62;find ($package);
+ print &#34;modversion:  $pkg_info{modversion}\n&#34;;
+ print &#34;cflags:      $pkg_info{cflags}\n&#34;;
+ print &#34;libs:        $pkg_info{libs}\n&#34;;
+
+ $modversion = ExtUtils::PkgConfig-&#62;modversion($package);
+
+ $libs = ExtUtils::PkgConfig-&#62;libs($package);
+
+ $cflags = ExtUtils::PkgConfig-&#62;cflags($package);
+
+ $cflags_only_I = ExtUtils::PkgConfig-&#62;cflags_only_I($package);
+
+ $cflags_only_other = ExtUtils::PkgConfig-&#62;cflags_only_other($package);
+
+ $libs_only_L = ExtUtils::PkgConfig-&#62;libs_only_L($package);
+
+ $libs_only_l = ExtUtils::PkgConfig-&#62;libs_only_l($package);
+
+ $libs_only_other = ExtUtils::PkgConfig-&#62;libs_only_other($package);
+
+ $static_libs = ExtUtils::PkgConfig-&#62;static_libs($package);
+
+ $var_value = ExtUtils::PkgConfig-&#62;variable($package, $var);
+
+ if (ExtUtils::PkgConfig-&#62;atleast_version($package,$version)) {
+    ...
+ }
+
+ if (ExtUtils::PkgConfig-&#62;exact_version($package,$version)) {
+    ...
+ }
+
+ if (ExtUtils::PkgConfig-&#62;max_version($package,$version)) {
+    ...
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><b>NOTE</b>: This version of <a href="/pod/ExtUtils/PkgConfig.html" class="podlinkpod"
+>ExtUtils::PkgConfig</a> is a fork of the original based on <a href="https://metacpan.org/pod/PkgConfig%3A%3ALibPkgConf" class="podlinkpod"
+>PkgConfig::LibPkgConf</a>.</p>
+
+<p>The pkg-config program retrieves information about installed libraries, usually for the purposes of compiling against and linking to them.</p>
+
+<p>ExtUtils::PkgConfig is a very simplistic interface to this utility, intended for use in the Makefile.PL of perl extensions which bind libraries that pkg-config knows. It is really just boilerplate code that you would&#39;ve written yourself.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="USAGE"
+>USAGE</a></h2>
+
+<dl>
+<dt><a name="HASH_=_ExtUtils::PkgConfig-&#62;find_(STRING,_[STRING,_...])"
+>HASH = ExtUtils::PkgConfig-&#62;find (STRING, [STRING, ...])</a></dt>
+
+<dd>
+<p>Call pkg-config on the library specified by <i>STRING</i> (you&#39;ll have to know what to use here). The returned <i>HASH</i> contains the modversion, cflags, and libs values under keys with those names. If multiple STRINGS are passed they are attempted in the order they are given till a working package is found.</p>
+
+<p>If pkg-config fails to find a working <i>STRING</i>, this function croaks with a message intended to be helpful to whomever is attempting to compile your package.</p>
+
+<p>For example:</p>
+
+<pre class="sh_perl">  *** can not find package bad1
+  *** check that it is properly installed and available
+  *** in PKG_CONFIG_PATH</pre>
+
+<p>or</p>
+
+<pre class="sh_perl">  *** can&#39;t find cflags for gtk+-2.0
+  *** is it properly installed and available in PKG_CONFIG_PATH?</pre>
+
+<dt><a name="STRING_=_ExtUtils::PkgConfig-&#62;create_version_macros_(PACKAGE,_STEM)"
+>STRING = ExtUtils::PkgConfig-&#62;create_version_macros (PACKAGE, STEM)</a></dt>
+
+<dd>
+<p>Create a set of version macros with the prefix <i>STEM</i> for the library specified by <i>PACKAGE</i>. The result is returned.</p>
+
+<p>Example input would be &#34;gtk+-2.0&#34; for <i>PACKAGE</i> and &#34;GTK&#34; for <i>STEM</i>.</p>
+
+<dt><a name="ExtUtils::PkgConfig-&#62;write_version_macros_(FILE,_PACKAGE,_STEM,_[PACKAGE,_STEM,_...])"
+>ExtUtils::PkgConfig-&#62;write_version_macros (FILE, PACKAGE, STEM, [PACKAGE, STEM, ...])</a></dt>
+
+<dd>
+<p>Create one or more sets of version macros for the libraries and prefixes specified by the <i>PACKAGE</i> and <i>STEM</i> pairs and write them to the file <i>FILE</i>. If it doesn&#39;t exist, <i>FILE</i> will be created. If it does exist, it will be overwritten.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>ExtUtils::PkgConfig was designed to work with ExtUtils::Depends for compiling the various modules of the gtk2-perl project.</p>
+
+<pre class="sh_perl">  L&#60;ExtUtils::Depends&#62;
+
+  L&#60;http://gtk2-perl.sourceforge.net/&#62;</pre>
+
+<p>This module is really just an interface to the pkg-config utility program. http://www.freedesktop.org/Software/pkgconfig</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUNDLED_CODE"
+>BUNDLED CODE</a></h1>
+
+<p>This version of <a href="/pod/ExtUtils/PkgConfig.html" class="podlinkpod"
+>ExtUtils::PkgConfig</a> comes with functions and documentation that were taken from the original, which was distributable under the LGPL. I would prefer to distribute under the same terms as Perl, but I am not a lawyer and to simplify things I am using the same license. The original module included the following notice which must be respected:</p>
+
+<p>AUTHORS:</p>
+
+<p>muppet &#60;scott at asofyet dot org&#62;.</p>
+
+<p>COPYRIGHT AND LICENSE:</p>
+
+<p>Copyright 2003-2004, 2012-2013 by muppet, Ross McFarland, and the gtk2-perl team</p>
+
+<p>This library is free software; you can redistribute it and/or modify it under the terms of the Lesser General Public License (LGPL). For more information, see http://www.fsf.org/licenses/lgpl.txt</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is Copyright (c) 2016 by Graham Ollis.</p>
+
+<p>This is free software, licensed under:</p>
+
+<pre class="sh_perl">  The GNU Lesser General Public License, Version 2.1, February 1999</pre>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

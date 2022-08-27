@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Role::Event</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::Role::Event</div>
+    <!--AnyEvent::FTP::Role::Event--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#define_events'>define_events</a>
+    <li class='indexItem indexItem2'><a href='#emit'>emit</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Role::Event - Event interface for AnyEvent::FTP objects</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> package AnyEvent::FTP::Foo;
+ 
+ use Moo;
+ with &#39;AnyEvent::FTP::Role::Event&#39;;
+ __PACKAGE__-&#62;define_events(qw( error good ));
+ 
+ sub some_method
+ {
+   my($self) = @_;
+ 
+   if($self-&#62;other_method)
+   {
+     $self-&#62;emit(good =&#62; &#39;paylod message&#39;);
+   }
+   else
+   {
+     $self-&#62;emit(error =&#62; &#39;something went wrong!&#39;);
+   }
+ }</pre>
+
+<p>later on somewhere else</p>
+
+<pre class="sh_perl"> use AnyEvent::FTP::Foo;
+ 
+ my $foo = AnyEvent::FTP::Foo-&#62;new;
+ $foo-&#62;on_good(sub {
+   my($message) = @_;
+   print &#34;worked: $message&#34;;
+ });
+ $foo-&#62;on_error(sub {
+   my($message) = @_;
+   print &#34;failed: $message&#34;;
+ });
+ 
+ $foo-&#62;some_method</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This role provides a uniform even callback mechanism for classes in <a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a>. You declare events by using the <code>define_events</code> method. Once declared you can use <code>on_</code><i>event_name</i> to add a callback to a particular event and <code>emit</code> to trigger those callbacks.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="define_events"
+>define_events</a></h2>
+
+<pre class="sh_perl"> __PACKAGE__-&#62;define_events( @list_of_event_names );</pre>
+
+<p>This is called within the class package to declare the event names for all events used by the class. It creates methods of the form <code>on_</code><i>event_name</i> which can be used to add callbacks to events.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="emit"
+>emit</a></h2>
+
+<pre class="sh_perl"> $obj-&#62;emit($event_name, @arguments);</pre>
+
+<p>This calls the callbacks associated with the given <code>$event_name</code>. It will pass to that callback the given <code>@arguments</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<ul>
+<li><a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

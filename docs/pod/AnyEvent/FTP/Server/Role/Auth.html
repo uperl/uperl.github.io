@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Server::Role::Auth</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::<a href="/pod/AnyEvent/FTP/Server.html">Server</a>::Role::Auth</div>
+    <!--AnyEvent::FTP::Server::Role::Auth--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#user'>user</a>
+    <li class='indexItem indexItem2'><a href='#authenticated'>authenticated</a>
+    <li class='indexItem indexItem2'><a href='#authenticator'>authenticator</a>
+    <li class='indexItem indexItem2'><a href='#bad_authentication_delay'>bad_authentication_delay</a>
+    <li class='indexItem indexItem2'><a href='#unauthenticated_safe_commands'>unauthenticated_safe_commands</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#auth_command_check_hook'>auth_command_check_hook</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#COMMANDS'>COMMANDS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Server::Role::Auth - Authentication role for FTP server</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>In your context:</p>
+
+<pre class="sh_perl"> package AnyEvent::FTP::Server::Context::MyContext;
+ 
+ use Moo;
+ extends &#39;AnyEvent::FTP::Server::Context&#39;;
+ with &#39;AnyEvent::FTP::Server::Role::Auth&#39;;
+ 
+ has &#39;+unauthenticated_safe_commands&#39; =&#62; (
+   default =&#62; sub { [ qw( USER PASS HELP QUIT FOO ) ] },
+ );
+ 
+ # this command is deemed safe pre auth by
+ # unauthenticated_safe_commands
+ sub cmd_foo
+ {
+   my($self, $con, $req) = @_;
+   $con-&#62;send_response(211 =&#62; &#39;Here to stay&#39;);
+   $self-&#62;done;
+ }
+ 
+ # this command can pnly be executed after
+ # authentication
+ sub cmd_bar
+ {
+   my($self, $con, $req) = @_;
+   $con-&#62;send_response(211 =&#62; &#39;And another thing&#39;);
+   $self-&#62;done;
+ }</pre>
+
+<p>Then when you create your server object:</p>
+
+<pre class="sh_perl"> use AnyEvent:FTP::Server;
+ 
+ my $server = AnyEvent::FTP::Server-&#62;new;
+ $server-&#62;on_connect(sub {
+   # $con isa AnyEvent::FTP::Server::Connection
+   my $con = shift;
+   # $context isa AnyEvent::FTP::Server::Context::MyContext
+   my $context = $con-&#62;context;
+ 
+   # allow login from user &#39;user&#39; with password &#39;secret&#39;
+   $context-&#62;authenticator(sub {
+     my($user, $pass) = @_;
+     return $user eq &#39;user&#39; &#38;&#38; $pass eq &#39;secret&#39;;
+   });
+ 
+   # make the client wait 5 seconds if they enter a
+   # bad username / password
+   $context-&#62;bad_authentication_delay(5);
+ });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This role provides an authentication interface for your <a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a> context.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="user"
+>user</a></h2>
+
+<p>The user specified by the last FTP <code>USER</code> command.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="authenticated"
+>authenticated</a></h2>
+
+<p>True if the user has successfully logged in.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="authenticator"
+>authenticator</a></h2>
+
+<p>Sub ref used to check username password combinations. By default all authentication requests are refused.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="bad_authentication_delay"
+>bad_authentication_delay</a></h2>
+
+<p>Number of seconds to wait after a bad login attempt.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unauthenticated_safe_commands"
+>unauthenticated_safe_commands</a></h2>
+
+<p>List of the commands that are safe to execute before the user has authenticated. The default is USER, PASS, HELP and QUIT</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auth_command_check_hook"
+>auth_command_check_hook</a></h2>
+
+<pre class="sh_perl"> $context-&#62;auth_command_check_hook($connection, $command);</pre>
+
+<p>This hook checks that any commands executed by the client before authentication are in the <code>authenticated_safe_commands</code> list.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COMMANDS"
+>COMMANDS</a></h1>
+
+<dl>
+<dt><a name="USER"
+>USER</a></dt>
+
+<dd>
+<dt><a name="PASS"
+>PASS</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

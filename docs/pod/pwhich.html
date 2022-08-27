@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>pwhich</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> pwhich</div>
+    <!--pwhich--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Calling_syntax'>Calling syntax</a>
+    <li class='indexItem indexItem2'><a href='#Options'>Options</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SUPPORT'>SUPPORT</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>pwhich - Pure Perl implementation of which</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.17</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> $ pwhich perl
+ $ pwhich -a perl          # print all matches
+ $ pwhich perl perldoc ... # look for multiple programs
+ $ pwhich -a perl perldoc ...
+ $ pwhich -s perl          # silent mode</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><code>pwhich</code> is a command-line utility program for finding paths to other programs based on the user&#39;s <code>PATH</code>. It is similar to the usually Unix tool `which&#39;, and tries to emulate its functionality, but is written purely in Perl (uses the module <code>File::Which</code>), so is portable.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Calling_syntax"
+>Calling syntax</a></h2>
+
+<pre class="sh_perl"> $ pwhich [-a] [-s] [-v] programname [programname ...]</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Options"
+>Options</a></h2>
+
+<dl>
+<dt><a name="-a"
+>-a</a></dt>
+
+<dd>
+<p>The option <i>-a</i> will make <code>pwhich</code> print all matches found in the <code>PATH</code> variable instead of just the first one. Each match is printed on a separate line.</p>
+
+<dt><a name="-s"
+>-s</a></dt>
+
+<dd>
+<p>No output, just return 0 if any of the executables are found, or 1 if none are found.</p>
+
+<dt><a name="-v"
+>-v</a></dt>
+
+<dd>
+<p>Prints version (of <code>File::Which</code>) and copyright notice and exits.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SUPPORT"
+>SUPPORT</a></h1>
+
+<p>Bugs should be reported via the GitHub issue tracker <a href="https://github.com/uperl/App-pwhich/issues" class="podlinkurl"
+>https://github.com/uperl/App-pwhich/issues</a> For other issues, contact the maintainer.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="pwhere"
+><a href="/pod/pwhere.html" class="podlinkpod"
+>pwhere</a></a></dt>
+
+<dd>
+<dt><a name="File::Which"
+><a href="/pod/File/Which.html" class="podlinkpod"
+>File::Which</a></a></dt>
+
+<dd>
+<p>Perl API for <a href="/pod/pwhich.html" class="podlinkpod"
+>pwhich</a></p>
+
+<dt><a name="App::pwhich"
+><a href="/pod/App/pwhich.html" class="podlinkpod"
+>App::pwhich</a></a></dt>
+
+<dd>
+<p>Guts of this script.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>This module does not know about built-in shell commands, as the built-in command <code>which</code> and <code>where</code> usually do.</p>
+
+<p>This module is fully supported back to Perl 5.8.1. It may work on 5.8.0.</p>
+
+<p>If you want these executables installed without the <code>p</code> prefix (useful on platforms like windows that do not have their own native which or where), set <code>PERL_APP_PWHICH_NO_PREFIX</code> to <code>no-prefix</code> during install of this module.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: Per Einar Ellefsen &#60;pereinar@cpan.org&#62;</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Adam Kennedy &#60;adamk@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2002-2022 by Per Einar Ellefsen &#60;pereinar@cpan.org&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

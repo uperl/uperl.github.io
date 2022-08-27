@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Archive::Libarchive::Extract</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Archive::<a href="/pod/Archive/Libarchive.html">Libarchive</a>::Extract</div>
+    <!--Archive::Libarchive::Extract--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PROPERTIES'>PROPERTIES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+    <li class='indexItem indexItem2'><a href='#to'>to</a>
+    <li class='indexItem indexItem2'><a href='#entry_list'>entry_list</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#extract'>extract</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Archive::Libarchive::Extract - An archive extracting mechanism (using libarchive)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.03</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Archive::Libarchive::Extract;
+ 
+ my $extract = Archive::Libarchive::Extract-&#62;new( filename =&#62; &#39;archive.tar&#39; );
+ $extract-&#62;extract;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class provides a simple interface for extracting archives using <code>libarchive</code>. Although it provides similar functionality to <a href="https://metacpan.org/pod/Archive%3A%3AExtract" class="podlinkpod"
+>Archive::Extract</a> and <a href="https://metacpan.org/pod/Archive%3A%3AExtract%3A%3ALibarchive" class="podlinkpod"
+>Archive::Extract::Libarchive</a> it intentionally does not provide a compatible interface. In particular it tends to throw exceptions instead tracking errors as a property. It also supports some unique features of the various classes that use the &#34;Extract&#34; style interface:</p>
+
+<dl>
+<dt><a name="Many_Many_formats"
+>Many Many formats</a></dt>
+
+<dd>
+<p>Tar, Zip, RAR, ISO 9660 images, gzip, bzip2, etc.</p>
+
+<dt><a name="Zips_with_encrypted_entries"
+>Zips with encrypted entries</a></dt>
+
+<dd>
+<p>You can specify the passphrase or a passphrase callback with the constructor</p>
+
+<dt><a name="Multi-file_RAR_archives"
+>Multi-file RAR archives</a></dt>
+
+<dd>
+<p>If filename is an array reference it will be assumed to be a list of filenames representing a single multi-file archive.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $extract = Archive::Libarchive::Extract-&#62;new(%options);</pre>
+
+<p>This creates a new instance of the Extract object. One of the <a href="#filename" class="podlinkpod"
+>&#34;filename&#34;</a> or <a href="#memory" class="podlinkpod"
+>&#34;memory&#34;</a> option</p>
+
+<dl>
+<dt><a name="filename"
+>filename</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $extract = Archive::Libarchive::Extract-&#62;new( filename =&#62; $filename );</pre>
+
+<p>The filename of the archive to read from.</p>
+
+<dt><a name="memory"
+>memory</a></dt>
+
+<dd>
+<p>[version 0.03]</p>
+
+<pre class="sh_perl"> my $peek = Archive::Libarchive::Peek-&#62;new( memory =&#62; \$content );</pre>
+
+<p>A reference to the memory region containing the archive. Passing in a plain scalar will throw an exception.</p>
+
+<dt><a name="passphrase"
+>passphrase</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $extract = Archive::Libarchive::Extract-&#62;new( passphrase =&#62; $passphrase );
+ my $extract = Archive::Libarchive::Extract-&#62;new( passphrase =&#62; sub {
+   ...
+   return $passphrase;
+ });</pre>
+
+<p>This option is the passphrase for encrypted zip entries, or a callback which will return the passphrase.</p>
+
+<dt><a name="entry"
+>entry</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $extract = Archive::Libarchive::Extract-&#62;new( entry =&#62; sub ($e) {
+   ...
+   return $bool;
+ });</pre>
+
+<p>This callback will be called for each entry in the archive, and will pass in the entry metadata via <code>$e</code> which is a <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> instance. If the callback returns a true value, then the entry will be extracted, otherwise it will be skipped.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PROPERTIES"
+>PROPERTIES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<p>This is the archive filename for the Extract object. This will be <code>undef</code> for in-memory archives.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="to"
+>to</a></h2>
+
+<p>The full path location the entries were extracted to. If <a href="#extract" class="podlinkpod"
+>&#34;extract&#34;</a> hasn&#39;t been called yet, then this will be <code>undef</code></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="entry_list"
+>entry_list</a></h2>
+
+<pre class="sh_perl"> my @list = $extract-&#62;entry_list;</pre>
+
+<p>The list of entry pathnames that were extracted.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract"
+>extract</a></h2>
+
+<pre class="sh_perl"> $extract-&#62;extract(%options);</pre>
+
+<p>This method extracts the entries from the archive. By default it places them relative to the current working directory. If you provide the <code>to</code> option it will place them there instead. This method will throw an exception on error.</p>
+
+<dl>
+<dt><a name="to"
+>to</a></dt>
+
+<dd>
+<p>The directory path to place the extracted entries. Will be created if possible/necessary.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Extract"
+><a href="https://metacpan.org/pod/Archive%3A%3AExtract" class="podlinkpod"
+>Archive::Extract</a></a></dt>
+
+<dd>
+<p>The original!</p>
+
+<dt><a name="Archive::Extract::Libarchive"
+><a href="https://metacpan.org/pod/Archive%3A%3AExtract%3A%3ALibarchive" class="podlinkpod"
+>Archive::Extract::Libarchive</a></a></dt>
+
+<dd>
+<p>Another implementation that also relies on <code>libarchive</code>, but doesn&#39;t support the file type in iterate mode, encrypted zip entries, or multi-file RAR archives.</p>
+
+<dt><a name="Archive::Libarchive::Peek"
+><a href="/pod/Archive/Libarchive/Peek.html" class="podlinkpod"
+>Archive::Libarchive::Peek</a></a></dt>
+
+<dd>
+<p>An interface for peeking into archives without extracting them to the local filesystem.</p>
+
+<dt><a name="Archive::Libarchive"
+><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+
+<dd>
+<p>A lower-level interface to <code>libarchive</code> which can be used to read/extract and create archives of various formats.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

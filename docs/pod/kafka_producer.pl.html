@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>kafka_producer.pl</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> kafka_producer.pl</div>
+    <!----><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">     kafka_producer.pl [options] [file...]</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>The script reads messages from the files or stdin and publishes them to Kafka. Each line is considered as a separate message and may contain also a key separated by TAB.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<dl>
+<dt><a name="topic"
+><b>topic</b></a></dt>
+
+<dd>
+<p>topic into which produce messages</p>
+
+<dt><a name="brokers"
+><b>brokers</b></a></dt>
+
+<dd>
+<p>comma separated list of brokers. For example: <code>broker1.mydomain:9092,broker2.mydomain:9092</code>.</p>
+
+<dt><a name="ca-cert"
+><b>ca-cert</b></a></dt>
+
+<dd>
+<p>path to CA certificate. If not specified then plaintext protocol is used to connect to broker.</p>
+
+<dt><a name="username"
+><b>username</b></a></dt>
+
+<dd>
+<dt><a name="password"
+><b>password</b></a></dt>
+
+<dd>
+<p>username and password for authentication if required</p>
+
+<dt><a name="debug"
+><b>debug</b></a></dt>
+
+<dd>
+<p>print additional debugging information</p>
+</dd>
+</dl>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

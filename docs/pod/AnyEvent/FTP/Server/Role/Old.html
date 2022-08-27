@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Server::Role::Old</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::<a href="/pod/AnyEvent/FTP/Server.html">Server</a>::Role::Old</div>
+    <!--AnyEvent::FTP::Server::Role::Old--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#syst'>syst</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#COMMANDS'>COMMANDS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Server::Role::Old - Role for old archaic FTP server commands</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>Create a context:</p>
+
+<pre class="sh_perl"> package AnyEvent::FTP::Server::Context::MyContext;
+ 
+ use Moo;
+ 
+ extends &#39;AnyEvent::FTP::Server::Context&#39;;
+ with &#39;AnyEvent::FTP::Server::Role::Old&#39;;
+ 
+ 1;</pre>
+
+<p>Use archaic FTP commands:</p>
+
+<pre class="sh_perl"> % telnet localhost 39835
+ Trying 127.0.0.1...
+ Connected to localhost.
+ Escape character is &#39;^]&#39;.
+ 220 aeftpd dev
+ user foo
+ 331 Password required for foo
+ pass bar
+ 230 User foo logged in
+ allo
+ 202 No storage allocation necessary
+ noop
+ 200 NOOP command successful
+ syst
+ 215 UNIX Type: L8
+ quit
+ 221 Goodbye
+ Connection closed by foreign host.</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This role provides a bunch of FTP commands that don&#39;t really do anything anymore, but some older clients might try to use anyway. If you are writing a context, it is probably a good idea to consume this role rather than implementing these useless commands yourself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="syst"
+>syst</a></h2>
+
+<p>The string returned by the SYST command. This is often &#34;UNIX Type: L8&#34; even if the server isn&#39;t actually running on UNIX. That is also the default.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COMMANDS"
+>COMMANDS</a></h1>
+
+<dl>
+<dt><a name="ALLO"
+>ALLO</a></dt>
+
+<dd>
+<dt><a name="NOOP"
+>NOOP</a></dt>
+
+<dd>
+<dt><a name="SYST"
+>SYST</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

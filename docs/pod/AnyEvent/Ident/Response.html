@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Ident::Response</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/Ident.html">Ident</a>::Response</div>
+    <!--AnyEvent::Ident::Response--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#as_string'>as_string</a>
+    <li class='indexItem indexItem2'><a href='#is_success'>is_success</a>
+    <li class='indexItem indexItem2'><a href='#server_port'>server_port</a>
+    <li class='indexItem indexItem2'><a href='#client_port'>client_port</a>
+    <li class='indexItem indexItem2'><a href='#username'>username</a>
+    <li class='indexItem indexItem2'><a href='#os'>os</a>
+    <li class='indexItem indexItem2'><a href='#charset'>charset</a>
+    <li class='indexItem indexItem2'><a href='#error_type'>error_type</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Ident::Response - Simple asynchronous ident response</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="as_string"
+>as_string</a></h2>
+
+<pre class="sh_perl"> my $str = $res-&#62;as_string</pre>
+
+<p>The raw request as it was returned from the server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_success"
+>is_success</a></h2>
+
+<pre class="sh_perl"> my $bool = $res-&#62;is_success</pre>
+
+<p>True if the server returned a user and operating system, false otherwise.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="server_port"
+>server_port</a></h2>
+
+<pre class="sh_perl"> my $port = $res-&#62;server_port</pre>
+
+<p>The server port in the original request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="client_port"
+>client_port</a></h2>
+
+<pre class="sh_perl"> my $port = $res-&#62;client_port</pre>
+
+<p>The client port in the original request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="username"
+>username</a></h2>
+
+<pre class="sh_perl"> my $username = $res-&#62;username</pre>
+
+<p>The username in the response.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="os"
+>os</a></h2>
+
+<pre class="sh_perl"> my $os = $res-&#62;os</pre>
+
+<p>The operating system in the response.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="charset"
+>charset</a></h2>
+
+<pre class="sh_perl"> my $charset = $res-&#62;charset</pre>
+
+<p>The encoding for the username. This will be <code>US-ASCII</code> if it was not provided by the server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="error_type"
+>error_type</a></h2>
+
+<pre class="sh_perl"> my $type = $res-&#62;error_type</pre>
+
+<p>The error type returned from the server. Normally, this is one of</p>
+
+<ul>
+<li>INVALID-PORT</li>
+
+<li>NO-USER</li>
+
+<li>HIDDEN-USER</li>
+
+<li>UNKNOWN-ERROR</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

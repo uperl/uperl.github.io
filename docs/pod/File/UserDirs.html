@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>File::UserDirs</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> File::UserDirs</div>
+    <!--File::UserDirs--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#xdg_desktop_dir'>xdg_desktop_dir</a>
+    <li class='indexItem indexItem2'><a href='#xdg_documents_dir'>xdg_documents_dir</a>
+    <li class='indexItem indexItem2'><a href='#xdg_download_dir'>xdg_download_dir</a>
+    <li class='indexItem indexItem2'><a href='#xdg_music_dir'>xdg_music_dir</a>
+    <li class='indexItem indexItem2'><a href='#xdg_pictures_dir'>xdg_pictures_dir</a>
+    <li class='indexItem indexItem2'><a href='#xdg_publicshare_dir'>xdg_publicshare_dir</a>
+    <li class='indexItem indexItem2'><a href='#xdg_templates_dir'>xdg_templates_dir</a>
+    <li class='indexItem indexItem2'><a href='#xdg_videos_dir'>xdg_videos_dir</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#DIAGNOSTICS'>DIAGNOSTICS</a>
+  <li class='indexItem indexItem1'><a href='#CONFIGURATION_AND_ENVIRONMENT'>CONFIGURATION AND ENVIRONMENT</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Example_customised_user-dirs.dirs'>Example customised user-dirs.dirs</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#DEPENDENCIES'>DEPENDENCIES</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>File::UserDirs - Find extra media and documents directories</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use File::UserDirs qw(:all);
+ print xdg_desktop_dir; # e.g. /home/user/Desktop</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module can be used to find directories as informally specified by the Freedesktop.org xdg-user-dirs software. This gives a mechanism to locate extra directories for media and documents files.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<p>May be exported on request. Also the group <code>:all</code> is defined which exports all methods.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_desktop_dir"
+>xdg_desktop_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_desktop_dir;</pre>
+
+<p>Returns the desktop directory. Unless changed by the user, this is the directory <em>Desktop</em> in the home directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_documents_dir"
+>xdg_documents_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_documents_dir;</pre>
+
+<p>Returns the documents directory. Unless changed by the user, this is the home directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_download_dir"
+>xdg_download_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_download_dir;</pre>
+
+<p>Returns the download directory. Unless changed by the user, this is the home directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_music_dir"
+>xdg_music_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_music_dir;</pre>
+
+<p>Returns the music directory. Unless changed by the user, this is the home directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_pictures_dir"
+>xdg_pictures_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_pictures_dir;</pre>
+
+<p>Returns the pictures directory. Unless changed by the user, this is the home directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_publicshare_dir"
+>xdg_publicshare_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_publicshare_dir;</pre>
+
+<p>Returns the public share directory. Unless changed by the user, this is the home directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_templates_dir"
+>xdg_templates_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_templates_dir;</pre>
+
+<p>Returns the templates directory. Unless changed by the user, this is the home directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_videos_dir"
+>xdg_videos_dir</a></h2>
+
+<pre class="sh_perl"> my $dir = xdg_videos_dir;</pre>
+
+<p>Returns the videos directory. Unless changed by the user, this is the home directory.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DIAGNOSTICS"
+>DIAGNOSTICS</a></h1>
+
+<dl>
+<dt><a name="&#34;xdg-user-dir&#34;_failed_to_start:_%s"
+><code>&#34;xdg-user-dir&#34; failed to start: %s</code></a></dt>
+
+<dd>
+<p>The executable <code>xdg-user-dir</code> could not be run, most likely because it was not installed. See <a href="#DEPENDENCIES" class="podlinkpod"
+>&#34;DEPENDENCIES&#34;</a>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONFIGURATION_AND_ENVIRONMENT"
+>CONFIGURATION AND ENVIRONMENT</a></h1>
+
+<p>The location of the directories can be specified by the user in the file <em>$XDG_CONFIG_HOME/user-dirs.dirs</em>. It is a shell file setting a number of environment variables. To find the exact pathname from Perl, run:</p>
+
+<pre class="sh_perl"> use File::BaseDir qw(config_home);
+ print config_home(&#39;user-dirs.dirs&#39;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Example_customised_user-dirs.dirs"
+>Example customised <em>user-dirs.dirs</em></a></h2>
+
+<pre class="sh_perl"> XDG_DESKTOP_DIR=&#34;$HOME/Workspace&#34;
+ XDG_DOCUMENTS_DIR=&#34;$HOME/Files&#34;
+ XDG_DOWNLOAD_DIR=&#34;$HOME/Files/Downloads&#34;
+ XDG_MUSIC_DIR=&#34;$HOME/Files/Audio&#34;
+ XDG_PICTURES_DIR=&#34;$HOME/Files/Images&#34;
+ XDG_PUBLICSHARE_DIR=&#34;$HOME/public_html&#34;
+ XDG_TEMPLATES_DIR=&#34;$HOME/Files/Document templates&#34;
+ XDG_VIDEOS_DIR=&#34;$HOME/Files/Video&#34;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DEPENDENCIES"
+>DEPENDENCIES</a></h1>
+
+<p>This module requires the executable <em>xdg-user-dir</em> from the package <code>xdg-user-dirs</code>. Source code is available from <a href="http://cgit.freedesktop.org/xdg/xdg-user-dirs/" class="podlinkurl"
+>http://cgit.freedesktop.org/xdg/xdg-user-dirs/</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Jaap Karssenberg || Pardus [Larus] &#60;pardus@cpan.org&#62;</li>
+
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2003-2021 by Jaap Karssenberg || Pardus [Larus] &#60;pardus@cpan.org&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

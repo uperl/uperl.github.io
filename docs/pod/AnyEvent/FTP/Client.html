@@ -1,0 +1,1162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Client</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::Client</div>
+    <!--AnyEvent::FTP::Client--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ROLES'>ROLES</a>
+  <li class='indexItem indexItem1'><a href='#EVENTS'>EVENTS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#send'>send</a>
+    <li class='indexItem indexItem2'><a href='#error'>error</a>
+    <li class='indexItem indexItem2'><a href='#close'>close</a>
+    <li class='indexItem indexItem2'><a href='#greeting'>greeting</a>
+    <li class='indexItem indexItem2'><a href='#each_response'>each_response</a>
+    <li class='indexItem indexItem2'><a href='#next_response'>next_response</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#timeout'>timeout</a>
+    <li class='indexItem indexItem2'><a href='#passive'>passive</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#connect'>connect</a>
+    <li class='indexItem indexItem2'><a href='#login'>login</a>
+    <li class='indexItem indexItem2'><a href='#retr'>retr</a>
+    <li class='indexItem indexItem2'><a href='#stor'>stor</a>
+    <li class='indexItem indexItem2'><a href='#stou'>stou</a>
+    <li class='indexItem indexItem2'><a href='#appe'>appe</a>
+    <li class='indexItem indexItem2'><a href='#list'>list</a>
+    <li class='indexItem indexItem2'><a href='#nlst'>nlst</a>
+    <li class='indexItem indexItem2'><a href='#rename'>rename</a>
+    <li class='indexItem indexItem2'><a href='#cwd'>cwd</a>
+    <li class='indexItem indexItem2'><a href='#pwd'>pwd</a>
+    <li class='indexItem indexItem2'><a href='#cdup'>cdup</a>
+    <li class='indexItem indexItem2'><a href='#type'>type</a>
+    <li class='indexItem indexItem2'><a href='#rest'>rest</a>
+    <li class='indexItem indexItem2'><a href='#mkd'>mkd</a>
+    <li class='indexItem indexItem2'><a href='#rmd'>rmd</a>
+    <li class='indexItem indexItem2'><a href='#help'>help</a>
+    <li class='indexItem indexItem2'><a href='#dele'>dele</a>
+    <li class='indexItem indexItem2'><a href='#rnfr'>rnfr</a>
+    <li class='indexItem indexItem2'><a href='#rnto'>rnto</a>
+    <li class='indexItem indexItem2'><a href='#noop'>noop</a>
+    <li class='indexItem indexItem2'><a href='#allo'>allo</a>
+    <li class='indexItem indexItem2'><a href='#syst'>syst</a>
+    <li class='indexItem indexItem2'><a href='#stru'>stru</a>
+    <li class='indexItem indexItem2'><a href='#mode'>mode</a>
+    <li class='indexItem indexItem2'><a href='#stat'>stat</a>
+    <li class='indexItem indexItem2'><a href='#user'>user</a>
+    <li class='indexItem indexItem2'><a href='#pass'>pass</a>
+    <li class='indexItem indexItem2'><a href='#acct'>acct</a>
+    <li class='indexItem indexItem2'><a href='#size'>size</a>
+    <li class='indexItem indexItem2'><a href='#mdtm'>mdtm</a>
+    <li class='indexItem indexItem2'><a href='#quit'>quit</a>
+    <li class='indexItem indexItem2'><a href='#site'>site</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#EXAMPLES'>EXAMPLES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#fget.pl'>fget.pl</a>
+    <li class='indexItem indexItem2'><a href='#fls.pl'>fls.pl</a>
+    <li class='indexItem indexItem2'><a href='#fput.pl'>fput.pl</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Client - Simple asynchronous ftp client</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>Non blocking example:</p>
+
+<pre class="sh_perl"> use strict;
+ use warnings;
+ use AnyEvent;
+ use AnyEvent::FTP::Client;
+ 
+ my $client = AnyEvent::FTP::Client-&#62;new( passive =&#62; 1);
+ 
+ my $done = AnyEvent-&#62;condvar;
+ 
+ # connect to CPAN ftp server
+ $client-&#62;connect(&#39;ftp://ftp.cpan.org/pub/CPAN/src&#39;)-&#62;cb(sub {
+ 
+   # use binary mode
+   $client-&#62;type(&#39;I&#39;)-&#62;cb(sub {
+ 
+     # download the file directly into a filehandle
+     open my $fh, &#39;&#62;&#39;, &#39;perl-5.16.3.tar.gz&#39;;
+     $client-&#62;retr(&#39;perl-5.16.3.tar.gz&#39;, $fh)-&#62;cb(sub {
+       # notify anyone listening to $done that
+       # the transfer is complete
+       $done-&#62;send;
+     });
+   });
+ 
+ });
+ 
+ # receive the done message once the transfer is
+ # complete.  In real code you&#39;d probably not
+ # want to do this because your event loop may
+ # not support blocking.
+ $done-&#62;recv;</pre>
+
+<p>Same, but using recv to wait for each command to complete (not supported in all event loops):</p>
+
+<pre class="sh_perl"> use strict;
+ use warnings;
+ use AnyEvent;
+ use AnyEvent::FTP::Client;
+ 
+ my $client = AnyEvent::FTP::Client-&#62;new( passive =&#62; 1);
+ 
+ my $done = AnyEvent-&#62;condvar;
+ 
+ # connect to CPAN ftp server
+ $client-&#62;connect(&#39;ftp://ftp.cpan.org/pub/CPAN/src&#39;)-&#62;recv;
+ 
+ # use binary mode
+ $client-&#62;type(&#39;I&#39;)-&#62;recv;
+ 
+ # download the file directly into a filehandle
+ open my $fh, &#39;&#62;&#39;, &#39;perl-5.16.3.tar.gz&#39;;
+ $client-&#62;retr(&#39;perl-5.16.3.tar.gz&#39;, $fh)-&#62;recv;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class provides an AnyEvent client interface to the File Transfer Protocol (FTP).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ROLES"
+>ROLES</a></h1>
+
+<p>This class consumes these roles:</p>
+
+<ul>
+<li><a href="/pod/AnyEvent/FTP/Role/Event.html" class="podlinkpod"
+>AnyEvent::FTP::Role::Event</a></li>
+
+<li><a href="/pod/AnyEvent/FTP/Client/Role/ResponseBuffer.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Role::ResponseBuffer</a></li>
+
+<li><a href="/pod/AnyEvent/FTP/Client/Role/RequestBuffer.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Role::RequestBuffer</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EVENTS"
+>EVENTS</a></h1>
+
+<p>For details on the event interface see <a href="/pod/AnyEvent/FTP/Role/Event.html" class="podlinkpod"
+>AnyEvent::FTP::Role::Event</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="send"
+>send</a></h2>
+
+<p>This event gets fired on every command sent to the remote server. Keep in mind that some methods of <a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a> may make multiple FTP commands in order to implement their functionality (for example, <code>recv</code>, <code>stor</code>, etc). One use of this event is to print out commands as they are sent for debugging:</p>
+
+<pre class="sh_perl"> $client-&#62;on_send(sub {
+   my($cmd, $arguments) = @_;
+   $arguments //= &#39;&#39;;
+   # hide passwords
+   $arguments = &#39;XXXX&#39; if $cmd =~ /^pass$/i;
+   say &#34;CLIENT: $cmd $arguments&#34;;
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="error"
+>error</a></h2>
+
+<p>This event is emitted when there is a network error with the remote server. It passes in a string which describes in human readable description of what went wrong.</p>
+
+<pre class="sh_perl"> $client-&#62;on_error(sub {
+   my($message) = @_;
+   warn &#34;network error: $message&#34;;
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="close"
+>close</a></h2>
+
+<p>This event is emitted when the connection with the remote server is closed, either due to an error, or when you send the FTP <code>QUIT</code> command using the <code>quid</code> method.</p>
+
+<pre class="sh_perl"> $client-&#62;on_close(sub {
+   # called when connection closed
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="greeting"
+>greeting</a></h2>
+
+<p>This event gets fired on the first response returned from the server. This is usually a <code>220</code> message which may or may not reveal the server software.</p>
+
+<pre class="sh_perl"> $client-&#62;on_greeting(sub {
+   # $res is a AnyEvent::FTP::Client::Response
+   my($res) = @_;
+   if($res-&#62;message-&#62;[0] =~ /ProFTPD/)
+   {
+     # detected a ProFTPD server
+   }
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="each_response"
+>each_response</a></h2>
+
+<p>This event gets fired for each response returned from the server. This can be useful for printing the responses for debugging.</p>
+
+<pre class="sh_perl"> $client-&#62;on_each_response(sub {
+   # $res isa AnyEvent::FTP::Client::Response
+   my($res) = @_;
+   print &#34;SERVER: $res\n&#34;;
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="next_response"
+>next_response</a></h2>
+
+<p>Works just like <code>each_response</code> event, but only gets fired for the next response received.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="timeout"
+>timeout</a></h2>
+
+<p>Timeout for the initial connection to the FTP server. The default is 30.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="passive"
+>passive</a></h2>
+
+<p>If set to true (the default) then data will be transferred using the passive (PASV) command, meaning the server will open a port for the client to connect to. If set to false then data will be transferred using data port (PORT) command, meaning the client will open a port for the server to send to.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<p>Unless otherwise specified, these methods will return an AnyEvent condition variable (AnyEvent-&#62;condvar) or an object that implements its interface (methods <code>recv</code>, <code>cb</code>). On success the <code>send</code> will be used on the condition variable, on failure <code>croak</code> will be used instead. Unless otherwise specified the object sent (for both success and failure) will be an instance of <a href="/pod/AnyEvent/FTP/Client/Response.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Response</a>.</p>
+
+<p>As an example, here is a fairly thorough handling of a response to the standard FTP <code>HELP</code> command:</p>
+
+<pre class="sh_perl"> $client-&#62;help-&#62;cb(sub {
+   my $res = eval { shift-&#62;recv };
+   if(my $error = $@)
+   {
+     # $error isa AnyEvent::FTP::Client::Response with a 4xx or 5xx
+     # code
+     my $code = $error-&#62;code;
+     # the message component is always a list ref, even if
+     # the response had just one message line
+     my @msg  = @{ $error-&#62;message };
+     # $error is stringified into something human readable when
+     # it is streated as a string
+     warn &#34;error trying FTP HELP command: $error&#34;;
+   }
+   else
+   {
+     # $res isa AnyEvent::FTP::Client::Response with a 2xx or 3xx
+     # code
+     my $code = $res-&#62;code;
+     # the message component is always a list ref, even if
+     # the response had just one message line
+     my @msg = @{ $res-&#62;message };
+     # $res is stringified into something human readable when
+     # it is streated as a string
+     print &#34;help message: $res&#34;;
+   }
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="connect"
+>connect</a></h2>
+
+<pre class="sh_perl"> $client-&#62;connect(@remote_host);</pre>
+
+<p>Connect to the FTP server. The remote host may be specified in one of these ways:</p>
+
+<dl>
+<dt><a name="$client-&#62;connect($host,_[_$port_])"
+>$client-&#62;connect($host, [ $port ])</a></dt>
+
+<dd>
+<p>The host and port of the remote server. If not specified, the default FTP port will be used (21).</p>
+
+<dt><a name="$client-&#62;connect($uri)"
+>$client-&#62;connect($uri)</a></dt>
+
+<dd>
+<p>The URI of the remote FTP server. <code>$uri</code> must be either an instance of <a href="https://metacpan.org/pod/URI" class="podlinkpod"
+>URI</a> with the <code>ftp</code> scheme, or a string with an FTP URL.</p>
+
+<p>If you use this method to connect to the FTP server, connect will also attempt to login with the username and password specified in the URL (or anonymous FTP if no credentials are specified).</p>
+
+<p>If there is a path included in the URL, then connect will also do a <code>CWD</code> so that you start in that directory.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="login"
+>login</a></h2>
+
+<pre class="sh_perl"> $client-&#62;login($user, $pass);</pre>
+
+<p>Attempt to login to the FTP server which has already been connected to using the <code>connect</code> method. This is not necessary if you used <code>connect</code> with a URI.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="retr"
+>retr</a></h2>
+
+<pre class="sh_perl"> $client-&#62;retr($filename, $local, %options)</pre>
+
+<p>Retrieve the given file from the server and use <code>$local</code> to store the results.</p>
+
+<p>Returns an instance of <a href="/pod/AnyEvent/FTP/Client/Transfer.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Transfer</a>, which supports the AnyEvent condition variable interface (that is it has <code>cb</code> and <code>recv</code> methods). Its callback will be called when the transfer is complete.</p>
+
+<p><code>$local</code> may be one of</p>
+
+<dl>
+<dt><a name="scalar_reference"
+>scalar reference</a></dt>
+
+<dd>
+<p>The contents of the file will be stored in the scalar referred to by the reference.</p>
+
+<pre class="sh_perl"> my $local;
+ $client-&#62;retr(&#39;foo.txt&#39;, \$local);</pre>
+
+<dt><a name="file_handle"
+>file handle</a></dt>
+
+<dd>
+<p>The content of the remote file will be written into the local file handle as it is received</p>
+
+<pre class="sh_perl"> open my $fh, &#39;&#62;&#39;, &#39;foo.txt&#39;;
+ binmode $fh;
+ $client-&#62;retr(&#39;foo.txt&#39;, $fh);</pre>
+
+<dt><a name="the_name_of_the_local_file"
+>the name of the local file</a></dt>
+
+<dd>
+<p>If <code>$local</code> is just a regular non reference scalar, then it will be treated as the local filename, which will be created and written to as data is received from the server.</p>
+
+<pre class="sh_perl"> $client-&#62;retr(&#39;foo.txt&#39;, &#39;foo.txt&#39;);</pre>
+
+<dt><a name="subroutine_reference_/_callback_reference"
+>subroutine reference / callback reference</a></dt>
+
+<dd>
+<p>The contents of the file will be passed to the callback as they are received.</p>
+
+<pre class="sh_perl"> $client-&#62;retr(&#39;foo.txt&#39;, sub {
+     my ($data) = @_;
+     # Do something with $data
+   },
+ );</pre>
+</dd>
+</dl>
+
+<p>In order to resume a transfer, you need to include the <code>restart</code> option after the <code>$local</code> argument. Here is an example:</p>
+
+<pre class="sh_perl"> # assumes foo.txt (partial download) exists in the current
+ # loacal directory and foo.txt (full file) exists in the
+ # current remote directory.
+ my $filename = &#39;foo.txt&#39;;
+ open my $fh, &#39;&#62;&#62;&#39;, $filename;
+ binmode $fh;
+ $client-&#62;retr($filename, $fh, restart =&#62; tell $fh);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stor"
+>stor</a></h2>
+
+<pre class="sh_perl"> $client-&#62;stor($filename, $local);</pre>
+
+<p>Send a file to the server with the given remote filename (<code>$filename</code>) and using <code>$local</code> as a source.</p>
+
+<p>Returns an instance of <a href="/pod/AnyEvent/FTP/Client/Transfer.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Transfer</a>, which supports the AnyEvent condition variable interface (that is it has <code>cb</code> and <code>recv</code> methods). Its callback will be called when the transfer is complete.</p>
+
+<p><code>$local</code> may be one of</p>
+
+<dl>
+<dt><a name="scalar_reference"
+>scalar reference</a></dt>
+
+<dd>
+<p>The contents of the file will be retrieved from the scalar referred to by the reference.</p>
+
+<pre class="sh_perl"> my $local = &#39;some data for foo.txt&#39;;
+ $client-&#62;stor(&#39;foo.txt&#39;, \$local);</pre>
+
+<dt><a name="file_handle"
+>file handle</a></dt>
+
+<dd>
+<p>The contents of the file will be read from the file handle.</p>
+
+<pre class="sh_perl"> open my $fh, &#39;&#60;&#39;, &#39;foo.txt&#39;;
+ binmode $fh;
+ $client-&#62;stor(&#39;foo.txt&#39;, $fh);</pre>
+
+<dt><a name="the_name_of_the_local_file"
+>the name of the local file</a></dt>
+
+<dd>
+<p>If <code>$local</code> is just a regular non reference scalar, then it will be treated as the local filename, which will be opened and read from in order to create the file on the server.</p>
+
+<pre class="sh_perl"> $client-&#62;stor(&#39;foo.txt&#39;, &#39;foo.txt&#39;);</pre>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stou"
+>stou</a></h2>
+
+<pre class="sh_perl"> $client-&#62;stou($filename, $local)</pre>
+
+<p>Works exactly like the <code>stor</code> method, except use the FTP <code>STOU</code> command instead of <code>STOR</code>. Since the remote filename is optional for <code>STOU</code> you may pass in <code>undef</code> as the remote filename. You can get the remote filename after the fact using the <code>remote_name</code> method.</p>
+
+<pre class="sh_perl"> my $xfer;
+ $xfer = $client-&#62;stou(undef, $local)-&#62;cb(sub {
+   my $remote_filename = $xfer-&#62;remote_name;
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="appe"
+>appe</a></h2>
+
+<pre class="sh_perl"> $client-&#62;appe($filename, $local);</pre>
+
+<p>Works exactly like the <code>stor</code> method, except use the FTP <code>APPE</code> command instead of <code>STOR</code>. This method will append <code>$local</code> to the remote file. One way to resume an upload to the remote FTP server would be to open the local file, determine the remote file&#39;s size and seek to that position in the local file and use the <code>appe</code> method with <code>$local</code> as that file handle, as in this example:</p>
+
+<pre class="sh_perl"> # assume that foo.txt is in the current local dir
+ # and the remote local dir
+ my $filename = &#34;foo.txt&#34;;
+ $client-&#62;size($filename)-&#62;cb(sub {
+   my $size = shift-&#62;recv;
+   open my $fh, &#39;&#60;&#39;, $filename;
+   binmode $fh;
+   seek $fh, $size, 0;
+   $client-&#62;appe($filename, $fh);
+ });</pre>
+
+<p>Note that the <code>SIZE</code> command is an extension to FTP, and may not be available on all servers.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="list"
+>list</a></h2>
+
+<pre class="sh_perl"> $client-&#62;list($location)</pre>
+
+<p>Execute the FTP <code>LIST</code> command. The results will be sent as a list reference (instead of a <a href="/pod/AnyEvent/FTP/Client/Response.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Response</a> object) to the returned condition variable.</p>
+
+<pre class="sh_perl"> use strict;
+ use warnings;
+ use AnyEvent;
+ use AnyEvent::FTP::Client;
+ 
+ my $client = AnyEvent::FTP::Client-&#62;new;
+ 
+ my $cv = AnyEvent-&#62;condvar;
+ 
+ # connect to CPAN ftp server
+ $client-&#62;connect(&#39;ftp://ftp.cpan.org/pub/CPAN/src&#39;)-&#62;cb(sub {
+ 
+   # execute LIST command and print results to stdout
+   $client-&#62;list-&#62;cb(sub {
+     my $list = shift-&#62;recv;
+     print &#34;$_\n&#34; for @$list;
+     $cv-&#62;send;
+   });
+ 
+ });
+ 
+ $cv-&#62;recv;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="nlst"
+>nlst</a></h2>
+
+<pre class="sh_perl"> $client-&#62;nlst($location);</pre>
+
+<p>Works exactly like the <code>list</code> method, except the FTP <code>NLST</code> command is used. The main difference is that this method returns filenames only.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rename"
+>rename</a></h2>
+
+<pre class="sh_perl"> $client-&#62;rename($from, $to);</pre>
+
+<p>This method renames the remote file from <code>$from</code> to <code>$to</code>. It uses the FTP <code>RNFR</code> and <code>RNTO</code> commands and thus this:</p>
+
+<pre class="sh_perl"> my $cv = $client-&#62;rename($from, $to);</pre>
+
+<p>is a short cut for:</p>
+
+<pre class="sh_perl"> my $cv;
+ $client-&#62;rnfr($from)-&#62;cb(sub {
+   $cv = $client-&#62;rnto($to);
+ });</pre>
+
+<p>Although <code>$cv</code> may not be defined right away, so use the second with care.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cwd"
+>cwd</a></h2>
+
+<pre class="sh_perl"> $client-&#62;cwd( $dir );</pre>
+
+<p>Change to the given directory on the remote server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pwd"
+>pwd</a></h2>
+
+<pre class="sh_perl"> $client-&#62;pwd;</pre>
+
+<p>Gets the current working directory on the remote server. This gets just the string representing the directory path instead of a <a href="/pod/AnyEvent/FTP/Client/Response.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Response</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cdup"
+>cdup</a></h2>
+
+<pre class="sh_perl"> $client-&#62;cdup</pre>
+
+<p>Change to the parent directory on the remote server. This is usually the same as</p>
+
+<pre class="sh_perl"> $client-&#62;cwd(&#39;..&#39;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="type"
+>type</a></h2>
+
+<pre class="sh_perl"> $client-&#62;type</pre>
+
+<p>Set the transfer type. You almost always want to set to binary mode immediately after logging on:</p>
+
+<pre class="sh_perl"> $client-&#62;type(&#39;I&#39;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rest"
+>rest</a></h2>
+
+<pre class="sh_perl"> $client-&#62;rest</pre>
+
+<p>This command is used to resume a download transfer. Typically you would not use this method directly, but instead add a <code>restart</code> option on the <code>retr</code> method instead.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mkd"
+>mkd</a></h2>
+
+<pre class="sh_perl"> $client-&#62;mkd( $path );</pre>
+
+<p>Create a directory on the remote server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rmd"
+>rmd</a></h2>
+
+<pre class="sh_perl"> $client-&#62;rmd( $path );</pre>
+
+<p>Remove a directory on the remote server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="help"
+>help</a></h2>
+
+<pre class="sh_perl"> $client-&#62;help;</pre>
+
+<p>Gets a list of commands understood by the server. The actual format depends on the server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="dele"
+>dele</a></h2>
+
+<pre class="sh_perl"> $client-&#62;dele( $path );</pre>
+
+<p>Delete the file on the remote server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rnfr"
+>rnfr</a></h2>
+
+<pre class="sh_perl"> $client-&#62;rnfr;</pre>
+
+<p>Specify the old name for renaming a file. See <code>rename</code> method for a shortcut.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rnto"
+>rnto</a></h2>
+
+<pre class="sh_perl"> $client-&#62;rnto;</pre>
+
+<p>Specify the new name for renaming a file. See <code>rename</code> method for a shortcut.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="noop"
+>noop</a></h2>
+
+<pre class="sh_perl"> $client-&#62;noop;</pre>
+
+<p>Don&#39;t do anything. The server will send an OK reply.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="allo"
+>allo</a></h2>
+
+<pre class="sh_perl"> $client-&#62;allo( $size );</pre>
+
+<p>Send the FTP <code>ALLO</code> command. Is not used by modern FTP servers. See RFC959 for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="syst"
+>syst</a></h2>
+
+<pre class="sh_perl"> $client-&#62;syst;</pre>
+
+<p>Returns the type of operating system used by the server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stru"
+>stru</a></h2>
+
+<pre class="sh_perl"> $client-&#62;stru;</pre>
+
+<p>Specify the file structure mode. This is not used by modern FTP servers. See RFC959 for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mode"
+>mode</a></h2>
+
+<pre class="sh_perl"> $client-&#62;mode</pre>
+
+<p>Specify the transfer mode. This is not used by modern FTP servers. See RFC959 for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stat"
+>stat</a></h2>
+
+<pre class="sh_perl"> $client-&#62;stat;
+ $client-&#62;stat($path);</pre>
+
+<p>Get information about a file or directory on the remote server. The actual format is totally server dependent.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="user"
+>user</a></h2>
+
+<pre class="sh_perl"> $client-&#62;user( $username );</pre>
+
+<p>Specify the user to login as. See <code>connect</code> or <code>login</code> methods for a shortcut.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pass"
+>pass</a></h2>
+
+<pre class="sh_perl"> $client-&#62;pass( $pass );</pre>
+
+<p>Specify the password to use for login. See <code>connect</code> or <code>login</code> methods for a shortcut.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acct"
+>acct</a></h2>
+
+<pre class="sh_perl"> $client-&#62;acct( $acct );</pre>
+
+<p>Specify user&#39;s account. This is sometimes used for authentication and authorization when you login to some servers, but is seldom used today in practice. See RFC959 for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="size"
+>size</a></h2>
+
+<pre class="sh_perl"> $client-&#62;size( $path );</pre>
+
+<p>Get the size of the remote file specified by <code>$path</code>. This is an extension to the FTP standard specified in RFC3659, and may not be implemented by older (or even newer) servers.</p>
+
+<p>Send the size of the file on success, instead of the response object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mdtm"
+>mdtm</a></h2>
+
+<pre class="sh_perl"> $client-&#62;mdtm( $path );</pre>
+
+<p>Get the modification time of the remote file specified by <code>$path</code>. This is an extension to the FTP standard specified in RFC3659, and may not be implemented by older (or even newer) servers.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="quit"
+>quit</a></h2>
+
+<pre class="sh_perl"> $client-&#62;quit;</pre>
+
+<p>Send the FTP <code>QUIT</code> command and close the connection to the remote server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="site"
+>site</a></h2>
+
+<pre class="sh_perl"> $client-&#62;site;</pre>
+
+<p>The <code>site</code> method provides an interface to site specific FTP commands. Many FTP servers will support an extended set of commands using the standard FTP <code>SITE</code> command. This command will not check to see if the site commands are supported by the remote server, so it is up to you to determine if you can really use these interfaces yourself.</p>
+
+<dl>
+<dt><a name="$client-&#62;site-&#62;microsoft"
+>$client-&#62;site-&#62;microsoft</a></dt>
+
+<dd>
+<p>For commands specific to Microsoft&#39;s IIS FTP server. See <a href="/pod/AnyEvent/FTP/Client/Site/Microsoft.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Site::Microsoft</a>.</p>
+
+<dt><a name="$client-&#62;site-&#62;net_ftp_server"
+>$client-&#62;site-&#62;net_ftp_server</a></dt>
+
+<dd>
+<p>For commands specific to <a href="https://metacpan.org/pod/Net%3A%3AFTPServer" class="podlinkpod"
+>Net::FTPServer</a>. See <a href="/pod/AnyEvent/FTP/Client/Site/NetFtpServer.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Site::NetFtpServer</a>.</p>
+
+<dt><a name="$client-&#62;site-&#62;proftpd"
+>$client-&#62;site-&#62;proftpd</a></dt>
+
+<dd>
+<p>For commands specific to proftpd. See <a href="/pod/AnyEvent/FTP/Client/Site/Proftpd.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Site::Proftpd</a>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLES"
+>EXAMPLES</a></h1>
+
+<p>Here are some longer examples. They are also included with the <a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a> distribution in its <code>example</code> directory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fget.pl"
+>fget.pl</a></h2>
+
+<p>Given a URL to a file, this script will fetch the file and store it on your local machine. If you use the <code>-d</code> option you can see the FTP commands and their responses as they happen.</p>
+
+<pre class="sh_perl"> #!/usr/bin/perl
+ 
+ use strict;
+ use warnings;
+ use autodie;
+ use 5.010;
+ use AnyEvent::FTP::Client;
+ use URI;
+ use URI::file;
+ use Term::ProgressBar;
+ use Term::Prompt qw( prompt );
+ use Getopt::Long qw( GetOptions );
+ use Path::Class qw( file );
+ 
+ my $debug = 0;
+ my $progress = 0;
+ my $active = 0;
+ 
+ GetOptions(
+   &#39;d&#39; =&#62; \$debug,
+   &#39;p&#39; =&#62; \$progress,
+   &#39;a&#39; =&#62; \$active,
+ );
+ 
+ my $remote = shift;
+ 
+ unless(defined $remote)
+ {
+   say STDERR &#34;usage: perl fget.pl [ -d | -p ] [ -a ] remote&#34;;
+   say STDERR &#34;  where remote is a URL for a file on an FTP server&#34;;
+   say STDERR &#34;  and local is a local filename (optional) where to transfer it to&#34;;
+   say STDERR &#34;  -d (optional) prints FTP commands and responses&#34;;
+   say STDERR &#34;  -p (optional) displays a progress bar as the file uploads&#34;;
+   say STDERR &#34;  -a (optional) use active mode transfer&#34;;
+   exit 2;
+ }
+ 
+ $remote = URI-&#62;new($remote);
+ 
+ unless($remote-&#62;scheme eq &#39;ftp&#39;)
+ {
+   say STDERR &#34;only FTP URLs are supported&#34;;
+   exit 2;
+ }
+ 
+ unless(defined $remote-&#62;password)
+ {
+   $remote-&#62;password(prompt(&#39;p&#39;, &#39;Password: &#39;, &#39;&#39;, &#39;&#39;));
+   say &#39;&#39;;
+ }
+ 
+ do {
+   my $from = $remote-&#62;clone;
+   $from-&#62;password(undef);
+ 
+   say &#34;SRC: &#34;, $from;
+ };
+ 
+ my @path = split /\//, $remote-&#62;path;
+ my $fn = pop @path;
+ if(-e $fn)
+ {
+   say STDERR &#34;local file already exists&#34;;
+   exit 2;
+ }
+ 
+ my $ftp = AnyEvent::FTP::Client-&#62;new( passive =&#62; $active ? 0 : 1 );
+ 
+ $ftp-&#62;on_send(sub {
+   my($cmd, $arguments) = @_;
+   $arguments //= &#39;&#39;;
+   $arguments = &#39;XXXX&#39; if $cmd eq &#39;PASS&#39;;
+   say &#34;CLIENT: $cmd $arguments&#34;
+     if $debug;
+ });
+ 
+ $ftp-&#62;on_each_response(sub {
+   my $res = shift;
+   if($debug)
+   {
+     say sprintf &#34;SERVER: [ %d ] %s&#34;, $res-&#62;code, $_ for @{ $res-&#62;message };
+   }
+ });
+ 
+ $ftp-&#62;connect($remote-&#62;host, $remote-&#62;port)-&#62;recv;
+ $ftp-&#62;login($remote-&#62;user, $remote-&#62;password)-&#62;recv;
+ $ftp-&#62;type(&#39;I&#39;)-&#62;recv;
+ 
+ $ftp-&#62;cwd(join &#39;/&#39;, &#39;&#39;, @path)-&#62;recv;
+ 
+ my $remote_size;
+ 
+ if($progress)
+ {
+   my $listing = $ftp-&#62;list($fn)-&#62;recv;
+   foreach my $class (qw( File::Listing File::Listing::Ftpcopy ))
+   {
+     my $parsed_listing = eval qq{ use $class; ${class}::parse_dir(\$listing-&#62;[0]) };
+     next if $@;
+     my ($name, $type, $size, $mtime, $mode) = @{ $parsed_listing-&#62;[0] };
+     $remote_size = $size;
+     last;
+   }
+ 
+   if(defined $remote_size)
+   {
+   }
+   else
+   {
+     say STDERR &#34;could not determine size of remote file, cannot provide progress bar&#34;;
+     $progress = 0;
+   }
+ }
+ 
+ open my $fh, &#39;&#62;&#39;, $fn;
+ 
+ my $xfer = $ftp-&#62;retr($fn);
+ my $pb;
+ my $count = 0;
+ 
+ $xfer-&#62;on_open(sub {
+   my $handle = shift;
+   $pb = Term::ProgressBar-&#62;new({ count =&#62; $remote_size })
+     if $progress;
+   $handle-&#62;on_read(sub {
+     $handle-&#62;push_read(sub {
+       print $fh $_[0]{rbuf};
+       $pb-&#62;update($count += length($_[0]{rbuf})) if $pb;
+       $_[0]{rbuf} = &#39;&#39;;
+     });
+   });
+ });
+ 
+ $xfer-&#62;recv;
+ 
+ close $fh;
+ 
+ $ftp-&#62;quit-&#62;recv;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fls.pl"
+>fls.pl</a></h2>
+
+<p>Here is a similar example, which does a directory listing on a FTP directory URL. If you use the <code>-d</code> option to see the FTP commands and their responses as they happen. You can use the <code>-l</code> option to see the long form of the file listing.</p>
+
+<pre class="sh_perl"> use strict;
+ use warnings;
+ use 5.010;
+ use URI;
+ use AnyEvent::FTP::Client;
+ use Term::Prompt qw( prompt );
+ use Getopt::Long qw( GetOptions );
+ 
+ my $debug = 0;
+ my $method = &#39;nlst&#39;;
+ 
+ GetOptions(
+   &#39;d&#39; =&#62; \$debug,
+   &#39;l&#39; =&#62; sub { $method = &#39;list&#39; },
+ );
+ 
+ my $ftp = AnyEvent::FTP::Client-&#62;new;
+ 
+ if($debug)
+ {
+   $ftp-&#62;on_send(sub {
+     my($cmd, $arguments) = @_;
+     $arguments //= &#39;&#39;;
+     $arguments = &#39;XXXX&#39; if $cmd eq &#39;PASS&#39;;
+     say &#34;CLIENT: $cmd $arguments&#34;;
+   });
+ 
+   $ftp-&#62;on_each_response(sub {
+     my $res = shift;
+     say sprintf &#34;SERVER: [ %d ] %s&#34;, $res-&#62;code, $_ for @{ $res-&#62;message };
+   });
+ 
+ }
+ 
+ my $uri = shift;
+ 
+ unless(defined $uri)
+ {
+   say STDERR &#34;usage: perl fls.pl URL\n&#34;;
+   exit 2;
+ }
+ 
+ $uri = URI-&#62;new($uri);
+ 
+ unless($uri-&#62;scheme eq &#39;ftp&#39;)
+ {
+   say STDERR &#34;only FTP URL accpeted&#34;;
+   exit 2;
+ }
+ 
+ unless(defined $uri-&#62;password)
+ {
+   $uri-&#62;password(prompt(&#39;p&#39;, &#39;Password: &#39;, &#39;&#39;, &#39;&#39;));
+   say &#39;&#39;;
+ }
+ 
+ my $path = $uri-&#62;path;
+ $uri-&#62;path(&#39;&#39;);
+ 
+ $ftp-&#62;connect($uri);
+ 
+ say $_ for @{ $ftp-&#62;$method($path)-&#62;recv };</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fput.pl"
+>fput.pl</a></h2>
+
+<p>This script uploads a local file to the remote given a local filename and a remote FTP URL.</p>
+
+<pre class="sh_perl"> #!/usr/bin/perl
+ 
+ use strict;
+ use warnings;
+ use autodie;
+ use 5.010;
+ use AnyEvent::FTP::Client;
+ use URI;
+ use URI::file;
+ use Term::ProgressBar;
+ use Term::Prompt qw( prompt );
+ use Getopt::Long qw( GetOptions );
+ use Path::Class qw( file );
+ 
+ my $debug = 0;
+ my $progress = 0;
+ my $active = 0;
+ 
+ GetOptions(
+   &#39;d&#39; =&#62; \$debug,
+   &#39;p&#39; =&#62; \$progress,
+   &#39;a&#39; =&#62; \$active,
+ );
+ 
+ my $local = shift;
+ my $remote = shift;
+ 
+ unless(defined $local &#38;&#38; defined $remote)
+ {
+   say STDERR &#34;usage: perl fput.pl [ -d | -p ] [ -a ] local remote&#34;;
+   say STDERR &#34;  where local is a local file&#34;;
+   say STDERR &#34;  and remote is a URL for a FTP server&#34;;
+   say STDERR &#34;  -d (optional) prints FTP commands and responses&#34;;
+   say STDERR &#34;  -p (optional) displays a progress bar as the file uploads&#34;;
+   say STDERR &#34;  -a (optional) use an active transfer instead of passive&#34;;
+   exit 2;
+ }
+ 
+ $local  = file($local);
+ $remote = URI-&#62;new($remote);
+ 
+ unless($remote-&#62;scheme eq &#39;ftp&#39;)
+ {
+   say STDERR &#34;only FTP URLs are supported&#34;;
+   exit 2;
+ }
+ 
+ unless(defined $remote-&#62;password)
+ {
+   $remote-&#62;password(prompt(&#39;p&#39;, &#39;Password: &#39;, &#39;&#39;, &#39;&#39;));
+   say &#39;&#39;;
+ }
+ 
+ do {
+   my $from = URI::file-&#62;new_abs($local);
+   my $to = $remote-&#62;clone;
+   $to-&#62;password(undef);
+ 
+   say &#34;SRC: &#34;, $from;
+   say &#34;DST: &#34;, $to;
+ };
+ 
+ my $ftp = AnyEvent::FTP::Client-&#62;new( passive =&#62; $active ? 0 : 1 );
+ 
+ $ftp-&#62;on_send(sub {
+   my($cmd, $arguments) = @_;
+   $arguments //= &#39;&#39;;
+   $arguments = &#39;XXXX&#39; if $cmd eq &#39;PASS&#39;;
+   say &#34;CLIENT: $cmd $arguments&#34;
+     if $debug;
+ });
+ 
+ $ftp-&#62;on_each_response(sub {
+   my $res = shift;
+   if($debug)
+   {
+     say sprintf &#34;SERVER: [ %d ] %s&#34;, $res-&#62;code, $_ for @{ $res-&#62;message };
+   }
+ });
+ 
+ 
+ $ftp-&#62;connect($remote-&#62;host, $remote-&#62;port)-&#62;recv;
+ $ftp-&#62;login($remote-&#62;user, $remote-&#62;password)-&#62;recv;
+ $ftp-&#62;type(&#39;I&#39;)-&#62;recv;
+ 
+ if(defined $remote-&#62;path)
+ {
+   $ftp-&#62;cwd($remote-&#62;path)-&#62;recv;
+ }
+ 
+ open my $fh, &#39;&#60;&#39;, $local;
+ binmode $fh;
+ 
+ my $buffer;
+ my $count;
+ 
+ my $pb;
+ 
+ my $xfer = $ftp-&#62;stor($local-&#62;basename);
+ 
+ $xfer-&#62;on_open(sub {
+   my $whandle = shift;
+   $pb = Term::ProgressBar-&#62;new({ count =&#62; -s $fh })
+     if $progress;
+   $whandle-&#62;on_drain(sub {
+     $pb-&#62;update($count) if $pb;
+     my $ret = read $fh, $buffer, 1024 * 512;
+     $count += $ret;
+     if($ret &#62; 0)
+     {
+       $whandle-&#62;push_write($buffer);
+     }
+     else
+     {
+       $pb-&#62;update($count) if $pb;
+       $whandle-&#62;push_shutdown;
+       close $fh;
+     }
+   });
+ });
+ 
+ $xfer-&#62;recv;
+ 
+ $ftp-&#62;quit-&#62;recv;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<ul>
+<li><a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a></li>
+
+<li><a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

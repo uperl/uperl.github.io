@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Open3::Simple::Process</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::Open3::<a href="/pod/AnyEvent/Open3/Simple.html">Simple</a>::Process</div>
+    <!--AnyEvent::Open3::Simple::Process--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#pid'>pid</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#print'>print</a>
+    <li class='indexItem indexItem2'><a href='#say'>say</a>
+    <li class='indexItem indexItem2'><a href='#close'>close</a>
+    <li class='indexItem indexItem2'><a href='#user'>user</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Open3::Simple::Process - Process run using AnyEvent::Open3::Simple</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.87</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents a process being handled by <a href="/pod/AnyEvent/Open3/Simple.html" class="podlinkpod"
+>AnyEvent::Open3::Simple</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pid"
+>pid</a></h2>
+
+<pre class="sh_perl"> my $pid = $proc-&#62;pid;</pre>
+
+<p>Return the Process ID of the child process.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="print"
+>print</a></h2>
+
+<pre class="sh_perl"> $proc-&#62;print(@data);</pre>
+
+<p>Write to the subprocess&#39; stdin.</p>
+
+<p>Do NOT use this method if you have passed stdin via the <code>$stdin</code> argument on the <a href="https://metacpan.org/pod/AnyEvent%3A%3AOpen3%3A%3ASimple%23run" class="podlinkpod"
+>AnyEvent::Open3::Simple#run</a> method.</p>
+
+<p>Currently on (non cygwin) Windows (Strawberry, ActiveState) this method is not supported, so if you need to send (standard) input to the subprocess, you must pass it into the <a href="https://metacpan.org/pod/AnyEvent%3A%3AOpen3%3A%3ASimple%23run" class="podlinkpod"
+>AnyEvent::Open3::Simple#run</a> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="say"
+>say</a></h2>
+
+<pre class="sh_perl"> $proc-&#62;say(@data);</pre>
+
+<p>Write to the subprocess&#39; stdin, adding a new line at the end.</p>
+
+<p>Do NOT use this method if you have passed stdin via the <code>$stdin</code> argument on the <a href="https://metacpan.org/pod/AnyEvent%3A%3AOpen3%3A%3ASimple%23run" class="podlinkpod"
+>AnyEvent::Open3::Simple#run</a> method.</p>
+
+<p>Currently on (non cygwin) Windows (Strawberry, ActiveState) this method is not supported, so if you need to send (standard) input to the subprocess, you must pass it into the <a href="https://metacpan.org/pod/AnyEvent%3A%3AOpen3%3A%3ASimple%23run" class="podlinkpod"
+>AnyEvent::Open3::Simple#run</a> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="close"
+>close</a></h2>
+
+<pre class="sh_perl"> $proc-&#62;close</pre>
+
+<p>Close the subprocess&#39; stdin.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="user"
+>user</a></h2>
+
+<p>Version 0.77</p>
+
+<pre class="sh_perl"> $proc-&#62;user($user_data);
+ my $user_data = $proc-&#62;user;</pre>
+
+<p>Get or set user defined data tied to the process object. Any Perl data structure may be used. Useful for persisting data between callbacks, for example:</p>
+
+<pre class="sh_perl"> AnyEvent::Open3::Simple-&#62;new(
+   on_start =&#62; sub {
+     my($proc) = @_;
+     $proc-&#62;user({ prefix =&#62; &#39;&#62; &#39; });
+   },
+   on_stdout =&#62; sub {
+     my($proc, $line) = @_;
+     my $prefix = $proc-&#62;user-&#62;{prefix};
+     say &#34;$prefix$line&#34;;
+   },
+ );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Stephen R. Scaffidi</p>
+
+<p>Scott Wiersdorf</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012-2019 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

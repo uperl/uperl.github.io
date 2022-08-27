@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Path::ScanINC</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Path::ScanINC</div>
+    <!--Path::ScanINC--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#REF_SUPPORT_IN_%40INC'>REF SUPPORT IN @INC</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#immutable'>immutable</a>
+    <li class='indexItem indexItem2'><a href='#inc'>inc</a>
+    <li class='indexItem indexItem2'><a href='#first_file'>first_file</a>
+    <ul   class='indexList indexList3'>
+      <ul   class='indexList indexList4'>
+        <li class='indexItem indexItem4'><a href='#IMPORTANT%3A_PORTABILITIY'>IMPORTANT: PORTABILITIY</a>
+      </ul>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#all_files'>all_files</a>
+    <li class='indexItem indexItem2'><a href='#first_dir'>first_dir</a>
+    <li class='indexItem indexItem2'><a href='#all_dirs'>all_dirs</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Path::ScanINC - Emulate Perls internal handling of @INC.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.000003</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>The Aim of this module is to fully implement everything Perl does with <code>@INC</code>,
+to be feature compatible with it,
+including the behavior with regard to <code>sub refs</code> in <code>@INC</code>.</p>
+
+<pre class="sh_perl">        use Path::ScanINC;
+
+        # Normal usage.
+        my $inc = Path::ScanINC-&#62;new( );
+
+        # In case you need something that isn&#39;t @INC
+        # but works like it
+
+        my $inc = Path::ScanINC-&#62;new( inc =&#62; \@INC );
+
+        # Freeze the value of @INC at the time of object instantiation
+        # with regard to behaviour so later changes to @INC have no effect
+
+        my $inc = Path::ScanINC-&#62;new( immutable =&#62; 1 );
+
+        # Return the first file in @INC that matches.
+
+        my $file = $inc-&#62;first_file(&#39;Path&#39;, &#39;ScanINC.pm&#39; );
+
+        # Find all possible versions of modules in @INC
+        my ( @files ) = $inc-&#62;all_files(&#39;Path&#39;, &#39;ScanINC.pm&#39;);
+
+        # Try to discover a File::ShareDir &#39;module&#39; root.
+        my $dir = $inc-&#62;first_dir(&#39;auto&#39;,&#39;share&#39;,&#39;module&#39;);
+
+        # Should return the same as File::ShareDir::module_dir(&#39;Path::ScanINC&#39;)
+        # ( assuming such a directory existed, which there is presently no plans of )
+        my $dir = $inc-&#62;first_dir(&#39;auto&#39;,&#39;share&#39;,&#39;module&#39;,&#39;Path-ScanINC&#39;);
+
+
+        # Find All File::ShareDir roots in @INC
+        my ( @dirs ) = $inc-&#62;all_dirs(&#39;auto&#39;, &#39;share&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><code>Path::ScanINC</code> is a basic tool for traversing <code>@INC</code> in a <code>perl</code>-like manner, stepping over some common pitfalls with using it. It also has the property of being able to capture <code>@INC</code> states to emulate a portable isolated library resolver.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REF_SUPPORT_IN_@INC"
+>REF SUPPORT IN @INC</a></h1>
+
+<p>This module has elemental support for discovery of results in <code>@INC</code> using <code>CODE</code>/<code>ARRAY</code>/<code>BLESSED</code> entries in <code>@INC</code>. However, due to a limitation as to how <code>perl</code> itself implements this functionality, the best we can do at present is simply return what the above are expected to return. This means if you have any of the above ref-types in <code>@INC</code>, and one of those returns <code>a true value</code>, you&#39;ll get handed back an <code>ARRAY</code> reference instead of the file you were expecting.</p>
+
+<p>Fortunately, <code>@INC</code> barely ever has refs in it. But in the event you <i>need</i> to work with refs in <code>@INC</code> and you expect that those refs will return <code>true</code>, you have to pick one of two options, either :</p>
+
+<dl>
+<dt><a name="a._Write_your_code_to_work_with_the_array-ref_returned_by_the_respective_reference_on_a_match"
+>a. Write your code to work with the <code>array-ref</code> returned by the respective reference on a match</a></dt>
+
+<dd>
+<dt><a name="b._Use_the_all__family_of_methods_and_try_pretending_that_there_are_no_array-refs_in_the_list_it_returns."
+>b. Use the <code>all_</code> family of methods and try pretending that there are no <code>array-refs</code> in the list it returns.</a></dt>
+</dl>
+
+<p>Its possible in a future release we may have better choices how to handle this situation in future, but don&#39;t bet on it.</p>
+
+<p>Given that the API as defined by Perl mandates <code>code-ref</code>&#39;s return lists containing <code>file-handles</code> or iterative <code>code-ref</code>&#39;s , not actual files, the best I can foresee at this time we&#39;d be able to do to make life easier for you is creating a fake library somewhere in a <code>tempdir</code> and stuffing the result of the <code>code-ref</code>&#39;s into files in that directory prior to returning a path to the generated file.</p>
+
+<p>( And it also tells me that they have to be &#34;Real&#34; file handles, not tied or blessed ones, so being able to ask a <code>filehandle</code> what file it represents is equally slim.... if that is of course what you require )</p>
+
+<p>For more details, see <a href="https://metacpan.org/pod/perlfunc#require" class="podlinkpod"
+><code>perldoc perlfunc</code> or <code>perldoc -f require</code> </a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl">        my $object = $class-&#62;new(
+                 inc =&#62; [ &#39;x&#39;, &#39;y&#39;, &#39;z&#39; , ],
+                 immutable =&#62; 1 | undef
+        );</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="immutable"
+>immutable</a></h2>
+
+<pre class="sh_perl">        if( $inc-&#62;immutable ) {
+                print &#34;We&#39;re working with a snapshotted version of @INC&#34;;
+        }</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inc"
+>inc</a></h2>
+
+<pre class="sh_perl">        for my $i ( $inc-&#62;inc ) {
+                say &#34;Plain: $incer&#34; if not ref $incer;
+                say &#34;Callback: $incer&#34; if ref $incer;
+        }</pre>
+
+<p>Returns a copy of the internal version of <code>@INC</code> it will be using.</p>
+
+<p>If the object is <code>immutable</code>, then this method will continue to report the same value as c&#60;@INC&#62;, or will be updated every time the original array reference passed during construction gets updated:</p>
+
+<pre class="sh_perl">        my $ref = [];
+        my $a = Path::ScanINC-&#62;new( inc =&#62; $ref );
+        my $b = Path::ScanINC-&#62;new( inc =&#62; $ref, immutable =&#62; 1 );
+
+        push @{$ref} , &#39;a&#39;;
+
+        is( [ $a-&#62;inc ]-&#62;[0] , &#39;a&#39; , &#34;non-immutable references keep tracking their original&#34; );
+        isnt( [ $b-&#62;inc ]-&#62;[0] , &#39;a&#39; , &#34;immutable references are shallow-copied at construction&#34; );</pre>
+
+<p>Do note of course that is a <b>SHALLOW</b> copy, so if you have multiple <code>@INC</code> copies sharing the same <code>array</code>/<code>bless</code> references, changes to those references will be shared amongst all <code>@INC</code>&#39;s .</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="first_file"
+>first_file</a></h2>
+
+<pre class="sh_perl">        if( defined ( my $file = $inc-&#62;first_file(&#39;Moose.pm&#39;) ) {
+                print &#34;Yep, Moose seems to be available in \@INC , its at $file, but its not loaded (yet)\n&#34;;
+        }</pre>
+
+<p>This proves to be a handy little gem that replaces the oft used</p>
+
+<pre class="sh_perl">        if( try { require Moose ; 1 } ){
+                Yadayadayada
+        }</pre>
+
+<p>And adds the benefit of not needing to actually source the file to see if it exists or not.</p>
+
+<h4><a class='u' href='#___top' title='click to go to top of document'
+name="IMPORTANT:_PORTABILITIY"
+><b>IMPORTANT</b>: PORTABILITIY</a></h4>
+
+<p>For best system portability, where possible, its suggested you specify paths as arrays of strings, not slash-separated strings.</p>
+
+<pre class="sh_perl">        $inc-&#62;first_file(&#39;MooseX&#39; , &#39;Declare.pm&#39;)  # Good
+        $inc-&#62;first_file(&#39;MooseX/Declare.pm&#39;)      # Bad.</pre>
+
+<p>This is for several reasons, all of which can be summarized as &#34;Windows&#34;.</p>
+
+<ul>
+<li><code>%INC</code> keys all use Unix notation.</li>
+
+<li><code>@INC</code> callbacks expect Unix notation.</li>
+
+<li><code>\</code> is a valid path part on Unix.</li>
+
+<li>On Win32, we have to use <code>\</code> Separation, not <code>/</code> for resolving physical files.</li>
+</ul>
+
+<p>The sum of these means if you do this:</p>
+
+<pre class="sh_perl">        $inc-&#62;first_file(&#39;MooseX/Declare.pm&#39;)</pre>
+
+<p>On win32, it might just end up doing:</p>
+
+<pre class="sh_perl">        C:\some\path\here/MooseX/Declare.pm</pre>
+
+<p>Which may or may not work.</p>
+
+<p>And additionally, if the above module is loaded, it will be loaded as</p>
+
+<pre class="sh_perl">        &#34;MooseX/Declare.pm&#34;</pre>
+
+<p>in <code>%INC</code>, not what you&#39;d expect, <code>MooseX\Declare.pm</code></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="all_files"
+>all_files</a></h2>
+
+<p>Returns all matches in all <code>@INC</code> paths.</p>
+
+<pre class="sh_perl">        my $inc = Path::ScanINC-&#62;new();
+        push @INC, &#39;lib&#39;;
+        my ( @files ) = $inc-&#62;all_files(&#39;Something&#39;,&#39;Im&#39;,&#39;Working&#39;,&#39;On.pm&#39;);
+        pp(\@files );
+
+        # [
+        #    &#39;/something/........./lib/Something/Im/Working/On.pm&#39;,
+        #    &#39;/something/....../share/per5/lib/site_perl/5.15.9/Something/Im/Working/On.pm&#39;,
+        # ]</pre>
+
+<p>Chances are if you understand how this can be useful, you&#39;ll do so immediately.</p>
+
+<p>Useful for debugging what module is being loaded, and possibly introspecting information about multiple parallel installs of modules in <code>%ENV</code>, such as frequently the case with &#39;dual-life&#39; modules.</p>
+
+<pre class="sh_perl">        perl -MPath::ScanINC -E &#39;my $scanner = Path::ScanINC-&#62;new(); say for $scanner-&#62;all_files(qw( Scalar Util.pm ))&#39;
+        /usr/lib64/perl5/vendor_perl/5.12.4/x86_64-linux/Scalar/Util.pm
+        /usr/lib64/perl5/5.12.4/x86_64-linux/Scalar/Util.pm</pre>
+
+<p>Sort-of like ye&#39; olde&#39; <code>perldoc -l</code>, but more like <code>man -a</code></p>
+
+<p>I might even be tempted to make a sub-module to make one-liners easier like</p>
+
+<pre class="sh_perl">        perl -MPath::ScanINC::All=Scalar/Util.pm</pre>
+
+<p><b>REMINDER</b>: If there are <code>REFS</code> in <code>@INC</code> that match, they&#39;ll return <code>array-ref</code>&#39;s, not strings.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="first_dir"
+>first_dir</a></h2>
+
+<p>Just like <code>first_file</code> except for locating directories.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="all_dirs"
+>all_dirs</a></h2>
+
+<p>Just like <code>all_dirs</code> except for locating directories.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Kent Fredric &#60;kentnl@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017 by Kent Fredric &#60;kentnl@cpan.org&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

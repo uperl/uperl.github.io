@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Archive::Ar::Libarchive</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Archive::Ar::Libarchive</div>
+    <!--Archive::Ar::Libarchive--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#set_opt'>set_opt</a>
+    <li class='indexItem indexItem2'><a href='#get_opt'>get_opt</a>
+    <li class='indexItem indexItem2'><a href='#type'>type</a>
+    <li class='indexItem indexItem2'><a href='#clear'>clear</a>
+    <li class='indexItem indexItem2'><a href='#read'>read</a>
+    <li class='indexItem indexItem2'><a href='#read_memory'>read_memory</a>
+    <li class='indexItem indexItem2'><a href='#contains_file'>contains_file</a>
+    <li class='indexItem indexItem2'><a href='#extract'>extract</a>
+    <li class='indexItem indexItem2'><a href='#extract_file'>extract_file</a>
+    <li class='indexItem indexItem2'><a href='#rename'>rename</a>
+    <li class='indexItem indexItem2'><a href='#chmod'>chmod</a>
+    <li class='indexItem indexItem2'><a href='#chown'>chown</a>
+    <li class='indexItem indexItem2'><a href='#remove'>remove</a>
+    <li class='indexItem indexItem2'><a href='#list_files'>list_files</a>
+    <li class='indexItem indexItem2'><a href='#add_files'>add_files</a>
+    <li class='indexItem indexItem2'><a href='#add_data'>add_data</a>
+    <li class='indexItem indexItem2'><a href='#write'>write</a>
+    <li class='indexItem indexItem2'><a href='#get_content'>get_content</a>
+    <li class='indexItem indexItem2'><a href='#get_data'>get_data</a>
+    <li class='indexItem indexItem2'><a href='#get_handle'>get_handle</a>
+    <li class='indexItem indexItem2'><a href='#error'>error</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Archive::Ar::Libarchive - Interface for manipulating ar archives with libarchive</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Archive::Ar::Libarchive;
+ 
+ my $ar = Archive::Ar-&#62;new(&#39;libfoo.a&#39;);
+ 
+ $ar-&#62;add_data(&#39;newfile.txt&#39;, &#39;some contents&#39;, { uid =&#62; 101, gid =&#62; 102 });
+ 
+ $ar-&#62;add_files(&#39;./bar.tar.gz&#39;, &#39;bat.pl&#39;);
+ 
+ $ar-&#62;remove(&#39;file1&#39;, &#39;file2&#39;);
+ 
+ my $content = $ar-&#62;get_content(&#39;file3&#39;)-&#62;{data};
+ 
+ my @files = $ar-&#62;list_files;
+ 
+ $ar-&#62;write(&#39;libbar.a&#39;);
+ 
+ my @file_list = $ar-&#62;list_files;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module is a XS alternative to <a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a> that uses libarchive to read and write ar BSD, GNU and common ar archives.</p>
+
+<p>There is no standard for the ar format. Most modern archives are based on a common format with two extension variants, BSD and GNU. Other esoteric variants (such as AIX (small), AIX (big) and Coherent) vary significantly from the common format and are not supported. Debian&#39;s package format (.deb files) use the common format.</p>
+
+<p>The interface attempts to be identical (with a couple of minor extensions) to <a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a> and the documentation presented here is based on that module. The diagnostic messages issued on error mostly come directly from libarchive, so they will likely not match exactly what <a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a> would produce, but it should issue a warning under similar circumstances.</p>
+
+<p>The main advantage of <a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a> over this module is that it is written in pure perl, and thus does not require a compiler or libarchive. As an XS module using libarchive it may be faster.</p>
+
+<p>You may notice that the API to <a href="/pod/Archive/Ar/Libarchive.html" class="podlinkpod"
+>Archive::Ar::Libarchive</a> and <a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a> is similar to <a href="https://metacpan.org/pod/Archive%3A%3ATar" class="podlinkpod"
+>Archive::Tar</a> and this was done intentionally to keep similarity between the Archive::* modules.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $ar = Archive::Ar::Libarchive-&#62;new;
+ my $ar = Archive::Ar::Libarchive-&#62;new($filename);
+ my $ar = Archive::Ar::Libarchive-&#62;new($fh);</pre>
+
+<p>Returns a new <a href="/pod/Archive/Ar/Libarchive.html" class="podlinkpod"
+>Archive::Ar::Libarchive</a> object. Without a filename or glob, it returns an empty object. If passed a filename as a scalar or a GLOB, it will attempt to populate from either of those sources. If it fails, you will receive <code>undef</code>, instead of an object reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_opt"
+>set_opt</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;set_opt($name, $value);</pre>
+
+<p>Assign option <code>$name</code> value <code>$value</code>. Supported options include:</p>
+
+<dl>
+<dt><a name="warn"
+>warn</a></dt>
+
+<dd>
+<p>Warning level. Levels are zero for no warnings, 1 for brief warnings, and 2 for warnings with a stack trace. Default is zero.</p>
+
+<p>Warnings that originate with libarchive itself will not include a stacktrace, even with a warn level set to 2.</p>
+
+<dt><a name="chmod"
+>chmod</a></dt>
+
+<dd>
+<p>Change the file permissions of files created when extracting. Default is true (non-zero).</p>
+
+<p>This option is provided only for compatibility with <a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a>. Libarchive does not provide an equivalent to this option, so setting it to false will has no effect.</p>
+
+<dt><a name="same_perms"
+>same_perms</a></dt>
+
+<dd>
+<p>When setting file permissions, use the values in the archive unchanged. If false, removes setuid bits and applies the user&#39;s umask. Default is true.</p>
+
+<p>In <a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a> this option is true for root only.</p>
+
+<dt><a name="chown"
+>chown</a></dt>
+
+<dd>
+<p>Change the owners of extracted files, if possible. Default is true.</p>
+
+<dt><a name="type"
+>type</a></dt>
+
+<dd>
+<p>Archive type. May be GNU, BSD or COMMON, or undef if no archive has been read. Defaults to the type of the archive read or <code>undef</code>.</p>
+
+<dt><a name="symbols"
+>symbols</a></dt>
+
+<dd>
+<p>Provide a filename for the symbol table, if present. If set, the symbol table is treated as a file that can be read from or written to an archive. It is an error if the filename provided matches the name of a file in the archive. If <code>undef</code>, the symbol table is ignored. Defaults to <code>undef</code>.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_opt"
+>get_opt</a></h2>
+
+<pre class="sh_perl"> my $value = $ar-&#62;get_opt($name);</pre>
+
+<p>Returns the value of the option <code>$name</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="type"
+>type</a></h2>
+
+<pre class="sh_perl"> my $type = $ar-&#62;type;</pre>
+
+<p>Returns the type of the ar archive. The type is undefined until an archive is loaded. If the archive displays characteristics of a GNU-style archive, GNU is returned. If it looks like a bsd-style archive, BSD is returned. Otherwise, COMMON is returned. Note that unless filenames exceed 16 characters in length, bsd archives look like the common format.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear"
+>clear</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;clear;</pre>
+
+<p>Clears the current in-memory archive.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="read"
+>read</a></h2>
+
+<pre class="sh_perl"> my $br = $ar-&#62;read($filename);
+ my $br = $ar-&#62;read($fh);</pre>
+
+<p>This reads a new file into the object, removing any ar archive already represented in the object. The argument may be either a filename, filehandle or IO::Handle object. Returns the number of bytes read, <code>undef</code> on failure.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="read_memory"
+>read_memory</a></h2>
+
+<pre class="sh_perl"> my $br = $ar-&#62;read_memory($data);</pre>
+
+<p>This reads information from the first parameter, and attempts to parse and treat it like an ar archive. Like <a href="https://metacpan.org/pod/Archive%3A%3AAr%3A%3ALibarchive%23read" class="podlinkpod"
+>Archive::Ar::Libarchive#read</a>, it will wipe out whatever you have in the object and replace it with the contents of the new archive, even if it fails. Returns the number of bytes read (processed) if successful, <code>undef</code> otherwise.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="contains_file"
+>contains_file</a></h2>
+
+<pre class="sh_perl"> my $bool = $ar-&#62;contains_file($filename)</pre>
+
+<p>Returns true if the archive contains a file with the name <code>$filename</code>. Returns <code>undef</code> otherwise.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract"
+>extract</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;extract;</pre>
+
+<p>Extract all files from the archive. Extracted files are assigned the permissions and modification time stored in the archive, and, if possible, the user and group ownership. Returns true on success, <code>undef</code> for failure.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract_file"
+>extract_file</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;extract_file($filename);</pre>
+
+<p>Extracts a single file from the archive. The extracted file is assigned the permissions and modification time stored in the archive, and, if possible, the user and group ownership. Returns true on success, <code>undef</code> for failure.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rename"
+>rename</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;rename($filename, $newname);</pre>
+
+<p>Changes the name of a file in the in-memory archive.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="chmod"
+>chmod</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;chmod($filename, $mode);</pre>
+
+<p>Change the permission mode of the member to <code>$mode</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="chown"
+>chown</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;chown($filename, $uid, $gid);
+ $ar-&#62;chown($filename, $uid);</pre>
+
+<p>Change the ownership of the member to user id <code>$udi</code> and (optionally) group id <code>$gid</code>. Negative id values are ignored.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remove"
+>remove</a></h2>
+
+<pre class="sh_perl"> my $count = $ar-&#62;remove(@pathnames);
+ my $count = $ar-&#62;remove(\@pathnames);</pre>
+
+<p>The remove method takes a filenames as a list or as an arrayref, and removes them, one at a time, from the Archive::Ar object. This returns the number of files successfully removed from the archive.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="list_files"
+>list_files</a></h2>
+
+<pre class="sh_perl"> my @list = $ar-&#62;list_files;
+ my $list = $ar-&#62;list_files;</pre>
+
+<p>This lists the files contained inside of the archive by filename, as an array. If called in a scalar context, returns a reference to an array.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_files"
+>add_files</a></h2>
+
+<pre class="sh_perl"> $ar-&#62;add_files(@filenames);
+ $ar-&#62;add_files(\@filenames);</pre>
+
+<p>Takes an array or an arrayref of filenames to add to the ar archive, in order. The filenames can be paths to files, in which case the path information is stripped off. Filenames longer than 16 characters are truncated when written to disk in the format, so keep that in mind when adding files.</p>
+
+<p>Due to the nature of the ar archive format, <a href="https://metacpan.org/pod/Archive%3A%3AAr%3A%3ALibarchive%23add_files" class="podlinkpod"
+>Archive::Ar::Libarchive#add_files</a> will store the uid, gid, mode, size, and creation date of the file as returned by <a href="https://metacpan.org/pod/perlfunc%23stat" class="podlinkpod"
+>stat</a>.</p>
+
+<p>returns the number of files successfully added, or <code>undef</code> on failure.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_data"
+>add_data</a></h2>
+
+<pre class="sh_perl"> my $size = $ar-&#62;add_data($filename, $data, $filedata);</pre>
+
+<p>Takes an filename and a set of data to represent it. Unlike <a href="https://metacpan.org/pod/Archive%3A%3AAr%3A%3ALibarchive%23add_files" class="podlinkpod"
+>Archive::Ar::Libarchive#add_files</a>, <a href="https://metacpan.org/pod/Archive%3A%3AAr%3A%3ALibarchive%23add_data" class="podlinkpod"
+>Archive::Ar::Libarchive#add_data</a> is a virtual add, and does not require data on disk to be present. The data is a hash that looks like:</p>
+
+<pre class="sh_perl"> $filedata = {
+   uid  =&#62; $uid,   #defaults to zero
+   gid  =&#62; $gid,   #defaults to zero
+   date =&#62; $date,  #date in epoch seconds. Defaults to now.
+   mode =&#62; $mode,  #defaults to 0100644;
+ };</pre>
+
+<p>You cannot add_data over another file however. This returns the file length in bytes if it is successful, <code>undef</code> otherwise.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="write"
+>write</a></h2>
+
+<pre class="sh_perl"> my $content = $ar-&#62;write;
+ my $size = $ar-&#62;write($filename);</pre>
+
+<p>This method will return the data as an .ar archive, or will write to the filename present if specified. If given a filename, <a href="https://metacpan.org/pod/Archive%3A%3AAr%3A%3ALibarchive%23write" class="podlinkpod"
+>Archive::Ar::Libarchive#write</a> will return the length of the file written, in bytes, or <code>undef</code> on failure. If the filename already exists, it will overwrite that file.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_content"
+>get_content</a></h2>
+
+<pre class="sh_perl"> my $hash = get_content($filename);</pre>
+
+<p>This returns a hash with the file content in it, including the data that the file would naturally contain. If the file does not exist or no filename is given, this returns <code>undef</code>. On success, a hash is returned with the following keys:</p>
+
+<dl>
+<dt><a name="name"
+>name</a></dt>
+
+<dd>
+<p>The file name</p>
+
+<dt><a name="date"
+>date</a></dt>
+
+<dd>
+<p>The file date (in epoch seconds)</p>
+
+<dt><a name="uid"
+>uid</a></dt>
+
+<dd>
+<p>The uid of the file</p>
+
+<dt><a name="gid"
+>gid</a></dt>
+
+<dd>
+<p>The gid of the file</p>
+
+<dt><a name="mode"
+>mode</a></dt>
+
+<dd>
+<p>The mode permissions</p>
+
+<dt><a name="size"
+>size</a></dt>
+
+<dd>
+<p>The size (in bytes) of the file</p>
+
+<dt><a name="data"
+>data</a></dt>
+
+<dd>
+<p>The contained data</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_data"
+>get_data</a></h2>
+
+<pre class="sh_perl"> my $data = $ar-&#62;get_data($filename);</pre>
+
+<p>Returns a scalar containing the file data of the given archive member. On error returns <code>undef</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_handle"
+>get_handle</a></h2>
+
+<pre class="sh_perl"> my $handle = $ar-&#62;get_handle($filename);</pre>
+
+<p>Returns a file handle to the in-memory file data of the given archive member. On error returns <code>undef</code>. This can be useful for unpacking nested archives.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="error"
+>error</a></h2>
+
+<pre class="sh_perl"> my $error_string = $ar-&#62;error($trace);</pre>
+
+<p>Returns the current error string, which is usually the last error reported. If a true value is provided, returns the error message and stack trace.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Ar"
+><a href="https://metacpan.org/pod/Archive%3A%3AAr" class="podlinkpod"
+>Archive::Ar</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

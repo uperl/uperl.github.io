@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Archive::Libarchive</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Archive::Libarchive</div>
+    <!--Archive::Libarchive--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#archive_bzlib_version'>archive_bzlib_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_liblz4_version'>archive_liblz4_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_liblzma_version'>archive_liblzma_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_libzstd_version'>archive_libzstd_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_version_details'>archive_version_details</a>
+    <li class='indexItem indexItem2'><a href='#archive_version_number'>archive_version_number</a>
+    <li class='indexItem indexItem2'><a href='#archive_version_string'>archive_version_string</a>
+    <li class='indexItem indexItem2'><a href='#archive_zlib_version'>archive_zlib_version</a>
+    <li class='indexItem indexItem2'><a href='#versions'>versions</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#EXAMPLES'>EXAMPLES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#List_contents_of_archive_stored_in_file'>List contents of archive stored in file</a>
+    <li class='indexItem indexItem2'><a href='#List_contents_of_archive_stored_in_memory'>List contents of archive stored in memory</a>
+    <li class='indexItem indexItem2'><a href='#List_contents_of_archive_with_custom_read_functions'>List contents of archive with custom read functions</a>
+    <li class='indexItem indexItem2'><a href='#A_universal_decompressor_%2F_defilter-er'>A universal decompressor / defilter-er</a>
+    <li class='indexItem indexItem2'><a href='#A_basic_write_example'>A basic write example</a>
+    <li class='indexItem indexItem2'><a href='#Constructing_objects_on_disk'>Constructing objects on disk</a>
+    <li class='indexItem indexItem2'><a href='#A_complete_extractor'>A complete extractor</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CONSTANTS'>CONSTANTS</a>
+  <li class='indexItem indexItem1'><a href='#HISTORY'>HISTORY</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Archive::Libarchive - Modern Perl bindings to libarchive</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.05</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive qw( :const );
+ 
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;
+ $r-&#62;support_filter_all;
+ $r-&#62;support_format_all;
+ $r-&#62;open_filename(&#34;archive.tar&#34;, 10240) == ARCHIVE_OK
+   or die $r-&#62;error_string;
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ say $e-&#62;pathname while $r-&#62;next_header($e) == ARCHIVE_OK;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides a Perl object-oriented interface to the <code>libarchive</code> library. The <code>libarchive</code> library is the API used to implemnt <code>bsdtar</code>, the default tar implementation on a number of operating systems, including FreeBSD, macOS and Windows. It can also be installed on most Linux distributions. But wait, there is more, <code>libarchive</code> supports a number of formats, compressors and filters transparently, so it can be a useful when used as a universal archiver/extractor. Supported formats include:</p>
+
+<dl>
+<dt><a name="various_tar_formats,_including_the_oldest_forms_and_the_newest_extensions"
+>various tar formats, including the oldest forms and the newest extensions</a></dt>
+
+<dd>
+<dt><a name="zip"
+>zip</a></dt>
+
+<dd>
+<dt><a name="ISO_9660_(CD-ROM_image_format)"
+>ISO 9660 (CD-ROM image format)</a></dt>
+
+<dd>
+<dt><a name="gzip"
+>gzip</a></dt>
+
+<dd>
+<dt><a name="bzip2"
+>bzip2</a></dt>
+
+<dd>
+<dt><a name="uuencoded_files"
+>uuencoded files</a></dt>
+
+<dd>
+<dt><a name="shell_archive_(shar)"
+>shell archive (shar)</a></dt>
+
+<dd>
+<dt><a name="..._and_many_many_more"
+>... and many many more</a></dt>
+</dl>
+
+<p>There are a number of &#34;simple&#34; interfaces around this distribution, which are worth considering if you do not need the full power and configurability that this distribution provides.</p>
+
+<dl>
+<dt><a name="Archive::Libarchive::Peek"
+><a href="/pod/Archive/Libarchive/Peek.html" class="podlinkpod"
+>Archive::Libarchive::Peek</a></a></dt>
+
+<dd>
+<p>Provides an interface for listing and retrieving entries from an archive without extracting them to the local filesystem.</p>
+
+<dt><a name="Archive::Libarchive::Extract"
+><a href="/pod/Archive/Libarchive/Extract.html" class="podlinkpod"
+>Archive::Libarchive::Extract</a></a></dt>
+
+<dd>
+<p>Provides an interface for extracting arbitrary archives of any format/filter supported by <code>libarchive</code>.</p>
+
+<dt><a name="Archive::Libarchive::Unwrap"
+><a href="/pod/Archive/Libarchive/Unwrap.html" class="podlinkpod"
+>Archive::Libarchive::Unwrap</a></a></dt>
+
+<dd>
+<p>Decompresses / unwraps files that have been compressed or wrapped in any of the filter formats supported by <code>libarchive</code></p>
+</dd>
+</dl>
+
+<p>This distribution is split up into several classes, that correspond to <code>libarchive</code> classes. Probably the best place to start when learning how to use this module is to look at the <a href="#EXAMPLES" class="podlinkpod"
+>&#34;EXAMPLES&#34;</a> section below, but you can also take a look at the main class documentation for the operation that you are interested in as well:</p>
+
+<dl>
+<dt><a name="Archive_=&#62;_Archive::Libarchive::ArchiveRead"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive</a> =&#62; <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a></a></dt>
+
+<dd>
+<p>Class for reading from archives.</p>
+
+<dt><a name="Archive_=&#62;_Archive::Libarchive::ArchiveWrite"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive</a> =&#62; <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a></a></dt>
+
+<dd>
+<p>Class for creating new archives.</p>
+
+<dt><a name="Archive_=&#62;_ArchiveRead_=&#62;_Archive::Libarchive::DiskRead"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive</a> =&#62; <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>ArchiveRead</a> =&#62; <a href="/pod/Archive/Libarchive/DiskRead.html" class="podlinkpod"
+>Archive::Libarchive::DiskRead</a></a></dt>
+
+<dd>
+<p>Class for reading file entries from a local filesystem.</p>
+
+<dt><a name="Archive_=&#62;_ArchiveWrite_=&#62;_Archive::Libarchive::DiskWrite"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive</a> =&#62; <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>ArchiveWrite</a> =&#62; <a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a></a></dt>
+
+<dd>
+<p>Class for writing file entries to a local filesystem.</p>
+
+<dt><a name="Archive::Libarchive::Entry"
+><a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a></a></dt>
+
+<dd>
+<p>Class representing file metadata of a file inside an archive, or in the local filesystem.</p>
+
+<dt><a name="Archive::Libarchive::EntryLinkResolver"
+><a href="/pod/Archive/Libarchive/EntryLinkResolver.html" class="podlinkpod"
+>Archive::Libarchive::EntryLinkResolver</a></a></dt>
+
+<dd>
+<p>This is the <code>libarchive</code> link resolver API.</p>
+
+<dt><a name="Archive_=&#62;_Archive::Libarchive::Match"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive</a> =&#62; <a href="/pod/Archive/Libarchive/Match.html" class="podlinkpod"
+>Archive::Libarchive::Match</a></a></dt>
+
+<dd>
+<p>This is the <code>libarchive</code> match API.</p>
+</dd>
+</dl>
+
+<p>This module attempts to provide comprehensive bindings to the <code>libarchive</code> library. For more details on the history and alternatives to this project see the <a href="#HISTORY" class="podlinkpod"
+>&#34;HISTORY&#34;</a> section below. All recent versions of <code>libarchive</code> should be supported, although some methods are only available when you have the most recent version of <code>libarchive</code> installed. For methods not available on older versions please consult <a href="/pod/Archive/Libarchive/API.html" class="podlinkpod"
+>Archive::Libarchive::API</a>, which will list these methods as <code>(optional)</code>. If you need to support both older versions of <code>libarchive</code> and exploit the newer methods on newer versions of <code>libarchive</code> you can use the <code>can</code> method to check if they are available. If you need the latest version of <code>libarchive</code>, and your system provides an older version, then you can force a <code>share</code> install of <a href="/pod/Alien/Libarchive3.html" class="podlinkpod"
+>Alien::Libarchive3</a>:</p>
+
+<pre class="sh_perl"> env ALIEN_INSTALL_TYPE=share cpanm Alien::Libarchive3</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<p>The main functionality of this module is implemented in the classes listed above, but this module does also provide a few top level non-object-oriented functions as well. These methods are not exported by default, but they can be requested using the usual <a href="https://metacpan.org/pod/Exporter" class="podlinkpod"
+>Exporter</a> interface, either individually, or with the <code>:func</code> or <code>:all</code> tags (The latter will also import constants).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_bzlib_version"
+>archive_bzlib_version</a></h2>
+
+<pre class="sh_perl"> # archive_bzlib_version
+ my $string = archive_bzlib_version();</pre>
+
+<p>The <code>bzlib</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_liblz4_version"
+>archive_liblz4_version</a></h2>
+
+<pre class="sh_perl"> # archive_liblz4_version
+ my $string = archive_liblz4_version();</pre>
+
+<p>The <code>liblz4</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_liblzma_version"
+>archive_liblzma_version</a></h2>
+
+<pre class="sh_perl"> # archive_liblzma_version
+ my $string = archive_liblzma_version();</pre>
+
+<p>The <code>liblzma</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_libzstd_version"
+>archive_libzstd_version</a></h2>
+
+<pre class="sh_perl"> # archive_libzstd_version (optional)
+ my $string = archive_libzstd_version();</pre>
+
+<p>The <code>zstd</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_version_details"
+>archive_version_details</a></h2>
+
+<pre class="sh_perl"> # archive_version_details
+ my $string = archive_version_details();</pre>
+
+<p>Detailed textual name/version of the library and its dependencies. This has the form:</p>
+
+<dl>
+<dt><a name="libarchive_x.y.z_zlib/a.b.c_liblzma/d.e.f_..._etc_..."
+><code>libarchive x.y.z zlib/a.b.c liblzma/d.e.f ... etc ...</code></a></dt>
+</dl>
+
+<p>the list of libraries described here will vary depending on how libarchive was compiled.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_version_number"
+>archive_version_number</a></h2>
+
+<pre class="sh_perl"> # archive_version_number
+ my $int = archive_version_number();</pre>
+
+<p>The <code>libarchive</code> version expressed as an integer. This will be the major, minor and patch levels each using up to three digits, so 3.5.1 will be <code>3005001</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_version_string"
+>archive_version_string</a></h2>
+
+<pre class="sh_perl"> # archive_version_string
+ my $string = archive_version_string();</pre>
+
+<p>The <code>libarchive</code> version as a string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_zlib_version"
+>archive_zlib_version</a></h2>
+
+<pre class="sh_perl"> # archive_zlib_version
+ my $string = archive_zlib_version();</pre>
+
+<p>The <code>zlib</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="versions"
+>versions</a></h2>
+
+<pre class="sh_perl"> my %versions = Archive::Libarchive-&#62;versions();</pre>
+
+<p>This returns a hash of <code>libarchive</code> and <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> versions and dependency versions. This may be useful in a test report diagnostic.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLES"
+>EXAMPLES</a></h1>
+
+<p>These examples are translated from the <code>libarchive</code> C examples, which can be found here:</p>
+
+<dl>
+<dt><a name="https://github.com/libarchive/libarchive/wiki/Examples"
+><a href="https://github.com/libarchive/libarchive/wiki/Examples" class="podlinkurl"
+>https://github.com/libarchive/libarchive/wiki/Examples</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="List_contents_of_archive_stored_in_file"
+>List contents of archive stored in file</a></h2>
+
+<p>The main <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> API is based around two basic type of classes. The <a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a> class serves as a basis for all archive objects. The <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> represents the header or metadata for files stored inside an archive (or as we will see later, files on disk).</p>
+
+<p>The basic life cycle of an archive instance is:</p>
+
+<dl>
+<dt><a name="Create_one_using_its_new_constructor"
+>Create one using its <code>new</code> constructor</a></dt>
+
+<dd>
+<p>The constructor does not take any arguments, instead you will configure it in the next step.</p>
+
+<dt><a name="Configure_it_using_&#34;support&#34;_or_&#34;set&#34;_calls"
+>Configure it using &#34;support&#34; or &#34;set&#34; calls</a></dt>
+
+<dd>
+<p>Support calls allow <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> to decide when to use a feature; &#34;set&#34; calls enable the feature unconditionally.</p>
+
+<dt><a name="&#34;Open&#34;_a_particular_data_source"
+>&#34;Open&#34; a particular data source</a></dt>
+
+<dd>
+<p>This can be using callbacks for a custom source, or one of the pre-canned data sources supported directly by <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a>.</p>
+
+<dt><a name="Iterate_over_the_contents"
+>Iterate over the contents</a></dt>
+
+<dd>
+<p>Ask alternatively for &#34;header&#34; or entry/file metadata (which is represented by a <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> instance), and entry/file content.</p>
+
+<dt><a name="Finish_by_calling_&#34;close&#34;"
+>Finish by calling &#34;close&#34;</a></dt>
+
+<dd>
+<p>This will be called automatically if the archive instance falls out of scope.</p>
+</dd>
+</dl>
+
+<p>Writing an archive is very similar, except that you provide the &#34;header&#34; and content data to <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> instead of asking for them.</p>
+
+<p>Here is a very basic example that simply opens a file and lists the contents of the archive.</p>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive qw( ARCHIVE_OK );
+ 
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;
+ $r-&#62;support_filter_all;
+ $r-&#62;support_format_all;
+ 
+ my $ret = $r-&#62;open_filename(&#34;archive.tar&#34;, 10240);
+ if($ret != ARCHIVE_OK) {
+   exit 1;
+ }
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ while($r-&#62;next_header($e) == ARCHIVE_OK) {
+   say $e-&#62;pathname;
+   $r-&#62;read_data_skip;
+ }</pre>
+
+<p>Note that <a href="/pod/Archive/Libarchive/ArchiveRead.html#open_filename" class="podlinkpod"
+>open_filename</a> method inspects the file before deciding how to handle the block size. If the filename provided refers to a tape device, for example, it will use exactly the block size you specify. For other devices, it may adjust the requested block size in order to obtain better performance.</p>
+
+<p>Note that the call to <a href="/pod/Archive/Libarchive/API.html#read_data_skip" class="podlinkpod"
+>read_data_skip</a> here is not actually necessary, since <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> will invoke it automatically if you request the next header without reading the data for the last entry.</p>
+
+<p>The module <a href="/pod/Archive/Libarchive/Peek.html" class="podlinkpod"
+>Archive::Libarchive::Peek</a> also provides similar functionality to this example in a simple, less powerful interface.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="List_contents_of_archive_stored_in_memory"
+>List contents of archive stored in memory</a></h2>
+
+<p>There are several variants of the open methods. The &#34;filename&#34; variant used above is intended to be simple to use in the common case of reading from a file from disk, but you may find the &#34;memory&#34; variant useful in other cases.</p>
+
+<pre class="sh_perl"> use 5.020;
+ use Path::Tiny qw( path );
+ use Archive::Libarchive qw( ARCHIVE_OK );
+ 
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;
+ $r-&#62;support_filter_all;
+ $r-&#62;support_format_all;
+ 
+ my $buffer = path(&#39;archive.tar&#39;)-&#62;slurp_raw;
+ 
+ my $ret = $r-&#62;open_memory(\$buffer);
+ if($ret != ARCHIVE_OK) {
+   exit 1;
+ }
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ while($r-&#62;next_header($e) == ARCHIVE_OK) {
+   say $e-&#62;pathname;
+   $r-&#62;read_data_skip;
+ }</pre>
+
+<p>There are also variants to read from an already-opened file descriptor, a <code>libc</code> <code>FILE</code> pointer, or a Perl file handle.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="List_contents_of_archive_with_custom_read_functions"
+>List contents of archive with custom read functions</a></h2>
+
+<p>Sometimes, none of the packaged open methods will work for you. In that case, you can use the lower-level <code>open</code> method, which accepts a number of callbacks. For this example we will use the <code>open</code>, <code>read</code> and <code>close</code> callbacks.</p>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive qw( :const );
+ 
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;
+ $r-&#62;support_filter_all;
+ $r-&#62;support_format_all;
+ 
+ my $fh;
+ 
+ $r-&#62;open(
+   open =&#62; sub {
+     open $fh, &#39;&#60;&#39;, &#39;archive.tar&#39;;
+     binmode $fh;
+     return ARCHIVE_OK;
+   },
+   read =&#62; sub {
+     my(undef, $ref) = @_;
+     my $size = read $fh, $$ref, 512;
+     return $size;
+   },
+   close =&#62; sub {
+     close $fh;
+     return ARCHIVE_OK;
+   },
+ ) == ARCHIVE_OK or die $r-&#62;error_string;
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ while(1) {
+   my $ret = $r-&#62;next_header($e);
+   last if $ret == ARCHIVE_EOF;
+   die $r-&#62;error_string if $ret &#60; ARCHIVE_WARN;
+   warn $r-&#62;error_string if $ret != ARCHIVE_OK;
+   say $e-&#62;pathname;
+ }
+ 
+ $r-&#62;close;</pre>
+
+<p>For full power of read callbacks see the <a href="/pod/Archive/Libarchive/ArchiveRead.html#open" class="podlinkpod"
+>open method&#39;s documentation</a>.</p>
+
+<p>When writing to an archive the <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a> class also has its own <a href="/pod/Archive/Libarchive/ArchiveWrite.html#open" class="podlinkpod"
+>open method and callbacks</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="A_universal_decompressor_/_defilter-er"
+>A universal decompressor / defilter-er</a></h2>
+
+<p>The &#34;raw&#34; format handler treats arbitrary binary input as a single-element archive. This allows you to get the output of a libarchive filter chain, including files with multiple encodings, such as <code>gz.uu</code> files:</p>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive;
+ 
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;
+ $r-&#62;support_filter_all;
+ $r-&#62;support_format_raw;
+ $r-&#62;open_filename(&#34;hello.txt.uu&#34;);
+ $r-&#62;next_header(Archive::Libarchive::Entry-&#62;new);
+ 
+ my $buffer;
+ while($r-&#62;read_data(\$buffer)) {
+   print $buffer;
+ }
+ 
+ $r-&#62;close;</pre>
+
+<p>Note that the &#34;raw&#34; format is not enabled by the <a href="/pod/Archive/Libarchive/API.html#support_format_all" class="podlinkpod"
+>support_format_all method on Archive::Libarchive::ArchiveRead</a>. Also note that the &#34;raw&#34; format handler does not recognize or accept empty files. If you specifically want to be able to read empty files, you&#39;ll need to also invoke the <a href="/pod/Archive/Libarchive/API.html#support_format_empty" class="podlinkpod"
+>support_format_empty method on Archive::Libarchive::ArchiveRead</a>.</p>
+
+<p>The module <a href="/pod/Archive/Libarchive/Unwrap.html" class="podlinkpod"
+>Archive::Libarchive::Unwrap</a> also provides similar functionality to this example in a simple, less powerful interface.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="A_basic_write_example"
+>A basic write example</a></h2>
+
+<p>The following is a very simple example of using <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> to write a group of files into a tar archive. This is a little more complex than the read examples above because the write example actually does something with the file bodies.</p>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive;
+ use Path::Tiny qw( path );
+ 
+ my $w = Archive::Libarchive::ArchiveWrite-&#62;new;
+ $w-&#62;set_format_pax_restricted;
+ $w-&#62;open_filename(&#34;outarchive.tar&#34;);
+ 
+ path(&#39;.&#39;)-&#62;visit(sub ($path, $) {
+   my $path = shift;
+ 
+   return if $path-&#62;is_dir;
+ 
+   my $e = Archive::Libarchive::Entry-&#62;new;
+   $e-&#62;set_pathname(&#34;$path&#34;);
+   $e-&#62;set_size(-s $path);
+   $e-&#62;set_filetype(&#39;reg&#39;);
+   $e-&#62;set_perm( oct(&#39;0644&#39;) );
+   $w-&#62;write_header($e);
+   $w-&#62;write_data(\$path-&#62;slurp_raw);
+ 
+ }, { recurse =&#62; 1 });
+ 
+ $w-&#62;close;</pre>
+
+<p>Note that:</p>
+
+<dl>
+<dt><a name="filetype"
+>filetype</a></dt>
+
+<dd>
+<p>The filetype methods take either a string code, or an integer constant with the <code>AE_IF</code> prefix. When returning a filetype code, they will return a dualvar with both. The code <code>reg</code> / <code>AE_IFREG</code> is the code for a regular file (not a directory, symlink or other special filetype).</p>
+
+<dt><a name="gzip"
+>gzip</a></dt>
+
+<dd>
+<p>If you wanted to write a gzipped tar archive, you would just add a call to the <a href="/pod/Archive/Libarchive/API.html#add_filter_gzip" class="podlinkpod"
+>add_filter_gzip method on Archive::Libarchive::ArchiveRead</a>, and append <code>.gz</code> to the output filename.</p>
+
+<dt><a name="pax_restricted"
+>pax restricted</a></dt>
+
+<dd>
+<p>The &#34;pax restricted&#34; format is a tar format that uses pax extensions only when absolutely necessary. Most of the time, it will write plain ustar entries. This is recommended tar format for most uses. You should explicitly use ustar format only when you have to create archives that will be readable on older systems; you should explicitly request pax format only when you need to preserve as many attributes as possible.</p>
+
+<dt><a name="reusing_entry_instance"
+>reusing entry instance</a></dt>
+
+<dd>
+<p>This example creates a fresh <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> instance for each file. For better performance, you can reuse the same entry instance by using the <a href="/pod/Archive/Libarchive/API.html#clear" class="podlinkpod"
+>clear method</a> to erase it after each use.</p>
+
+<dt><a name="required_properties"
+>required properties</a></dt>
+
+<dd>
+<p>Size, file type and pathname are all required properties here. You can also use the <a href="/pod/Archive/Libarchive/API.html#copy_stat" class="podlinkpod"
+>copy_stat method</a> to copy all information from file to the archive entry, including file type. To get even more complete information, look at the <a href="/pod/Archive/Libarchive/DiskRead.html" class="podlinkpod"
+>Archive::Libarchive::DiskRead</a> class, which provides an easy way to get more extensive file metadata&#8213;including ACLs and extended attributes on some systems&#8213;than using <code>stat</code>. It also works on platforms such as Windows where <code>stat</code> either doesn&#39;t exist or is broken.</p>
+
+<dt><a name="calling_close"
+>calling close</a></dt>
+
+<dd>
+<p>The close method will be called implicitly when the archive instance falls out of scope. However, the close call returns an error code, which may be useful for catching errors.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Constructing_objects_on_disk"
+>Constructing objects on disk</a></h2>
+
+<p><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> includes a <a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a> class that works very much like <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a>, except that it constructs objects on disk, instead of adding them to an archive. This class knows how to construct directories, regular files, symlinks, hard links and other types of disk objects. Here is a very simple example showing how you could use it to create a regular file on disk:</p>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive qw( :const );
+ 
+ my $dw = Archive::Libarchive::DiskWrite-&#62;new;
+ $dw-&#62;disk_set_options(ARCHIVE_EXTRACT_TIME);
+ 
+ my $text = &#34;Hello World!\n&#34;;
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ $e-&#62;set_pathname(&#34;hello.txt&#34;);
+ $e-&#62;set_filetype(&#39;reg&#39;);
+ $e-&#62;set_size(length $text);
+ $e-&#62;set_mtime(time);
+ $e-&#62;set_mode(oct(&#39;0644&#39;));
+ 
+ $dw-&#62;write_header($e);
+ $dw-&#62;write_data(\$text);
+ $dw-&#62;finish_entry;</pre>
+
+<p>Note that if you set a size in the entry instance, <a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a> will enforce that size. If you try to write more than the size set in the entry content, your writes will be truncated; if you write fewer bytes than you promised, the file will be extended with zero bytes.</p>
+
+<p>The pattern above can also be used to reconstruct directories, device nodes, and FIFOs. The same idea also works for restoring symlinks and hardlinks, but you do have to initialize the entry a little differently:</p>
+
+<dl>
+<dt><a name="symlinks"
+>symlinks</a></dt>
+
+<dd>
+<p>Symlinks have a file type <code>lnk</code> / <code>AE_IFLNK</code> and require a target to be set with the <a href="/pod/Archive/Libarchive/API.html#set_symlink" class="podlinkpod"
+>set_symlink method</a>.</p>
+
+<dt><a name="hardlinks"
+>hardlinks</a></dt>
+
+<dd>
+<p>Hardlinks require a target to be set with <a href="/pod/Archive/Libarchive/API.html#set_hardlink" class="podlinkpod"
+>the set_hardlink method</a>; if this is set, the regular filetype is ignored. If the entry describing a hardlink has a size, you must be prepared to write data to the linked files. If you don&#39;t want to overwrite the file, leave the size unset.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="A_complete_extractor"
+>A complete extractor</a></h2>
+
+<p>Using the facilities described above, you can extract most archives to disk by simply copying entries from an <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a> instance to an <a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a> instance.</p>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive qw( :const );
+ 
+ my $tarball = &#39;archive.tar&#39;;
+ 
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;
+ $r-&#62;support_format_all;
+ $r-&#62;support_filter_all;
+ 
+ my $dw = Archive::Libarchive::DiskWrite-&#62;new;
+ $dw-&#62;disk_set_options(
+   ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_PERM | ARCHIVE_EXTRACT_ACL | ARCHIVE_EXTRACT_FFLAGS
+ );
+ $dw-&#62;disk_set_standard_lookup;
+ 
+ $r-&#62;open_filename($tarball) == ARCHIVE_OK
+   or die &#34;unable to open $tarball @{[ $r-&#62;error_string ]}&#34;;
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ while(1) {
+   my $ret = $r-&#62;next_header($e);
+   last if $ret == ARCHIVE_EOF;
+   if($ret &#60; ARCHIVE_OK) {
+     if($ret &#60; ARCHIVE_WARN) {
+       die &#34;header read error on $tarball @{[ $r-&#62;error_string ]}&#34;;
+     } else {
+       warn &#34;header read warning on $tarball @{[ $r-&#62;error_string ]}&#34;;
+     }
+   }
+ 
+   $ret = $dw-&#62;write_header($e);
+   if($ret &#60; ARCHIVE_OK) {
+     if($ret &#60; ARCHIVE_WARN) {
+       die &#34;header write error on disk @{[ $dw-&#62;error_string ]}&#34;;
+     } else {
+       warn &#34;header write warning disk @{[ $dw-&#62;error_string ]}&#34;;
+     }
+   }
+ 
+   if($e-&#62;size &#62; 0)
+   {
+     my $buffer;
+     my $offset;
+     while(1) {
+ 
+       $ret = $r-&#62;read_data_block(\$buffer, \$offset);
+       last if $ret == ARCHIVE_EOF;
+       if($ret &#60; ARCHIVE_OK) {
+         if($ret &#60; ARCHIVE_WARN) {
+           die &#34;file read error on member @{[ $e-&#62;pathname ]} @{[ $r-&#62;error_string ]}&#34;;
+         } else {
+           warn &#34;file read warning on member @{[ $e-&#62;pathname ]} @{[ $r-&#62;error_string ]}&#34;;
+         }
+       }
+ 
+       $ret = $dw-&#62;write_data_block(\$buffer, $offset);
+       if($ret &#60; ARCHIVE_OK) {
+         if($ret &#60; ARCHIVE_WARN) {
+           die &#34;file write error on member @{[ $e-&#62;pathname ]} @{[ $dw-&#62;error_string ]}&#34;;
+         } else {
+           warn &#34;file write warning on member @{[ $e-&#62;pathname ]} @{[ $dw-&#62;error_string ]}&#34;;
+         }
+       }
+     }
+   }
+ 
+   $dw-&#62;finish_entry;
+   if($ret &#60; ARCHIVE_OK) {
+     if($ret &#60; ARCHIVE_WARN) {
+       die &#34;finish error on disk @{[ $dw-&#62;error_string ]}&#34;;
+     } else {
+       warn &#34;finish warning disk @{[ $dw-&#62;error_string ]}&#34;;
+     }
+   }
+ }
+ 
+ $r-&#62;close;
+ $dw-&#62;close;</pre>
+
+<p>You could create an archive by going the other way by copying entries from an <a href="/pod/Archive/Libarchive/DiskRead.html" class="podlinkpod"
+>Archive::Libarchive::DiskRead</a> instance to an <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a> instance.</p>
+
+<p>The module <a href="/pod/Archive/Libarchive/Extract.html" class="podlinkpod"
+>Archive::Libarchive::Extract</a> also provides similar functionality to this example in a simple, less powerful interface.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTANTS"
+>CONSTANTS</a></h1>
+
+<p>This module provides all of the constants used by <code>libarchive</code>. These typically are prefixed either <code>ARCHIVE_</code> or <code>AE_</code> and can be imported into your code individually, or <i>en masse</i> using the <code>:const</code> export tag. The will also be imported if you use the <code>:all</code> export tag to import everything.]</p>
+
+<p>The complete list of available constants is listed in <a href="/pod/Archive/Libarchive/API.html" class="podlinkpod"
+>Archive::Libarchive::API</a>.</p>
+
+<p>The most common constants are the return of status codes from most functions:</p>
+
+<dl>
+<dt><a name="ARCHIVE_EOF"
+><code>ARCHIVE_EOF</code></a></dt>
+
+<dd>
+<p>is returned only from <a href="/pod/Archive/Libarchive/ArchiveRead.html#read_data" class="podlinkpod"
+>read_data</a> and <a href="/pod/Archive/Libarchive/ArchiveRead.html#read_data_block" class="podlinkpod"
+>read_data_block</a> from the <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a> class when you reach the end of a structure.</p>
+
+<dt><a name="ARCHIVE_OK"
+><code>ARCHIVE_OK</code></a></dt>
+
+<dd>
+<p>The operation completed successfully.</p>
+
+<dt><a name="ARCHIVE_WARN"
+><code>ARCHIVE_WARN</code></a></dt>
+
+<dd>
+<p>If the operation completed with some surprises. You may want to report the issue to your user. The <a href="/pod/Archive/Libarchive/Archive.html#error_string" class="podlinkpod"
+>error_string</a> method on most classes will return a suitable text message; the <a href="/pod/Archive/Libarchive/Archive.html#errno" class="podlinkpod"
+>errno</a> method on most classes returns an associated system <code>errno</code> value. (Since not all errors are caused by failing system calls, this is not always meaningful).</p>
+
+<dt><a name="ARCHIVE_FAILED"
+><code>ARCHIVE_FAILED</code></a></dt>
+
+<dd>
+<p>If this operation failed. In particular, this means that further operations on this entry are impossible. This is returned, for example, if you try to write an entry type that&#39;s not supported by this archive format. Recovery usually consists of simply going on to the next entry.</p>
+
+<dt><a name="ARCHIVE_FATAL"
+><code>ARCHIVE_FATAL</code></a></dt>
+
+<dd>
+<p>If the archive object itself is no longer usable, typically because of an I/O failure or memory allocation failure.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="HISTORY"
+>HISTORY</a></h1>
+
+<p>I started working with <code>libarchive</code> in order to experiment with FFI. To that end I implemented bindings for <code>libarchive</code> using both <a href="https://metacpan.org/pod/Archive%3A%3ALibarchive%3A%3AXS" class="podlinkpod"
+>XS</a> and <a href="https://metacpan.org/pod/Archive%3A%3ALibarchive%3A%3AFFI" class="podlinkpod"
+>FFI</a> to compare and contrast the process. It was the basis for my first YAPC::NA talk back in 2014.</p>
+
+<dl>
+<dt><a name="Foreign_Function_Interface_(FFI)_:_Never_Need_to_Write_XS_Again!"
+><a href="https://www.youtube.com/watch?v=cY-yqQ_nmtw" class="podlinkurl"
+>Foreign Function Interface (FFI) : Never Need to Write XS Again!</a></a></dt>
+</dl>
+
+<p>When I was working on the XS and FFI implementations I recognized that some degree of automation would be required, mainly because the <code>libarchive</code> is a C API of hundreds of methods, and new methods are being added all the time. I also wanted both implementations to use the same test suite, since their interfaces should be identical. While this work was useful, and I even ended up using both versions in production at a previous <code>$work</code>, the tools that I chose to automate managing the large number of methods, and the common test suite made both modules quite difficult to maintain.</p>
+
+<p>I think also the interface that I chose was wrong. I opted to provide a very thin layer over <code>libarchive</code>, to avoid as much object-oriented overhead as possible. I intended to one day make an object-oriented layer over this thin layer to make it easier to use, but I never found the time to do this. I think a better approach would have been to bite the bullet provide only an object-oriented interface, because the ease of using a library that automatically free&#39;s its pointers when an object falls out of scope is worth the performance penalty of object oriented invocation.</p>
+
+<p>I did, however, learn a lot about XS and FFI, and I started to think about what would make FFI easier in Perl. At the time the only viable FFI on cpan was <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+>FFI::Raw</a>, and I contributed a number of enhancements and fixes to that project, and even got it working on Strawberry Perl. But I was starting to crave a better experience writing FFI bindings in Perl.</p>
+
+<p>BULK88 was in the audience for a DC / Baltimore version of my <i>Never Need to Write XS</i> talk and he pointed me to a feature in XS that would make FFI calls much faster than what was possible in <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+>FFI::Raw</a>. Using the <code>any_ptr</code> it is possible to remove method calls from an FFI interface, which, due to their dynamic nature.</p>
+
+<p>I was loosing faith in <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+>FFI::Raw</a> being tenable or performant for large APIs, so I I gathered up my ideas of what would make a better FFI experience in Perl and the <code>any_ptr</code> feature that Bulk had shown me and I started working on a prototype FFI library. I gave a talk at the Pittsburgh workshop based on the work of that prototype.</p>
+
+<dl>
+<dt><a name="FFI_Performance"
+><a href="https://www.youtube.com/watch?v=uq2mgTOtbhM" class="podlinkurl"
+>FFI Performance</a></a></dt>
+</dl>
+
+<p>I didn&#39;t release that prototype, because I kept hoping that FFI would catch fire and someone else would write a killer FFI for Perl. Since it didn&#39;t seem to be happening I re-worked my prototype into what eventually became <a href="https://metacpan.org/pod/FFI%3A%3APlatypus" class="podlinkpod"
+>FFI::Platypus</a>. I wrote lots of bindings for Perl using Platypus, and I always had the idea that I would circle back to my FFI bindings for <code>libarchive</code> (<a href="https://metacpan.org/pod/Archive%3A%3ALibarchive%3A%3AFFI" class="podlinkpod"
+>Archive::Libarchive::FFI</a>) and rework it using Platypus instead of <a href="https://metacpan.org/pod/FFI%3A%3ARaw" class="podlinkpod"
+>FFI::Raw</a>. The problem is that the project has since atrophied, and the problems with the dual module and automation tools that I chose made this not really a viable enterprise.</p>
+
+<p>I next thing that FFI needs in Perl is some good tools to introspect C and generate bindings automatically. There are lots of challenges in this area. One being that exactly what a function signature (assuming you can even introspect that) can be ambiguous. For example a <code>char</code> could either be a 8 bit integer value (it could even be signed or unsigned depending on architecture) or it could be a single character. A pointer <code>int *</code> could actually be used by the callee as an array. There are lots of things that are unsafe about C, and a ton of corner cases because of the way the C pre-processor works, but if we can surmount these challenges then it would be very useful, because even when two different non-C languages are trying to talk to each other, they are usually using the C ABI to do it. This sort of drives me crazy but it is the way the world works, at least today.</p>
+
+<p>I&#39;ve been working on some low-level tools that I&#39;m hoping we can build on to do some of this introspection. <a href="https://metacpan.org/pod/Const%3A%3AIntrospect%3A%3AC" class="podlinkpod"
+>Const::Introspect::C</a> is able to extract <code>#define</code> constants from a C header file, and <a href="https://metacpan.org/pod/Clang%3A%3ACastXML" class="podlinkpod"
+>Clang::CastXML</a> uses the <code>castxml</code> project to extract a model of the functions and <code>strct</code>s in a C header file. I&#39;m hoping with a middle layer these modules could be used to write a <code>h2ffi</code> tool similar to <a href="https://metacpan.org/pod/h2xs" class="podlinkpod"
+>h2xs</a>. I&#39;ve had a number of false starts writing this middle layer: so I&#39;ve decided to write some custom introspection with <code>libarchive</code>, which is a very FFI-friendly library, and one that I am familiar with, but that also has some interesting challenges and edge cases. I&#39;m hoping this work will help design a more general middle layer that will be usable for other libraries.</p>
+
+<p>At the same time, I&#39;ve decided to fix some of the design flaws of my original XS and FFI implementations. There really isn&#39;t a good way of doing this with the original implementations so I&#39;m deprecating them in favor of this one. I feel confident that the overall experience of using this library should be much better than using one of the older ones. I also think this one will be more easily maintainable, because I am using <code>castxml</code>, and I&#39;ve created a reference build of <code>libarchive</code> using docker, which should ensure that the code generation is done consistently.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Libarchive::Peek"
+><a href="/pod/Archive/Libarchive/Peek.html" class="podlinkpod"
+>Archive::Libarchive::Peek</a></a></dt>
+
+<dd>
+<p>Provides an interface for listing and retrieving entries from an archive without extracting them to the local filesystem.</p>
+
+<dt><a name="Archive::Libarchive::Extract"
+><a href="/pod/Archive/Libarchive/Extract.html" class="podlinkpod"
+>Archive::Libarchive::Extract</a></a></dt>
+
+<dd>
+<p>Provides an interface for extracting arbitrary archives of any format/filter supported by <code>libarchive</code>.</p>
+
+<dt><a name="Archive::Libarchive::Unwrap"
+><a href="/pod/Archive/Libarchive/Unwrap.html" class="podlinkpod"
+>Archive::Libarchive::Unwrap</a></a></dt>
+
+<dd>
+<p>Decompresses / unwraps files that have been compressed or wrapped in any of the filter formats supported by <code>libarchive</code></p>
+
+<dt><a name="Dist::Zilla::Plugin::Libarchive"
+><a href="/pod/Dist/Zilla/Plugin/Libarchive.html" class="podlinkpod"
+>Dist::Zilla::Plugin::Libarchive</a></a></dt>
+
+<dd>
+<p>Build <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a> based dist tarballs with libarchive instead of the built in <a href="https://metacpan.org/pod/Archive%3A%3ATar" class="podlinkpod"
+>Archive::Tar</a>.</p>
+
+<dt><a name="Archive::Libarchive::API"
+><a href="/pod/Archive/Libarchive/API.html" class="podlinkpod"
+>Archive::Libarchive::API</a></a></dt>
+
+<dd>
+<p>This contains the full and complete API for all of the <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> classes. Because <code>libarchive</code> has hundreds of methods, the main documentation pages elsewhere only contain enough to be useful, and not to overwhelm.</p>
+
+<dt><a name="Archive::Libarchive::Archive"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a></a></dt>
+
+<dd>
+<p>The base class of all archive classes. This includes some common error reporting functionality among other things.</p>
+
+<dt><a name="Archive::Libarchive::ArchiveRead"
+><a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a></a></dt>
+
+<dd>
+<p>This class is used for reading from archives.</p>
+
+<dt><a name="Archive::Libarchive::ArchiveWrite"
+><a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a></a></dt>
+
+<dd>
+<p>This class is for creating new archives.</p>
+
+<dt><a name="Archive::Libarchive::DiskRead"
+><a href="/pod/Archive/Libarchive/DiskRead.html" class="podlinkpod"
+>Archive::Libarchive::DiskRead</a></a></dt>
+
+<dd>
+<p>This class is for reading <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> objects from disk so that they can be written to <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a> objects.</p>
+
+<dt><a name="Archive::Libarchive::DiskWrite"
+><a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a></a></dt>
+
+<dd>
+<p>This class is for writing <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> objects to disk that have been written from <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a> objects.</p>
+
+<dt><a name="Archive::Libarchive::Entry"
+><a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a></a></dt>
+
+<dd>
+<p>This class represents a file in an archive, or on disk.</p>
+
+<dt><a name="Archive::Libarchive::EntryLinkResolver"
+><a href="/pod/Archive/Libarchive/EntryLinkResolver.html" class="podlinkpod"
+>Archive::Libarchive::EntryLinkResolver</a></a></dt>
+
+<dd>
+<p>This class exposes the <code>libarchive</code> link resolver API.</p>
+
+<dt><a name="Archive::Libarchive::Match"
+><a href="/pod/Archive/Libarchive/Match.html" class="podlinkpod"
+>Archive::Libarchive::Match</a></a></dt>
+
+<dd>
+<p>This class exposes the <code>libarchive</code> match API.</p>
+
+<dt><a name="Alien::Libarchive3"
+><a href="/pod/Alien/Libarchive3.html" class="podlinkpod"
+>Alien::Libarchive3</a></a></dt>
+
+<dd>
+<p>If a suitable system <code>libarchive</code> can&#39;t be found, then this <a href="https://metacpan.org/pod/Alien" class="podlinkpod"
+>Alien</a> will be installed to provide it.</p>
+
+<dt><a name="libarchive.org"
+><a href="http://libarchive.org/" class="podlinkurl"
+>libarchive.org</a></a></dt>
+
+<dd>
+<p>The <code>libarchive</code> project home page.</p>
+
+<dt><a name="https://github.com/libarchive/libarchive/wiki"
+><a href="https://github.com/libarchive/libarchive/wiki" class="podlinkurl"
+>https://github.com/libarchive/libarchive/wiki</a></a></dt>
+
+<dd>
+<p>The <code>libarchive</code> project wiki.</p>
+
+<dt><a name="https://github.com/libarchive/libarchive/wiki/ManualPages"
+><a href="https://github.com/libarchive/libarchive/wiki/ManualPages" class="podlinkurl"
+>https://github.com/libarchive/libarchive/wiki/ManualPages</a></a></dt>
+
+<dd>
+<p>Some of the <code>libarchive</code> man pages are listed here.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021,2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

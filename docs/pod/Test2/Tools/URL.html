@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::URL</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::URL</div>
+    <!--Test2::Tools::URL--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#url'>url</a>
+    <li class='indexItem indexItem2'><a href='#url_base'>url_base</a>
+    <li class='indexItem indexItem2'><a href='#url_component'>url_component</a>
+    <li class='indexItem indexItem2'><a href='#url_scheme'>url_scheme</a>
+    <li class='indexItem indexItem2'><a href='#url_host'>url_host</a>
+    <li class='indexItem indexItem2'><a href='#url_secure'>url_secure</a>
+    <li class='indexItem indexItem2'><a href='#url_insecure'>url_insecure</a>
+    <li class='indexItem indexItem2'><a href='#url_mail_to'>url_mail_to</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::URL - Compare a URL in your Test2 test</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.06</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test2::Tools::URL;
+ 
+ is(
+   &#34;http://example.com/path1/path2?query=1#fragment&#34;,
+   url {
+     url_scheme             =&#62; &#39;http&#39;;
+     url_host               =&#62; &#39;example.com&#39;;
+     url_component path     =&#62; &#39;/path1/path2&#39;;
+     url_component query    =&#62; { query =&#62; 1 };
+     url_component fragment =&#62; &#39;fragment&#39;;
+   },
+   &#39;url is as expected&#39;,
+ );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This set of <a href="https://metacpan.org/pod/Test2" class="podlinkpod"
+>Test2</a> tools helps writing tests against URLs, represented as either strings, or as objects that stringify to URLs (such as <a href="https://metacpan.org/pod/URI" class="podlinkpod"
+>URI</a> or <a href="https://metacpan.org/pod/Mojo%3A%3AURL" class="podlinkpod"
+>Mojo::URL</a>).</p>
+
+<p>The idea is that you may be writing tests against URLs, but you may only care about one or two components, and you may not want to worry about decoding the URL or breaking the components up. The URL may be nested deeply. This tool is intended to help!</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url"
+>url</a></h2>
+
+<pre class="sh_perl"> my $check = url {}</pre>
+
+<p>Checks that the given string or object is a valid URL.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url_base"
+>url_base</a></h2>
+
+<pre class="sh_perl"> url {
+   url_base $url;
+ };</pre>
+
+<p>Use the given base URL for relative paths. If specified outside of a URL, then it will apply to all url checks.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url_component"
+>url_component</a></h2>
+
+<pre class="sh_perl"> url {
+   url_component $component, $check;
+ }</pre>
+
+<p>Check that the given URL component matches.</p>
+
+<dl>
+<dt><a name="scheme"
+>scheme</a></dt>
+
+<dd>
+<p>Note: scheme <i>is</i> normalized to lower case for this test.</p>
+
+<dt><a name="authority"
+>authority</a></dt>
+
+<dd>
+<dt><a name="userinfo"
+>userinfo</a></dt>
+
+<dd>
+<dt><a name="hostport"
+>hostport</a></dt>
+
+<dd>
+<dt><a name="host"
+>host</a></dt>
+
+<dd>
+<p>Note: hostname <i>is not</i> normalized to lower case for this test. To test the normalized hostname use <code>url_host</code> below.</p>
+
+<dt><a name="port"
+>port</a></dt>
+
+<dd>
+<dt><a name="path"
+>path</a></dt>
+
+<dd>
+<dt><a name="query"
+>query</a></dt>
+
+<dd>
+<p>May be either a string, list or array!</p>
+
+<dt><a name="fragment"
+>fragment</a></dt>
+
+<dd>
+<dt><a name="user"
+>user</a></dt>
+
+<dd>
+<p>[version 0.06]</p>
+
+<p>Note: for <code>ftp</code> URLs only.</p>
+
+<dt><a name="password"
+>password</a></dt>
+
+<dd>
+<p>[version 0.06]</p>
+
+<p>Note: for <code>ftp</code> URLs only.</p>
+
+<dt><a name="media_type"
+>media_type</a></dt>
+
+<dd>
+<p>[version 0.06]</p>
+
+<p>Note: for <code>data</code> URLs only.</p>
+
+<dt><a name="data"
+>data</a></dt>
+
+<dd>
+<p>[version 0.06]</p>
+
+<p>Note: for <code>data</code> URLs only.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url_scheme"
+>url_scheme</a></h2>
+
+<p>[version 0.06]</p>
+
+<pre class="sh_perl"> url {
+   url_scheme $check;
+ }</pre>
+
+<p>Check that the given URL scheme matches <code>$check</code>. Note that the scheme <i>is</i> normalized to lower case for this test, so it is identical to using <code>url_component &#39;scheme&#39;, $check</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url_host"
+>url_host</a></h2>
+
+<p>[version 0.06]</p>
+
+<pre class="sh_perl"> url {
+   url_host $check;
+ }</pre>
+
+<p>Check that the given URL host matches <code>$check</code>. Note that the host <i>is</i> normalized to lower case for this test, unlike the <code>url_component &#39;host&#39;, $check</code> test described above.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url_secure"
+>url_secure</a></h2>
+
+<p>[version 0.06]</p>
+
+<pre class="sh_perl"> url {
+   url_secure();
+ }</pre>
+
+<p>Check that the given URL is using a secure protocol like <code>https</code> or <code>wss</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url_insecure"
+>url_insecure</a></h2>
+
+<p>[version 0.06]</p>
+
+<pre class="sh_perl"> url {
+   url_insecure();
+ }</pre>
+
+<p>Check that the given URL is using an insecure protocol like <code>http</code> or <code>ftp</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url_mail_to"
+>url_mail_to</a></h2>
+
+<p>[version 0.06]</p>
+
+<pre class="sh_perl"> url {
+   url_mail_to $check;
+ }</pre>
+
+<p>Checks that the email address in the given <code>mailto</code> URL matches the check. For non-<code>mailto</code> URLs this check will fail.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://metacpan.org/pod/Test2%3A%3ASuite" class="podlinkpod"
+>Test2::Suite</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Paul Durden (alabamapaul, PDURDEN)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

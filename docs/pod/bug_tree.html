@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>bug_tree</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> bug_tree</div>
+    <!--bug_tree--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#--bug_bug_id_%7C_-b_bug_id'>--bug bug_id | -b bug_id</a>
+    <li class='indexItem indexItem2'><a href='#--url_url_%7C_-u_url'>--url url | -u url</a>
+    <li class='indexItem indexItem2'><a href='#--ssl-no-verify-hostname'>--ssl-no-verify-hostname</a>
+    <li class='indexItem indexItem2'><a href='#--help_%7C_-h'>--help | -h</a>
+    <li class='indexItem indexItem2'><a href='#--version'>--version</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>bug_tree - Print a bugzilla tree out to stdout</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> % bug_tree --bug bug_id [ --url url ] [ --ssl-no-verify-hostname ]
+ % bug_tree --help | -h
+ % bug_tree --version</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This script prints out a tree (with colors if available) of dependent bugs from your Bugzilla server.</p>
+
+<p>This script will prompt you for a username or password if the server requires HTTP Basic authentication ( If you set the environment variable <code>BUG_TREE_USER</code> to your bugzilla username then it will just prompt you for a password). It will not attempt to login if your server does not require you to login to view bugs.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--bug_bug_id_|_-b_bug_id"
+>--bug <i>bug_id</i> | -b <i>bug_id</i></a></h2>
+
+<p>The Bugzilla bug id of the root bug to display.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--url_url_|_-u_url"
+>--url <i>url</i> | -u <i>url</i></a></h2>
+
+<p>The URL of the Bugzilla website. Uses the <code>BUG_TREE_URL</code> environment variable if this option not provided, and falls back on this bugzilla server provided for testing:</p>
+
+<p><a href="https://landfill.bugzilla.org/bugzilla-3.6-branch" class="podlinkurl"
+>https://landfill.bugzilla.org/bugzilla-3.6-branch</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--ssl-no-verify-hostname"
+>--ssl-no-verify-hostname</a></h2>
+
+<p>Do not verify the hostname for SSL connections. This allows for servers that use self signed certificates. If you get a &#34;500 Can&#39;t connect&#34; error trying to connect to a <code>https</code> server that you know to work, then this option may do the trick.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--help_|_-h"
+>--help | -h</a></h2>
+
+<p>Display help for this command</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--version"
+>--version</a></h2>
+
+<p>Display the version for this command</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="/pod/WWW/Bugzilla/BugTree.html" class="podlinkpod"
+>WWW::Bugzilla::BugTree</a>, <a href="/pod/WWW/Bugzilla/BugTree/Bug.html" class="podlinkpod"
+>WWW::Bugzilla::BugTree::Bug</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

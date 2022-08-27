@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Return::MultiLevel</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Return::MultiLevel</div>
+    <!--Return::MultiLevel--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Functions'>Functions</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#DEBUGGING'>DEBUGGING</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Return::MultiLevel - Return across multiple call levels</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">  use Return::MultiLevel qw(with_return);
+
+  sub inner {
+    my ($f) = @_;
+    $f-&#62;(42);  # implicitly return from &#39;with_return&#39; below
+    print &#34;You don&#39;t see this\n&#34;;
+  }
+
+  sub outer {
+    my ($f) = @_;
+    inner($f);
+    print &#34;You don&#39;t see this either\n&#34;;
+  }
+
+  my $result = with_return {
+    my ($return) = @_;
+    outer($return);
+    die &#34;Not reached&#34;;
+  };
+  print $result, &#34;\n&#34;;  # 42</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides a way to return immediately from a deeply nested call stack. This is similar to exceptions, but exceptions don&#39;t stop automatically at a target frame (and they can be caught by intermediate stack frames using <a href="https://metacpan.org/pod/perlfunc#eval-EXPR" class="podlinkpod"
+><code>eval</code></a>). In other words, this is more like <a href="http://man.he.net/man3/setjmp" class="podlinkman"
+>setjmp(3)</a>/<a href="http://man.he.net/man3/longjmp" class="podlinkman"
+>longjmp(3)</a> than <a href="https://metacpan.org/pod/perlfunc#die-LIST" class="podlinkpod"
+><code>die</code></a>.</p>
+
+<p>Another way to think about it is that the &#34;multi-level return&#34; coderef represents a single-use/upward-only continuation.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Functions"
+>Functions</a></h2>
+
+<p>The following functions are available (and can be imported on demand).</p>
+
+<dl>
+<dt><a name="with_return_BLOCK"
+>with_return BLOCK</a></dt>
+
+<dd>
+<p>Executes <i>BLOCK</i>, passing it a code reference (called <code>$return</code> in this description) as a single argument. Returns whatever <i>BLOCK</i> returns.</p>
+
+<p>If <code>$return</code> is called, it causes an immediate return from <code>with_return</code>. Any arguments passed to <code>$return</code> become <code>with_return</code>&#39;s return value (if <code>with_return</code> is in scalar context, it will return the last argument passed to <code>$return</code>).</p>
+
+<p>It is an error to invoke <code>$return</code> after its surrounding <i>BLOCK</i> has finished executing. In particular, it is an error to call <code>$return</code> twice.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DEBUGGING"
+>DEBUGGING</a></h1>
+
+<p>This module uses <a href="https://metacpan.org/pod/Scope%3A%3AUpper#unwind" class="podlinkpod"
+><code>unwind</code></a> from <a href="https://metacpan.org/pod/Scope%3A%3AUpper" class="podlinkpod"
+><code>Scope::Upper</code></a> to do its work. If <a href="https://metacpan.org/pod/Scope%3A%3AUpper" class="podlinkpod"
+><code>Scope::Upper</code></a> is not available, it substitutes its own pure Perl implementation. You can force the pure Perl version to be used regardless by setting the environment variable <code>RETURN_MULTILEVEL_PP</code> to 1.</p>
+
+<p>If you get the error message <code>Attempt to re-enter dead call frame</code>, that means something has called a <code>$return</code> from outside of its <code>with_return { ... }</code> block. You can get a stack trace of where that <code>with_return</code> was by setting the environment variable <code>RETURN_MULTILEVEL_DEBUG</code> to 1.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>You can&#39;t use this module to return across implicit function calls, such as signal handlers (like <code>$SIG{ALRM}</code>) or destructors (<code>sub DESTROY { ... }</code>). These are invoked automatically by perl and not part of the normal call chain.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Lukas Mai</li>
+
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013,2014,2021 by Lukas Mai.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Server::OS::UNIX</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::<a href="/pod/AnyEvent/FTP/Server.html">Server</a>::OS::UNIX</div>
+    <!--AnyEvent::FTP::Server::OS::UNIX--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+    <li class='indexItem indexItem2'><a href='#uid'>uid</a>
+    <li class='indexItem indexItem2'><a href='#gid'>gid</a>
+    <li class='indexItem indexItem2'><a href='#home'>home</a>
+    <li class='indexItem indexItem2'><a href='#shell'>shell</a>
+    <li class='indexItem indexItem2'><a href='#groups'>groups</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#jail'>jail</a>
+    <li class='indexItem indexItem2'><a href='#drop_privileges'>drop_privileges</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Server::OS::UNIX - UNIX implementations for AnyEvent::FTP</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use AnyEvent::FTP::Server::OS::UNIX;
+ 
+ # interface using user fred
+ my $unix = AnyEvent::FTP::Server::OS::UNIX-&#62;new(&#39;fred&#39;);
+ $unix-&#62;jail;            # chroot
+ $unix-&#62;drop_privileges; # transform into user fred</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class provides some utility functionality for interacting with the UNIX and UNIX like operating systems.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<p>The user&#39;s username</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uid"
+>uid</a></h2>
+
+<p>The user&#39;s UID</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="gid"
+>gid</a></h2>
+
+<p>The user&#39;s GID</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="home"
+>home</a></h2>
+
+<p>The user&#39;s home directory</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="shell"
+>shell</a></h2>
+
+<p>The user&#39;s shell</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="groups"
+>groups</a></h2>
+
+<p>List of groups (as GIDs) that the user also belongs to.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="jail"
+>jail</a></h2>
+
+<pre class="sh_perl"> $unix-&#62;jail;</pre>
+
+<p><code>chroot</code> to the users&#39; home directory. Requires root and the chroot function.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="drop_privileges"
+>drop_privileges</a></h2>
+
+<pre class="sh_perl"> $unix-&#62;drop_privileges;</pre>
+
+<p>Drop super user privileges</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

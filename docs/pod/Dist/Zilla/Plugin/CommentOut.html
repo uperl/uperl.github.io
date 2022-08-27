@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dist::Zilla::Plugin::CommentOut</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Dist::Zilla::Plugin::CommentOut</div>
+    <!--Dist::Zilla::Plugin::CommentOut--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#MOTIVATION'>MOTIVATION</a>
+  <li class='indexItem indexItem1'><a href='#PROPERTIES'>PROPERTIES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#id'>id</a>
+    <li class='indexItem indexItem2'><a href='#remove'>remove</a>
+    <li class='indexItem indexItem2'><a href='#begin'>begin</a>
+    <li class='indexItem indexItem2'><a href='#end'>end</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Dist::Zilla::Plugin::CommentOut - Comment out code in your scripts and modules</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.05</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> [CommentOut]
+ id = dev-only</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This plugin comments out lines of code in your Perl scripts or modules with the provided identification. This allows you to have code in your development tree that gets commented out before it gets shipped by <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a> as a tarball.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="MOTIVATION"
+>MOTIVATION</a></h1>
+
+<p>I use perlbrew and/or perls installed in funny places and I&#39;d like to be able to run executables out of by git checkout tree without invoking <code>perl -Ilib</code> on every call. To that end I write something like this:</p>
+
+<pre class="sh_perl"> #!/usr/bin/env perl
+ 
+ use strict;
+ use warnings;
+ use lib::findbin &#39;../lib&#39;;  # dev-only
+ use App::MyApp;</pre>
+
+<p>That is lovely, except that the main toolchain installers EUMM and MB will convert <code>/usr/bin/perl</code> but not <code>/usr/bin/env perl</code> to the correct perl when the distribution is installed. There is a handy plugin <code>[SetScriptShebang]</code> that solves that problem but the <code>use lib::findbin &#39;../lib&#39;;</code> is problematic because <code>../lib</code> relative to the install location might not be right! With both <code>[SetScriptShebang]</code> and this plugin, I can fix both problems:</p>
+
+<pre class="sh_perl"> [SetScriptShebang]
+ [CommentOut]</pre>
+
+<p>And my script will be converted to:</p>
+
+<pre class="sh_perl"> #!perl
+ 
+ use strict;
+ use warnings;
+ #use lib::findbin &#39;../lib&#39;;  # dev-only
+ use App::MyApp;</pre>
+
+<p>Which is the right thing for CPAN. Since lines are commented out, line numbers are retained.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PROPERTIES"
+>PROPERTIES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="id"
+>id</a></h2>
+
+<p>The comment id to search for. The default is <code>dev-only</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remove"
+>remove</a></h2>
+
+<p>Remove lines instead of comment them out.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="begin"
+>begin</a></h2>
+
+<p>For block comments, the id to use for the beginning of the block. Block comments are off unless both <code>begin</code> and <code>end</code> are specified.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="end"
+>end</a></h2>
+
+<p>For block comments, the id to use for the beginning of the block. Block comments are off unless both <code>begin</code> and <code>end</code> are specified.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Dist::Zilla::Plugin::Comment"
+><a href="https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AComment" class="podlinkpod"
+>Dist::Zilla::Plugin::Comment</a></a></dt>
+
+<dd>
+<p>Does something very similar. I did actually do a survay of Dist::Zilla plugins before writing this one, but apparently I missed this one. Anyway I prefer <code>[CommentOut]</code> as it is configurable.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Mohammad S Anwar (MANWAR)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::Archive::Libarchive</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::Archive::Libarchive</div>
+    <!--Test::Archive::Libarchive--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#la_ok'>la_ok</a>
+    <li class='indexItem indexItem2'><a href='#la_eof'>la_eof</a>
+    <li class='indexItem indexItem2'><a href='#la_warn'>la_warn</a>
+    <li class='indexItem indexItem2'><a href='#la_retry'>la_retry</a>
+    <li class='indexItem indexItem2'><a href='#la_failed'>la_failed</a>
+    <li class='indexItem indexItem2'><a href='#la_fatal'>la_fatal</a>
+    <li class='indexItem indexItem2'><a href='#la_read_data_ok'>la_read_data_ok</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::Archive::Libarchive - Testing tools for Archive::Libarchive</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Archive::Libarchive;
+ use Test::Archive::Libarchive;
+ use Path::Tiny qw( path );
+ 
+ my $w = Archive::Libarchive-&#62;new;
+ la_ok $w, &#39;add_filter_gzip&#39;;
+ la_ok $w, &#39;set_format_pax_restricted&#39;;
+ la_ok $w, &#39;open_filename&#39; =&#62; [&#39;foo.tar.gz&#39;];
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ $e-&#62;set_pathname(__FILE__);
+ $e-&#62;set_size(-s __FILE__);
+ $e-&#62;set_filetype(&#39;reg&#39;);
+ 
+ la_ok $w, &#39;write_header&#39; =&#62; [$e];
+ is($w-&#62;write_data(path(__FILE__)-&#62;slurp_raw), -s __FILE__);
+ 
+ la_ok $w, &#39;close&#39;;
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Error handling for <code>libarchive</code> and <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> is fairly primitive. Most methods return an <code>int</code> which correspond to <code>ARCHIVE_EOF</code>, <code>ARCHIVE_OK</code>, <code>ARCHIVE_RETRY</code>, <code>ARCHIVE_WARN</code>, <code>ARCHIVE_FAILED</code> or <code>ARCHIVE_FATAL</code>. Some methods will also return the number of actual bytes written on success and one of these codes on failure. It can be tedious doing the necessary checks for each method call in a test, so this module provides tools for testing <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> method calls that follow this pattern.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="la_ok"
+>la_ok</a></h2>
+
+<pre class="sh_perl"> la_ok $a, $method;
+ la_ok $a, $method, \@arguments;
+ la_ok $a, $method, \@arguments, $test_name;</pre>
+
+<p>Tests that calling the method <code>$method</code> on the archive object <code>$a</code> returns ARCHIVE_OK. This indicates a successful method call.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="la_eof"
+>la_eof</a></h2>
+
+<pre class="sh_perl"> la_eof $a, $method;
+ la_eof $a, $method, \@arguments;
+ la_eof $a, $method, \@arguments, $test_name;</pre>
+
+<p>Tests that calling the method <code>$method</code> on the archive object <code>$a</code> returns ARCHIVE_EOF. This is for when you reach the end of the archive or a file.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="la_warn"
+>la_warn</a></h2>
+
+<pre class="sh_perl"> la_warn $a, $method;
+ la_warn $a, $method, \@arguments;
+ la_warn $a, $method, \@arguments, $test_name;</pre>
+
+<p>Tests that calling the method <code>$method</code> on the archive object <code>$a</code> returns ARCHIVE_WARN. This indicates a possible problem, but things are still working.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="la_retry"
+>la_retry</a></h2>
+
+<pre class="sh_perl"> la_retry $a, $method;
+ la_retry $a, $method, \@arguments;
+ la_retry $a, $method, \@arguments, $test_name;</pre>
+
+<p>Tests that calling the method <code>$method</code> on the archive object <code>$a</code> returns ARCHIVE_RETRY. This indicates that a retry might succeed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="la_failed"
+>la_failed</a></h2>
+
+<pre class="sh_perl"> la_failed $a, $method;
+ la_failed $a, $method, \@arguments;
+ la_failed $a, $method, \@arguments, $test_name;</pre>
+
+<p>Tests that calling the method <code>$method</code> on the archive object <code>$a</code> returns ARCHIVE_RETRY. Operation failed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="la_fatal"
+>la_fatal</a></h2>
+
+<pre class="sh_perl"> la_failed $a, $method;
+ la_failed $a, $method, \@arguments;
+ la_failed $a, $method, \@arguments, $test_name;</pre>
+
+<p>Tests that calling the method <code>$method</code> on the archive object <code>$a</code> returns ARCHIVE_RETRY. Operation failed so badly that the archive object is no longer usable.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="la_read_data_ok"
+>la_read_data_ok</a></h2>
+
+<pre class="sh_perl"> my $content = la_read_data_ok $a;
+ my $content = la_read_data_ok $a, $test_name;</pre>
+
+<p>Tests that the data can be read from the archive. The entire content section will be read and returned on success. If there is a failure during the read then the test will fail.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Not all methods in <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> return a result code like this. Some like <code>write_data</code> return the number of bytes on success.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Libarchive"
+><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

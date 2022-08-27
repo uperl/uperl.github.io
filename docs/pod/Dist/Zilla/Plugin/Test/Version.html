@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dist::Zilla::Plugin::Test::Version</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Dist::Zilla::Plugin::Test::Version</div>
+    <!--Dist::Zilla::Plugin::Test::Version--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#is_strict'>is_strict</a>
+    <li class='indexItem indexItem2'><a href='#has_version'>has_version</a>
+    <li class='indexItem indexItem2'><a href='#filename_match'>filename_match</a>
+    <li class='indexItem indexItem2'><a href='#multiple'>multiple</a>
+    <li class='indexItem indexItem2'><a href='#finder'>finder</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#register_prereqs'>register_prereqs</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Dist::Zilla::Plugin::Test::Version - Author Test::Version tests</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>in <code>dist.ini</code></p>
+
+<pre class="sh_perl">  [Test::Version]
+  is_strict   = 0
+  has_version = 1</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module will add a <a href="/pod/Test/Version.html" class="podlinkpod"
+>Test::Version</a> test as a author test to your module.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_strict"
+>is_strict</a></h2>
+
+<p>set <a href="/pod/Test/Version.html#is_strict" class="podlinkpod"
+>Test::Version is_strict</a></p>
+
+<p>In addition to a boolean value, you may specify <code>adaptive</code> to indicate that is_strict should be true for production releases, but false for trial or development releases.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="has_version"
+>has_version</a></h2>
+
+<p>set <a href="/pod/Test/Version.html#has_version" class="podlinkpod"
+>Test::Version has_version</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename_match"
+>filename_match</a></h2>
+
+<p>set <a href="/pod/Test/Version.html#filename_match" class="podlinkpod"
+>Test::Version filename_match</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="multiple"
+>multiple</a></h2>
+
+<p>set <a href="/pod/Test/Version.html#multiple" class="podlinkpod"
+>Test::Version multiple</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="finder"
+>finder</a></h2>
+
+<p>This is the name of a <a href="https://metacpan.org/pod/Dist%3A%3AZilla%3A%3ARole%3A%3AFileFinder" class="podlinkpod"
+>Dist::Zilla::Role::FileFinder</a> for finding files to check. If this is specified then <code>version_ok</code> will be used for each file that matches, otherwise <code>version_all_ok</code> will be used, and the file discovery will be handled by <a href="/pod/Test/Version.html" class="podlinkpod"
+>Test::Version</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="register_prereqs"
+>register_prereqs</a></h2>
+
+<p>Register <a href="/pod/Test/Version.html" class="podlinkpod"
+>Test::Version</a> as an a development prerequisite.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUGS"
+>BUGS</a></h1>
+
+<p>Please report any bugs or feature requests on the bugtracker website https://github.com/plicease/dist-zilla-plugin-test-version/issues</p>
+
+<p>When submitting a bug or request, please include a test-file or a patch to an existing test-file that illustrates the bug or desired feature.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+
+<li>Caleb Cushing &#60;xenoterracide@gmail.com&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is Copyright (c) 2016 by Caleb Cushing &#60;xenoterracide@gmail.com&#62;.</p>
+
+<p>This is free software, licensed under:</p>
+
+<pre class="sh_perl">  The Artistic License 2.0 (GPL Compatible)</pre>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

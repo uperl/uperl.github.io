@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PPIx::DocumentName</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> PPIx::DocumentName</div>
+    <!--PPIx::DocumentName--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#extract'>extract</a>
+    <li class='indexItem indexItem2'><a href='#extract_via_statement'>extract_via_statement</a>
+    <li class='indexItem indexItem2'><a href='#extract_via_comment'>extract_via_comment</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#ALTERNATIVE_NAMES'>ALTERNATIVE NAMES</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#ACKNOWLEDGEMENTS'>ACKNOWLEDGEMENTS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>PPIx::DocumentName - Utility to extract a name from a PPI Document</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.01</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>New API:</p>
+
+<pre class="sh_perl"> use PPIx::DocumentName 1.00 -api =&#62; 1;
+ my $result = PPIx::DocumentName-&#62;extract( $ppi_document );
+ 
+ # say the &#34;name&#34; of the document
+ say $result-&#62;name;
+ 
+ # the result object can also be stringified into the name found:
+ say &#34;$result&#34;;
+ 
+ # the line number, column, filename etc. where the name was found
+ my $location = $result-&#62;node-&#62;location;</pre>
+
+<p>Old API:</p>
+
+<pre class="sh_perl"> use PPIx::DocumentName;  # assumes -api =&#62; 0
+ my $name = PPIx::DocumentName-&#62;extract( $ppi_document );
+ 
+ # say the &#34;name&#34; of the document
+ say $name;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module contains a few utilities for extracting a &#34;name&#34; out of an arbitrary Perl file.</p>
+
+<p>Typically, this is the <code>module</code> name, in the form:</p>
+
+<pre class="sh_perl">  package Foo</pre>
+
+<p>However, it also supports extraction of an override statement in the form:</p>
+
+<pre class="sh_perl">  # PODNAME: OverrideName::Goes::Here</pre>
+
+<p>Which may be more applicable for documents that lack a <code>package</code> statement, or the <code>package</code> statement may be &#34;wrong&#34;, but they still need the document parsed under the guise of having a name ( for purposes such as POD )</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract"
+>extract</a></h2>
+
+<pre class="sh_perl"> my $result = PPIx::Document-&#62;extract( $ppi_document);</pre>
+
+<p>This will first attempt to extract a name via the <code>PODNAME: </code> comment notation, and then fall back to using a <code>package Package::Name</code> statement.</p>
+
+<p><code>$ppi_document</code> is ideally a <code>PPI::Document</code>, but will be auto-up-cast if it is any of the parameters <code>PPI::Document-&#62;new()</code> understands.</p>
+
+<p>The <code>$result</code> is the found name as a string under <code>-api =&#62; 0</code> and a <a href="/pod/PPIx/DocumentName/Result.html" class="podlinkpod"
+>PPIx::DocumentName::Result</a> object under <code>-api =&#62; 1</code>. If the name is not found, then it will be <code>undef</code> (with either API). Note that <a href="/pod/PPIx/DocumentName/Result.html" class="podlinkpod"
+>PPIx::DocumentName::Result</a> is stringified to the found name, so in many circumstances the new API can be used in the same way as the old.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract_via_statement"
+>extract_via_statement</a></h2>
+
+<pre class="sh_perl">  my $result = PPIx::DocumentName-&#62;extract_via_statement( $ppi_document );</pre>
+
+<p>This only extract <code>package Package::Name</code> statement based document names.</p>
+
+<p><code>$ppi_document</code> is ideally a <code>PPI::Document</code>, but will be auto-up-cast if it is any of the parameters <code>PPI::Document-&#62;new()</code> understands.</p>
+
+<p>The <code>$result</code> is the found name as a string under <code>-api =&#62; 0</code> and a <a href="/pod/PPIx/DocumentName/Result.html" class="podlinkpod"
+>PPIx::DocumentName::Result</a> object under <code>-api =&#62; 1</code>. If the name is not found, then it will be <code>undef</code> (with either API).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract_via_comment"
+>extract_via_comment</a></h2>
+
+<pre class="sh_perl">  my $result = PPIx::DocumentName-&#62;extract_via_comment( $ppi_document );</pre>
+
+<p>This will only extract <code>PODNAME: </code> comment based document names.</p>
+
+<p><code>$ppi_document</code> is ideally a <code>PPI::Document</code>, but will be auto-up-cast if it is any of the parameters <code>PPI::Document-&#62;new()</code> understands.</p>
+
+<p>The <code>$result</code> is the found name as a string under <code>-api =&#62; 0</code> and a <a href="/pod/PPIx/DocumentName/Result.html" class="podlinkpod"
+>PPIx::DocumentName::Result</a> object under <code>-api =&#62; 1</code>. If the name is not found, then it will be <code>undef</code> (with either API).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>The newer API (<code>-api =&#62; 1</code>) is packaged scoped in Perl 5.6 and 5.8. In newer Perls the API is block scoped as it should be. Because this can cause bugs if you are using an older version of Perl this module will complain loudly if you are using an older Perl with the newer API. If you don&#39;t like the warning, then either use the old API or upgrade to Perl 5.10+.</p>
+
+<p>Under the older API (<code>-api =&#62; 0</code>; the default), <code>extract_via_statement</code>, unlike the other methods in this module, returns empty list instead of undef when it does find a name. When using the newer API (<code>-api =&#62; 1</code>), calls are consistent in scalar and list context. New code should therefore use the newer API.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ALTERNATIVE_NAMES"
+>ALTERNATIVE NAMES</a></h1>
+
+<p>Other things I could have called this</p>
+
+<ul>
+<li><code>PPIx::PodName</code> - But it isn&#39;t, because it doesn&#39;t extract from <code>POD</code>, only returns data that may be useful <b>FOR</b> <code>POD</code></li>
+
+<li><code>PPIx::ModuleName</code> - But it kinda isn&#39;t either, because its more generic than that and is tailored to extracting &#34;a name&#34; out of any PPI Document, and they&#39;re <i>NOT</i> all modules.</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Modules that are perceptibly similar to this ones tasks ( but are subtly different in important ways ) are as follows:</p>
+
+<ul>
+<li><a href="https://metacpan.org/pod/Module%3A%3AMetadata" class="podlinkpod"
+><code>Module::Metadata</code></a> - Module::Metadata does a bunch of things this module explicitly doesn&#39;t want or need to do, and it lacks a bunch of features this module needs.
+<p>Module::Metadata is predominantly concerned with extracting <i>ALL</i> name spaces and <i>ALL</i> versions from a module for the purposes of indexing and indexing related tasks. This also means it has a notion of &#34;hideable&#34; name spaces with the purpose of hiding them from <code>CPAN</code>.</p>
+
+<p>Due to being core as well, it is not able to use <code>PPI</code> for its features, so the above concerns mean it is also mostly based on careful regex parsing, which can easily be false tripped on miscellaneous in document content.</p>
+
+<p>Whereas <code>PPIx::DocumentName</code> only cares about the <i>first</i> name of a given class, and it cares much more about nested strings being ignored intentionally. It also has a motive to show names <i>even</i> for documents that won&#39;t be indexed ( And <code>Module::Metadata</code> has no short term plans on exposing hidden document names ).</p>
+
+<p><code>PPIx::DocumentName</code> also has special logic for the <code>PODNAME: </code> declaration, and may eventually support other mechanisms for extracting a name from &#34;a document&#34;, which will be not in <code>Module::Metadata</code>&#39;s collection of desired use-cases.</p>
+</li>
+
+<li><a href="https://metacpan.org/pod/Module%3A%3AExtract%3A%3ANamespaces" class="podlinkpod"
+><code>Module::Extract::Namespaces</code></a> - This is probably closer to <code>PPIx::DocumentName</code>&#39;s requirements, using <code>PPI</code> to extract content.
+<p>Most of <code>Module::Extract::Namespaces</code>&#39;s code seems to be glue for legacy versions of <code>PPI</code> and the remaining code is for loading modules from <code>@INC</code> ( Which we don&#39;t need ), or special casing IO ( Which is also not necessary, as this module assumes you&#39;re moderately acquainted with <code>PPI</code> and can do IO yourself )</p>
+
+<p><code>Module::Extract::Namespaces</code> also obliterates document comments, which of course stands in the way of our auxiliary requirements re <code>PODNAME: </code> declarations.</p>
+
+<p>It will also not be flexible enough to support other name extraction features we may eventually add.</p>
+
+<p>And like <code>Module::Metadata</code>, it also focuses on extracting <i>many</i> <code>package</code> declarations where this module prefers to extract only the <i>first</i>.</p>
+</li>
+
+<li><a href="/pod/PPIx/DocumentName/Result.html" class="podlinkpod"
+><code>PPIx::DocumentName::Result</code></a> - comes with this module, and contains the results of this module, when using the newer <code>-api =&#62; 1</code> API.</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ACKNOWLEDGEMENTS"
+>ACKNOWLEDGEMENTS</a></h1>
+
+<p>The bulk of this logic was extrapolated from <a href="https://metacpan.org/pod/Pod%3A%3AWeaver%3A%3ASection%3A%3AName" class="podlinkpod"
+><code>Pod::Weaver::Section::Name</code></a> and a related role, <a href="https://metacpan.org/pod/Pod%3A%3AWeaver%3A%3ARole%3A%3AStringFromComment" class="podlinkpod"
+><code>Pod::Weaver::Role::StringFromComment</code></a>.</p>
+
+<p>Thanks to <a href="cpan:///author/RJBS" class="podlinkurl"
+><code>RJBS</code></a> for the initial implementation and <a href="cpan:///author/DROLSKY" class="podlinkurl"
+><code>DROLSKY</code></a> for some of the improvement patches.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Kent Fredric &#60;kentnl@cpan.org&#62;</li>
+
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2015-2021 by Kent Fredric &#60;kentfredric@gmail.com&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

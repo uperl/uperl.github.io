@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::HTTP::UA</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::<a href="/pod/Test2/Tools/HTTP.html">HTTP</a>::UA</div>
+    <!--Test2::Tools::HTTP::UA--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#ua'>ua</a>
+    <li class='indexItem indexItem2'><a href='#apps'>apps</a>
+    <li class='indexItem indexItem2'><a href='#error'>error</a>
+    <li class='indexItem indexItem2'><a href='#register'>register</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::HTTP::UA - User agent wrapper for Test2::Tools::HTTP</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.10</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>Use a wrapper:</p>
+
+<pre class="sh_perl"> my $wrapper = Test2::Tools::HTTP::MyUAWrapper-&#62;new($ua);
+ 
+ # returns a HTTP::Response object
+ # or throws an error on a connection error
+ my $res = $wrapper-&#62;request($req);</pre>
+
+<p>Write your own wrapper:</p>
+
+<pre class="sh_perl"> package Test2::Tools::HTTP::UA::MyUAWrapper;
+ 
+ use parent &#39;Test2::Tools::HTTP::UA&#39;;
+ 
+ sub instrument
+ {
+   my($self) = @_;
+   my $ua = $self-&#62;ua;  # the user agent object
+   my $apps = $self-&#62;apps;
+ 
+   # instrument $ua so that when requests
+   # made against URLs in $apps the responses
+   # come from the apps in $apps.
+   ...
+ }
+ 
+ sub request
+ {
+   my $self = shift;
+   my $req  = shift;   # this isa HTTP::Request
+   my %options = @_;
+ 
+   my $self = $self-&#62;ua;
+   my $res;
+ 
+   if($options{follow_redirects})
+   {
+     # make a request using $ua, store
+     # result in $res isa HTTP::Response
+     # follow any redirects if $ua supports
+     # that.
+     my $res = eval { ... };
+ 
+     # on a CONNECTION error, you should throw
+     # an exception using $self-&#62;error.  This should
+     # NOT be used for 400 or 500 responses that
+     # actually come from the remote server or
+     # PSGI app.
+     if(my $error = $@)
+     {
+       $self-&#62;error(
+        &#34;connection error: &#34; . ($res-&#62;decoded_content || $warning),
+       );
+     }
+   }
+   else
+   {
+     # same as the previous block, but should
+     # NOT follow any redirects.
+     ...
+   }
+ 
+   $res;
+ }
+ 
+ __PACKAGE__-&#62;register(&#39;MyUA&#39;, &#39;instance&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This is the base class for user agent wrappers used by <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a>. The idea is to allow the latter to work with multiple user agent classes without having to change the way your <code>.t</code> file interacts with <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a>. By default <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a> uses <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> and in turn uses <a href="/pod/Test2/Tools/HTTP/UA/LWP.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA::LWP</a> as its user agent wrapper.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $wrapper = Test2::Tools::HTTP::UA-&#62;new($ua);</pre>
+
+<p>Creates a new wrapper.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ua"
+>ua</a></h2>
+
+<pre class="sh_perl"> my $ua = $wrapper-&#62;ua;</pre>
+
+<p>Returns the actual user agent object. This could be <i>any</i> user agent object, such as a <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a>, <a href="https://metacpan.org/pod/HTTP%3A%3ASimple" class="podlinkpod"
+>HTTP::Simple</a>, or <a href="https://metacpan.org/pod/Mojo%3A%3AUserAgent" class="podlinkpod"
+>Mojo::UserAgent</a>, but generally your wrapper only needs to support ONE user agent class.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="apps"
+>apps</a></h2>
+
+<pre class="sh_perl"> my $apps = $wrapper-&#62;apps;
+ my $apps = Test2::Tools::HTTP::UA-&#62;apps;</pre>
+
+<p>This returns an instance of <a href="/pod/Test2/Tools/HTTP/Apps.html" class="podlinkpod"
+>Test2::Tools::HTTP::Apps</a> used by your wrapper. It can be used to lookup PSGI apps by url.</p>
+
+<p>Because the apps object is a singleton, you may also call this as a class method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="error"
+>error</a></h2>
+
+<pre class="sh_perl"> $wrapper-&#62;error($message);
+ $wrapper-&#62;error($message, $response);</pre>
+
+<p>This throws an exception that <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a> understands to be a connection error. This is the preferred way to handle a connection error from within your <code>request</code> method.</p>
+
+<p>The second argument is an optional instance of <a href="https://metacpan.org/pod/HTTP%3A%3AResponse" class="podlinkpod"
+>HTTP::Response</a>. In the event of a connection error, you won&#39;t have a response object from the actual remote server or PSGI application. Some user agents (such as <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a>) produce a synthetic response object. You can stick it here for diagnostic purposes. You should NOT create your own synthetic response object though, only use this argument if your user agent produces a faux response object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="register"
+>register</a></h2>
+
+<pre class="sh_perl"> Test2::Tools::HTTP::UA-&#62;register($class, $type);</pre>
+
+<p>Register your wrapper class with <a href="/pod/Test2/Tools/HTTP/UA.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA</a>. <code>$class</code> is the user agent class. <code>$type</code> is either <code>class</code> for classes or <code>instance</code> for instances, meaning your wrapper works with a class or an instance object.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test2::Tools::HTTP"
+><a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Response</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::Response</div>
+    <!--AnyEvent::FTP::Response--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#code'>code</a>
+    <li class='indexItem indexItem2'><a href='#message'>message</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#is_success'>is_success</a>
+    <li class='indexItem indexItem2'><a href='#is_preliminary'>is_preliminary</a>
+    <li class='indexItem indexItem2'><a href='#as_string'>as_string</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Response - Response class for asynchronous ftp client</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Instances of this class represent a FTP server response.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="code"
+>code</a></h2>
+
+<pre class="sh_perl"> my $code = $client-&#62;code;</pre>
+
+<p>Integer code for the message. These can be categorized thus:</p>
+
+<dl>
+<dt><a name="1xx"
+>1xx</a></dt>
+
+<dd>
+<p>Positive preliminary reply</p>
+
+<dt><a name="2xx"
+>2xx</a></dt>
+
+<dd>
+<p>Positive completion reply</p>
+
+<dt><a name="3xx"
+>3xx</a></dt>
+
+<dd>
+<p>Positive intermediate reply</p>
+
+<dt><a name="4xx"
+>4xx</a></dt>
+
+<dd>
+<p>Transient negative reply</p>
+
+<dt><a name="5xx"
+>5xx</a></dt>
+
+<dd>
+<p>Permanent negative reply</p>
+</dd>
+</dl>
+
+<p>Generally <code>4xx</code> and <code>5xx</code> messages are errors, where as <code>1xx</code>, <code>3xx</code> are various states of (at least so far) successful operations. <code>2xx</code> indicates a completely successful operation.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="message"
+>message</a></h2>
+
+<pre class="sh_perl"> my $message = $res-&#62;message;</pre>
+
+<p>The human readable message returned from the server. This is always a list reference, even if the server only returned one line.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_success"
+>is_success</a></h2>
+
+<pre class="sh_perl"> my $bool = $res-&#62;is_success;</pre>
+
+<p>True if the response does not represent an error condition (codes <code>1xx</code>, <code>2xx</code> or <code>3xx</code>).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_preliminary"
+>is_preliminary</a></h2>
+
+<pre class="sh_perl"> my $bool = $res-&#62;is_preliminary;</pre>
+
+<p>True if the response is a preliminary positive reply (code <code>1xx</code>).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="as_string"
+>as_string</a></h2>
+
+<pre class="sh_perl"> my $str = $res-&#62;as_string;
+ my $str = &#34;$res&#34;;</pre>
+
+<p>Returns a string representation of the response. This may not be exactly what was returned by the server, but will include the code and at least part of the message in a human readable format.</p>
+
+<p>You can also get this string by treating objects of this class as a string (using it in a double quoted string, or by using string operators):</p>
+
+<pre class="sh_perl"> print &#34;$res&#34;;</pre>
+
+<p>is the same as</p>
+
+<pre class="sh_perl"> print $res-&#62;as_string;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

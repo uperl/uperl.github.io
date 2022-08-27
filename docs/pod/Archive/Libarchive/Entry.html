@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Archive::Libarchive::Entry</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Archive::<a href="/pod/Archive/Libarchive.html">Libarchive</a>::Entry</div>
+    <!--Archive::Libarchive::Entry--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#filetype'>filetype</a>
+    <li class='indexItem indexItem2'><a href='#set_filetype'>set_filetype</a>
+    <li class='indexItem indexItem2'><a href='#digest'>digest</a>
+    <li class='indexItem indexItem2'><a href='#xattr_add_entry'>xattr_add_entry</a>
+    <li class='indexItem indexItem2'><a href='#xattr_next'>xattr_next</a>
+    <li class='indexItem indexItem2'><a href='#copy_stat'>copy_stat</a>
+    <li class='indexItem indexItem2'><a href='#stat'>stat</a>
+    <li class='indexItem indexItem2'><a href='#clone'>clone</a>
+    <li class='indexItem indexItem2'><a href='#copy_mac_metadata'>copy_mac_metadata</a>
+    <li class='indexItem indexItem2'><a href='#mac_metadata'>mac_metadata</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Archive::Libarchive::Entry - Libarchive entry class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.05</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive;
+ 
+ my $text = &#34;Hello World!\n&#34;;
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ $e-&#62;set_pathname(&#34;hello.txt&#34;);
+ $e-&#62;set_filetype(&#39;reg&#39;);
+ $e-&#62;set_size(length $text);
+ $e-&#62;set_mtime(time);
+ $e-&#62;set_mode(oct(&#39;0644&#39;));</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents an entry, which is file metadata for a file stored in an archive or on the local file system.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<p>This is a subset of total list of methods available to all archive classes. For the full list see <a href="/pod/Archive/Libarchive/API.html#Archive%3A%3ALibarchive%3A%3AEntry" class="podlinkpod"
+>&#34;Archive::Libarchive::Entry&#34; in Archive::Libarchive::API</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $e = Archive::Libarchive::Entry-&#62;new;</pre>
+
+<p>Create a new Entry object.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<p>This is a subset of total list of methods available to all archive classes. For the full list see <a href="/pod/Archive/Libarchive/API.html#Archive%3A%3ALibarchive%3A%3AEntry" class="podlinkpod"
+>&#34;Archive::Libarchive::Entry&#34; in Archive::Libarchive::API</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filetype"
+>filetype</a></h2>
+
+<pre class="sh_perl"> # archive_entry_filetype
+ my $code = $e-&#62;filetype;</pre>
+
+<p>This returns the type of file for the entry. This will be a dualvar where the string is one of <code>mt</code>, <code>reg</code>, <code>lnx</code>, <code>sock</code>, <code>chr</code>, <code>blk</code>, <code>dir</code> or <code>ifo</code>, and integer values will match the corresponding <code>AE_IF</code> prefixed constant. See <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a> for the full list.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_filetype"
+>set_filetype</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_filetype
+ $e-&#62;set_filetype($code);</pre>
+
+<p>This sets the type of the file for the entry. This will accept either a string value which is one of <code>mt</code>, <code>reg</code>, <code>lnx</code>, <code>sock</code>, <code>chr</code>, <code>blk</code>, <code>dir</code> or <code>ifo</code>, or an integer constant value with the <code>AE_IF</code> prefix. See <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a> for the full list.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="digest"
+>digest</a></h2>
+
+<pre class="sh_perl"> # archive_entry_digest
+ my $string = $e-&#62;digest($type);</pre>
+
+<p>This is used to query the raw hex digest for the given entry. The type of digest is provided as an argument. The type may be passed in as either a string or an integer constant. The constant prefix is <code>ARCHIVE_ENTRY_DIGEST_</code>. So for an MD5 digest you could pass in either <code>&#39;md5&#39;</code> or <code>ARCHIVE_ENTRY_DIGEST_MD5</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xattr_add_entry"
+>xattr_add_entry</a></h2>
+
+<pre class="sh_perl"> # archive_entry_xattr_add_entry
+ my $int = $e-&#62;xattr_add_entry($name, $value);</pre>
+
+<p>Adds an xattr name/value pair.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xattr_next"
+>xattr_next</a></h2>
+
+<pre class="sh_perl"> # archive_entry_xattr_next
+ my $int = $e-&#62;xattr_next(\$name, $value);</pre>
+
+<p>Fetches the next xattr name/value pair.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_stat"
+>copy_stat</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_stat
+ $e-&#62;copy_stat($stat);</pre>
+
+<p>Copies the values from a <a href="https://metacpan.org/pod/FFI%3A%3AC%3A%3AStat" class="podlinkpod"
+>FFI::C::Stat</a> instance.</p>
+
+<p>Not currently implemented on Windows.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stat"
+>stat</a></h2>
+
+<pre class="sh_perl"> # archive_entry_stat
+ my $stat = $e-&#62;stat;</pre>
+
+<p>Returns a <a href="https://metacpan.org/pod/FFI%3A%3AC%3A%3AStat" class="podlinkpod"
+>FFI::C::Stat</a> instance filled out from the entry metadata.</p>
+
+<p>Not currently implemented on Windows.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clone"
+>clone</a></h2>
+
+<pre class="sh_perl"> # archive_entry_clone
+ my $e2 = $e-&#62;clone;</pre>
+
+<p>Clone the entry instance.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_mac_metadata"
+>copy_mac_metadata</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_mac_metadata
+ $e-&#62;copy_mac_metadata($meta);</pre>
+
+<p>Sets the mac metadata to <code>$meta</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mac_metadata"
+>mac_metadata</a></h2>
+
+<pre class="sh_perl"> # archive_entry_mac_metadata
+ my $meta = $e-&#62;mac_metadata;</pre>
+
+<p>Get the mac metadata from the entry.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Libarchive::Peek"
+><a href="/pod/Archive/Libarchive/Peek.html" class="podlinkpod"
+>Archive::Libarchive::Peek</a></a></dt>
+
+<dd>
+<p>Provides an interface for listing and retrieving entries from an archive without extracting them to the local filesystem.</p>
+
+<dt><a name="Archive::Libarchive::Extract"
+><a href="/pod/Archive/Libarchive/Extract.html" class="podlinkpod"
+>Archive::Libarchive::Extract</a></a></dt>
+
+<dd>
+<p>Provides an interface for extracting arbitrary archives of any format/filter supported by <code>libarchive</code>.</p>
+
+<dt><a name="Archive::Libarchive::Unwrap"
+><a href="/pod/Archive/Libarchive/Unwrap.html" class="podlinkpod"
+>Archive::Libarchive::Unwrap</a></a></dt>
+
+<dd>
+<p>Decompresses / unwraps files that have been compressed or wrapped in any of the filter formats supported by <code>libarchive</code></p>
+
+<dt><a name="Archive::Libarchive"
+><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+
+<dd>
+<p>This is the main top-level module for using <code>libarchive</code> from Perl. It is the best place to start reading the documentation. It pulls in the other classes and <code>libarchive</code> constants so that you only need one <code>use</code> statement to effectively use <code>libarchive</code>.</p>
+
+<dt><a name="Archive::Libarchive::API"
+><a href="/pod/Archive/Libarchive/API.html" class="podlinkpod"
+>Archive::Libarchive::API</a></a></dt>
+
+<dd>
+<p>This contains the full and complete API for all of the <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> classes. Because <code>libarchive</code> has hundreds of methods, the main documentation pages elsewhere only contain enough to be useful, and not to overwhelm.</p>
+
+<dt><a name="Archive::Libarchive::Archive"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a></a></dt>
+
+<dd>
+<p>The base class of all archive classes. This includes some common error reporting functionality among other things.</p>
+
+<dt><a name="Archive::Libarchive::ArchiveRead"
+><a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a></a></dt>
+
+<dd>
+<p>This class is used for reading from archives.</p>
+
+<dt><a name="Archive::Libarchive::ArchiveWrite"
+><a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a></a></dt>
+
+<dd>
+<p>This class is for creating new archives.</p>
+
+<dt><a name="Archive::Libarchive::DiskRead"
+><a href="/pod/Archive/Libarchive/DiskRead.html" class="podlinkpod"
+>Archive::Libarchive::DiskRead</a></a></dt>
+
+<dd>
+<p>This class is for reading <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> objects from disk so that they can be written to <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a> objects.</p>
+
+<dt><a name="Archive::Libarchive::DiskWrite"
+><a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a></a></dt>
+
+<dd>
+<p>This class is for writing <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> objects to disk that have been written from <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a> objects.</p>
+
+<dt><a name="Archive::Libarchive::EntryLinkResolver"
+><a href="/pod/Archive/Libarchive/EntryLinkResolver.html" class="podlinkpod"
+>Archive::Libarchive::EntryLinkResolver</a></a></dt>
+
+<dd>
+<p>This class exposes the <code>libarchive</code> link resolver API.</p>
+
+<dt><a name="Archive::Libarchive::Match"
+><a href="/pod/Archive/Libarchive/Match.html" class="podlinkpod"
+>Archive::Libarchive::Match</a></a></dt>
+
+<dd>
+<p>This class exposes the <code>libarchive</code> match API.</p>
+
+<dt><a name="Alien::Libarchive3"
+><a href="/pod/Alien/Libarchive3.html" class="podlinkpod"
+>Alien::Libarchive3</a></a></dt>
+
+<dd>
+<p>If a suitable system <code>libarchive</code> can&#39;t be found, then this <a href="https://metacpan.org/pod/Alien" class="podlinkpod"
+>Alien</a> will be installed to provide it.</p>
+
+<dt><a name="libarchive.org"
+><a href="http://libarchive.org/" class="podlinkurl"
+>libarchive.org</a></a></dt>
+
+<dd>
+<p>The <code>libarchive</code> project home page.</p>
+
+<dt><a name="https://github.com/libarchive/libarchive/wiki"
+><a href="https://github.com/libarchive/libarchive/wiki" class="podlinkurl"
+>https://github.com/libarchive/libarchive/wiki</a></a></dt>
+
+<dd>
+<p>The <code>libarchive</code> project wiki.</p>
+
+<dt><a name="https://github.com/libarchive/libarchive/wiki/ManualPages"
+><a href="https://github.com/libarchive/libarchive/wiki/ManualPages" class="podlinkurl"
+>https://github.com/libarchive/libarchive/wiki/ManualPages</a></a></dt>
+
+<dd>
+<p>Some of the <code>libarchive</code> man pages are listed here.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021,2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

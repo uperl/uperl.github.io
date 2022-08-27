@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::Process</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::Process</div>
+    <!--Test2::Tools::Process--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#process'>process</a>
+    <li class='indexItem indexItem2'><a href='#named_signal'>named_signal</a>
+    <li class='indexItem indexItem2'><a href='#intercept_exit'>intercept_exit</a>
+    <li class='indexItem indexItem2'><a href='#intercept_exec'>intercept_exec</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CHECKS'>CHECKS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#proc_event'>proc_event</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::Process - Unit tests for code that calls exit,
+exec,
+system or qx()</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.06</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0 -no_srand =&#62; 1;
+ use Test2::Tools::Process;
+ 
+ process {
+   system &#39;foo&#39;, &#39;bar&#39;;
+ } [
+   # check tht the first system call is to
+   # a command foo with any arguments
+   proc_event(system =&#62; array {
+     item &#39;foo&#39;;
+     etc;
+   }, sub {
+     # simulate the foo command
+     my($proc, @args) = @_;
+     note &#34;faux bar command: @args&#34;;
+     # simulate a notmsl exit
+     $proc-&#62;exit(0);
+   }),
+ ];
+ 
+ process {
+   exit 2;
+   note &#39;not executed&#39;;
+ } [
+   # can use any Test2 checks on the exit status
+   proc_event(exit =&#62; match qr/^[2-3]$/),
+ ];
+ 
+ process {
+   exit 4;
+ } [
+   # or you can just check that the exit status matches numerically
+   proc_event(exit =&#62; 4),
+ ];
+ 
+ process {
+   exit 5;
+ } [
+   # or just check that we called exit.
+   proc_event(&#39;exit&#39;),
+ ];
+ 
+ process {
+   exec &#39;foo bar&#39;;
+   exec &#39;baz&#39;;
+   note &#39;not executed&#39;;
+ } [
+   # emulate first exec as failed
+   proc_event(exec =&#62; match qr/^foo\b/, sub {
+     my($return, @command) = @_;
+     $! = 2;
+     return 0;
+   }),
+   # the second exec will be emulated as successful
+   proc_event(&#39;exec&#39;),
+ ];
+ 
+ # just intercept `exit`
+ is intercept_exit { exit 10 }, 10;
+ 
+ # just intercept `exec`
+ is intercept_exec { exec &#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39; }, [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;];
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This set of testing tools is intended for writing unit tests for code that interacts with other processes without using real processes that might have unwanted side effects. It also lets you test code that exits program flow without actually terminating your test. So far it allows you to test and/or mock <code>exit</code>, <code>exec</code>, <code>system</code>, <code>readpipe</code> and <code>qx//</code>. Other process related tests will be added in the future.</p>
+
+<p>This module borrows some ideas from <a href="https://metacpan.org/pod/Test%3A%3AExit" class="podlinkpod"
+>Test::Exit</a>. In particular it does not use exceptions to simulate <code>exit</code> or <code>exec</code>, so you can freely test code that calls these in an <code>eval</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="process"
+>process</a></h2>
+
+<pre class="sh_perl"> my $ok = process { ... } \@events, $test_name;
+ my $ok = process { ... } \@events;
+ my $ok = process { ... } $test_name;
+ my $ok = process { ... };</pre>
+
+<p>Runs the block, intercepting <code>exit</code>, <code>exec</code>, <code>system</code>, <code>readpipe</code> and <code>qx//</code> calls. The calls are then matched against <code>\@events</code> as the expected process events. See <code>proc_event</code> below for defining individual events, and the synopsis above for examples.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="named_signal"
+>named_signal</a></h2>
+
+<pre class="sh_perl"> my $signame = named_signal $name;</pre>
+
+<p>Given a string signal name like <code>KILL</code>, this will return the integer signal number. It will throw an exception if the <code>$name</code> is invalid.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="intercept_exit"
+>intercept_exit</a></h2>
+
+<pre class="sh_perl"> my $status = intercept_exit { ... };</pre>
+
+<p>Intercept any c&#60;exit&#62; calls inside the block, and return the exit status. Returns <code>undef</code> if there were no <code>exec</code> calls.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="intercept_exec"
+>intercept_exec</a></h2>
+
+<pre class="sh_perl"> my $arrayref = intercept_exec { ... };</pre>
+
+<p>Intercept any <code>exec</code> calls inside the block and return the command line that a was passed to it. Returns <code>undef</code> if there were no <code>exec</code> calls.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CHECKS"
+>CHECKS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="proc_event"
+>proc_event</a></h2>
+
+<pre class="sh_perl"> process { ... } [
+   proc_event($type =&#62; $check, $callback),
+   proc_event($type =&#62; $check),
+   proc_event($type =&#62; $callback),
+   proc_event($type),
+ 
+   # additional result checks for `system` events
+   proc_event(&#39;system&#39; =&#62; $check, \%result_check, $callback),
+   proc_event(&#39;system&#39; =&#62; \%result_check, $callback),
+   proc_event(&#39;system&#39; =&#62; $check, \%result_check),
+   proc_event(&#39;system&#39; =&#62; \%result_check),
+ ];</pre>
+
+<p>The <code>proc_event</code> function creates a process event, with an optional check and callback. How the <code>$check</code> works depends on the <code>$type</code>. If no <code>$check</code> is provided then it will only check that the <code>$type</code> matches. Due to their nature, <code>exit</code> and <code>exec</code> events are emulated. <code>system</code> events will actually make a system call, unless a <code>$callback</code> is provided.</p>
+
+<dl>
+<dt><a name="exit"
+>exit</a></dt>
+
+<dd>
+<p>A process event for an <code>exit</code> call. The check is against the status value passed to <code>exit</code>. This value will always be an integer. If no status value was passed to <code>exit</code>, <code>0</code> will be used as the status value.</p>
+
+<p>If no callback is provided then an <code>exit</code> will be emulated by terminating the process block without executing any more code. The rest of the test will then proceed.</p>
+
+<pre class="sh_perl"> proc_event( exit =&#62; sub {
+   my($proc, $status) = @_;
+   $proc-&#62;terminate;
+ });</pre>
+
+<p>The callback takes a <code>$proc</code> object and a <code>$status</code> value. Normally <code>exit</code> should never return, so what you want to do is call the <code>terminate</code> method on the <code>$proc</code> object.</p>
+
+<dt><a name="exec"
+>exec</a></dt>
+
+<dd>
+<p>A process event for an <code>exec</code> call. The check is against the command passed to <code>exec</code>. If <code>exec</code> is called with a single argument this will be a string, otherwise it will be an array reference. This way you can differentiate between the SCALAR and LIST modes of <code>exec</code>.</p>
+
+<p>If no callback is provided then a (successful) <code>exec</code> will be emulated by terminating the process block without executing any more code. The rest of the test will then proceed.</p>
+
+<pre class="sh_perl"> proc_event( exec =&#62; sub {
+   my($proc, @command) = @_;
+   ...;
+ });</pre>
+
+<p>The callback takes a <code>$proc</code> object and the arguments passed to <code>exec</code> as <code>@command</code>. You can emulate a failed <code>exec</code> by using the <code>errno</code> method on the <code>$proc</code> object:</p>
+
+<pre class="sh_perl"> proc_event( exec =&#62; sub {
+   my($proc, @command) = @_;
+   $proc-&#62;errno(2); # this is the errno value
+ });</pre>
+
+<p>To emulate a successful <code>exec</code> call you want to just remember to call the <code>terminate</code> method on the <code>$proc</code> object.</p>
+
+<pre class="sh_perl"> proc_event( exec =&#62; sub {
+   my($proc, @command) = @_;
+   $proc-&#62;terminate;
+ });</pre>
+
+<dt><a name="system"
+>system</a></dt>
+
+<dd>
+<p>A process event for <code>system</code>, <code>piperead</code> and <code>qx//</code>. The first check (as with <code>exec</code>) is against the command string passed to <code>system</code>. The second is a hash reference with result checks.</p>
+
+<dl>
+<dt><a name="status"
+>status</a></dt>
+
+<dd>
+<pre class="sh_perl"> proc_event( system =&#62; { status =&#62; $check } );</pre>
+
+<p>The normal termination status. This is usually the value passed to <code>exit</code> in the program called. Typically a program that succeeded will return zero (<code>0</code>) and a failed on will return non-zero.</p>
+
+<dt><a name="errno"
+>errno</a></dt>
+
+<dd>
+<pre class="sh_perl"> proc_event( system =&#62; { errno =&#62; $check } );</pre>
+
+<p>The <code>errno</code> or <code>$!</code> value if the system call failed. Most commonly this is for bad command names, but it could be something else like running out of memory or other system resources.</p>
+
+<dt><a name="signal"
+>signal</a></dt>
+
+<dd>
+<pre class="sh_perl"> proc_event( system =&#62; { signal =&#62; $check } );</pre>
+
+<p>Set if the process was killed by a signal.</p>
+</dd>
+</dl>
+
+<p>Only one check should be included because only one of these is usually valid. If you do not provide this check, then it will check that the status code is zero only.</p>
+
+<p>By default the actual system call will be made, but if you provide a callback you can simulate commands, which is helpful in unit testing your script without having to call external programs which may have unwanted side effects.</p>
+
+<pre class="sh_perl"> proc_event( system =&#62; sub {
+   my($proc, @command) = @_;
+   ...
+ });</pre>
+
+<p>Like the <code>exec</code> event, <code>@command</code> contains the full command passed to the <code>system</code> call. You can use the <code>$proc</code> object to simulate one of three different results:</p>
+
+<dl>
+<dt><a name="exit"
+>exit</a></dt>
+
+<dd>
+<pre class="sh_perl"> $proc-&#62;exit($status);
+ $proc-&#62;exit;</pre>
+
+<p>Exit with the given status. A status of zero (0) will be used if not provided. If no result is specified in the callback at all then a status of zero (0) will also be used.</p>
+
+<dt><a name="signal"
+>signal</a></dt>
+
+<dd>
+<pre class="sh_perl"> $proc-&#62;signal($signal);</pre>
+
+<p>Terminate with the given signal. <code>$signal</code> can be either an integer value (in which case no validation that it is a real signal is done), or a string signal name like <code>KILL</code>, <code>HUP</code> or any signal supported by your operating system. If you provide an invalid signal name an exception will be thrown.</p>
+
+<pre class="sh_perl"> proc_event( system =&#62; { signal =&#62; 9 } =&#62; sub {
+   my($proc, @args) = @_;
+   $proc-&#62;signal(&#39;KILL&#39;);
+ });</pre>
+
+<p>Note that when you kill one of these faux processes with a signal you will want to update the expected signal check, as in the example above.</p>
+
+<dt><a name="errno"
+>errno</a></dt>
+
+<dd>
+<pre class="sh_perl"> $proc-&#62;errno($errno);</pre>
+
+<p>Simulate a failed <code>system</code> call. Most often <code>system</code> will fail if the command is not found. The <code>$errno</code> passed in should be a valid <code>errno</code> value. On my system <code>2</code> is the error code for command not found. Example:</p>
+
+<pre class="sh_perl"> proc_event( system =&#62; { errno =&#62; number(2) } =&#62; sub {
+   my($proc, @args) = @_;
+   $proc-&#62;errno(2);
+ });</pre>
+
+<dt><a name="type"
+>type</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $type = $proc-&#62;type;</pre>
+
+<p>Returns <code>system</code> or <code>readpipe</code> depending on the Perl function that triggered the system call.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>The <code>exit</code> emulation, doesn&#39;t call <code>END</code> callbacks or other destructors, since you aren&#39;t really terminating the process.</p>
+
+<p>This module installs handlers for <code>exec</code>, <code>exit</code>, <code>system</code> and <code>readpipe</code>, in the <code>CORE::GLOBAL</code> namespace, so if your code is also installing handlers there then things might not work.</p>
+
+<p>This module is not apparently compatible with <a href="https://metacpan.org/pod/IPC%3A%3ARun3" class="podlinkpod"
+>IPC::Run3</a>. Use <a href="https://metacpan.org/pod/Capture%3A%3ATiny" class="podlinkpod"
+>Capture::Tiny</a> instead, which is better maintained in my opinion.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test::Exit"
+><a href="https://metacpan.org/pod/Test%3A%3AExit" class="podlinkpod"
+>Test::Exit</a></a></dt>
+
+<dd>
+<p>Simple <code>exit</code> emulation for tests. The most recent version does not rely on exceptions.</p>
+
+<dt><a name="Test::Exec"
+><a href="/pod/Test/Exec.html" class="podlinkpod"
+>Test::Exec</a></a></dt>
+
+<dd>
+<p>Like <a href="https://metacpan.org/pod/Test%3A%3AExit" class="podlinkpod"
+>Test::Exit</a>, but for <code>exec</code></p>
+
+<dt><a name="Test::Mock::Cmd"
+><a href="https://metacpan.org/pod/Test%3A%3AMock%3A%3ACmd" class="podlinkpod"
+>Test::Mock::Cmd</a></a></dt>
+
+<dd>
+<p>Provides an interface to mocking <code>system</code>, <code>qx</code> and <code>exec</code>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2015-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dist::Zilla::Plugin::InsertExample</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Dist::Zilla::Plugin::InsertExample</div>
+    <!--Dist::Zilla::Plugin::InsertExample--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#remove_boiler'>remove_boiler</a>
+    <li class='indexItem indexItem2'><a href='#match_boiler_barrier'>match_boiler_barrier</a>
+    <li class='indexItem indexItem2'><a href='#indent'>indent</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Dist::Zilla::Plugin::InsertExample - Insert example into your POD from a file</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.15</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>In your dist.ini:</p>
+
+<pre class="sh_perl"> [InsertExample]</pre>
+
+<p>In your POD:</p>
+
+<pre class="sh_perl"> =head1 EXAMPLE
+ 
+ Here is an exaple that writes hello world to the terminal:
+ 
+ # EXAMPLE: example/hello.pl</pre>
+
+<p>File in your dist named example/hello.pl</p>
+
+<pre class="sh_perl"> #!/usr/bin/perl
+ say &#39;hello world&#39;;</pre>
+
+<p>After dzil build your POD becomes:</p>
+
+<pre class="sh_perl"> =head1 EXAMPLE
+ 
+ Here is an example that writes hello world to the terminal:
+ 
+  #!/usr/bin/perl
+  say &#39;hello world&#39;;</pre>
+
+<p>and example/hello.pl is there too (unless you prune it with another plugin).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This plugin takes examples included in your distribution and inserts them in your POD where you have an EXAMPLE directive. This allows you to keep a version in the distribution which can be run by you and your users, as well as making it available in your POD documentation, without the need for updating example scripts in multiple places.</p>
+
+<p>When the example is inserted into your pod a space will be appended at the start of each line so that it is printed in a fixed width font.</p>
+
+<p>This plugin will first look for examples in the currently building distribution, including generated and munged files. If no matching filename is found, it will look in the distribution source root.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remove_boiler"
+>remove_boiler</a></h2>
+
+<p>Remove the <code>#!/usr/bin/perl</code>, <code>use strict;</code> or <code>use warnings;</code> from the beginning of your example before inserting them into the POD.</p>
+
+<p>If <a href="#match_boiler_barrier" class="podlinkpod"
+>&#34;match_boiler_barrier&#34;</a> is also set, it instead removes all lines up-to and including the line matched by <a href="#match_boiler_barrier" class="podlinkpod"
+>&#34;match_boiler_barrier&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="match_boiler_barrier"
+>match_boiler_barrier</a></h2>
+
+<p>A regular expression matching a line indicating the end of boilerplate. This option may be used multiple times. It must be used in conjunction with <a href="#remove_boiler" class="podlinkpod"
+>&#34;remove_boiler&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="indent"
+>indent</a></h2>
+
+<p>Specifies the number of spaces to indent by. This is 1 by default, because it is sufficient to force POD to consider it a verbatim paragraph. I understand a lot of Perl programmers out there prefer 4 spaces. You can also set this to 0 to get no indentation at all and it won&#39;t be a verbatim paragraph at all.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Diab Jerius (DJERIUS)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

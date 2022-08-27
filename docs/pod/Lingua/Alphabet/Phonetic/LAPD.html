@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lingua::Alphabet::Phonetic::LAPD</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Lingua::Alphabet::Phonetic::LAPD</div>
+    <!--Lingua::Alphabet::Phonetic::LAPD--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#INSPIRATION'>INSPIRATION</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Lingua::Alphabet::Phonetic::LAPD - map ABC&#39;s to the LAPD phonetic letter names</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Lingua::Alphabet::Phonetic;
+ my $phonetic = Lingua::Alphabet::Phonetic(&#39;LAPD&#39;);
+ # prints One-Adam-OneTwo
+ print $phonetic-&#62;enunciate(&#34;1-A-12&#34;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides for <a href="https://metacpan.org/pod/Lingua%3A%3AAlphabet%3A%3APhonetic" class="podlinkpod"
+>Lingua::Alphabet::Phonetic</a> the LAPD phonetic alphabet used by the Los Angeles Police Department (LAPD) and other local state law enforcement agencies across the state of California.</p>
+
+<p>This is a specialization of <a href="https://metacpan.org/pod/Lingua%3A%3AAlphabet%3A%3APhonetic" class="podlinkpod"
+>Lingua::Alphabet::Phonetic</a>. You do not use this module directly. All interaction should be through an <a href="https://metacpan.org/pod/Lingua%3A%3AAlphabet%3A%3APhonetic" class="podlinkpod"
+>Lingua::Alphabet::Phonetic</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INSPIRATION"
+>INSPIRATION</a></h1>
+
+<p>I wrote this module along with a number of other back ends for L::A::P years ago for a gimmick on my website. Recently I was watching Adam-12 on Netflix and decided this was a sign that this module should be shared.</p>
+
+<p>Unfortunately 1-A-12 comes back as 1-Adam-OneTwo instead of 1-Adam-Twelve.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

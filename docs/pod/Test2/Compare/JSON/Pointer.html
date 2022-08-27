@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Compare::JSON::Pointer</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Compare::JSON::Pointer</div>
+    <!----><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#BASE_CLASS'>BASE CLASS</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Compare::JSON::Pointer - Representation of a hash or array reference pointed to by a JSON pointer during deep comparison.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::Compare::JSON::Pointer;
+ use JSON::PP;
+ 
+ sub my_json_test
+ {
+   my($pointer, $json) = @_;
+   my @caller = caller;
+   Test2::Compare::JSON::Pointer-&#62;new(
+     file    =&#62; $caller[1],
+     lines   =&#62; [$caller[2]],
+     input   =&#62; $json,
+     pointer =&#62; $pointer,
+     json    =&#62; JSON::PP-&#62;new-&#62;utf8,
+  );
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class lets you specify an expected hash or array reference in deep comparison along with the JSON pointer for where to find that reference.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BASE_CLASS"
+>BASE CLASS</a></h1>
+
+<p><a href="https://metacpan.org/pod/Test2%3A%3ACompare%3A%3ABase" class="podlinkpod"
+>Test2::Compare::Base</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<dl>
+<dt><a name="pointer"
+>pointer</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $string = $cmp-&#62;pointer;</pre>
+
+<p>The JSON pointer as a string. Something like <code>/foo/bar</code> would point to <code>baz</code> in the json string</p>
+
+<pre class="sh_perl"> {&#34;foo&#34;:{&#34;bar&#34;:&#34;baz&#34;}}</pre>
+
+<dt><a name="input"
+>input</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $string = $cmp-&#62;input;</pre>
+
+<p>The JSON to be compared against. This should be a regular Perl scalar in Perl&#39;s internal format. It will be encoded into UTF-8 before being decoded.</p>
+
+<dt><a name="json"
+>json</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $json = $cmp-&#62;json;</pre>
+
+<p>The JSON object used for decoding JSON. Any one of <a href="https://metacpan.org/pod/JSON%3A%3APP" class="podlinkpod"
+>JSON::PP</a>, <a href="https://metacpan.org/pod/JSON%3A%3AXS" class="podlinkpod"
+>JSON::XS</a>, <a href="https://metacpan.org/pod/JSON%3A%3AMaybeXS" class="podlinkpod"
+>JSON::MaybeXS</a> or compatible ought to work.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test2::Tools::JSON::Pointer"
+><a href="/pod/Test2/Tools/JSON/Pointer.html" class="podlinkpod"
+>Test2::Tools::JSON::Pointer</a></a></dt>
+
+<dd>
+<p>This is what you would use in a <code>.t</code> file, and probably what you are interested in.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

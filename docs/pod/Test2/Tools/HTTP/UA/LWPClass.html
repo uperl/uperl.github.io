@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::HTTP::UA::LWPClass</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::<a href="/pod/Test2/Tools/HTTP.html">HTTP</a>::<a href="/pod/Test2/Tools/HTTP/UA.html">UA</a>::LWPClass</div>
+    <!--Test2::Tools::HTTP::UA::LWPClass--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::HTTP::UA::LWPClass - Global LWP user agent wrapper for Test2::Tools::HTTP</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.10</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::Tools::HTTP;
+ use LWP::UserAgent;
+ 
+ psgi_app_add &#39;http://example.test&#39; =&#62; sub { ... };
+ 
+ http_ua &#39;LWP::UserAgent&#39;;
+ 
+ my $ua = LWP::UserAgent-&#62;new;
+ my $res = $ua-&#62;get(&#39;http://example.test&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class is not intended to be used directly.</p>
+
+<p>This module provides the machinery for instrumenting <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> for use with <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a>. Since <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a>. It is different from <a href="/pod/Test2/Tools/HTTP/UA/LWP.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA::LWP</a> in that it instruments the <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> class itself, so ALL instances will be able to use any apps registered.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test2::Tools::HTTP"
+><a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a></a></dt>
+
+<dd>
+<dt><a name="Test2::Tools::HTTP::UA::LWP"
+><a href="/pod/Test2/Tools/HTTP/UA/LWP.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA::LWP</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

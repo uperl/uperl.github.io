@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Win32::Vcpkg::List</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Win32::<a href="/pod/Win32/Vcpkg.html">Vcpkg</a>::List</div>
+    <!--Win32::Vcpkg::List--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#root'>root</a>
+    <li class='indexItem indexItem2'><a href='#triplets'>triplets</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#search'>search</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Win32::Vcpkg::List - Interface to Microsoft Vcpkg List of Packages</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Win32::Vcpkg::List;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides an interface to a list of <code>Vcpkg</code> package. <code>Vcpkg</code> is a Visual C++ library package manager, and as such is useful in building XS and FFI extensions for Visual C++ builds of Perl.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $list = Win32::Vcpkg::List-&#62;new(%options);</pre>
+
+<p>Creates a list of packages instance.</p>
+
+<dl>
+<dt><a name="root"
+>root</a></dt>
+
+<dd>
+<p>The <code>Vcpkg</code> root. By default this is what <code>root</code> from <a href="/pod/Win32/Vcpkg.html" class="podlinkpod"
+>Win32::Vcpkg</a> returns.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="root"
+>root</a></h2>
+
+<pre class="sh_perl"> my $root = $list-&#62;root;</pre>
+
+<p>The <code>Vcpkg</code> root. This is an <a href="https://metacpan.org/pod/Path%3A%3ATiny" class="podlinkpod"
+>Path::Tiny</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="triplets"
+>triplets</a></h2>
+
+<pre class="sh_perl"> my @triplets = $list-&#62;triplets;</pre>
+
+<p>Return a list of the architecture triplets present in the Vcpkg install directory.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="search"
+>search</a></h2>
+
+<pre class="sh_perl"> my $package = $list-&#62;search($name, %options);</pre>
+
+<p>Search for a package with the given name. The package returned will be an instance of <a href="/pod/Win32/Vcpkg/Package.html" class="podlinkpod"
+>Win32::Vcpkg::Package</a>. If no package is found then <code>undef</code> is returned. Options:</p>
+
+<dl>
+<dt><a name="triplet"
+>triplet</a></dt>
+
+<dd>
+<p>The architecture triplet to search under. The <code>Vcpkg</code> triplet. By default this is what <code>perl_triplet</code> from <a href="/pod/Win32/Vcpkg.html" class="podlinkpod"
+>Win32::Vcpkg</a> returns.</p>
+
+<dt><a name="include"
+>include</a></dt>
+
+<dd>
+<p>Any header subdirectory names.</p>
+
+<dt><a name="debug"
+>debug</a></dt>
+
+<dd>
+<p>If set to true, the <code>$package</code> object will use debug libraries.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Win32::Vcpkg"
+><a href="/pod/Win32/Vcpkg.html" class="podlinkpod"
+>Win32::Vcpkg</a></a></dt>
+
+<dd>
+<dt><a name="Win32::Vcpkg::Package"
+><a href="/pod/Win32/Vcpkg/Package.html" class="podlinkpod"
+>Win32::Vcpkg::Package</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2020 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

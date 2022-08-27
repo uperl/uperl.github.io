@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>spaceless</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> spaceless</div>
+    <!--spaceless--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#--cmd'>--cmd</a>
+    <li class='indexItem indexItem2'><a href='#--command'>--command</a>
+    <li class='indexItem indexItem2'><a href='#--csh'>--csh</a>
+    <li class='indexItem indexItem2'><a href='#-f_filename'>-f filename</a>
+    <li class='indexItem indexItem2'><a href='#--expand_%7C_-x'>--expand | -x</a>
+    <li class='indexItem indexItem2'><a href='#--fish'>--fish</a>
+    <li class='indexItem indexItem2'><a href='#--help'>--help</a>
+    <li class='indexItem indexItem2'><a href='#--korn'>--korn</a>
+    <li class='indexItem indexItem2'><a href='#--list_%7C_-l'>--list | -l</a>
+    <li class='indexItem indexItem2'><a href='#--login'>--login</a>
+    <li class='indexItem indexItem2'><a href='#--no-cygwin'>--no-cygwin</a>
+    <li class='indexItem indexItem2'><a href='#--power'>--power</a>
+    <li class='indexItem indexItem2'><a href='#--sh'>--sh</a>
+    <li class='indexItem indexItem2'><a href='#--sep_char_%7C_--sep-in_char_%7C_--sep-out_char'>--sep char | --sep-in char | --sep-out char</a>
+    <li class='indexItem indexItem2'><a href='#--squash_%7C_-s'>--squash | -s</a>
+    <li class='indexItem indexItem2'><a href='#--trim_%7C_-t'>--trim | -t</a>
+    <li class='indexItem indexItem2'><a href='#--version_%7C_v'>--version | v</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#EXAMPLES'>EXAMPLES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Removing_spaces_from_the_PATH_on_Cygwin'>Removing spaces from the PATH on Cygwin</a>
+    <li class='indexItem indexItem2'><a href='#Visualizing_the_PATH'>Visualizing the PATH</a>
+    <li class='indexItem indexItem2'><a href='#Remove_duplicate_directories_in_the_path'>Remove duplicate directories in the path</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>spaceless - Remove spaces and other hazards from your PATH</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>Convert PATH (by default):</p>
+
+<pre class="sh_perl"> cygwin% spaceless
+ PATH=/usr/bin:/cygdrive/c/PROGRA~2/NVIDIA~1/PhysX/Common:...
+ export PATH</pre>
+
+<p>Convert another PATH style environment variable</p>
+
+<pre class="sh_perl"> cygwin% spaceless PERL5LIB
+ PERL5LIB=/PERL~1/lib:/PERL~2/lib
+ export PERL5LIB</pre>
+
+<p>Update the PATH in the current shell (works with both sh and csh):</p>
+
+<pre class="sh_perl"> cygwin% eval `spaceless PATH`</pre>
+
+<p>Same thing from <code>cmd.exe</code> or <code>command.com</code> prompt:</p>
+
+<pre class="sh_perl"> C:\&#62; spaceless PATH -f path.bat
+ C:\&#62; path.bat</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Although legal in most modern operating system directory names, spaces are only frequently encountered in Windows. This can be troublesome for some tools that do not take such antics into account. Fortunately, Windows provides alternate file and directory names for any name that is not compatible with MS DOS. Since spaces were never supported by MS DOS we can use these alternate names for tools that don&#39;t take spaces into account.</p>
+
+<p><a href="/pod/spaceless.html" class="podlinkpod"
+>spaceless</a> converts PATH style environment variables on windows into equivalents that do not have spaces. By default it uses <a href="/pod/Shell/Guess.html" class="podlinkpod"
+>Shell::Guess</a> to make a reasonable guess as to the shell you are currently using (not your login shell). You may alternately specify a specific shell type using one of the options below.</p>
+
+<p><a href="/pod/spaceless.html" class="podlinkpod"
+>spaceless</a> will not convert long directory (non 8.3 format) names that do not have spaces, as these are usually handled gracefully by scripts that are space challenged.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--cmd"
+>--cmd</a></h2>
+
+<p>Generate cmd.exe configuration</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--command"
+>--command</a></h2>
+
+<p>Generate command.com configuration</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--csh"
+>--csh</a></h2>
+
+<p>Generate c shell configuration</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="-f_filename"
+>-f <i>filename</i></a></h2>
+
+<p>Write configuration to <i>filename</i> instead of standard output</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--expand_|_-x"
+>--expand | -x</a></h2>
+
+<p>Expand short paths to long paths (adding any spaces that may be back in)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--fish"
+>--fish</a></h2>
+
+<p>Generate fish shell configuration</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--help"
+>--help</a></h2>
+
+<p>Print help message and exit</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--korn"
+>--korn</a></h2>
+
+<p>Generate korn shell configuration</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--list_|_-l"
+>--list | -l</a></h2>
+
+<p>Instead of generating a shell configuration, list the directories in the given path style variable</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--login"
+>--login</a></h2>
+
+<p>Use the your default login shell (as determined by <a href="/pod/Shell/Guess.html" class="podlinkpod"
+>Shell::Guess</a>) On Unix style systems this consults the <code>GECOS</code> field in the <code>/etc/passwd</code> file or uses NIS. On other platforms it may use another means to determine your login shell, or simply make an informed guess based on the platform.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--no-cygwin"
+>--no-cygwin</a></h2>
+
+<p>Remove any cygwin paths. Has no affect on non cygwin platforms.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--power"
+>--power</a></h2>
+
+<p>Generate Power shell configuration</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--sh"
+>--sh</a></h2>
+
+<p>Generate bourne shell configuration</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--sep_char_|_--sep-in_char_|_--sep-out_char"
+>--sep <i>char</i> | --sep-in <i>char</i> | --sep-out <i>char</i></a></h2>
+
+<p>You can use these options to change the path separator character. Normally you do not need to set this. the Platform default is used for input (<code>:</code> for Unix and cygwin, and <code>;</code> for Windows) and the shell default is used for output (<code>:</code> for sh and csh, and <code>;</code> for <code>command.com</code> and <code>cmd.exe</code>). But in some situation you might want a UNIX style path in a <code>cmd.exe</code> script. Any character may be specified, but keep in mind that not all characters are supported by <a href="/pod/Shell/Config/Generate.html" class="podlinkpod"
+>Shell::Config::Generate</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--squash_|_-s"
+>--squash | -s</a></h2>
+
+<p>Remove duplicate paths from the given path style variable.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--trim_|_-t"
+>--trim | -t</a></h2>
+
+<p>Trim non-existing directories. This is a good idea since such directories can sometimes cause <a href="/pod/spaceless.html" class="podlinkpod"
+>spaceless</a> to die.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--version_|_v"
+>--version | v</a></h2>
+
+<p>Print version number and exit</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLES"
+>EXAMPLES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Removing_spaces_from_the_PATH_on_Cygwin"
+>Removing spaces from the PATH on Cygwin</a></h2>
+
+<p>My motivation for writing this script was trying to get <a href="https://metacpan.org/pod/perlbrew" class="podlinkpod"
+>perlbrew</a> to work on Cygwin. Since Windows frequently includes spaces in its <code>%PATH%</code> environment variable, and cygwin inherits them.</p>
+
+<pre class="sh_perl"> xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+ setenv: Too many arguments.
+ xian-x86_64% eval `spaceless PATH`
+ xian-x86_64% source ~/perl5/perlbrew/etc/cshrc
+ xian-x86_64%</pre>
+
+<p>I could have manually updated my <code>%PATH%</code> to not include spaces, or better yet submitted a patch to <a href="https://metacpan.org/pod/perlbrew" class="podlinkpod"
+>perlbrew</a> to fix its spacing problem. This probably won&#39;t be the last script that I will have the spaces in the <code>%PATH%</code> problem with.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Visualizing_the_PATH"
+>Visualizing the PATH</a></h2>
+
+<p>Reading the <code>%PATH%</code> variable can be difficult, especially if you have already removed the spaces and are using the short version.</p>
+
+<pre class="sh_perl"> C:\&#62; echo %PATH%
+ N:\lang\perl\strawberry\x86\5.18.2\c\bin;N:\lang\perl\strawberry
+ \x86\5.18.2\perl\site\bin;N:\lang\perl\strawberry\x86\5.18.2\per
+ l\bin;n:\program32\GnuWin32\bin;C:\PROGRA~2\NVIDIA~1\PhysX\Commo
+ n;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Win
+ dows\System32\WindowsPowerShell\v1.0\;C:\PROGRA~1\MICROS~3\110\T
+ ools\Binn\;C:\PROGRA~2\Git\cmd;N:\lang\tcl\x86\8.6.1.0\bin;C:\PR
+ OGRA~2\NVIDIA~1\PhysX\Common;C:\PROGRA~2\Intel\ICLSCL~1\;C:\PROG
+ RA~1\Intel\ICLSCL~1\;C:\Windows\system32;C:\Windows;C:\Windows\S
+ ystem32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;</pre>
+
+<p>You can use the <code>-l</code> (short for <code>--list</code>) and <code>-x</code> (short for <code>--expand</code>) options to make it a little more readable</p>
+
+<pre class="sh_perl"> C:\&#62; spaceless -l -x
+ N:\lang\perl\strawberry\x86\5.18.2\c\bin
+ N:\lang\perl\strawberry\x86\5.18.2\perl\site\bin
+ N:\lang\perl\strawberry\x86\5.18.2\perl\bin
+ N:\program32\GnuWin32\bin
+ C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common
+ ...</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Remove_duplicate_directories_in_the_path"
+>Remove duplicate directories in the path</a></h2>
+
+<p>You can use the <code>-s</code> (short for <code>--squeeze</code>) option to squeeze out duplicate paths. It keeps the first instance of a directory in a path style variable, which is usually what you want.</p>
+
+<pre class="sh_perl"> % spaceless -l
+ /usr/local/bin
+ /usr/bin
+ /bin
+ /usr/local/bin
+ % spaceless -s -l
+ /usr/local/bin
+ /usr/bin
+ /bin</pre>
+
+<p>You can then update the <code>PATH</code> with the eval trick:</p>
+
+<pre class="sh_perl"> % eval `spaceless -s`</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Short names with the 8.3 spaceless naming convention can be turned off using tweaks to the windows registry (see <a href="https://technet.microsoft.com/en-us/library/cc959352.aspx" class="podlinkurl"
+>https://technet.microsoft.com/en-us/library/cc959352.aspx</a>). This program would not be of much use on such a system.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2014 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

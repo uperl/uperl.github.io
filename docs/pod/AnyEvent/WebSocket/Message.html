@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::WebSocket::Message</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::WebSocket::Message</div>
+    <!--AnyEvent::WebSocket::Message--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#body'>body</a>
+    <li class='indexItem indexItem2'><a href='#opcode'>opcode</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#decoded_body'>decoded_body</a>
+    <li class='indexItem indexItem2'><a href='#is_text'>is_text</a>
+    <li class='indexItem indexItem2'><a href='#is_binary'>is_binary</a>
+    <li class='indexItem indexItem2'><a href='#is_close'>is_close</a>
+    <li class='indexItem indexItem2'><a href='#is_ping'>is_ping</a>
+    <li class='indexItem indexItem2'><a href='#is_pong'>is_pong</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::WebSocket::Message - WebSocket message for AnyEvent</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.54</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> $connection-&#62;send(
+   AnyEvent::WebSocket::Message-&#62;new(body =&#62; &#34;some message&#34;),
+ );
+ 
+ $connection-&#62;on(each_message =&#62; sub {
+   my($connection, $message) = @_;
+   if($message-&#62;is_text || $message-&#62;is_binary)
+   {
+     my $body = $message-&#62;body;
+   }
+ });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Instances of this class represent a single WebSocket message. They are the objects that come through from the other end of your <a href="/pod/AnyEvent/WebSocket/Connection.html" class="podlinkpod"
+>AnyEvent::WebSocket::Connection</a> instance. They can also be sent through that class using its <code>send</code> method.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="body"
+>body</a></h2>
+
+<p>The body or payload of the message.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="opcode"
+>opcode</a></h2>
+
+<p>The integer code for the type of message.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="decoded_body"
+>decoded_body</a></h2>
+
+<pre class="sh_perl"> my $body = $message-&#62;decoded_body;</pre>
+
+<p>Returns the body decoded from UTF-8.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_text"
+>is_text</a></h2>
+
+<pre class="sh_perl"> my $bool = $message-&#62;is_text;</pre>
+
+<p>True if the message is text.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_binary"
+>is_binary</a></h2>
+
+<pre class="sh_perl"> my $bool = $message-&#62;is_binary;</pre>
+
+<p>True if the message is binary.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_close"
+>is_close</a></h2>
+
+<pre class="sh_perl"> my $bool = $message-&#62;is_close;</pre>
+
+<p>True if the message is a close message.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_ping"
+>is_ping</a></h2>
+
+<pre class="sh_perl"> my $bool = $message-&#62;is_ping</pre>
+
+<p>True if the message is a ping.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_pong"
+>is_pong</a></h2>
+
+<pre class="sh_perl"> my $bool = $message-&#62;is_pong;</pre>
+
+<p>True if the message is a pong.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<ul>
+<li><a href="/pod/AnyEvent/WebSocket/Client.html" class="podlinkpod"
+>AnyEvent::WebSocket::Client</a></li>
+
+<li><a href="/pod/AnyEvent/WebSocket/Connection.html" class="podlinkpod"
+>AnyEvent::WebSocket::Connection</a></li>
+
+<li><a href="https://metacpan.org/pod/AnyEvent%3A%3AWebSocket%3A%3AServer" class="podlinkpod"
+>AnyEvent::WebSocket::Server</a></li>
+
+<li><a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a></li>
+
+<li><a href="http://tools.ietf.org/html/rfc6455" class="podlinkurl"
+>RFC 6455 The WebSocket Protocol</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Toshio Ito (debug-ito, TOSHIOITO)</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria (JJATRIA)</p>
+
+<p>Kivanc Yazan (KYZN)</p>
+
+<p>Yanick Champoux (YANICK)</p>
+
+<p>Fayland Lam (FAYLAND)</p>
+
+<p>Daniel Kamil Kozar (xavery)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

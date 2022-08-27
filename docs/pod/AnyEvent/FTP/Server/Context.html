@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Server::Context</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::<a href="/pod/AnyEvent/FTP/Server.html">Server</a>::Context</div>
+    <!--AnyEvent::FTP::Server::Context--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#cmd_quit'>cmd_quit</a>
+    <li class='indexItem indexItem2'><a href='#done'>done</a>
+    <li class='indexItem indexItem2'><a href='#help_quit'>help_quit</a>
+    <li class='indexItem indexItem2'><a href='#invalid_command'>invalid_command</a>
+    <li class='indexItem indexItem2'><a href='#invalid_syntax'>invalid_syntax</a>
+    <li class='indexItem indexItem2'><a href='#process_queue'>process_queue</a>
+    <li class='indexItem indexItem2'><a href='#push_request'>push_request</a>
+    <li class='indexItem indexItem2'><a href='#ready'>ready</a>
+    <li class='indexItem indexItem2'><a href='#ascii_layer'>ascii_layer</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Server::Context - FTP Server client context class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cmd_quit"
+>cmd_quit</a></h2>
+
+<pre class="sh_perl"> $ctx-&#62;cmd_quit($con, $req);</pre>
+
+<p>Sends a quit command through $con ($req is unused.). Returns the $ctx object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="done"
+>done</a></h2>
+
+<pre class="sh_perl"> $ctx-&#62;done;</pre>
+
+<p><b>TODO</b>: document. Returns the $ctx object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="help_quit"
+>help_quit</a></h2>
+
+<pre class="sh_perl"> my $quit_str = $ctx-&#62;help_quit;</pre>
+
+<p>Returns the string &#34;QUIT&#34;.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="invalid_command"
+>invalid_command</a></h2>
+
+<pre class="sh_perl"> $ctx-&#62;invalid_command($con, $req);</pre>
+
+<p>Sends an invalid command due to the request $req through $con.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="invalid_syntax"
+>invalid_syntax</a></h2>
+
+<pre class="sh_perl"> $ctx-&#62;invalid_syntax($con, $raw);</pre>
+
+<p>Sends a command not understood response through $con.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="process_queue"
+>process_queue</a></h2>
+
+<pre class="sh_perl"> $ctx-&#62;process_queue;</pre>
+
+<p>Processes the request queue.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="push_request"
+>push_request</a></h2>
+
+<pre class="sh_perl"> $ctx-&#62;push_request($con, $req);</pre>
+
+<p>Pushes the request to the queue.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ready"
+>ready</a></h2>
+
+<pre class="sh_perl"> my $bool = $ctx-&#62;ready;
+ $ctx-&#62;ready($bool)</pre>
+
+<p>Gets or sets the &#34;is ready&#34; status, which is a boolean.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ascii_layer"
+>ascii_layer</a></h2>
+
+<pre class="sh_perl"> $ctx-&#62;ascii_layer;</pre>
+
+<p>The <a href="https://metacpan.org/pod/PerlIO" class="podlinkpod"
+>PerlIO</a> layer to apply for writing (<code>STOR</code>, <code>STOU</code>, <code>APPE</code>) and reading (<code>RETR</code>) when operating under ASCII file transfer mode. By default a layer that takes <code>CRLF</code> and emits native line endings is used for writing and a takes native line endings and emits <code>CRLF</code> when reading is used.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

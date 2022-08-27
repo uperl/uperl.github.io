@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::HTTP::Apps</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::<a href="/pod/Test2/Tools/HTTP.html">HTTP</a>::Apps</div>
+    <!--Test2::Tools::HTTP::Apps--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#uri_key'>uri_key</a>
+    <li class='indexItem indexItem2'><a href='#add_psgi'>add_psgi</a>
+    <li class='indexItem indexItem2'><a href='#del_psgi'>del_psgi</a>
+    <li class='indexItem indexItem2'><a href='#base_url'>base_url</a>
+    <li class='indexItem indexItem2'><a href='#uri_to_app'>uri_to_app</a>
+    <li class='indexItem indexItem2'><a href='#uri_to_tester'>uri_to_tester</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::HTTP::Apps - App container class for Test2::Tools::HTTP</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.10</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This acts as a container for zero or more PSGI applications that have been added using <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a>&#39;s <code>psgi_app_add</code> method.
+It is used by a user agent wrapper (<a href="/pod/Test2/Tools/HTTP/UA.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA</a>) class to dispatch requests to the correct PSGI app.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $apps = Test2::Tools::HTTP::Apps-&#62;new;</pre>
+
+<p>This class is a singleton, so this always returns the same instance.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uri_key"
+>uri_key</a></h2>
+
+<pre class="sh_perl"> my $key = $apps-&#62;uri_key($url);</pre>
+
+<p>This function returns the URI key given a fully qualified URL. The key usually contains the schema, host and port but not the path or other components of the URI. The actual key format is subject to change and you should not depend on it.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_psgi"
+>add_psgi</a></h2>
+
+<pre class="sh_perl"> $apps-&#62;add_psgi($uri, $app) = @_;</pre>
+
+<p>Add the given PSGI app to the container. The URI should specify the URL used to access the app.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="del_psgi"
+>del_psgi</a></h2>
+
+<pre class="sh_perl"> $apps-&#62;del_psgi($uri);</pre>
+
+<p>Remove the app with the given URI from the container.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="base_url"
+>base_url</a></h2>
+
+<pre class="sh_perl"> my $url = $apps-&#62;base_url;</pre>
+
+<p>This is the base URL used to qualify relative URLs. It is an instance of <a href="https://metacpan.org/pod/URI" class="podlinkpod"
+>URI</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uri_to_app"
+>uri_to_app</a></h2>
+
+<pre class="sh_perl"> my $app = $apps-&#62;uri_to_app($uri);</pre>
+
+<p>Given a URL (possibly relative) this function returns the PSGI app for it. If there are no apps registered for the URL then it will return <code>undef</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uri_to_tester"
+>uri_to_tester</a></h2>
+
+<pre class="sh_perl"> my $tester = $apps-&#62;uri_to_tester;</pre>
+
+<p>Same as <code>uri_to-tester</code> except it returns the a <a href="https://metacpan.org/pod/Plack%3A%3ATest" class="podlinkpod"
+>Plack::Test</a> wrapped around the PSGI application.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test2::Tools::HTTP"
+><a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a></a></dt>
+
+<dd>
+<dt><a name="Test2::Tools::HTTP::UA"
+><a href="/pod/Test2/Tools/HTTP/UA.html" class="podlinkpod"
+>Test2::Tools::HTTP::UA</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

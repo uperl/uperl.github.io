@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Alien::Expat</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Alien::Expat</div>
+    <!--Alien::Expat--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Alien::Expat - Find or install the Expat stream-oriented XML parser</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>in your Makefile.PL:</p>
+
+<pre class="sh_perl"> use ExtUtils::MakeMaker;
+ use Alien::Base::Wrapper qw( Alien::Expat !export );
+ 
+ WriteMakefile(
+   ...
+   CONFIGURE_REQUIRES =&#62; {
+     &#39;Alien::Base::Wrapper&#39; =&#62; 0,
+     &#39;Alien::Expat&#39;         =&#62; 0,
+   },
+   Alien::Base::Wrapper-&#62;mm_args,
+   ...
+ );</pre>
+
+<p>or your Build.PL:</p>
+
+<pre class="sh_perl"> use Module::Build;
+ use Alien::Base::Wrapper qw( Alien::Expat !export );
+ 
+ my $build = Module::Build-&#62;new(
+   ...
+   configure_requires =&#62; {
+     &#39;Alien::Base::Wrapper&#39; =&#62; 0,
+     &#39;Alien::Expat&#39;         =&#62; 0,
+   },
+   Alien::Base::Wrapper-&#62;mb_args,
+   ...
+ );
+ 
+ $build-&#62;create_build_script;</pre>
+
+<p>or your dist.ini:</p>
+
+<pre class="sh_perl"> [@Filter]
+ -bundle = @Basic
+ -remove = MakeMaker
+ 
+ [Prereqs / ConfigureRequires]
+ Alien::Expat = 0
+ 
+ [MakeMaker::Awesome]
+ header = use Alien::Base::Wrapper qw( Alien::Expat !export );
+ WriteMakefile_arg = Alien::Base::Wrapper-&#62;mm_args</pre>
+
+<p>or <a href="https://metacpan.org/pod/FFI%3A%3APlatypus" class="podlinkpod"
+>FFI::Platypus</a>:</p>
+
+<pre class="sh_perl"> use FFI::Platypus 1.00;
+ use Alien::Expat;
+ 
+ my $ffi = FFI::Platypus-&#62;new(
+   api =&#62; 1,
+   lib =&#62; [ Alien::Expat-&#62;dynamic_libs ],
+ );</pre>
+
+<p>or for xmlwf from your Perl script / module</p>
+
+<pre class="sh_perl"> use Alien::Expat;
+ use Env qw( @PATH );
+ 
+ unshift @PATH, Alien::Expat-&#62;bin_dir;
+ system &#39;xmlwf&#39;, &#39;-v&#39;;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module can be used as a prereq for XS or FFI modules that need expat or the command-line tool that it comes from: xmlwf. For more detail on how to use this module you can see the <a href="https://metacpan.org/pod/Alien%3A%3ABuild" class="podlinkpod"
+>Alien::Build</a> user documentation at <a href="https://metacpan.org/pod/Alien%3A%3ABuild%3A%3AManual%3A%3AAlienUser" class="podlinkpod"
+>Alien::Build::Manual::AlienUser</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Alien::Build::Manual::AlienUser"
+><a href="https://metacpan.org/pod/Alien%3A%3ABuild%3A%3AManual%3A%3AAlienUser" class="podlinkpod"
+>Alien::Build::Manual::AlienUser</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2019 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

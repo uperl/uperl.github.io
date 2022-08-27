@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PPIx::DocumentName::Result</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> PPIx::<a href="/pod/PPIx/DocumentName.html">DocumentName</a>::Result</div>
+    <!--PPIx::DocumentName::Result--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+    <li class='indexItem indexItem2'><a href='#to_string'>to_string</a>
+    <li class='indexItem indexItem2'><a href='#document'>document</a>
+    <li class='indexItem indexItem2'><a href='#node'>node</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>PPIx::DocumentName::Result - Full result set for PPIx::DocumentName</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.01</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use PPIx::DocumentName 1.00 -api =&#62; 1;
+ my $result = PPIx::DocumentName-&#62;extract( $ppi_document );
+ 
+ # say the &#34;name&#34; of the document
+ say $result-&#62;name;
+ 
+ # the result object can also be stringified into the name found:
+ say &#34;$result&#34;;
+ 
+ # get the full PPI::Document object for the entire document
+ my $ppi = $result-&#62;document;
+ 
+ # get the node where we found the name
+ # (usually a PPI::Statement::Package or PPI::Token::Comment)
+ my $node = $result-&#62;node;
+ 
+ # get the location where we found the name
+ my $location = $result-&#62;node-&#62;location;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents the results from <a href="/pod/PPIx/DocumentName.html" class="podlinkpod"
+>PPIx::DocumentName</a> when running under its new <code>-api =&#62; 1</code> API.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<pre class="sh_perl"> my $name = $result-&#62;name;</pre>
+
+<p>Returns the name that was found in the document.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="to_string"
+>to_string</a></h2>
+
+<pre class="sh_perl"> my $str = $result-&#62;to_string;
+ my $str = &#34;$result&#34;;</pre>
+
+<p>Convert this object to a string. This is the same as the <code>name</code> method. This method will also be invoked if stringified inside a double quoted string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="document"
+>document</a></h2>
+
+<pre class="sh_perl"> my $ppi = $result-&#62;document;</pre>
+
+<p>Returns the <a href="https://metacpan.org/pod/PPI%3A%3ADocument" class="podlinkpod"
+>PPI::Document</a> of the document.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="node"
+>node</a></h2>
+
+<pre class="sh_perl"> my $node = $result-&#62;node;</pre>
+
+<p>Returns the <a href="https://metacpan.org/pod/PPI%3A%3ANode" class="podlinkpod"
+>PPI::Node</a> where the name was found. This will usually be either <a href="https://metacpan.org/pod/PPI%3A%3AStatement%3A%3APackage" class="podlinkpod"
+>PPI::Statement::Package</a> or <a href="https://metacpan.org/pod/PPI%3A%3AToken%3A%3AComment" class="podlinkpod"
+>PPI::Token::Comment</a>, although other types could be used in the future.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="PPIx::DocumentName"
+><a href="/pod/PPIx/DocumentName.html" class="podlinkpod"
+>PPIx::DocumentName</a></a></dt>
+
+<dd>
+<p>Main module that generates objects of this class.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>For <code>node</code> to be useful, the <code>document</code> object needs to remain in scope, this is the main reason the result object keeps it around, so if you want to use the <code>node</code> to get the location information, make sure that you do not throw away the result object.</p>
+
+<p>Bad:</p>
+
+<pre class="sh_perl"> my $node = PPIx::DocumentName-&#62;extract( $ppi_document )-&#62;node;
+ my $location = $node-&#62;location;  # undef</pre>
+
+<p>Fine:</p>
+
+<pre class="sh_perl"> my $result = PPIx::DocumentName-&#62;extract( $ppi_document );
+ my $node = $result-&#62;node;
+ my $location = $node-&#62;location;  # ok</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Kent Fredric &#60;kentnl@cpan.org&#62;</li>
+
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2015-2021 by Kent Fredric &#60;kentfredric@gmail.com&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

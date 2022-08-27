@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::JSON::Pointer</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::JSON::Pointer</div>
+    <!--Test2::Tools::JSON::Pointer--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#json'>json</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::JSON::Pointer - Compare parts of JSON string to data structure using JSON pointers VERSION</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use utf8;
+ use Test2::V0;
+ use Test2::Tools::JSON::Pointer;
+ 
+ is(
+   &#39;{&#34;a&#34;:&#34;&#40845;&#34;}&#39;,
+   json &#39;/a&#39; =&#62; &#34;&#40845;&#34;,
+ );
+ 
+ is(
+   &#39;{&#34;a&#34;:[1,2,3],&#34;b&#34;:{&#34;x&#34;:&#34;y&#34;}&#39;,
+   json &#39;/a&#39; =&#62; [1,2,3],
+ );
+ 
+ is(
+   &#39;{&#34;a&#34;:[1,2,3],&#34;b&#34;:{&#34;x&#34;:&#34;y&#34;}&#39;,
+   json &#39;/b&#39; =&#62; hash {
+     field &#39;x&#39; =&#62; &#39;y&#39;;
+   },
+ );
+ 
+ done_testing;</pre>
+
+<p>with files:</p>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test2::Tools::JSON::Pointer;
+ use Path::Tiny qw( path );
+ 
+ is(
+   # will also work with Path::Class::File
+   path(&#39;myjsonfile.json&#39;),
+   json &#39;/a&#39; =&#62; [1,2,3],
+ );
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides a comparison for a JSON string with a JSON pointer. This module was inspired by <a href="https://metacpan.org/pod/Test%3A%3AMojo" class="podlinkpod"
+>Test::Mojo</a>, which provides a mechanism for checking the JSON response from a HTTP body. This module provides a generic way to write tests for JSON using a JSON pointer with or without the context of <a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a> or <a href="https://metacpan.org/pod/HTTP" class="podlinkpod"
+>HTTP</a>. It also has a <a href="https://metacpan.org/pod/Test2%3A%3ASuite" class="podlinkpod"
+>Test2::Suite</a> style interface.</p>
+
+<p>This module expects a Perl string in Perl&#39;s internal representation (utf-8), NOT raw encoded bytes. Thus if you are reading files they need to be read in with the appropriate encoding. If you are testing against the content of a <a href="https://metacpan.org/pod/HTTP%3A%3AResponse" class="podlinkpod"
+>HTTP::Response</a> object you want to use <code>decoded_content</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="json"
+>json</a></h2>
+
+<pre class="sh_perl"> is(
+   $json,
+   json($pointer, $check)
+ );
+
+ is(
+   $json,
+   json($check),
+ );</pre>
+
+<p>Compare <code>$json</code> to the given <a href="https://metacpan.org/pod/Test2%3A%3ASuite" class="podlinkpod"
+>Test2::Suite</a> <code>$check</code> after decoding the string into a deep reference (array or hash) and starting at the position of the given <code>$pointer</code>. If <code>$json</code> is an instance of <a href="https://metacpan.org/pod/Path%3A%3ATiny" class="podlinkpod"
+>Path::Tiny</a> or <a href="https://metacpan.org/pod/Path%3A%3AClass%3A%3AFile" class="podlinkpod"
+>Path::Class::File</a>, then it will read from that file first to get the JSON.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test2::Tools::JSON"
+><a href="https://metacpan.org/pod/Test2%3A%3ATools%3A%3AJSON" class="podlinkpod"
+>Test2::Tools::JSON</a></a></dt>
+
+<dd>
+<p>Provides a similar check without JSON pointers.</p>
+
+<dt><a name="Test::Deep::JSON"
+><a href="https://metacpan.org/pod/Test%3A%3ADeep%3A%3AJSON" class="podlinkpod"
+>Test::Deep::JSON</a></a></dt>
+
+<dd>
+<p>Provides a similar check in a <a href="https://metacpan.org/pod/Test%3A%3ADeep" class="podlinkpod"
+>Test::Deep</a> context.</p>
+
+<dt><a name="Test::Mojo"
+><a href="https://metacpan.org/pod/Test%3A%3AMojo" class="podlinkpod"
+>Test::Mojo</a></a></dt>
+
+<dd>
+<p>Among many other capabilities, this great testing library allows you to make checks against JSON on an HTTP response object with JSON pointers.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

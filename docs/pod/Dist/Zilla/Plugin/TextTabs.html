@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dist::Zilla::Plugin::TextTabs</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Dist::Zilla::Plugin::TextTabs</div>
+    <!--Dist::Zilla::Plugin::TextTabs--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#tabstop'>tabstop</a>
+    <li class='indexItem indexItem2'><a href='#unexpand'>unexpand</a>
+    <li class='indexItem indexItem2'><a href='#installer'>installer</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Dist::Zilla::Plugin::TextTabs - Expand or unexpand tabs in your dist</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> [TextTabs]
+ tabstop   = 8
+ unexapand = 0</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a> plugin expands or unexpands tabs using <a href="https://metacpan.org/pod/Text%3A%3ATab" class="podlinkpod"
+>Text::Tab</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tabstop"
+>tabstop</a></h2>
+
+<p>The length of the tabstop in characters. This is usually 8, but some people prefer 4 or 2.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unexpand"
+>unexpand</a></h2>
+
+<p>if set to true, then an unexpand is used on all the targeted files, that is spaces of the right length are converted into an equivalent number of tabs. The default is false, or expand mode.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="installer"
+>installer</a></h2>
+
+<p>Instead of doing its work during the usual file munger stage, if this attribute is true (the default is false), then this plugin will munge just the <code>Makefile.PL</code> or <code>Build.PL</code> (or both if you have both) files during the <code>InstallTool</code> phase. This allows you to remove nauty tabs from the installer than may have been put there by a nauty <code>InstallTool</code> plugin (take care to put <code>[TextTabs]</code> in your <code>dist.ini</code> after the nauty installer plugin).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://metacpan.org/pod/Text%3A%3ATabs" class="podlinkpod"
+>Text::Tabs</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

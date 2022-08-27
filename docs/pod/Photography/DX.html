@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Photography::DX</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Photography::DX</div>
+    <!--Photography::DX--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#speed'>speed</a>
+    <li class='indexItem indexItem2'><a href='#length'>length</a>
+    <li class='indexItem indexItem2'><a href='#tolerance'>tolerance</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#contacts'>contacts</a>
+    <li class='indexItem indexItem2'><a href='#contacts_row_1'>contacts_row_1</a>
+    <li class='indexItem indexItem2'><a href='#contacts_row_2'>contacts_row_2</a>
+    <li class='indexItem indexItem2'><a href='#is_custom_speed'>is_custom_speed</a>
+    <li class='indexItem indexItem2'><a href='#logarithmic_speed'>logarithmic_speed</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Photography::DX - Encode/decode DX film codes</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Photography::DX;
+ 
+ my $film = Photography::DX-&#62;new(
+   speed     =&#62; 100,
+   length    =&#62; 36,
+   tolerance =&#62; 2,
+ );
+ 
+ # print out the layout of contacts
+ # on the roll of film as a series
+ # of 1s and 0s:
+ print $film-&#62;contacts_row_1, &#34;\n&#34;;
+ print $film-&#62;contacts_row_2, &#34;\n&#34;;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents a roll of 35mm film, and allows you to compute the DX encoding contacts used by film cameras that automatically detect film speed, the number of exposures and the exposure tolerance of the film (most cameras actually use only the film speed for the DX encoding).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<pre class="sh_perl"> my $film = Photography::DX-&#62;new;</pre>
+
+<p>In addition the attributes documented below you may pass into the constructor:</p>
+
+<dl>
+<dt><a name="contacts_row_1"
+>contacts_row_1</a></dt>
+
+<dd>
+<p>The first row of contacts on the roll of film. The speed will be computed from this value.</p>
+
+<dt><a name="contacts_row_2"
+>contacts_row_2</a></dt>
+
+<dd>
+<p>The second row of contacts on the roll of film. The length and tolerance will be computed from this value.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="speed"
+>speed</a></h2>
+
+<p>The film speed. Must be a legal ISO arithmetic value between 25 and 5000. Defaults to ISO 100.</p>
+
+<p>Special values 1-8 denote &#34;custom&#34; values.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="length"
+>length</a></h2>
+
+<p>The length of the film in 32x24mm exposures. Must be one of undef (denotes &#34;other&#34;), 12, 20, 24, 36, 48, 60, 72.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tolerance"
+>tolerance</a></h2>
+
+<p>The exposure latitude of the film. Must be one of:</p>
+
+<dl>
+<dt><a name="0.5_for_0.5_stop"
+>0.5 for &#177;0.5 stop</a></dt>
+
+<dd>
+<dt><a name="1_for_1_stop"
+>1 for &#177;1 stop</a></dt>
+
+<dd>
+<dt><a name="2_for_+2_to_-1_stops"
+>2 for +2 to -1 stops</a></dt>
+
+<dd>
+<dt><a name="3_for_+3_to_-1_stops"
+>3 for +3 to -1 stops</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="contacts"
+>contacts</a></h2>
+
+<pre class="sh_perl"> my($row1, $row2) = $film-&#62;contacts;</pre>
+
+<p>Returns both rows of contacts.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="contacts_row_1"
+>contacts_row_1</a></h2>
+
+<p>Returns the contact layout as a string of 1s and 0s for the first row of electrical contacts. 1 represents a metal contact, 0 represents the lack of metal.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="contacts_row_2"
+>contacts_row_2</a></h2>
+
+<p>Returns the contact layout as a string of 1s and 0s for the second row of electrical contacts. 1 represents a metal contact, 0 represents the lack of metal.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_custom_speed"
+>is_custom_speed</a></h2>
+
+<p>Returns true if the film speed is a custom film speed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="logarithmic_speed"
+>logarithmic_speed</a></h2>
+
+<p>Returns the ISO logarithmic scale speed of the film (also known as DIN).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>In digital photography, DX also refers to Nikon&#39;s crop sensor format DSLRs.</p>
+
+<p>DX encoding was introduced in 1980, well after the development of 35mm film and so many types of film do not include DX codes.</p>
+
+<p>This module uses features in and requires Perl 5.22.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Photography::EV"
+><a href="/pod/Photography/EV.html" class="podlinkpod"
+>Photography::EV</a></a></dt>
+
+<dd>
+<dt><a name="http://en.wikipedia.org/wiki/DX_encoding"
+><a href="http://en.wikipedia.org/wiki/DX_encoding" class="podlinkurl"
+>http://en.wikipedia.org/wiki/DX_encoding</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2015 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

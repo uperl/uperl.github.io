@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Shell::Guess</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Shell::Guess</div>
+    <!--Shell::Guess--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CLASS_METHODS'>CLASS METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#running_shell'>running_shell</a>
+    <li class='indexItem indexItem2'><a href='#login_shell'>login_shell</a>
+    <li class='indexItem indexItem2'><a href='#bash_shell'>bash_shell</a>
+    <li class='indexItem indexItem2'><a href='#bourne_shell'>bourne_shell</a>
+    <li class='indexItem indexItem2'><a href='#c_shell'>c_shell</a>
+    <li class='indexItem indexItem2'><a href='#cmd_shell'>cmd_shell</a>
+    <li class='indexItem indexItem2'><a href='#command_shell'>command_shell</a>
+    <li class='indexItem indexItem2'><a href='#dcl_shell'>dcl_shell</a>
+    <li class='indexItem indexItem2'><a href='#fish_shell'>fish_shell</a>
+    <li class='indexItem indexItem2'><a href='#korn_shell'>korn_shell</a>
+    <li class='indexItem indexItem2'><a href='#power_shell'>power_shell</a>
+    <li class='indexItem indexItem2'><a href='#tc_shell'>tc_shell</a>
+    <li class='indexItem indexItem2'><a href='#z_shell'>z_shell</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#INSTANCE_METHODS'>INSTANCE METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#is_bash'>is_bash</a>
+    <li class='indexItem indexItem2'><a href='#is_bourne'>is_bourne</a>
+    <li class='indexItem indexItem2'><a href='#is_c'>is_c</a>
+    <li class='indexItem indexItem2'><a href='#is_cmd'>is_cmd</a>
+    <li class='indexItem indexItem2'><a href='#is_command'>is_command</a>
+    <li class='indexItem indexItem2'><a href='#is_dcl'>is_dcl</a>
+    <li class='indexItem indexItem2'><a href='#is_fish'>is_fish</a>
+    <li class='indexItem indexItem2'><a href='#is_korn'>is_korn</a>
+    <li class='indexItem indexItem2'><a href='#is_power'>is_power</a>
+    <li class='indexItem indexItem2'><a href='#is_tc'>is_tc</a>
+    <li class='indexItem indexItem2'><a href='#is_unix'>is_unix</a>
+    <li class='indexItem indexItem2'><a href='#is_vms'>is_vms</a>
+    <li class='indexItem indexItem2'><a href='#is_win32'>is_win32</a>
+    <li class='indexItem indexItem2'><a href='#is_z'>is_z</a>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+    <li class='indexItem indexItem2'><a href='#default_location'>default_location</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Shell::Guess - Make an educated guess about the shell in use</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>guessing shell which called the Perl script:</p>
+
+<pre class="sh_perl"> use Shell::Guess;
+ my $shell = Shell::Guess-&#62;running_shell;
+ if($shell-&#62;is_c) {
+   print &#34;setenv FOO bar\n&#34;;
+ } elsif($shell-&#62;is_bourne) {
+   print &#34;export FOO=bar\n&#34;;
+ }</pre>
+
+<p>guessing the current user&#39;s login shell:</p>
+
+<pre class="sh_perl"> use Shell::Guess;
+ my $shell = Shell::Guess-&#62;login_shell;
+ print $shell-&#62;name, &#34;\n&#34;;</pre>
+
+<p>guessing an arbitrary user&#39;s login shell:</p>
+
+<pre class="sh_perl"> use Shell::Guess;
+ my $shell = Shell::Guess-&#62;login_shell(&#39;bob&#39;);
+ print $shell-&#62;name, &#34;\n&#34;;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Shell::Guess makes a reasonably aggressive attempt to determine the shell being employed by the user, either the shell that executed the perl script directly (the &#34;running&#34; shell), or the users&#39; login shell (the &#34;login&#34; shell). It does this by a variety of means available to it, depending on the platform that it is running on.</p>
+
+<ul>
+<li>getpwent
+<p>On UNIXy systems with getpwent, that can be used to determine the login shell.</p>
+</li>
+
+<li>dscl
+<p>Under Mac OS X getpwent will typically not provide any useful information, so the dscl command is used instead.</p>
+</li>
+
+<li>proc file systems
+<p>On UNIXy systems with a proc filesystems (such as Linux), Shell::Guess will attempt to use that to determine the running shell.</p>
+</li>
+
+<li>ps
+<p>On UNIXy systems without a proc filesystem, Shell::Guess will use the ps command to determine the running shell.</p>
+</li>
+
+<li><a href="/pod/Win32/Getppid.html" class="podlinkpod"
+>Win32::Getppid</a> and <a href="https://metacpan.org/pod/Win32%3A%3AProcess%3A%3AList" class="podlinkpod"
+>Win32::Process::List</a>
+<p>On Windows if these modules are installed they will be used to determine the running shell. This method can differentiate between PowerShell, <code>command.com</code> and <code>cmd.exe</code>.</p>
+</li>
+
+<li>ComSpec
+<p>If the above method is inconclusive, the ComSpec environment variable will be consulted to differentiate between <code>command.com</code> or <code>cmd.exe</code> (PowerShell cannot be detected in this manner).</p>
+</li>
+
+<li>reasonable defaults
+<p>If the running or login shell cannot be otherwise determined, a reasonable default for your platform will be used as a fallback. Under OpenVMS this is dcl, Windows 95/98 and MS-DOS this is command.com and Windows NT/2000/XP/Vista/7 this is cmd.exe. UNIXy platforms fallback to bourne shell.</p>
+</li>
+</ul>
+
+<p>The intended use of this module is to enable a Perl developer to write a script that generates shell configurations for the calling shell so they can be imported back into the calling shell using <code>eval</code> and backticks or <code>source</code>. For example, if your script looks like this:</p>
+
+<pre class="sh_perl"> #!/usr/bin/perl
+ use Shell::Guess;
+ my $shell = Shell::Guess-&#62;running_shell;
+ if($shell-&#62;is_bourne) {
+   print &#34;export FOO=bar\n&#34;;
+ } else($shell-&#62;is_c) {
+   print &#34;setenv FOO bar\n&#34;;
+ } else {
+   die &#34;I don&#39;t support &#34;, $shell-&#62;name, &#34; shell&#34;;
+ }</pre>
+
+<p>You can then import FOO into your bash or c shell like this:</p>
+
+<pre class="sh_perl"> % eval `perl script.pl`</pre>
+
+<p>or, you can write the output to a configuration file and source it:</p>
+
+<pre class="sh_perl"> % perl script.pl &#62; foo.sh
+ % source foo.sh</pre>
+
+<p><a href="/pod/Shell/Config/Generate.html" class="podlinkpod"
+>Shell::Config::Generate</a> provides a portable interface for generating such shell configurations, and is designed to work with this module.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CLASS_METHODS"
+>CLASS METHODS</a></h1>
+
+<p>These class methods return an instance of Shell::Guess, which can then be interrogated by the instance methods in the next section below.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="running_shell"
+>running_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;running_shell;</pre>
+
+<p>Returns an instance of Shell::Guess based on the shell which directly started the current Perl script. If the running shell cannot be determined, it will return the login shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="login_shell"
+>login_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;login_shell;
+ my $shell = Shell::Guess-&#62;login_shell( $username )</pre>
+
+<p>Returns an instance of Shell::Guess for the given user. If no username is specified then the current user will be used. If no shell can be guessed then a reasonable fallback will be chosen based on your platform.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="bash_shell"
+>bash_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;bash_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for bash.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = bash</li>
+
+<li>$shell-&#62;is_bash = 1</li>
+
+<li>$shell-&#62;is_bourne = 1</li>
+
+<li>$shell-&#62;is_unix = 1</li>
+
+<li>$shell-&#62;default_location = /bin/bash</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="bourne_shell"
+>bourne_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;bourne_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for the bourne shell.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = bourne</li>
+
+<li>$shell-&#62;is_bourne = 1</li>
+
+<li>$shell-&#62;is_unix = 1</li>
+
+<li>$shell-&#62;default_location = /bin/sh</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="c_shell"
+>c_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;c_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for c shell.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = c</li>
+
+<li>$shell-&#62;is_c = 1</li>
+
+<li>$shell-&#62;is_unix = 1</li>
+
+<li>$shell-&#62;default_location = /bin/csh</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cmd_shell"
+>cmd_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;cmd_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for the Windows NT cmd shell (cmd.exe).</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = cmd</li>
+
+<li>$shell-&#62;is_cmd = 1</li>
+
+<li>$shell-&#62;is_win32 = 1</li>
+
+<li>$shell-&#62;default_location = C:\Windows\system32\cmd.exe</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="command_shell"
+>command_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;command_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for the Windows 95 command shell (command.com).</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = command</li>
+
+<li>$shell-&#62;is_command = 1</li>
+
+<li>$shell-&#62;is_win32 = 1</li>
+
+<li>$shell-&#62;default_location = C:\Windows\system32\command.com</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="dcl_shell"
+>dcl_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;dcl_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for the OpenVMS dcl shell.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = dcl</li>
+
+<li>$shell-&#62;is_dcl = 1</li>
+
+<li>$shell-&#62;is_vms = 1</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fish_shell"
+>fish_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;fish_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for the fish shell.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = fish</li>
+
+<li>$shell-&#62;is_fish = 1</li>
+
+<li>$shell-&#62;is_unix = 1</li>
+</ul>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="korn_shell"
+>korn_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;korn_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for the korn shell.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = korn</li>
+
+<li>$shell-&#62;is_korn = 1</li>
+
+<li>$shell-&#62;is_bourne = 1</li>
+
+<li>$shell-&#62;is_unix = 1</li>
+
+<li>$shell-&#62;default_location = /bin/ksh</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="power_shell"
+>power_shell</a></h2>
+
+<pre class="sh_perl">  my $shell = Shell::Guess-&#62;power_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for Microsoft PowerShell (either for Windows <code>powershell.exe</code> or Unix <code>pwsh</code>).</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = power</li>
+
+<li>$shell-&#62;is_power = 1</li>
+
+<li>$shell-&#62;is_win32 = 1</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tc_shell"
+>tc_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;tc_shell;</pre>
+
+<p>Returns an instance of Shell::Guess for tcsh.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = tc</li>
+
+<li>$shell-&#62;is_tc = 1</li>
+
+<li>$shell-&#62;is_c = 1</li>
+
+<li>$shell-&#62;is_unix = 1</li>
+
+<li>$shell-&#62;default_location = /bin/tcsh</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="z_shell"
+>z_shell</a></h2>
+
+<pre class="sh_perl"> my $shell = Shell::Guess-&#62;z_shell</pre>
+
+<p>Returns an instance of Shell::Guess for zsh.</p>
+
+<p>The following instance methods will return:</p>
+
+<ul>
+<li>$shell-&#62;name = z</li>
+
+<li>$shell-&#62;is_z = 1</li>
+
+<li>$shell-&#62;is_bourne = 1</li>
+
+<li>$shell-&#62;is_unix = 1</li>
+
+<li>$shell-&#62;default_location = /bin/zsh</li>
+</ul>
+
+<p>All other instance methods will return false</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INSTANCE_METHODS"
+>INSTANCE METHODS</a></h1>
+
+<p>The normal way to call these is by calling them on the result of either <i>running_shell</i> or <i>login_shell</i>, but they can also be called as class methods, in which case the currently running shell will be used, so</p>
+
+<pre class="sh_perl"> Shell::Guess-&#62;is_bourne</pre>
+
+<p>is the same as</p>
+
+<pre class="sh_perl"> Shell::Guess-&#62;running_shell-&#62;is_bourne</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_bash"
+>is_bash</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_bash;</pre>
+
+<p>Returns true if the shell is bash.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_bourne"
+>is_bourne</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_bourne;</pre>
+
+<p>Returns true if the shell is the bourne shell, or a shell which supports bourne syntax (e.g. bash or korn).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_c"
+>is_c</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_c;</pre>
+
+<p>Returns true if the shell is csh, or a shell which supports csh syntax (e.g. tcsh).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_cmd"
+>is_cmd</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_cmd;</pre>
+
+<p>Returns true if the shell is the Windows command.com shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_command"
+>is_command</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_command;</pre>
+
+<p>Returns true if the shell is the Windows cmd.com shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_dcl"
+>is_dcl</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_dcl;</pre>
+
+<p>Returns true if the shell is the OpenVMS dcl shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_fish"
+>is_fish</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_fish;</pre>
+
+<p>Returns true if the shell is Fish shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_korn"
+>is_korn</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_korn;</pre>
+
+<p>Returns true if the shell is the korn shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_power"
+>is_power</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_power;</pre>
+
+<p>Returns true if the shell is Windows PowerShell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_tc"
+>is_tc</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_tc;</pre>
+
+<p>Returns true if the shell is tcsh.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_unix"
+>is_unix</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_unix;</pre>
+
+<p>Returns true if the shell is traditionally a UNIX shell (e.g. bourne, bash, korn)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_vms"
+>is_vms</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_vms;</pre>
+
+<p>Returns true if the shell is traditionally an OpenVMS shell (e.g. dcl)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_win32"
+>is_win32</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_win32;</pre>
+
+<p>Returns true if the shell is traditionally a Windows shell (command.com, cmd.exe, powershell.exe, pwsh)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_z"
+>is_z</a></h2>
+
+<pre class="sh_perl"> my $bool = $shell-&#62;is_z;</pre>
+
+<p>Returns true if the shell is zsh</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<pre class="sh_perl"> my $name = $shell-&#62;name;</pre>
+
+<p>Returns the name of the shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_location"
+>default_location</a></h2>
+
+<pre class="sh_perl"> my $location = $shell-&#62;default_location;</pre>
+
+<p>The usual location for this shell, for example /bin/sh for bourne shell and /bin/csh for c shell. May not be defined for all shells.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Shell::Guess shouldn&#39;t ever die or crash, instead it will attempt to make a guess or use a fallback about either the login or running shell even on unsupported operating systems. The fallback is the most common shell on the particular platform that you are using, so on UNIXy platforms the fallback is bourne, and on OpenVMS the fallback is dcl.</p>
+
+<p>These are the operating systems that have been tested in development and are most likely to guess reliably.</p>
+
+<ul>
+<li>Linux</li>
+
+<li>Cygwin</li>
+
+<li>FreeBSD</li>
+
+<li>Mac OS X</li>
+
+<li>Windows (Strawberry Perl)</li>
+
+<li>Solaris (x86)</li>
+
+<li>MS-DOS (djgpp)</li>
+
+<li>OpenVMS
+<p>Always detected as dcl (a more nuanced view of OpenVMS is probably possible, patches welcome).</p>
+</li>
+</ul>
+
+<p>UNIXy platforms without a proc filesystem will use <a href="https://metacpan.org/pod/Unix%3A%3AProcess" class="podlinkpod"
+>Unix::Process</a> if installed, which will execute ps to determine the running shell.</p>
+
+<p>It is pretty easy to fool the -&#62;running_shell method by using fork, or if your Perl script is not otherwise being directly executed by the shell.</p>
+
+<p>Patches are welcome to make other platforms work more reliably.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Buddy Burden (BAREFOOT)</p>
+
+<p>Julien Fiegehenn (SIMBABQUE)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

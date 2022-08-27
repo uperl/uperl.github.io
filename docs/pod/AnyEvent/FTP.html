@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::FTP</div>
+    <!--AnyEvent::FTP--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#BUNDLED_FILES'>BUNDLED FILES</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP - Simple asynchronous FTP client and server</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> # For the client
+ use AnyEvent::FTP::Client;
+ 
+ # For the server
+ use AnyEvent::FTP::Server;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This distribution provides client and server implementations for File Transfer Protocol (FTP) in an AnyEvent environment. For the specific interfaces, see <a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a> and <a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a> for details.</p>
+
+<p>Before each release, <a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a> is tested against these FTP servers using the <code>t/client_*.t</code> tests that come with this distribution:</p>
+
+<dl>
+<dt><a name="Proftpd"
+>Proftpd</a></dt>
+
+<dd>
+<dt><a name="wu-ftpd"
+>wu-ftpd</a></dt>
+
+<dd>
+<dt><a name="Net::FTPServer"
+><a href="https://metacpan.org/pod/Net%3A%3AFTPServer" class="podlinkpod"
+>Net::FTPServer</a></a></dt>
+
+<dd>
+<dt><a name="vsftpd"
+>vsftpd</a></dt>
+
+<dd>
+<dt><a name="Pure-FTPd"
+>Pure-FTPd</a></dt>
+
+<dd>
+<dt><a name="bftpd"
+>bftpd</a></dt>
+
+<dd>
+<dt><a name="AnyEvent::FTP::Server"
+><a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a></a></dt>
+</dl>
+
+<p>The client code is also tested less frequently against these FTP servers:</p>
+
+<dl>
+<dt><a name="NcFTPd"
+>NcFTPd</a></dt>
+
+<dd>
+<dt><a name="Microsoft_IIS"
+>Microsoft IIS</a></dt>
+</dl>
+
+<p>It used to also be tested against the VMS ftp server, so it was verified to work with it, at least at one point. However, I no longer have access to that server.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUNDLED_FILES"
+>BUNDLED FILES</a></h1>
+
+<p>This distribution comes bundled with <code>ls</code> from the old <a href="https://metacpan.org/release/ppt" class="podlinkurl"
+>Perl Power Tools</a> project. This is only used on <code>MSWin32</code> if this command is not found in the path, as it is frequently not available on that platform</p>
+
+<p>The Perl implementation of <code>ls</code> was written by Mark Leighton Fisher of Thomson Consumer Electronics, <i>fisherm@tce.com</i>.</p>
+
+<p>That program is free and open software. You may use, modify, distribute, and sell it program (and any modified variants) in any way you wish, provided you do not restrict others from doing the same.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<ul>
+<li><a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a></li>
+
+<li><a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a></li>
+
+<li><a href="https://metacpan.org/pod/Net%3A%3AFTP" class="podlinkpod"
+>Net::FTP</a></li>
+
+<li><a href="https://metacpan.org/pod/Net%3A%3AFTPServer" class="podlinkpod"
+>Net::FTPServer</a></li>
+
+<li><a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a></li>
+
+<li><a href="http://tools.ietf.org/html/rfc959" class="podlinkurl"
+>RFC 959 FILE TRANSFER PROTOCOL</a></li>
+
+<li><a href="http://tools.ietf.org/html/rfc2228" class="podlinkurl"
+>RFC 2228 FTP Security Extensions</a></li>
+
+<li><a href="http://tools.ietf.org/html/rfc2640" class="podlinkurl"
+>RFC 2640 Internationalization of the File Transfer Protocol</a></li>
+
+<li><a href="http://tools.ietf.org/html/rfc2773" class="podlinkurl"
+>RFC 2773 Encryption using KEA and SKIPJACK</a></li>
+
+<li><a href="http://tools.ietf.org/html/rfc3659" class="podlinkurl"
+>RFC 3659 Extensions to FTP</a></li>
+
+<li><a href="http://tools.ietf.org/html/rfc5797" class="podlinkurl"
+>RFC 5797 FTP Command and Extension Registry</a></li>
+
+<li><a href="http://cr.yp.to/ftp.html" class="podlinkurl"
+>http://cr.yp.to/ftp.html</a></li>
+
+<li><a href="http://en.wikipedia.org/wiki/List_of_FTP_server_return_codes" class="podlinkurl"
+>http://en.wikipedia.org/wiki/List_of_FTP_server_return_codes</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

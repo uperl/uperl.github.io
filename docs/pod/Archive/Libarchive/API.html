@@ -1,0 +1,4241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Archive::Libarchive::API</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Archive::<a href="/pod/Archive/Libarchive.html">Libarchive</a>::API</div>
+    <!--Archive::Libarchive::API--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive'>Archive::Libarchive</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#archive_bzlib_version'>archive_bzlib_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_liblz4_version'>archive_liblz4_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_liblzma_version'>archive_liblzma_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_libzstd_version'>archive_libzstd_version</a>
+    <li class='indexItem indexItem2'><a href='#archive_version_details'>archive_version_details</a>
+    <li class='indexItem indexItem2'><a href='#archive_version_number'>archive_version_number</a>
+    <li class='indexItem indexItem2'><a href='#archive_version_string'>archive_version_string</a>
+    <li class='indexItem indexItem2'><a href='#archive_zlib_version'>archive_zlib_version</a>
+    <li class='indexItem indexItem2'><a href='#versions'>versions</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3AArchive'>Archive::Libarchive::Archive</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#clear_error'>clear_error</a>
+    <li class='indexItem indexItem2'><a href='#copy_error'>copy_error</a>
+    <li class='indexItem indexItem2'><a href='#entry'>entry</a>
+    <li class='indexItem indexItem2'><a href='#errno'>errno</a>
+    <li class='indexItem indexItem2'><a href='#error_string'>error_string</a>
+    <li class='indexItem indexItem2'><a href='#file_count'>file_count</a>
+    <li class='indexItem indexItem2'><a href='#filter_bytes'>filter_bytes</a>
+    <li class='indexItem indexItem2'><a href='#filter_code'>filter_code</a>
+    <li class='indexItem indexItem2'><a href='#filter_count'>filter_count</a>
+    <li class='indexItem indexItem2'><a href='#filter_name'>filter_name</a>
+    <li class='indexItem indexItem2'><a href='#format'>format</a>
+    <li class='indexItem indexItem2'><a href='#format_name'>format_name</a>
+    <li class='indexItem indexItem2'><a href='#seek_data'>seek_data</a>
+    <li class='indexItem indexItem2'><a href='#set_error'>set_error</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3AArchiveRead'>Archive::Libarchive::ArchiveRead</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#add_passphrase'>add_passphrase</a>
+    <li class='indexItem indexItem2'><a href='#append_filter'>append_filter</a>
+    <li class='indexItem indexItem2'><a href='#append_filter_program'>append_filter_program</a>
+    <li class='indexItem indexItem2'><a href='#append_filter_program_signature'>append_filter_program_signature</a>
+    <li class='indexItem indexItem2'><a href='#close'>close</a>
+    <li class='indexItem indexItem2'><a href='#extract'>extract</a>
+    <li class='indexItem indexItem2'><a href='#extract2'>extract2</a>
+    <li class='indexItem indexItem2'><a href='#extract_set_skip_file'>extract_set_skip_file</a>
+    <li class='indexItem indexItem2'><a href='#format_capabilities'>format_capabilities</a>
+    <li class='indexItem indexItem2'><a href='#has_encrypted_entries'>has_encrypted_entries</a>
+    <li class='indexItem indexItem2'><a href='#header_position'>header_position</a>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#next_header'>next_header</a>
+    <li class='indexItem indexItem2'><a href='#open'>open</a>
+    <li class='indexItem indexItem2'><a href='#open_FILE'>open_FILE</a>
+    <li class='indexItem indexItem2'><a href='#open_fd'>open_fd</a>
+    <li class='indexItem indexItem2'><a href='#open_filename'>open_filename</a>
+    <li class='indexItem indexItem2'><a href='#open_filename_w'>open_filename_w</a>
+    <li class='indexItem indexItem2'><a href='#open_filenames'>open_filenames</a>
+    <li class='indexItem indexItem2'><a href='#open_memory'>open_memory</a>
+    <li class='indexItem indexItem2'><a href='#open_perlfile'>open_perlfile</a>
+    <li class='indexItem indexItem2'><a href='#read_data'>read_data</a>
+    <li class='indexItem indexItem2'><a href='#read_data_block'>read_data_block</a>
+    <li class='indexItem indexItem2'><a href='#read_data_into_fd'>read_data_into_fd</a>
+    <li class='indexItem indexItem2'><a href='#read_data_skip'>read_data_skip</a>
+    <li class='indexItem indexItem2'><a href='#set_filter_option'>set_filter_option</a>
+    <li class='indexItem indexItem2'><a href='#set_format'>set_format</a>
+    <li class='indexItem indexItem2'><a href='#set_format_option'>set_format_option</a>
+    <li class='indexItem indexItem2'><a href='#set_option'>set_option</a>
+    <li class='indexItem indexItem2'><a href='#set_options'>set_options</a>
+    <li class='indexItem indexItem2'><a href='#set_passphrase_callback'>set_passphrase_callback</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_all'>support_filter_all</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_by_code'>support_filter_by_code</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_bzip2'>support_filter_bzip2</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_compress'>support_filter_compress</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_grzip'>support_filter_grzip</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_gzip'>support_filter_gzip</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_lrzip'>support_filter_lrzip</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_lz4'>support_filter_lz4</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_lzip'>support_filter_lzip</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_lzma'>support_filter_lzma</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_lzop'>support_filter_lzop</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_none'>support_filter_none</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_program'>support_filter_program</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_program_signature'>support_filter_program_signature</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_rpm'>support_filter_rpm</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_uu'>support_filter_uu</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_xz'>support_filter_xz</a>
+    <li class='indexItem indexItem2'><a href='#support_filter_zstd'>support_filter_zstd</a>
+    <li class='indexItem indexItem2'><a href='#support_format_7zip'>support_format_7zip</a>
+    <li class='indexItem indexItem2'><a href='#support_format_all'>support_format_all</a>
+    <li class='indexItem indexItem2'><a href='#support_format_ar'>support_format_ar</a>
+    <li class='indexItem indexItem2'><a href='#support_format_by_code'>support_format_by_code</a>
+    <li class='indexItem indexItem2'><a href='#support_format_cab'>support_format_cab</a>
+    <li class='indexItem indexItem2'><a href='#support_format_cpio'>support_format_cpio</a>
+    <li class='indexItem indexItem2'><a href='#support_format_empty'>support_format_empty</a>
+    <li class='indexItem indexItem2'><a href='#support_format_gnutar'>support_format_gnutar</a>
+    <li class='indexItem indexItem2'><a href='#support_format_iso9660'>support_format_iso9660</a>
+    <li class='indexItem indexItem2'><a href='#support_format_lha'>support_format_lha</a>
+    <li class='indexItem indexItem2'><a href='#support_format_mtree'>support_format_mtree</a>
+    <li class='indexItem indexItem2'><a href='#support_format_rar'>support_format_rar</a>
+    <li class='indexItem indexItem2'><a href='#support_format_rar5'>support_format_rar5</a>
+    <li class='indexItem indexItem2'><a href='#support_format_raw'>support_format_raw</a>
+    <li class='indexItem indexItem2'><a href='#support_format_tar'>support_format_tar</a>
+    <li class='indexItem indexItem2'><a href='#support_format_warc'>support_format_warc</a>
+    <li class='indexItem indexItem2'><a href='#support_format_xar'>support_format_xar</a>
+    <li class='indexItem indexItem2'><a href='#support_format_zip'>support_format_zip</a>
+    <li class='indexItem indexItem2'><a href='#support_format_zip_seekable'>support_format_zip_seekable</a>
+    <li class='indexItem indexItem2'><a href='#support_format_zip_streamable'>support_format_zip_streamable</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3AArchiveWrite'>Archive::Libarchive::ArchiveWrite</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#add_filter'>add_filter</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_b64encode'>add_filter_b64encode</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_by_name'>add_filter_by_name</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_bzip2'>add_filter_bzip2</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_compress'>add_filter_compress</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_grzip'>add_filter_grzip</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_gzip'>add_filter_gzip</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_lrzip'>add_filter_lrzip</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_lz4'>add_filter_lz4</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_lzip'>add_filter_lzip</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_lzma'>add_filter_lzma</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_lzop'>add_filter_lzop</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_none'>add_filter_none</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_program'>add_filter_program</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_uuencode'>add_filter_uuencode</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_xz'>add_filter_xz</a>
+    <li class='indexItem indexItem2'><a href='#add_filter_zstd'>add_filter_zstd</a>
+    <li class='indexItem indexItem2'><a href='#close'>close</a>
+    <li class='indexItem indexItem2'><a href='#fail'>fail</a>
+    <li class='indexItem indexItem2'><a href='#finish_entry'>finish_entry</a>
+    <li class='indexItem indexItem2'><a href='#get_bytes_in_last_block'>get_bytes_in_last_block</a>
+    <li class='indexItem indexItem2'><a href='#get_bytes_per_block'>get_bytes_per_block</a>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#open'>open</a>
+    <li class='indexItem indexItem2'><a href='#open_FILE'>open_FILE</a>
+    <li class='indexItem indexItem2'><a href='#open_fd'>open_fd</a>
+    <li class='indexItem indexItem2'><a href='#open_filename'>open_filename</a>
+    <li class='indexItem indexItem2'><a href='#open_filename_w'>open_filename_w</a>
+    <li class='indexItem indexItem2'><a href='#open_memory'>open_memory</a>
+    <li class='indexItem indexItem2'><a href='#open_perlfile'>open_perlfile</a>
+    <li class='indexItem indexItem2'><a href='#set_bytes_in_last_block'>set_bytes_in_last_block</a>
+    <li class='indexItem indexItem2'><a href='#set_bytes_per_block'>set_bytes_per_block</a>
+    <li class='indexItem indexItem2'><a href='#set_filter_option'>set_filter_option</a>
+    <li class='indexItem indexItem2'><a href='#set_format'>set_format</a>
+    <li class='indexItem indexItem2'><a href='#set_format_7zip'>set_format_7zip</a>
+    <li class='indexItem indexItem2'><a href='#set_format_ar_bsd'>set_format_ar_bsd</a>
+    <li class='indexItem indexItem2'><a href='#set_format_ar_svr4'>set_format_ar_svr4</a>
+    <li class='indexItem indexItem2'><a href='#set_format_by_name'>set_format_by_name</a>
+    <li class='indexItem indexItem2'><a href='#set_format_cpio'>set_format_cpio</a>
+    <li class='indexItem indexItem2'><a href='#set_format_cpio_bin'>set_format_cpio_bin</a>
+    <li class='indexItem indexItem2'><a href='#set_format_cpio_newc'>set_format_cpio_newc</a>
+    <li class='indexItem indexItem2'><a href='#set_format_cpio_odc'>set_format_cpio_odc</a>
+    <li class='indexItem indexItem2'><a href='#set_format_cpio_pwb'>set_format_cpio_pwb</a>
+    <li class='indexItem indexItem2'><a href='#set_format_filter_by_ext'>set_format_filter_by_ext</a>
+    <li class='indexItem indexItem2'><a href='#set_format_filter_by_ext_def'>set_format_filter_by_ext_def</a>
+    <li class='indexItem indexItem2'><a href='#set_format_gnutar'>set_format_gnutar</a>
+    <li class='indexItem indexItem2'><a href='#set_format_iso9660'>set_format_iso9660</a>
+    <li class='indexItem indexItem2'><a href='#set_format_mtree'>set_format_mtree</a>
+    <li class='indexItem indexItem2'><a href='#set_format_mtree_classic'>set_format_mtree_classic</a>
+    <li class='indexItem indexItem2'><a href='#set_format_option'>set_format_option</a>
+    <li class='indexItem indexItem2'><a href='#set_format_pax'>set_format_pax</a>
+    <li class='indexItem indexItem2'><a href='#set_format_pax_restricted'>set_format_pax_restricted</a>
+    <li class='indexItem indexItem2'><a href='#set_format_raw'>set_format_raw</a>
+    <li class='indexItem indexItem2'><a href='#set_format_shar'>set_format_shar</a>
+    <li class='indexItem indexItem2'><a href='#set_format_shar_dump'>set_format_shar_dump</a>
+    <li class='indexItem indexItem2'><a href='#set_format_ustar'>set_format_ustar</a>
+    <li class='indexItem indexItem2'><a href='#set_format_v7tar'>set_format_v7tar</a>
+    <li class='indexItem indexItem2'><a href='#set_format_warc'>set_format_warc</a>
+    <li class='indexItem indexItem2'><a href='#set_format_xar'>set_format_xar</a>
+    <li class='indexItem indexItem2'><a href='#set_format_zip'>set_format_zip</a>
+    <li class='indexItem indexItem2'><a href='#set_option'>set_option</a>
+    <li class='indexItem indexItem2'><a href='#set_options'>set_options</a>
+    <li class='indexItem indexItem2'><a href='#set_passphrase'>set_passphrase</a>
+    <li class='indexItem indexItem2'><a href='#set_passphrase_callback'>set_passphrase_callback</a>
+    <li class='indexItem indexItem2'><a href='#set_skip_file'>set_skip_file</a>
+    <li class='indexItem indexItem2'><a href='#write_data'>write_data</a>
+    <li class='indexItem indexItem2'><a href='#write_header'>write_header</a>
+    <li class='indexItem indexItem2'><a href='#zip_set_compression_deflate'>zip_set_compression_deflate</a>
+    <li class='indexItem indexItem2'><a href='#zip_set_compression_store'>zip_set_compression_store</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3ADiskRead'>Archive::Libarchive::DiskRead</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#disk_can_descend'>disk_can_descend</a>
+    <li class='indexItem indexItem2'><a href='#disk_current_filesystem'>disk_current_filesystem</a>
+    <li class='indexItem indexItem2'><a href='#disk_current_filesystem_is_remote'>disk_current_filesystem_is_remote</a>
+    <li class='indexItem indexItem2'><a href='#disk_current_filesystem_is_synthetic'>disk_current_filesystem_is_synthetic</a>
+    <li class='indexItem indexItem2'><a href='#disk_descend'>disk_descend</a>
+    <li class='indexItem indexItem2'><a href='#disk_gname'>disk_gname</a>
+    <li class='indexItem indexItem2'><a href='#disk_open'>disk_open</a>
+    <li class='indexItem indexItem2'><a href='#disk_open_w'>disk_open_w</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_atime_restored'>disk_set_atime_restored</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_behavior'>disk_set_behavior</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_standard_lookup'>disk_set_standard_lookup</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_symlink_hybrid'>disk_set_symlink_hybrid</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_symlink_logical'>disk_set_symlink_logical</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_symlink_physical'>disk_set_symlink_physical</a>
+    <li class='indexItem indexItem2'><a href='#disk_uname'>disk_uname</a>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3ADiskWrite'>Archive::Libarchive::DiskWrite</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#disk_gid'>disk_gid</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_options'>disk_set_options</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_skip_file'>disk_set_skip_file</a>
+    <li class='indexItem indexItem2'><a href='#disk_set_standard_lookup'>disk_set_standard_lookup</a>
+    <li class='indexItem indexItem2'><a href='#disk_uid'>disk_uid</a>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#write_data_block'>write_data_block</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3AEntry'>Archive::Libarchive::Entry</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#acl_add_entry'>acl_add_entry</a>
+    <li class='indexItem indexItem2'><a href='#acl_add_entry_w'>acl_add_entry_w</a>
+    <li class='indexItem indexItem2'><a href='#acl_clear'>acl_clear</a>
+    <li class='indexItem indexItem2'><a href='#acl_count'>acl_count</a>
+    <li class='indexItem indexItem2'><a href='#acl_from_text'>acl_from_text</a>
+    <li class='indexItem indexItem2'><a href='#acl_from_text_w'>acl_from_text_w</a>
+    <li class='indexItem indexItem2'><a href='#acl_next'>acl_next</a>
+    <li class='indexItem indexItem2'><a href='#acl_reset'>acl_reset</a>
+    <li class='indexItem indexItem2'><a href='#acl_to_text'>acl_to_text</a>
+    <li class='indexItem indexItem2'><a href='#acl_to_text_w'>acl_to_text_w</a>
+    <li class='indexItem indexItem2'><a href='#acl_types'>acl_types</a>
+    <li class='indexItem indexItem2'><a href='#atime'>atime</a>
+    <li class='indexItem indexItem2'><a href='#atime_is_set'>atime_is_set</a>
+    <li class='indexItem indexItem2'><a href='#atime_nsec'>atime_nsec</a>
+    <li class='indexItem indexItem2'><a href='#birthtime'>birthtime</a>
+    <li class='indexItem indexItem2'><a href='#birthtime_is_set'>birthtime_is_set</a>
+    <li class='indexItem indexItem2'><a href='#birthtime_nsec'>birthtime_nsec</a>
+    <li class='indexItem indexItem2'><a href='#clear'>clear</a>
+    <li class='indexItem indexItem2'><a href='#clone'>clone</a>
+    <li class='indexItem indexItem2'><a href='#copy_fflags_text'>copy_fflags_text</a>
+    <li class='indexItem indexItem2'><a href='#copy_fflags_text_w'>copy_fflags_text_w</a>
+    <li class='indexItem indexItem2'><a href='#copy_gname'>copy_gname</a>
+    <li class='indexItem indexItem2'><a href='#copy_gname_w'>copy_gname_w</a>
+    <li class='indexItem indexItem2'><a href='#copy_hardlink'>copy_hardlink</a>
+    <li class='indexItem indexItem2'><a href='#copy_hardlink_w'>copy_hardlink_w</a>
+    <li class='indexItem indexItem2'><a href='#copy_link'>copy_link</a>
+    <li class='indexItem indexItem2'><a href='#copy_link_w'>copy_link_w</a>
+    <li class='indexItem indexItem2'><a href='#copy_mac_metadata'>copy_mac_metadata</a>
+    <li class='indexItem indexItem2'><a href='#copy_pathname'>copy_pathname</a>
+    <li class='indexItem indexItem2'><a href='#copy_pathname_w'>copy_pathname_w</a>
+    <li class='indexItem indexItem2'><a href='#copy_sourcepath'>copy_sourcepath</a>
+    <li class='indexItem indexItem2'><a href='#copy_sourcepath_w'>copy_sourcepath_w</a>
+    <li class='indexItem indexItem2'><a href='#copy_stat'>copy_stat</a>
+    <li class='indexItem indexItem2'><a href='#copy_symlink'>copy_symlink</a>
+    <li class='indexItem indexItem2'><a href='#copy_symlink_w'>copy_symlink_w</a>
+    <li class='indexItem indexItem2'><a href='#copy_uname'>copy_uname</a>
+    <li class='indexItem indexItem2'><a href='#copy_uname_w'>copy_uname_w</a>
+    <li class='indexItem indexItem2'><a href='#ctime'>ctime</a>
+    <li class='indexItem indexItem2'><a href='#ctime_is_set'>ctime_is_set</a>
+    <li class='indexItem indexItem2'><a href='#ctime_nsec'>ctime_nsec</a>
+    <li class='indexItem indexItem2'><a href='#dev'>dev</a>
+    <li class='indexItem indexItem2'><a href='#dev_is_set'>dev_is_set</a>
+    <li class='indexItem indexItem2'><a href='#devmajor'>devmajor</a>
+    <li class='indexItem indexItem2'><a href='#devminor'>devminor</a>
+    <li class='indexItem indexItem2'><a href='#digest'>digest</a>
+    <li class='indexItem indexItem2'><a href='#fflags'>fflags</a>
+    <li class='indexItem indexItem2'><a href='#fflags_text'>fflags_text</a>
+    <li class='indexItem indexItem2'><a href='#filetype'>filetype</a>
+    <li class='indexItem indexItem2'><a href='#gid'>gid</a>
+    <li class='indexItem indexItem2'><a href='#gname'>gname</a>
+    <li class='indexItem indexItem2'><a href='#gname_utf8'>gname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#hardlink'>hardlink</a>
+    <li class='indexItem indexItem2'><a href='#hardlink_utf8'>hardlink_utf8</a>
+    <li class='indexItem indexItem2'><a href='#ino'>ino</a>
+    <li class='indexItem indexItem2'><a href='#ino64'>ino64</a>
+    <li class='indexItem indexItem2'><a href='#ino_is_set'>ino_is_set</a>
+    <li class='indexItem indexItem2'><a href='#is_data_encrypted'>is_data_encrypted</a>
+    <li class='indexItem indexItem2'><a href='#is_encrypted'>is_encrypted</a>
+    <li class='indexItem indexItem2'><a href='#is_metadata_encrypted'>is_metadata_encrypted</a>
+    <li class='indexItem indexItem2'><a href='#mac_metadata'>mac_metadata</a>
+    <li class='indexItem indexItem2'><a href='#mode'>mode</a>
+    <li class='indexItem indexItem2'><a href='#mtime'>mtime</a>
+    <li class='indexItem indexItem2'><a href='#mtime_is_set'>mtime_is_set</a>
+    <li class='indexItem indexItem2'><a href='#mtime_nsec'>mtime_nsec</a>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#nlink'>nlink</a>
+    <li class='indexItem indexItem2'><a href='#pathname'>pathname</a>
+    <li class='indexItem indexItem2'><a href='#pathname_utf8'>pathname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#perm'>perm</a>
+    <li class='indexItem indexItem2'><a href='#rdev'>rdev</a>
+    <li class='indexItem indexItem2'><a href='#rdevmajor'>rdevmajor</a>
+    <li class='indexItem indexItem2'><a href='#rdevminor'>rdevminor</a>
+    <li class='indexItem indexItem2'><a href='#set_atime'>set_atime</a>
+    <li class='indexItem indexItem2'><a href='#set_birthtime'>set_birthtime</a>
+    <li class='indexItem indexItem2'><a href='#set_ctime'>set_ctime</a>
+    <li class='indexItem indexItem2'><a href='#set_dev'>set_dev</a>
+    <li class='indexItem indexItem2'><a href='#set_devmajor'>set_devmajor</a>
+    <li class='indexItem indexItem2'><a href='#set_devminor'>set_devminor</a>
+    <li class='indexItem indexItem2'><a href='#set_fflags'>set_fflags</a>
+    <li class='indexItem indexItem2'><a href='#set_filetype'>set_filetype</a>
+    <li class='indexItem indexItem2'><a href='#set_gid'>set_gid</a>
+    <li class='indexItem indexItem2'><a href='#set_gname'>set_gname</a>
+    <li class='indexItem indexItem2'><a href='#set_gname_utf8'>set_gname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#set_hardlink'>set_hardlink</a>
+    <li class='indexItem indexItem2'><a href='#set_hardlink_utf8'>set_hardlink_utf8</a>
+    <li class='indexItem indexItem2'><a href='#set_ino'>set_ino</a>
+    <li class='indexItem indexItem2'><a href='#set_ino64'>set_ino64</a>
+    <li class='indexItem indexItem2'><a href='#set_is_data_encrypted'>set_is_data_encrypted</a>
+    <li class='indexItem indexItem2'><a href='#set_is_metadata_encrypted'>set_is_metadata_encrypted</a>
+    <li class='indexItem indexItem2'><a href='#set_link'>set_link</a>
+    <li class='indexItem indexItem2'><a href='#set_link_utf8'>set_link_utf8</a>
+    <li class='indexItem indexItem2'><a href='#set_mode'>set_mode</a>
+    <li class='indexItem indexItem2'><a href='#set_mtime'>set_mtime</a>
+    <li class='indexItem indexItem2'><a href='#set_nlink'>set_nlink</a>
+    <li class='indexItem indexItem2'><a href='#set_pathname'>set_pathname</a>
+    <li class='indexItem indexItem2'><a href='#set_pathname_utf8'>set_pathname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#set_perm'>set_perm</a>
+    <li class='indexItem indexItem2'><a href='#set_rdev'>set_rdev</a>
+    <li class='indexItem indexItem2'><a href='#set_rdevmajor'>set_rdevmajor</a>
+    <li class='indexItem indexItem2'><a href='#set_rdevminor'>set_rdevminor</a>
+    <li class='indexItem indexItem2'><a href='#set_size'>set_size</a>
+    <li class='indexItem indexItem2'><a href='#set_symlink'>set_symlink</a>
+    <li class='indexItem indexItem2'><a href='#set_symlink_type'>set_symlink_type</a>
+    <li class='indexItem indexItem2'><a href='#set_symlink_utf8'>set_symlink_utf8</a>
+    <li class='indexItem indexItem2'><a href='#set_uid'>set_uid</a>
+    <li class='indexItem indexItem2'><a href='#set_uname'>set_uname</a>
+    <li class='indexItem indexItem2'><a href='#set_uname_utf8'>set_uname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#size'>size</a>
+    <li class='indexItem indexItem2'><a href='#size_is_set'>size_is_set</a>
+    <li class='indexItem indexItem2'><a href='#sourcepath'>sourcepath</a>
+    <li class='indexItem indexItem2'><a href='#sourcepath_w'>sourcepath_w</a>
+    <li class='indexItem indexItem2'><a href='#sparse_add_entry'>sparse_add_entry</a>
+    <li class='indexItem indexItem2'><a href='#sparse_clear'>sparse_clear</a>
+    <li class='indexItem indexItem2'><a href='#sparse_count'>sparse_count</a>
+    <li class='indexItem indexItem2'><a href='#sparse_next'>sparse_next</a>
+    <li class='indexItem indexItem2'><a href='#sparse_reset'>sparse_reset</a>
+    <li class='indexItem indexItem2'><a href='#stat'>stat</a>
+    <li class='indexItem indexItem2'><a href='#strmode'>strmode</a>
+    <li class='indexItem indexItem2'><a href='#symlink'>symlink</a>
+    <li class='indexItem indexItem2'><a href='#symlink_type'>symlink_type</a>
+    <li class='indexItem indexItem2'><a href='#symlink_utf8'>symlink_utf8</a>
+    <li class='indexItem indexItem2'><a href='#uid'>uid</a>
+    <li class='indexItem indexItem2'><a href='#uname'>uname</a>
+    <li class='indexItem indexItem2'><a href='#uname_utf8'>uname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#unset_atime'>unset_atime</a>
+    <li class='indexItem indexItem2'><a href='#unset_birthtime'>unset_birthtime</a>
+    <li class='indexItem indexItem2'><a href='#unset_ctime'>unset_ctime</a>
+    <li class='indexItem indexItem2'><a href='#unset_mtime'>unset_mtime</a>
+    <li class='indexItem indexItem2'><a href='#unset_size'>unset_size</a>
+    <li class='indexItem indexItem2'><a href='#update_gname_utf8'>update_gname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#update_hardlink_utf8'>update_hardlink_utf8</a>
+    <li class='indexItem indexItem2'><a href='#update_link_utf8'>update_link_utf8</a>
+    <li class='indexItem indexItem2'><a href='#update_pathname_utf8'>update_pathname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#update_symlink_utf8'>update_symlink_utf8</a>
+    <li class='indexItem indexItem2'><a href='#update_uname_utf8'>update_uname_utf8</a>
+    <li class='indexItem indexItem2'><a href='#xattr_add_entry'>xattr_add_entry</a>
+    <li class='indexItem indexItem2'><a href='#xattr_clear'>xattr_clear</a>
+    <li class='indexItem indexItem2'><a href='#xattr_count'>xattr_count</a>
+    <li class='indexItem indexItem2'><a href='#xattr_next'>xattr_next</a>
+    <li class='indexItem indexItem2'><a href='#xattr_reset'>xattr_reset</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3AEntryLinkResolver'>Archive::Libarchive::EntryLinkResolver</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#set_strategy'>set_strategy</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3AMatch'>Archive::Libarchive::Match</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#exclude_entry'>exclude_entry</a>
+    <li class='indexItem indexItem2'><a href='#exclude_pattern'>exclude_pattern</a>
+    <li class='indexItem indexItem2'><a href='#exclude_pattern_from_file'>exclude_pattern_from_file</a>
+    <li class='indexItem indexItem2'><a href='#exclude_pattern_from_file_w'>exclude_pattern_from_file_w</a>
+    <li class='indexItem indexItem2'><a href='#exclude_pattern_w'>exclude_pattern_w</a>
+    <li class='indexItem indexItem2'><a href='#excluded'>excluded</a>
+    <li class='indexItem indexItem2'><a href='#include_date'>include_date</a>
+    <li class='indexItem indexItem2'><a href='#include_date_w'>include_date_w</a>
+    <li class='indexItem indexItem2'><a href='#include_file_time'>include_file_time</a>
+    <li class='indexItem indexItem2'><a href='#include_file_time_w'>include_file_time_w</a>
+    <li class='indexItem indexItem2'><a href='#include_gid'>include_gid</a>
+    <li class='indexItem indexItem2'><a href='#include_gname'>include_gname</a>
+    <li class='indexItem indexItem2'><a href='#include_gname_w'>include_gname_w</a>
+    <li class='indexItem indexItem2'><a href='#include_pattern'>include_pattern</a>
+    <li class='indexItem indexItem2'><a href='#include_pattern_from_file'>include_pattern_from_file</a>
+    <li class='indexItem indexItem2'><a href='#include_pattern_from_file_w'>include_pattern_from_file_w</a>
+    <li class='indexItem indexItem2'><a href='#include_pattern_w'>include_pattern_w</a>
+    <li class='indexItem indexItem2'><a href='#include_time'>include_time</a>
+    <li class='indexItem indexItem2'><a href='#include_uid'>include_uid</a>
+    <li class='indexItem indexItem2'><a href='#include_uname'>include_uname</a>
+    <li class='indexItem indexItem2'><a href='#include_uname_w'>include_uname_w</a>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#owner_excluded'>owner_excluded</a>
+    <li class='indexItem indexItem2'><a href='#path_excluded'>path_excluded</a>
+    <li class='indexItem indexItem2'><a href='#path_unmatched_inclusions'>path_unmatched_inclusions</a>
+    <li class='indexItem indexItem2'><a href='#path_unmatched_inclusions_next'>path_unmatched_inclusions_next</a>
+    <li class='indexItem indexItem2'><a href='#set_inclusion_recursion'>set_inclusion_recursion</a>
+    <li class='indexItem indexItem2'><a href='#time_excluded'>time_excluded</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CONSTANTS'>CONSTANTS</a>
+  <li class='indexItem indexItem1'><a href='#NOT_IMPLEMENTED'>NOT IMPLEMENTED</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Archive::Libarchive::API - Comprehensive API documentation for Archive::Libarchive</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.05</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use 5.020;
+ use Archive::Libarchive qw( :const );
+ 
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;
+ $r-&#62;support_filter_all;
+ $r-&#62;support_format_all;
+ $r-&#62;open_filename(&#34;archive.tar&#34;, 10240) == ARCHIVE_OK
+   or die $r-&#62;error_string;
+ 
+ my $e = Archive::Libarchive::Entry-&#62;new;
+ say $e-&#62;pathname while $r-&#62;next_header($e) == ARCHIVE_OK;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This document covers comprehensive list of methods and constants provided by <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> classes. The top level document <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> is a better place to start, along with the main documentation pages for each class, as while not comprehensive, do cover in more detail the methods and features that you are most likely to use in practice, and they include examples. This document is intended primarily for reference.</p>
+
+<p>This document includes method signatures for each method provided by the API, but because of the large number of methods, the exact function of all methods is not provided. You can usually get the idea from the method names, or consult the <code>libarchive</code> documentation. A familiarity with the <code>libarchive</code> API is therefore helpful.</p>
+
+<p>Because <code>libarchive</code> contains class name prefixes for its methods to provide a pseudo object oriented interface in C, and because this Perl interface is properly object oriented, the names of all methods have been changed. (Mostly by removing the class prefix, although, some have been modified beyond that because simply removing the class prefix makes some method names confusing). To help you find the equivalent <code>libarchive</code> documentation, the original <code>libarchive</code> function names are included in the method usage.</p>
+
+<p>Some methods are marked as <code>(optional)</code>. These methods were added to <code>libarchive</code> after the current minimum supported by <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a>, and therefore might not be available depending on the version of <code>libarchive</code> you have installed. If you need your code to work on both old code and to take advantage of these methods on new versions you can use the <code>can</code> method to see if these methods are available.</p>
+
+<p>If you need one or more of these methods and your system <code>libarchive</code> is too old, then you can force a share install of <a href="/pod/Alien/Libarchive3.html" class="podlinkpod"
+>Alien::Libarchive3</a>.</p>
+
+<pre class="sh_perl"> env ALIEN_INSTALL_TYPE=share cpanm --reinstall Alien::Libarchive3</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive"
+>Archive::Libarchive</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_bzlib_version"
+>archive_bzlib_version</a></h2>
+
+<pre class="sh_perl"> # archive_bzlib_version
+ my $string = archive_bzlib_version();</pre>
+
+<p>The <code>bzlib</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_liblz4_version"
+>archive_liblz4_version</a></h2>
+
+<pre class="sh_perl"> # archive_liblz4_version
+ my $string = archive_liblz4_version();</pre>
+
+<p>The <code>liblz4</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_liblzma_version"
+>archive_liblzma_version</a></h2>
+
+<pre class="sh_perl"> # archive_liblzma_version
+ my $string = archive_liblzma_version();</pre>
+
+<p>The <code>liblzma</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_libzstd_version"
+>archive_libzstd_version</a></h2>
+
+<pre class="sh_perl"> # archive_libzstd_version (optional)
+ my $string = archive_libzstd_version();</pre>
+
+<p>The <code>zstd</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_version_details"
+>archive_version_details</a></h2>
+
+<pre class="sh_perl"> # archive_version_details
+ my $string = archive_version_details();</pre>
+
+<p>Detailed textual name/version of the library and its dependencies. This has the form:</p>
+
+<dl>
+<dt><a name="libarchive_x.y.z_zlib/a.b.c_liblzma/d.e.f_..._etc_..."
+><code>libarchive x.y.z zlib/a.b.c liblzma/d.e.f ... etc ...</code></a></dt>
+</dl>
+
+<p>the list of libraries described here will vary depending on how libarchive was compiled.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_version_number"
+>archive_version_number</a></h2>
+
+<pre class="sh_perl"> # archive_version_number
+ my $int = archive_version_number();</pre>
+
+<p>The <code>libarchive</code> version expressed as an integer. This will be the major, minor and patch levels each using up to three digits, so 3.5.1 will be <code>3005001</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_version_string"
+>archive_version_string</a></h2>
+
+<pre class="sh_perl"> # archive_version_string
+ my $string = archive_version_string();</pre>
+
+<p>The <code>libarchive</code> version as a string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="archive_zlib_version"
+>archive_zlib_version</a></h2>
+
+<pre class="sh_perl"> # archive_zlib_version
+ my $string = archive_zlib_version();</pre>
+
+<p>The <code>zlib</code> version that <code>libarchive</code> was built with. This will return <code>undef</code> if the library was not found at build time.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="versions"
+>versions</a></h2>
+
+<pre class="sh_perl"> my %versions = Archive::Libarchive-&#62;versions();</pre>
+
+<p>This returns a hash of <code>libarchive</code> and <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> versions and dependency versions. This may be useful in a test report diagnostic.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::Archive"
+>Archive::Libarchive::Archive</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::Archive"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_error"
+>clear_error</a></h2>
+
+<pre class="sh_perl"> # archive_clear_error
+ $ar-&#62;clear_error;</pre>
+
+<p>Clear the error for the corresponding archive instance.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_error"
+>copy_error</a></h2>
+
+<pre class="sh_perl"> # archive_copy_error
+ $ar-&#62;copy_error($ar);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="entry"
+>entry</a></h2>
+
+<pre class="sh_perl"> # archive_entry_new2
+ my $e = $ar-&#62;entry;</pre>
+
+<p>This method creates a new <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> instance, like when you create an instance with that class&#39; <a href="/pod/Archive/Libarchive/Entry.html#new" class="podlinkpod"
+>new</a> method, except this form will pull character-set conversion information from the specified archive instance.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="errno"
+>errno</a></h2>
+
+<pre class="sh_perl"> # archive_errno
+ my $int = $ar-&#62;errno;</pre>
+
+<p>Returns the system <code>errno</code> code for the archive instance. For non-system level errors, this will not have a sensible value.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="error_string"
+>error_string</a></h2>
+
+<pre class="sh_perl"> # archive_error_string
+ my $string = $ar-&#62;error_string;</pre>
+
+<p>Returns a human readable diagnostic of error for the corresponding archive instance.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="file_count"
+>file_count</a></h2>
+
+<pre class="sh_perl"> # archive_file_count
+ my $int = $ar-&#62;file_count;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filter_bytes"
+>filter_bytes</a></h2>
+
+<pre class="sh_perl"> # archive_filter_bytes
+ my $sint64 = $ar-&#62;filter_bytes($int);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filter_code"
+>filter_code</a></h2>
+
+<pre class="sh_perl"> # archive_filter_code
+ my $code = $ar-&#62;filter_code($num);</pre>
+
+<p>This will return the filter code at position <code>$num</code>. For the total number of positions see the <a href="/pod/Archive/Libarchive/API.html#filter_count" class="podlinkpod"
+>filter_count method</a>.</p>
+
+<p>The constant prefix for this method is <code>ARCHIVE_FILTER_</code>. This will return a dualvar where the string is the lowercase name without the prefix and the integer is the constant value. For the full list see <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filter_count"
+>filter_count</a></h2>
+
+<pre class="sh_perl"> # archive_filter_count
+ my $int = $ar-&#62;filter_count;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filter_name"
+>filter_name</a></h2>
+
+<pre class="sh_perl"> # archive_filter_name
+ my $string = $ar-&#62;filter_name($int);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="format"
+>format</a></h2>
+
+<pre class="sh_perl"> # archive_format
+ my $code = $ar-&#62;format;</pre>
+
+<p>This will return the format code at position <code>$num</code>.</p>
+
+<p>The constant prefix for this method is <code>ARCHIVE_FORMAT_</code>. This will return a dualvar where the string is the lowercase name without the prefix and the integer is the constant value. For the full list see <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="format_name"
+>format_name</a></h2>
+
+<pre class="sh_perl"> # archive_format_name
+ my $string = $ar-&#62;format_name;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="seek_data"
+>seek_data</a></h2>
+
+<pre class="sh_perl"> # archive_seek_data
+ my $sint64_1 = $ar-&#62;seek_data($sint64_2, $int);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_error"
+>set_error</a></h2>
+
+<pre class="sh_perl"> # archive_set_error
+ $ar-&#62;set_error($errno, $string);</pre>
+
+<p>This will set the <code>errno</code> code and human readable diagnostic for the archive instance. Not all errors have a corresponding <code>errno</code> code, so you can set that to zero (<code>0</code>) in that case.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::ArchiveRead"
+>Archive::Libarchive::ArchiveRead</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::ArchiveRead"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a></a></dt>
+
+<dd>
+<dt><a name="Parent_class:_Archive::Libarchive::Archive"
+>Parent class: <a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_passphrase"
+>add_passphrase</a></h2>
+
+<pre class="sh_perl"> # archive_read_add_passphrase
+ my $int = $r-&#62;add_passphrase($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="append_filter"
+>append_filter</a></h2>
+
+<pre class="sh_perl"> # archive_read_append_filter
+ my $int = $r-&#62;append_filter($code);</pre>
+
+<p>Append filter to manually specify the order in which filters will be applied. This will accept either a string representation of the filter code, or the constant. The constant prefix is <code>ARCHIVE_FILTER_</code>. So for a gzipped file this would be either <code>&#39;gzip&#39;</code> or <code>ARCHIVE_FILTER_GZIP</code>. For the full list see <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="append_filter_program"
+>append_filter_program</a></h2>
+
+<pre class="sh_perl"> # archive_read_append_filter_program
+ my $int = $r-&#62;append_filter_program($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="append_filter_program_signature"
+>append_filter_program_signature</a></h2>
+
+<pre class="sh_perl"> # archive_read_append_filter_program_signature
+ my $int = $r-&#62;append_filter_program_signature($string, $opaque, $size_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="close"
+>close</a></h2>
+
+<pre class="sh_perl"> # archive_read_close
+ my $int = $r-&#62;close;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract"
+>extract</a></h2>
+
+<pre class="sh_perl"> # archive_read_extract
+ my $int1 = $r-&#62;extract($e, $int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract2"
+>extract2</a></h2>
+
+<pre class="sh_perl"> # archive_read_extract2
+ my $int = $r-&#62;extract2($e, $ar);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract_set_skip_file"
+>extract_set_skip_file</a></h2>
+
+<pre class="sh_perl"> # archive_read_extract_set_skip_file
+ $r-&#62;extract_set_skip_file($sint64_1, $sint64_2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="format_capabilities"
+>format_capabilities</a></h2>
+
+<pre class="sh_perl"> # archive_read_format_capabilities
+ my $int = $r-&#62;format_capabilities;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="has_encrypted_entries"
+>has_encrypted_entries</a></h2>
+
+<pre class="sh_perl"> # archive_read_has_encrypted_entries
+ my $int = $r-&#62;has_encrypted_entries;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="header_position"
+>header_position</a></h2>
+
+<pre class="sh_perl"> # archive_read_header_position
+ my $sint64 = $r-&#62;header_position;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> # archive_read_new
+ my $r = Archive::Libarchive::ArchiveRead-&#62;new;</pre>
+
+<p>Create a new archive read object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="next_header"
+>next_header</a></h2>
+
+<pre class="sh_perl"> # archive_read_next_header
+ my $code = $r-&#62;next_header($e);</pre>
+
+<p>Returns the next <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open"
+>open</a></h2>
+
+<pre class="sh_perl"> # archive_read_open1
+ # archive_read_set_callback_data
+ # archive_read_set_close_callback
+ # archive_read_set_open_callback
+ # archive_read_set_read_callback
+ # archive_read_set_seek_callback
+ # archive_read_set_skip_callback
+ $r-&#62;open(%callbacks);</pre>
+
+<p>This is a basic open method, which relies on callbacks for its implementation. The only callback that is required is the <code>read</code> callback. The <code>open</code> and <code>close</code> callbacks are made available mostly for the benefit of the caller. The <code>skip</code> and <code>seek</code> callbacks are used if available for some formats like <code>zip</code> to improve performance. All callbacks should return a <a href="/pod/Archive/Libarchive.html#CONSTANTS" class="podlinkpod"
+>normal status code</a>, which is <code>ARCHIVE_OK</code> on success.</p>
+
+<p>Unlike the <code>libarchive</code> C-API, this interface doesn&#39;t provide a facility for passing in &#34;client&#34; data. In Perl this is implemented using a closure, which should allow you to pass in arbitrary variables via proper scoping.</p>
+
+<dl>
+<dt><a name="open"
+>open</a></dt>
+
+<dd>
+<pre class="sh_perl"> $r-&#62;open(open =&#62; sub ($r) {
+   ...
+ });</pre>
+
+<p>Called immediately when the archive is &#34;opened&#34;;</p>
+
+<dt><a name="read"
+>read</a></dt>
+
+<dd>
+<pre class="sh_perl"> $r-&#62;open(read =&#62; sub ($r, $ref) {
+   $$ref = ...;
+   ...
+   return $size.
+ });</pre>
+
+<p>Called when new data is required. What is passed in is a scalar reference. You should set this scalar to the next block of data. On success you should return the size of the data in bytes, and on failure return a <a href="/pod/Archive/Libarchive.html#CONSTANTS" class="podlinkpod"
+>normal status code</a>.</p>
+
+<dt><a name="seek"
+>seek</a></dt>
+
+<dd>
+<pre class="sh_perl"> $r-&#62;open(seek =&#62; sub ($r, $offset, $whence) {
+   ...
+ });</pre>
+
+<p>Called to seek to the new location. The <code>$offset</code> and <code>$whence</code> arguments work exactly like the <code>libc</code> <code>fseek</code> function.</p>
+
+<dt><a name="skip"
+>skip</a></dt>
+
+<dd>
+<pre class="sh_perl"> $r-&#62;open(skip =&#62; sub ($r, $request) {
+   ...
+ });</pre>
+
+<p>Called to skip the next <code>$request</code> bytes. Should return the actual number of bytes skipped on success (which can be less than or equal to <code>$request</code>), and on failure return a <a href="/pod/Archive/Libarchive.html#CONSTANTS" class="podlinkpod"
+>normal status code</a>.</p>
+
+<dt><a name="close"
+>close</a></dt>
+
+<dd>
+<pre class="sh_perl"> $r-&#62;open(close =&#62; sub ($r) {
+   ...
+ });</pre>
+
+<p>This is called when the archive instance is closed.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_FILE"
+>open_FILE</a></h2>
+
+<pre class="sh_perl"> $r-&#62;open_FILE($file_pointer);</pre>
+
+<p>This takes either a <a href="https://metacpan.org/pod/FFI%3A%3AC%3A%3AFile" class="podlinkpod"
+>FFI::C::File</a>, or an opaque pointer to a libc file pointer.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_fd"
+>open_fd</a></h2>
+
+<pre class="sh_perl"> # archive_read_open_fd
+ my $int1 = $r-&#62;open_fd($int2, $size_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_filename"
+>open_filename</a></h2>
+
+<pre class="sh_perl"> # archive_read_open_filename
+ my $int = $r-&#62;open_filename($string, $size_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_filename_w"
+>open_filename_w</a></h2>
+
+<pre class="sh_perl"> # archive_read_open_filename_w
+ my $int = $r-&#62;open_filename_w($wstring, $size_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_filenames"
+>open_filenames</a></h2>
+
+<pre class="sh_perl"> # archive_read_open_filenames
+ my $int = $r-&#62;open_filenames(\@filenames, $size_t);</pre>
+
+<p>Open a multi-file archive (typically for RAR format). The <code>$size_t</code> argument is the block size.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_memory"
+>open_memory</a></h2>
+
+<pre class="sh_perl"> # archive_write_open_memory
+ my $code = $r-&#62;open_memory(\$buffer);</pre>
+
+<p>Open&#39;s the in-memory archive.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_perlfile"
+>open_perlfile</a></h2>
+
+<pre class="sh_perl"> $r-&#62;open_perlfile(*FILE);</pre>
+
+<p>This takes a perl file handle and reads the archive from there.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="read_data"
+>read_data</a></h2>
+
+<pre class="sh_perl"> # archive_read_data
+ my $size_or_code = $r-&#62;read_data(\$buffer, $size);
+ my $size_or_code = $r-&#62;read_data(\$buffer);</pre>
+
+<p>Read in data from the content section of the archive entry. The output is written into <code>$buffer</code>. Up to <code>$size</code> bytes will be read. This will return the number of bytes read on success, zero (<code>0</code>) on EOF and a <a href="/pod/Archive/Libarchive.html#CONSTANTS" class="podlinkpod"
+>normal status code</a> on error.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="read_data_block"
+>read_data_block</a></h2>
+
+<pre class="sh_perl"> # archive_read_data_block
+ my $int = $r-&#62;read_data_block(\$buffer, \$offset);</pre>
+
+<p>A zero-copy version of archive_read_data that also exposes the file offset of each returned block. Note that the client has no way to specify the desired size of the block. The API does guarantee that offsets will be strictly increasing and that returned blocks will not overlap.</p>
+
+<p>Gotcha with this method is that it returns <code>ARCHIVE_EOF</code> when there is no more data to read instead of the number of bytes. The size can be determined from the length of the newly resized <code>$buffer</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="read_data_into_fd"
+>read_data_into_fd</a></h2>
+
+<pre class="sh_perl"> # archive_read_data_into_fd
+ my $int1 = $r-&#62;read_data_into_fd($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="read_data_skip"
+>read_data_skip</a></h2>
+
+<pre class="sh_perl"> # archive_read_data_skip
+ my $int = $r-&#62;read_data_skip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_filter_option"
+>set_filter_option</a></h2>
+
+<pre class="sh_perl"> # archive_read_set_filter_option
+ my $int = $r-&#62;set_filter_option($string1, $string2, $string3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format"
+>set_format</a></h2>
+
+<pre class="sh_perl"> # archive_read_set_format
+ my $int = $r-&#62;set_format($code);</pre>
+
+<p>Set the format manually. This will accept either a string representation of the format, or the constant. The constant prefix is <code>ARCHIVE_FORMAT_</code>. So for a tar file this would be either <code>&#39;tar&#39;</code> or <code>ARCHIVE_FORMAT_TAR</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_option"
+>set_format_option</a></h2>
+
+<pre class="sh_perl"> # archive_read_set_format_option
+ my $int = $r-&#62;set_format_option($string1, $string2, $string3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_option"
+>set_option</a></h2>
+
+<pre class="sh_perl"> # archive_read_set_option
+ my $int = $r-&#62;set_option($string1, $string2, $string3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_options"
+>set_options</a></h2>
+
+<pre class="sh_perl"> # archive_read_set_options
+ my $int = $r-&#62;set_options($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_passphrase_callback"
+>set_passphrase_callback</a></h2>
+
+<pre class="sh_perl"> # archive_read_set_passphrase_callback
+ my $int = $r-&#62;set_passphrase_callback(sub ($r) {
+   ...
+   return $passphrase;
+ });</pre>
+
+<p>Set a callback that will be called when a passphrase is required, for example with a .zip file with encrypted entries.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_all"
+>support_filter_all</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_all
+ my $int = $r-&#62;support_filter_all;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_by_code"
+>support_filter_by_code</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_by_code (optional)
+ my $int1 = $r-&#62;support_filter_by_code($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_bzip2"
+>support_filter_bzip2</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_bzip2
+ my $int = $r-&#62;support_filter_bzip2;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_compress"
+>support_filter_compress</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_compress
+ my $int = $r-&#62;support_filter_compress;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_grzip"
+>support_filter_grzip</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_grzip
+ my $int = $r-&#62;support_filter_grzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_gzip"
+>support_filter_gzip</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_gzip
+ my $int = $r-&#62;support_filter_gzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_lrzip"
+>support_filter_lrzip</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_lrzip
+ my $int = $r-&#62;support_filter_lrzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_lz4"
+>support_filter_lz4</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_lz4
+ my $int = $r-&#62;support_filter_lz4;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_lzip"
+>support_filter_lzip</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_lzip
+ my $int = $r-&#62;support_filter_lzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_lzma"
+>support_filter_lzma</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_lzma
+ my $int = $r-&#62;support_filter_lzma;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_lzop"
+>support_filter_lzop</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_lzop
+ my $int = $r-&#62;support_filter_lzop;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_none"
+>support_filter_none</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_none
+ my $int = $r-&#62;support_filter_none;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_program"
+>support_filter_program</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_program
+ my $int = $r-&#62;support_filter_program($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_program_signature"
+>support_filter_program_signature</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_program_signature
+ my $int = $r-&#62;support_filter_program_signature($string, $opaque, $size_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_rpm"
+>support_filter_rpm</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_rpm
+ my $int = $r-&#62;support_filter_rpm;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_uu"
+>support_filter_uu</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_uu
+ my $int = $r-&#62;support_filter_uu;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_xz"
+>support_filter_xz</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_xz
+ my $int = $r-&#62;support_filter_xz;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_filter_zstd"
+>support_filter_zstd</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_filter_zstd (optional)
+ my $int = $r-&#62;support_filter_zstd;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_7zip"
+>support_format_7zip</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_7zip
+ my $int = $r-&#62;support_format_7zip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_all"
+>support_format_all</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_all
+ my $int = $r-&#62;support_format_all;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_ar"
+>support_format_ar</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_ar
+ my $int = $r-&#62;support_format_ar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_by_code"
+>support_format_by_code</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_by_code
+ my $int1 = $r-&#62;support_format_by_code($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_cab"
+>support_format_cab</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_cab
+ my $int = $r-&#62;support_format_cab;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_cpio"
+>support_format_cpio</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_cpio
+ my $int = $r-&#62;support_format_cpio;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_empty"
+>support_format_empty</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_empty
+ my $int = $r-&#62;support_format_empty;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_gnutar"
+>support_format_gnutar</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_gnutar
+ my $int = $r-&#62;support_format_gnutar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_iso9660"
+>support_format_iso9660</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_iso9660
+ my $int = $r-&#62;support_format_iso9660;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_lha"
+>support_format_lha</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_lha
+ my $int = $r-&#62;support_format_lha;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_mtree"
+>support_format_mtree</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_mtree
+ my $int = $r-&#62;support_format_mtree;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_rar"
+>support_format_rar</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_rar
+ my $int = $r-&#62;support_format_rar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_rar5"
+>support_format_rar5</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_rar5 (optional)
+ my $int = $r-&#62;support_format_rar5;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_raw"
+>support_format_raw</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_raw
+ my $int = $r-&#62;support_format_raw;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_tar"
+>support_format_tar</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_tar
+ my $int = $r-&#62;support_format_tar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_warc"
+>support_format_warc</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_warc
+ my $int = $r-&#62;support_format_warc;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_xar"
+>support_format_xar</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_xar
+ my $int = $r-&#62;support_format_xar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_zip"
+>support_format_zip</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_zip
+ my $int = $r-&#62;support_format_zip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_zip_seekable"
+>support_format_zip_seekable</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_zip_seekable
+ my $int = $r-&#62;support_format_zip_seekable;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="support_format_zip_streamable"
+>support_format_zip_streamable</a></h2>
+
+<pre class="sh_perl"> # archive_read_support_format_zip_streamable
+ my $int = $r-&#62;support_format_zip_streamable;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::ArchiveWrite"
+>Archive::Libarchive::ArchiveWrite</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::ArchiveWrite"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a></a></dt>
+
+<dd>
+<dt><a name="Parent_class:_Archive::Libarchive::Archive"
+>Parent class: <a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter"
+>add_filter</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter
+ my $int = $w-&#62;add_filter($code);</pre>
+
+<p>Add filter to be applied when writing the archive. This will accept either a string representation of the filter code, or the constant. The constant prefix is <code>ARCHIVE_FILTER_</code>. So for a gzipped file this would be either <code>&#39;gzip&#39;</code> or <code>ARCHIVE_FILTER_GZIP</code>. For the full list see <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_b64encode"
+>add_filter_b64encode</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_b64encode
+ my $int = $w-&#62;add_filter_b64encode;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_by_name"
+>add_filter_by_name</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_by_name
+ my $int = $w-&#62;add_filter_by_name($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_bzip2"
+>add_filter_bzip2</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_bzip2
+ my $int = $w-&#62;add_filter_bzip2;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_compress"
+>add_filter_compress</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_compress
+ my $int = $w-&#62;add_filter_compress;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_grzip"
+>add_filter_grzip</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_grzip
+ my $int = $w-&#62;add_filter_grzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_gzip"
+>add_filter_gzip</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_gzip
+ my $int = $w-&#62;add_filter_gzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_lrzip"
+>add_filter_lrzip</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_lrzip
+ my $int = $w-&#62;add_filter_lrzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_lz4"
+>add_filter_lz4</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_lz4
+ my $int = $w-&#62;add_filter_lz4;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_lzip"
+>add_filter_lzip</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_lzip
+ my $int = $w-&#62;add_filter_lzip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_lzma"
+>add_filter_lzma</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_lzma
+ my $int = $w-&#62;add_filter_lzma;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_lzop"
+>add_filter_lzop</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_lzop
+ my $int = $w-&#62;add_filter_lzop;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_none"
+>add_filter_none</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_none
+ my $int = $w-&#62;add_filter_none;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_program"
+>add_filter_program</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_program
+ my $int = $w-&#62;add_filter_program($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_uuencode"
+>add_filter_uuencode</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_uuencode
+ my $int = $w-&#62;add_filter_uuencode;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_xz"
+>add_filter_xz</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_xz
+ my $int = $w-&#62;add_filter_xz;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_filter_zstd"
+>add_filter_zstd</a></h2>
+
+<pre class="sh_perl"> # archive_write_add_filter_zstd (optional)
+ my $int = $w-&#62;add_filter_zstd;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="close"
+>close</a></h2>
+
+<pre class="sh_perl"> # archive_write_close
+ my $int = $w-&#62;close;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fail"
+>fail</a></h2>
+
+<pre class="sh_perl"> # archive_write_fail
+ my $int = $w-&#62;fail;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="finish_entry"
+>finish_entry</a></h2>
+
+<pre class="sh_perl"> # archive_write_finish_entry
+ my $int = $w-&#62;finish_entry;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_bytes_in_last_block"
+>get_bytes_in_last_block</a></h2>
+
+<pre class="sh_perl"> # archive_write_get_bytes_in_last_block
+ my $int = $w-&#62;get_bytes_in_last_block;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_bytes_per_block"
+>get_bytes_per_block</a></h2>
+
+<pre class="sh_perl"> # archive_write_get_bytes_per_block
+ my $int = $w-&#62;get_bytes_per_block;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> # archive_write_new
+ my $w = Archive::Libarchive::ArchiveWrite-&#62;new;</pre>
+
+<p>Create a new archive write object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open"
+>open</a></h2>
+
+<pre class="sh_perl"> # archive_write_open
+ $w-&#62;open(%callbacks);</pre>
+
+<p>This is a basic open method, which relies on callbacks for its implementation. The only callback that is required is the <code>write</code> callback. The <code>open</code> and <code>close</code> callbacks are made available mostly for the benefit of the caller. All callbacks should return a <a href="/pod/Archive/Libarchive.html#CONSTANTS" class="podlinkpod"
+>normal status code</a>, which is <code>ARCHIVE_OK</code> on success.</p>
+
+<p>Unlike the <code>libarchive</code> C-API, this interface doesn&#39;t provide a facility for passing in &#34;client&#34; data. In Perl this is implemented using a closure, which should allow you to pass in arbitrary variables via proper scoping.</p>
+
+<dl>
+<dt><a name="open"
+>open</a></dt>
+
+<dd>
+<pre class="sh_perl"> $w-&#62;open(open =&#62; sub ($w) {
+   ...
+ });</pre>
+
+<p>Called immediately when the archive is &#34;opened&#34;;</p>
+
+<dt><a name="write"
+>write</a></dt>
+
+<dd>
+<pre class="sh_perl"> $w-&#62;open(write =&#62; sub ($w, $ref) {
+   ... = $$ref;
+   return $size;
+ });</pre>
+
+<p>This callback is called when data needs to be written to the archive. It is passed in as a reference to a scalar that contains the raw data. On success you should return the actual size of the data written in bytes, and on failure return a <a href="/pod/Archive/Libarchive.html#CONSTANTS" class="podlinkpod"
+>normal status code</a>.</p>
+
+<dt><a name="close"
+>close</a></dt>
+
+<dd>
+<pre class="sh_perl"> $w-&#62;open(open =&#62; sub ($w) {
+   ...
+ });</pre>
+
+<p>This is called when the archive instance is closed.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_FILE"
+>open_FILE</a></h2>
+
+<pre class="sh_perl"> # archive_write_open_FILE
+ $w-&#62;open_FILE($file_pointer);</pre>
+
+<p>This takes either a <a href="https://metacpan.org/pod/FFI%3A%3AC%3A%3AFile" class="podlinkpod"
+>FFI::C::File</a>, or an opaque pointer to a libc file pointer.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_fd"
+>open_fd</a></h2>
+
+<pre class="sh_perl"> # archive_write_open_fd
+ my $int1 = $w-&#62;open_fd($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_filename"
+>open_filename</a></h2>
+
+<pre class="sh_perl"> # archive_write_open_filename
+ my $int = $w-&#62;open_filename($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_filename_w"
+>open_filename_w</a></h2>
+
+<pre class="sh_perl"> # archive_write_open_filename_w
+ my $int = $w-&#62;open_filename_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_memory"
+>open_memory</a></h2>
+
+<pre class="sh_perl"> # archive_write_open_memory
+ $w-&#62;open_memory(\$buffer);</pre>
+
+<p>This takes a reference to scalar and stores the archive in memory there.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_perlfile"
+>open_perlfile</a></h2>
+
+<pre class="sh_perl"> $w-&#62;open_perlfile(*FILE);</pre>
+
+<p>This takes a perl file handle and stores the archive there.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_bytes_in_last_block"
+>set_bytes_in_last_block</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_bytes_in_last_block
+ my $int1 = $w-&#62;set_bytes_in_last_block($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_bytes_per_block"
+>set_bytes_per_block</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_bytes_per_block
+ my $int1 = $w-&#62;set_bytes_per_block($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_filter_option"
+>set_filter_option</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_filter_option
+ my $int = $w-&#62;set_filter_option($string1, $string2, $string3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format"
+>set_format</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format
+ my $int = $w-&#62;set_format($code);</pre>
+
+<p>Set the output format. This will accept either a string representation of the format, or the constant. The constant prefix is <code>ARCHIVE_FORMAT_</code>. So for a tar file this would be either <code>&#39;tar&#39;</code> or <code>ARCHIVE_FORMAT_TAR</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_7zip"
+>set_format_7zip</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_7zip
+ my $int = $w-&#62;set_format_7zip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_ar_bsd"
+>set_format_ar_bsd</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_ar_bsd
+ my $int = $w-&#62;set_format_ar_bsd;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_ar_svr4"
+>set_format_ar_svr4</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_ar_svr4
+ my $int = $w-&#62;set_format_ar_svr4;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_by_name"
+>set_format_by_name</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_by_name
+ my $int = $w-&#62;set_format_by_name($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_cpio"
+>set_format_cpio</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_cpio
+ my $int = $w-&#62;set_format_cpio;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_cpio_bin"
+>set_format_cpio_bin</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_cpio_bin (optional)
+ my $int = $w-&#62;set_format_cpio_bin;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_cpio_newc"
+>set_format_cpio_newc</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_cpio_newc
+ my $int = $w-&#62;set_format_cpio_newc;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_cpio_odc"
+>set_format_cpio_odc</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_cpio_odc (optional)
+ my $int = $w-&#62;set_format_cpio_odc;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_cpio_pwb"
+>set_format_cpio_pwb</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_cpio_pwb (optional)
+ my $int = $w-&#62;set_format_cpio_pwb;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_filter_by_ext"
+>set_format_filter_by_ext</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_filter_by_ext
+ my $int = $w-&#62;set_format_filter_by_ext($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_filter_by_ext_def"
+>set_format_filter_by_ext_def</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_filter_by_ext_def
+ my $int = $w-&#62;set_format_filter_by_ext_def($string1, $string2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_gnutar"
+>set_format_gnutar</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_gnutar
+ my $int = $w-&#62;set_format_gnutar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_iso9660"
+>set_format_iso9660</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_iso9660
+ my $int = $w-&#62;set_format_iso9660;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_mtree"
+>set_format_mtree</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_mtree
+ my $int = $w-&#62;set_format_mtree;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_mtree_classic"
+>set_format_mtree_classic</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_mtree_classic
+ my $int = $w-&#62;set_format_mtree_classic;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_option"
+>set_format_option</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_option
+ my $int = $w-&#62;set_format_option($string1, $string2, $string3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_pax"
+>set_format_pax</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_pax
+ my $int = $w-&#62;set_format_pax;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_pax_restricted"
+>set_format_pax_restricted</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_pax_restricted
+ my $int = $w-&#62;set_format_pax_restricted;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_raw"
+>set_format_raw</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_raw
+ my $int = $w-&#62;set_format_raw;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_shar"
+>set_format_shar</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_shar
+ my $int = $w-&#62;set_format_shar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_shar_dump"
+>set_format_shar_dump</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_shar_dump
+ my $int = $w-&#62;set_format_shar_dump;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_ustar"
+>set_format_ustar</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_ustar
+ my $int = $w-&#62;set_format_ustar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_v7tar"
+>set_format_v7tar</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_v7tar
+ my $int = $w-&#62;set_format_v7tar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_warc"
+>set_format_warc</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_warc
+ my $int = $w-&#62;set_format_warc;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_xar"
+>set_format_xar</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_xar
+ my $int = $w-&#62;set_format_xar;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_format_zip"
+>set_format_zip</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_format_zip
+ my $int = $w-&#62;set_format_zip;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_option"
+>set_option</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_option
+ my $int = $w-&#62;set_option($string1, $string2, $string3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_options"
+>set_options</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_options
+ my $int = $w-&#62;set_options($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_passphrase"
+>set_passphrase</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_passphrase
+ my $int = $w-&#62;set_passphrase($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_passphrase_callback"
+>set_passphrase_callback</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_passphrase_callback
+ my $int = $w-&#62;set_passphrase_callback(sub ($w) {
+   ...
+   return $passphrase;
+ });</pre>
+
+<p>Set a callback that will be called when a passphrase is required, for example with a .zip file with encrypted entries.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_skip_file"
+>set_skip_file</a></h2>
+
+<pre class="sh_perl"> # archive_write_set_skip_file
+ my $int = $w-&#62;set_skip_file($sint64_1, $sint64_2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="write_data"
+>write_data</a></h2>
+
+<pre class="sh_perl"> # archive_write_data
+ my $size_or_code = $w-&#62;write_data(\$buffer);</pre>
+
+<p>Write the entry content data to the archive. This takes a reference to the buffer. Returns the number of bytes written on success, and a <a href="/pod/Archive/Libarchive.html#CONSTANTS" class="podlinkpod"
+>normal status code</a> on error.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="write_header"
+>write_header</a></h2>
+
+<pre class="sh_perl"> # archive_write_header
+ my $int = $w-&#62;write_header($e);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="zip_set_compression_deflate"
+>zip_set_compression_deflate</a></h2>
+
+<pre class="sh_perl"> # archive_write_zip_set_compression_deflate
+ my $int = $w-&#62;zip_set_compression_deflate;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="zip_set_compression_store"
+>zip_set_compression_store</a></h2>
+
+<pre class="sh_perl"> # archive_write_zip_set_compression_store
+ my $int = $w-&#62;zip_set_compression_store;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::DiskRead"
+>Archive::Libarchive::DiskRead</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::DiskRead"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/DiskRead.html" class="podlinkpod"
+>Archive::Libarchive::DiskRead</a></a></dt>
+
+<dd>
+<dt><a name="Parent_class:_Archive::Libarchive::ArchiveRead"
+>Parent class: <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_can_descend"
+>disk_can_descend</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_can_descend
+ my $int = $dr-&#62;disk_can_descend;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_current_filesystem"
+>disk_current_filesystem</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_current_filesystem
+ my $int = $dr-&#62;disk_current_filesystem;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_current_filesystem_is_remote"
+>disk_current_filesystem_is_remote</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_current_filesystem_is_remote
+ my $int = $dr-&#62;disk_current_filesystem_is_remote;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_current_filesystem_is_synthetic"
+>disk_current_filesystem_is_synthetic</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_current_filesystem_is_synthetic
+ my $int = $dr-&#62;disk_current_filesystem_is_synthetic;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_descend"
+>disk_descend</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_descend
+ my $int = $dr-&#62;disk_descend;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_gname"
+>disk_gname</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_gname
+ my $string = $dr-&#62;disk_gname($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_open"
+>disk_open</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_open
+ my $int = $dr-&#62;disk_open($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_open_w"
+>disk_open_w</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_open_w
+ my $int = $dr-&#62;disk_open_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_atime_restored"
+>disk_set_atime_restored</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_set_atime_restored
+ my $int = $dr-&#62;disk_set_atime_restored;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_behavior"
+>disk_set_behavior</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_set_behavior
+ my $int1 = $dr-&#62;disk_set_behavior($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_standard_lookup"
+>disk_set_standard_lookup</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_set_standard_lookup
+ my $int = $dr-&#62;disk_set_standard_lookup;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_symlink_hybrid"
+>disk_set_symlink_hybrid</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_set_symlink_hybrid
+ my $int = $dr-&#62;disk_set_symlink_hybrid;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_symlink_logical"
+>disk_set_symlink_logical</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_set_symlink_logical
+ my $int = $dr-&#62;disk_set_symlink_logical;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_symlink_physical"
+>disk_set_symlink_physical</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_set_symlink_physical
+ my $int = $dr-&#62;disk_set_symlink_physical;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_uname"
+>disk_uname</a></h2>
+
+<pre class="sh_perl"> # archive_read_disk_uname
+ my $string = $dr-&#62;disk_uname($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $dr = Archive::Libarchive::DiskRead-&#62;new;</pre>
+
+<p>Create a new disk read object.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::DiskWrite"
+>Archive::Libarchive::DiskWrite</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::DiskWrite"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a></a></dt>
+
+<dd>
+<dt><a name="Parent_class:_Archive::Libarchive::ArchiveWrite"
+>Parent class: <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_gid"
+>disk_gid</a></h2>
+
+<pre class="sh_perl"> # archive_write_disk_gid
+ my $sint64_1 = $dw-&#62;disk_gid($string, $sint64_2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_options"
+>disk_set_options</a></h2>
+
+<pre class="sh_perl"> # archive_write_disk_set_options
+ my $int1 = $dw-&#62;disk_set_options($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_skip_file"
+>disk_set_skip_file</a></h2>
+
+<pre class="sh_perl"> # archive_write_disk_set_skip_file
+ my $int = $dw-&#62;disk_set_skip_file($sint64_1, $sint64_2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_set_standard_lookup"
+>disk_set_standard_lookup</a></h2>
+
+<pre class="sh_perl"> # archive_write_disk_set_standard_lookup
+ my $int = $dw-&#62;disk_set_standard_lookup;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disk_uid"
+>disk_uid</a></h2>
+
+<pre class="sh_perl"> # archive_write_disk_uid
+ my $sint64_1 = $dw-&#62;disk_uid($string, $sint64_2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> # archive_write_disk_new
+ my $dw = Archive::Libarchive::DiskWrite-&#62;new;</pre>
+
+<p>Create a new disk write object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="write_data_block"
+>write_data_block</a></h2>
+
+<pre class="sh_perl"> # archive_write_data_block
+ my $ssize_t = $dw-&#62;write_data_block(\$buffer, $offset);</pre>
+
+<p>Write the entry content data to the disk. This is intended to be used with <a href="/pod/Archive/Libarchive/ArchiveRead.html#read_data_block" class="podlinkpod"
+>&#34;read_data_block&#34; in Archive::Libarchive::ArchiveRead</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::Entry"
+>Archive::Libarchive::Entry</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::Entry"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_add_entry"
+>acl_add_entry</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_add_entry
+ my $int1 = $e-&#62;acl_add_entry($int2, $int3, $int4, $int5, $string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_add_entry_w"
+>acl_add_entry_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_add_entry_w
+ my $int1 = $e-&#62;acl_add_entry_w($int2, $int3, $int4, $int5, $wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_clear"
+>acl_clear</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_clear
+ $e-&#62;acl_clear;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_count"
+>acl_count</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_count
+ my $int1 = $e-&#62;acl_count($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_from_text"
+>acl_from_text</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_from_text (optional)
+ my $int1 = $e-&#62;acl_from_text($string, $int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_from_text_w"
+>acl_from_text_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_from_text_w (optional)
+ my $int1 = $e-&#62;acl_from_text_w($wstring, $int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_next"
+>acl_next</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_next
+ my $int1 = $e-&#62;acl_next($int2, $int*1, $int*2, $int*3, $int*4, \$string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_reset"
+>acl_reset</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_reset
+ my $int1 = $e-&#62;acl_reset($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_to_text"
+>acl_to_text</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_to_text (optional)
+ my $string = $e-&#62;acl_to_text(\$ssize_t, $int);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_to_text_w"
+>acl_to_text_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_to_text_w (optional)
+ my $wstring = $e-&#62;acl_to_text_w(\$ssize_t, $int);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="acl_types"
+>acl_types</a></h2>
+
+<pre class="sh_perl"> # archive_entry_acl_types (optional)
+ my $int = $e-&#62;acl_types;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="atime"
+>atime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_atime
+ my $time_t = $e-&#62;atime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="atime_is_set"
+>atime_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_atime_is_set
+ my $int = $e-&#62;atime_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="atime_nsec"
+>atime_nsec</a></h2>
+
+<pre class="sh_perl"> # archive_entry_atime_nsec
+ my $long = $e-&#62;atime_nsec;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="birthtime"
+>birthtime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_birthtime
+ my $time_t = $e-&#62;birthtime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="birthtime_is_set"
+>birthtime_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_birthtime_is_set
+ my $int = $e-&#62;birthtime_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="birthtime_nsec"
+>birthtime_nsec</a></h2>
+
+<pre class="sh_perl"> # archive_entry_birthtime_nsec
+ my $long = $e-&#62;birthtime_nsec;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear"
+>clear</a></h2>
+
+<pre class="sh_perl"> # archive_entry_clear
+ $e-&#62;clear;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clone"
+>clone</a></h2>
+
+<pre class="sh_perl"> # archive_entry_clone
+ my $e2 = $e-&#62;clone;</pre>
+
+<p>Clone the entry instance.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_fflags_text"
+>copy_fflags_text</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_fflags_text
+ my $string1 = $e-&#62;copy_fflags_text($string2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_fflags_text_w"
+>copy_fflags_text_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_fflags_text_w
+ my $wstring1 = $e-&#62;copy_fflags_text_w($wstring2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_gname"
+>copy_gname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_gname
+ $e-&#62;copy_gname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_gname_w"
+>copy_gname_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_gname_w
+ $e-&#62;copy_gname_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_hardlink"
+>copy_hardlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_hardlink
+ $e-&#62;copy_hardlink($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_hardlink_w"
+>copy_hardlink_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_hardlink_w
+ $e-&#62;copy_hardlink_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_link"
+>copy_link</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_link
+ $e-&#62;copy_link($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_link_w"
+>copy_link_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_link_w
+ $e-&#62;copy_link_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_mac_metadata"
+>copy_mac_metadata</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_mac_metadata
+ $e-&#62;copy_mac_metadata($meta);</pre>
+
+<p>Sets the mac metadata to <code>$meta</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_pathname"
+>copy_pathname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_pathname
+ $e-&#62;copy_pathname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_pathname_w"
+>copy_pathname_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_pathname_w
+ $e-&#62;copy_pathname_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_sourcepath"
+>copy_sourcepath</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_sourcepath
+ $e-&#62;copy_sourcepath($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_sourcepath_w"
+>copy_sourcepath_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_sourcepath_w
+ $e-&#62;copy_sourcepath_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_stat"
+>copy_stat</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_stat
+ $e-&#62;copy_stat($stat);</pre>
+
+<p>Copies the values from a <a href="https://metacpan.org/pod/FFI%3A%3AC%3A%3AStat" class="podlinkpod"
+>FFI::C::Stat</a> instance.</p>
+
+<p>Not currently implemented on Windows.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_symlink"
+>copy_symlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_symlink
+ $e-&#62;copy_symlink($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_symlink_w"
+>copy_symlink_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_symlink_w
+ $e-&#62;copy_symlink_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_uname"
+>copy_uname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_uname
+ $e-&#62;copy_uname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_uname_w"
+>copy_uname_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_uname_w
+ $e-&#62;copy_uname_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ctime"
+>ctime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_ctime
+ my $time_t = $e-&#62;ctime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ctime_is_set"
+>ctime_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_ctime_is_set
+ my $int = $e-&#62;ctime_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ctime_nsec"
+>ctime_nsec</a></h2>
+
+<pre class="sh_perl"> # archive_entry_ctime_nsec
+ my $long = $e-&#62;ctime_nsec;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="dev"
+>dev</a></h2>
+
+<pre class="sh_perl"> # archive_entry_dev
+ my $dev_t = $e-&#62;dev;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="dev_is_set"
+>dev_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_dev_is_set
+ my $int = $e-&#62;dev_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="devmajor"
+>devmajor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_devmajor
+ my $dev_t = $e-&#62;devmajor;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="devminor"
+>devminor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_devminor
+ my $dev_t = $e-&#62;devminor;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="digest"
+>digest</a></h2>
+
+<pre class="sh_perl"> # archive_entry_digest
+ my $string = $e-&#62;digest($type);</pre>
+
+<p>This is used to query the raw hex digest for the given entry. The type of digest is provided as an argument. The type may be passed in as either a string or an integer constant. The constant prefix is <code>ARCHIVE_ENTRY_DIGEST_</code>. So for an MD5 digest you could pass in either <code>&#39;md5&#39;</code> or <code>ARCHIVE_ENTRY_DIGEST_MD5</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fflags"
+>fflags</a></h2>
+
+<pre class="sh_perl"> # archive_entry_fflags
+ $e-&#62;fflags($ulong*1, $ulong*2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fflags_text"
+>fflags_text</a></h2>
+
+<pre class="sh_perl"> # archive_entry_fflags_text
+ my $string = $e-&#62;fflags_text;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filetype"
+>filetype</a></h2>
+
+<pre class="sh_perl"> # archive_entry_filetype
+ my $code = $e-&#62;filetype;</pre>
+
+<p>This returns the type of file for the entry. This will be a dualvar where the string is one of <code>mt</code>, <code>reg</code>, <code>lnx</code>, <code>sock</code>, <code>chr</code>, <code>blk</code>, <code>dir</code> or <code>ifo</code>, and integer values will match the corresponding <code>AE_IF</code> prefixed constant. See <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a> for the full list.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="gid"
+>gid</a></h2>
+
+<pre class="sh_perl"> # archive_entry_gid
+ my $sint64 = $e-&#62;gid;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="gname"
+>gname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_gname
+ my $string = $e-&#62;gname;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="gname_utf8"
+>gname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_gname_utf8
+ my $string_utf8 = $e-&#62;gname_utf8;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="hardlink"
+>hardlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_hardlink
+ my $string = $e-&#62;hardlink;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="hardlink_utf8"
+>hardlink_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_hardlink_utf8
+ my $string_utf8 = $e-&#62;hardlink_utf8;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ino"
+>ino</a></h2>
+
+<pre class="sh_perl"> # archive_entry_ino
+ my $sint64 = $e-&#62;ino;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ino64"
+>ino64</a></h2>
+
+<pre class="sh_perl"> # archive_entry_ino64
+ my $sint64 = $e-&#62;ino64;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ino_is_set"
+>ino_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_ino_is_set
+ my $int = $e-&#62;ino_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_data_encrypted"
+>is_data_encrypted</a></h2>
+
+<pre class="sh_perl"> # archive_entry_is_data_encrypted
+ my $int = $e-&#62;is_data_encrypted;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_encrypted"
+>is_encrypted</a></h2>
+
+<pre class="sh_perl"> # archive_entry_is_encrypted
+ my $int = $e-&#62;is_encrypted;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_metadata_encrypted"
+>is_metadata_encrypted</a></h2>
+
+<pre class="sh_perl"> # archive_entry_is_metadata_encrypted
+ my $int = $e-&#62;is_metadata_encrypted;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mac_metadata"
+>mac_metadata</a></h2>
+
+<pre class="sh_perl"> # archive_entry_mac_metadata
+ my $meta = $e-&#62;mac_metadata;</pre>
+
+<p>Get the mac metadata from the entry.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mode"
+>mode</a></h2>
+
+<pre class="sh_perl"> # archive_entry_mode
+ my $mode_t = $e-&#62;mode;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mtime"
+>mtime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_mtime
+ my $time_t = $e-&#62;mtime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mtime_is_set"
+>mtime_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_mtime_is_set
+ my $int = $e-&#62;mtime_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="mtime_nsec"
+>mtime_nsec</a></h2>
+
+<pre class="sh_perl"> # archive_entry_mtime_nsec
+ my $long = $e-&#62;mtime_nsec;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $e = Archive::Libarchive::Entry-&#62;new;</pre>
+
+<p>Create a new Entry object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="nlink"
+>nlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_nlink
+ my $uint = $e-&#62;nlink;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pathname"
+>pathname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_pathname
+ my $string = $e-&#62;pathname;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pathname_utf8"
+>pathname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_pathname_utf8
+ my $string_utf8 = $e-&#62;pathname_utf8;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="perm"
+>perm</a></h2>
+
+<pre class="sh_perl"> # archive_entry_perm
+ my $mode_t = $e-&#62;perm;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rdev"
+>rdev</a></h2>
+
+<pre class="sh_perl"> # archive_entry_rdev
+ my $dev_t = $e-&#62;rdev;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rdevmajor"
+>rdevmajor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_rdevmajor
+ my $dev_t = $e-&#62;rdevmajor;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rdevminor"
+>rdevminor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_rdevminor
+ my $dev_t = $e-&#62;rdevminor;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_atime"
+>set_atime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_atime
+ $e-&#62;set_atime($time_t, $long);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_birthtime"
+>set_birthtime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_birthtime
+ $e-&#62;set_birthtime($time_t, $long);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_ctime"
+>set_ctime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_ctime
+ $e-&#62;set_ctime($time_t, $long);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_dev"
+>set_dev</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_dev
+ $e-&#62;set_dev($dev_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_devmajor"
+>set_devmajor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_devmajor
+ $e-&#62;set_devmajor($dev_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_devminor"
+>set_devminor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_devminor
+ $e-&#62;set_devminor($dev_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_fflags"
+>set_fflags</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_fflags
+ $e-&#62;set_fflags($ulong1, $ulong2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_filetype"
+>set_filetype</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_filetype
+ $e-&#62;set_filetype($code);</pre>
+
+<p>This sets the type of the file for the entry. This will accept either a string value which is one of <code>mt</code>, <code>reg</code>, <code>lnx</code>, <code>sock</code>, <code>chr</code>, <code>blk</code>, <code>dir</code> or <code>ifo</code>, or an integer constant value with the <code>AE_IF</code> prefix. See <a href="/pod/Archive/Libarchive/API.html#CONSTANTS" class="podlinkpod"
+>&#34;CONSTANTS&#34; in Archive::Libarchive::API</a> for the full list.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_gid"
+>set_gid</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_gid
+ $e-&#62;set_gid($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_gname"
+>set_gname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_gname
+ $e-&#62;set_gname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_gname_utf8"
+>set_gname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_gname_utf8
+ $e-&#62;set_gname_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_hardlink"
+>set_hardlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_hardlink
+ $e-&#62;set_hardlink($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_hardlink_utf8"
+>set_hardlink_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_hardlink_utf8
+ $e-&#62;set_hardlink_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_ino"
+>set_ino</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_ino
+ $e-&#62;set_ino($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_ino64"
+>set_ino64</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_ino64
+ $e-&#62;set_ino64($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_is_data_encrypted"
+>set_is_data_encrypted</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_is_data_encrypted
+ $e-&#62;set_is_data_encrypted($char);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_is_metadata_encrypted"
+>set_is_metadata_encrypted</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_is_metadata_encrypted
+ $e-&#62;set_is_metadata_encrypted($char);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_link"
+>set_link</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_link
+ $e-&#62;set_link($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_link_utf8"
+>set_link_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_link_utf8
+ $e-&#62;set_link_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_mode"
+>set_mode</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_mode
+ $e-&#62;set_mode($mode_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_mtime"
+>set_mtime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_mtime
+ $e-&#62;set_mtime($time_t, $long);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_nlink"
+>set_nlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_nlink
+ $e-&#62;set_nlink($uint);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_pathname"
+>set_pathname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_pathname
+ $e-&#62;set_pathname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_pathname_utf8"
+>set_pathname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_pathname_utf8
+ $e-&#62;set_pathname_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_perm"
+>set_perm</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_perm
+ $e-&#62;set_perm($mode_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_rdev"
+>set_rdev</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_rdev
+ $e-&#62;set_rdev($dev_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_rdevmajor"
+>set_rdevmajor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_rdevmajor
+ $e-&#62;set_rdevmajor($dev_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_rdevminor"
+>set_rdevminor</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_rdevminor
+ $e-&#62;set_rdevminor($dev_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_size"
+>set_size</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_size
+ $e-&#62;set_size($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_symlink"
+>set_symlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_symlink
+ $e-&#62;set_symlink($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_symlink_type"
+>set_symlink_type</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_symlink_type (optional)
+ $e-&#62;set_symlink_type($int);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_symlink_utf8"
+>set_symlink_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_symlink_utf8
+ $e-&#62;set_symlink_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_uid"
+>set_uid</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_uid
+ $e-&#62;set_uid($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_uname"
+>set_uname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_uname
+ $e-&#62;set_uname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_uname_utf8"
+>set_uname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_uname_utf8
+ $e-&#62;set_uname_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="size"
+>size</a></h2>
+
+<pre class="sh_perl"> # archive_entry_size
+ my $sint64 = $e-&#62;size;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="size_is_set"
+>size_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_size_is_set
+ my $int = $e-&#62;size_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sourcepath"
+>sourcepath</a></h2>
+
+<pre class="sh_perl"> # archive_entry_sourcepath
+ my $string = $e-&#62;sourcepath;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sourcepath_w"
+>sourcepath_w</a></h2>
+
+<pre class="sh_perl"> # archive_entry_sourcepath_w
+ my $wstring = $e-&#62;sourcepath_w;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sparse_add_entry"
+>sparse_add_entry</a></h2>
+
+<pre class="sh_perl"> # archive_entry_sparse_add_entry
+ $e-&#62;sparse_add_entry($sint64_1, $sint64_2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sparse_clear"
+>sparse_clear</a></h2>
+
+<pre class="sh_perl"> # archive_entry_sparse_clear
+ $e-&#62;sparse_clear;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sparse_count"
+>sparse_count</a></h2>
+
+<pre class="sh_perl"> # archive_entry_sparse_count
+ my $int = $e-&#62;sparse_count;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sparse_next"
+>sparse_next</a></h2>
+
+<pre class="sh_perl"> # archive_entry_sparse_next
+ my $int = $e-&#62;sparse_next($sint64*1, $sint64*2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sparse_reset"
+>sparse_reset</a></h2>
+
+<pre class="sh_perl"> # archive_entry_sparse_reset
+ my $int = $e-&#62;sparse_reset;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stat"
+>stat</a></h2>
+
+<pre class="sh_perl"> # archive_entry_stat
+ my $stat = $e-&#62;stat;</pre>
+
+<p>Returns a <a href="https://metacpan.org/pod/FFI%3A%3AC%3A%3AStat" class="podlinkpod"
+>FFI::C::Stat</a> instance filled out from the entry metadata.</p>
+
+<p>Not currently implemented on Windows.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="strmode"
+>strmode</a></h2>
+
+<pre class="sh_perl"> # archive_entry_strmode
+ my $string = $e-&#62;strmode;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="symlink"
+>symlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_symlink
+ my $string = $e-&#62;symlink;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="symlink_type"
+>symlink_type</a></h2>
+
+<pre class="sh_perl"> # archive_entry_symlink_type (optional)
+ my $int = $e-&#62;symlink_type;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="symlink_utf8"
+>symlink_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_symlink_utf8
+ my $string_utf8 = $e-&#62;symlink_utf8;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uid"
+>uid</a></h2>
+
+<pre class="sh_perl"> # archive_entry_uid
+ my $sint64 = $e-&#62;uid;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uname"
+>uname</a></h2>
+
+<pre class="sh_perl"> # archive_entry_uname
+ my $string = $e-&#62;uname;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uname_utf8"
+>uname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_uname_utf8
+ my $string_utf8 = $e-&#62;uname_utf8;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unset_atime"
+>unset_atime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_unset_atime
+ $e-&#62;unset_atime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unset_birthtime"
+>unset_birthtime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_unset_birthtime
+ $e-&#62;unset_birthtime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unset_ctime"
+>unset_ctime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_unset_ctime
+ $e-&#62;unset_ctime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unset_mtime"
+>unset_mtime</a></h2>
+
+<pre class="sh_perl"> # archive_entry_unset_mtime
+ $e-&#62;unset_mtime;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unset_size"
+>unset_size</a></h2>
+
+<pre class="sh_perl"> # archive_entry_unset_size
+ $e-&#62;unset_size;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_gname_utf8"
+>update_gname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_update_gname_utf8
+ my $int = $e-&#62;update_gname_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_hardlink_utf8"
+>update_hardlink_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_update_hardlink_utf8
+ my $int = $e-&#62;update_hardlink_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_link_utf8"
+>update_link_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_update_link_utf8
+ my $int = $e-&#62;update_link_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_pathname_utf8"
+>update_pathname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_update_pathname_utf8
+ my $int = $e-&#62;update_pathname_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_symlink_utf8"
+>update_symlink_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_update_symlink_utf8
+ my $int = $e-&#62;update_symlink_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_uname_utf8"
+>update_uname_utf8</a></h2>
+
+<pre class="sh_perl"> # archive_entry_update_uname_utf8
+ my $int = $e-&#62;update_uname_utf8($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xattr_add_entry"
+>xattr_add_entry</a></h2>
+
+<pre class="sh_perl"> # archive_entry_xattr_add_entry
+ my $int = $e-&#62;xattr_add_entry($name, $value);</pre>
+
+<p>Adds an xattr name/value pair.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xattr_clear"
+>xattr_clear</a></h2>
+
+<pre class="sh_perl"> # archive_entry_xattr_clear
+ $e-&#62;xattr_clear;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xattr_count"
+>xattr_count</a></h2>
+
+<pre class="sh_perl"> # archive_entry_xattr_count
+ my $int = $e-&#62;xattr_count;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xattr_next"
+>xattr_next</a></h2>
+
+<pre class="sh_perl"> # archive_entry_xattr_next
+ my $int = $e-&#62;xattr_next(\$name, $value);</pre>
+
+<p>Fetches the next xattr name/value pair.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xattr_reset"
+>xattr_reset</a></h2>
+
+<pre class="sh_perl"> # archive_entry_xattr_reset
+ my $int = $e-&#62;xattr_reset;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::EntryLinkResolver"
+>Archive::Libarchive::EntryLinkResolver</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::EntryLinkResolver"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/EntryLinkResolver.html" class="podlinkpod"
+>Archive::Libarchive::EntryLinkResolver</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $r = Archive::Libarchive::EntryLinkResolver-&#62;new;</pre>
+
+<p>Create a new entry link resolver object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_strategy"
+>set_strategy</a></h2>
+
+<pre class="sh_perl"> # archive_entry_linkresolver_set_strategy
+ $lr-&#62;set_strategy($int);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Archive::Libarchive::Match"
+>Archive::Libarchive::Match</a></h1>
+
+<dl>
+<dt><a name="Main_documentation_and_examples:_Archive::Libarchive::Match"
+>Main documentation and examples: <a href="/pod/Archive/Libarchive/Match.html" class="podlinkpod"
+>Archive::Libarchive::Match</a></a></dt>
+
+<dd>
+<dt><a name="Parent_class:_Archive::Libarchive::Archive"
+>Parent class: <a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a></a></dt>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="exclude_entry"
+>exclude_entry</a></h2>
+
+<pre class="sh_perl"> # archive_match_exclude_entry
+ my $int1 = $m-&#62;exclude_entry($int2, $e);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="exclude_pattern"
+>exclude_pattern</a></h2>
+
+<pre class="sh_perl"> # archive_match_exclude_pattern
+ my $int = $m-&#62;exclude_pattern($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="exclude_pattern_from_file"
+>exclude_pattern_from_file</a></h2>
+
+<pre class="sh_perl"> # archive_match_exclude_pattern_from_file
+ my $int1 = $m-&#62;exclude_pattern_from_file($string, $int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="exclude_pattern_from_file_w"
+>exclude_pattern_from_file_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_exclude_pattern_from_file_w
+ my $int1 = $m-&#62;exclude_pattern_from_file_w($wstring, $int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="exclude_pattern_w"
+>exclude_pattern_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_exclude_pattern_w
+ my $int = $m-&#62;exclude_pattern_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="excluded"
+>excluded</a></h2>
+
+<pre class="sh_perl"> # archive_match_excluded
+ my $int = $m-&#62;excluded($e);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_date"
+>include_date</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_date
+ my $int1 = $m-&#62;include_date($int2, $string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_date_w"
+>include_date_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_date_w
+ my $int1 = $m-&#62;include_date_w($int2, $wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_file_time"
+>include_file_time</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_file_time
+ my $int1 = $m-&#62;include_file_time($int2, $string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_file_time_w"
+>include_file_time_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_file_time_w
+ my $int1 = $m-&#62;include_file_time_w($int2, $wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_gid"
+>include_gid</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_gid
+ my $int = $m-&#62;include_gid($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_gname"
+>include_gname</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_gname
+ my $int = $m-&#62;include_gname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_gname_w"
+>include_gname_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_gname_w
+ my $int = $m-&#62;include_gname_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_pattern"
+>include_pattern</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_pattern
+ my $int = $m-&#62;include_pattern($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_pattern_from_file"
+>include_pattern_from_file</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_pattern_from_file
+ my $int1 = $m-&#62;include_pattern_from_file($string, $int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_pattern_from_file_w"
+>include_pattern_from_file_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_pattern_from_file_w
+ my $int1 = $m-&#62;include_pattern_from_file_w($wstring, $int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_pattern_w"
+>include_pattern_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_pattern_w
+ my $int = $m-&#62;include_pattern_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_time"
+>include_time</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_time
+ my $int1 = $m-&#62;include_time($int2, $time_t, $long);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_uid"
+>include_uid</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_uid
+ my $int = $m-&#62;include_uid($sint64);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_uname"
+>include_uname</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_uname
+ my $int = $m-&#62;include_uname($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="include_uname_w"
+>include_uname_w</a></h2>
+
+<pre class="sh_perl"> # archive_match_include_uname_w
+ my $int = $m-&#62;include_uname_w($wstring);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $r = Archive::Libarchive::Match-&#62;new;</pre>
+
+<p>Create a new archive match object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="owner_excluded"
+>owner_excluded</a></h2>
+
+<pre class="sh_perl"> # archive_match_owner_excluded
+ my $int = $m-&#62;owner_excluded($e);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="path_excluded"
+>path_excluded</a></h2>
+
+<pre class="sh_perl"> # archive_match_path_excluded
+ my $int = $m-&#62;path_excluded($e);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="path_unmatched_inclusions"
+>path_unmatched_inclusions</a></h2>
+
+<pre class="sh_perl"> # archive_match_path_unmatched_inclusions
+ my $int = $m-&#62;path_unmatched_inclusions;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="path_unmatched_inclusions_next"
+>path_unmatched_inclusions_next</a></h2>
+
+<pre class="sh_perl"> # archive_match_path_unmatched_inclusions_next
+ my $int = $m-&#62;path_unmatched_inclusions_next(\$string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_inclusion_recursion"
+>set_inclusion_recursion</a></h2>
+
+<pre class="sh_perl"> # archive_match_set_inclusion_recursion (optional)
+ my $int1 = $m-&#62;set_inclusion_recursion($int2);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="time_excluded"
+>time_excluded</a></h2>
+
+<pre class="sh_perl"> # archive_match_time_excluded
+ my $int = $m-&#62;time_excluded($e);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTANTS"
+>CONSTANTS</a></h1>
+
+<p>The status code constants are documented in the main documentation page <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a>.</p>
+
+<p>These constants can be imported individually from <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a> using the normal <a href="https://metacpan.org/pod/Exporter" class="podlinkpod"
+>Exporter</a> interface, or all of them can be imported with the <code>:const</code> export tag or along with functions with the <code>:all</code> tag.</p>
+
+<p>For the rest please consult the <code>libarchive</code> documentation.</p>
+
+<dl>
+<dt><a name="ARCHIVE_ENTRY_ACL_ADD_FILE"
+>ARCHIVE_ENTRY_ACL_ADD_FILE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ADD_SUBDIRECTORY"
+>ARCHIVE_ENTRY_ACL_ADD_SUBDIRECTORY</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_APPEND_DATA"
+>ARCHIVE_ENTRY_ACL_APPEND_DATA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_DELETE"
+>ARCHIVE_ENTRY_ACL_DELETE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_DELETE_CHILD"
+>ARCHIVE_ENTRY_ACL_DELETE_CHILD</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ENTRY_DIRECTORY_INHERIT"
+>ARCHIVE_ENTRY_ACL_ENTRY_DIRECTORY_INHERIT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ENTRY_FAILED_ACCESS"
+>ARCHIVE_ENTRY_ACL_ENTRY_FAILED_ACCESS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ENTRY_FILE_INHERIT"
+>ARCHIVE_ENTRY_ACL_ENTRY_FILE_INHERIT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ENTRY_INHERITED"
+>ARCHIVE_ENTRY_ACL_ENTRY_INHERITED</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ENTRY_INHERIT_ONLY"
+>ARCHIVE_ENTRY_ACL_ENTRY_INHERIT_ONLY</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ENTRY_NO_PROPAGATE_INHERIT"
+>ARCHIVE_ENTRY_ACL_ENTRY_NO_PROPAGATE_INHERIT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_ENTRY_SUCCESSFUL_ACCESS"
+>ARCHIVE_ENTRY_ACL_ENTRY_SUCCESSFUL_ACCESS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_EVERYONE"
+>ARCHIVE_ENTRY_ACL_EVERYONE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_EXECUTE"
+>ARCHIVE_ENTRY_ACL_EXECUTE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_GROUP"
+>ARCHIVE_ENTRY_ACL_GROUP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_GROUP_OBJ"
+>ARCHIVE_ENTRY_ACL_GROUP_OBJ</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_INHERITANCE_NFS4"
+>ARCHIVE_ENTRY_ACL_INHERITANCE_NFS4</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_LIST_DIRECTORY"
+>ARCHIVE_ENTRY_ACL_LIST_DIRECTORY</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_MASK"
+>ARCHIVE_ENTRY_ACL_MASK</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_OTHER"
+>ARCHIVE_ENTRY_ACL_OTHER</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_PERMS_NFS4"
+>ARCHIVE_ENTRY_ACL_PERMS_NFS4</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_PERMS_POSIX1E"
+>ARCHIVE_ENTRY_ACL_PERMS_POSIX1E</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_READ"
+>ARCHIVE_ENTRY_ACL_READ</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_READ_ACL"
+>ARCHIVE_ENTRY_ACL_READ_ACL</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_READ_ATTRIBUTES"
+>ARCHIVE_ENTRY_ACL_READ_ATTRIBUTES</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_READ_DATA"
+>ARCHIVE_ENTRY_ACL_READ_DATA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_READ_NAMED_ATTRS"
+>ARCHIVE_ENTRY_ACL_READ_NAMED_ATTRS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_STYLE_COMPACT"
+>ARCHIVE_ENTRY_ACL_STYLE_COMPACT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_STYLE_EXTRA_ID"
+>ARCHIVE_ENTRY_ACL_STYLE_EXTRA_ID</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_STYLE_MARK_DEFAULT"
+>ARCHIVE_ENTRY_ACL_STYLE_MARK_DEFAULT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_STYLE_SEPARATOR_COMMA"
+>ARCHIVE_ENTRY_ACL_STYLE_SEPARATOR_COMMA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_STYLE_SOLARIS"
+>ARCHIVE_ENTRY_ACL_STYLE_SOLARIS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_SYNCHRONIZE"
+>ARCHIVE_ENTRY_ACL_SYNCHRONIZE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_ACCESS"
+>ARCHIVE_ENTRY_ACL_TYPE_ACCESS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_ALARM"
+>ARCHIVE_ENTRY_ACL_TYPE_ALARM</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_ALLOW"
+>ARCHIVE_ENTRY_ACL_TYPE_ALLOW</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_AUDIT"
+>ARCHIVE_ENTRY_ACL_TYPE_AUDIT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_DEFAULT"
+>ARCHIVE_ENTRY_ACL_TYPE_DEFAULT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_DENY"
+>ARCHIVE_ENTRY_ACL_TYPE_DENY</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_NFS4"
+>ARCHIVE_ENTRY_ACL_TYPE_NFS4</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_TYPE_POSIX1E"
+>ARCHIVE_ENTRY_ACL_TYPE_POSIX1E</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_USER"
+>ARCHIVE_ENTRY_ACL_USER</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_USER_OBJ"
+>ARCHIVE_ENTRY_ACL_USER_OBJ</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_WRITE"
+>ARCHIVE_ENTRY_ACL_WRITE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_WRITE_ACL"
+>ARCHIVE_ENTRY_ACL_WRITE_ACL</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_WRITE_ATTRIBUTES"
+>ARCHIVE_ENTRY_ACL_WRITE_ATTRIBUTES</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_WRITE_DATA"
+>ARCHIVE_ENTRY_ACL_WRITE_DATA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_WRITE_NAMED_ATTRS"
+>ARCHIVE_ENTRY_ACL_WRITE_NAMED_ATTRS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_ACL_WRITE_OWNER"
+>ARCHIVE_ENTRY_ACL_WRITE_OWNER</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_DIGEST_MD5"
+>ARCHIVE_ENTRY_DIGEST_MD5</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_DIGEST_RMD160"
+>ARCHIVE_ENTRY_DIGEST_RMD160</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_DIGEST_SHA1"
+>ARCHIVE_ENTRY_DIGEST_SHA1</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_DIGEST_SHA256"
+>ARCHIVE_ENTRY_DIGEST_SHA256</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_DIGEST_SHA384"
+>ARCHIVE_ENTRY_DIGEST_SHA384</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_ENTRY_DIGEST_SHA512"
+>ARCHIVE_ENTRY_DIGEST_SHA512</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EOF"
+>ARCHIVE_EOF</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_ACL"
+>ARCHIVE_EXTRACT_ACL</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_CLEAR_NOCHANGE_FFLAGS"
+>ARCHIVE_EXTRACT_CLEAR_NOCHANGE_FFLAGS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_FFLAGS"
+>ARCHIVE_EXTRACT_FFLAGS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_HFS_COMPRESSION_FORCED"
+>ARCHIVE_EXTRACT_HFS_COMPRESSION_FORCED</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_MAC_METADATA"
+>ARCHIVE_EXTRACT_MAC_METADATA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_NO_AUTODIR"
+>ARCHIVE_EXTRACT_NO_AUTODIR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_NO_HFS_COMPRESSION"
+>ARCHIVE_EXTRACT_NO_HFS_COMPRESSION</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_NO_OVERWRITE"
+>ARCHIVE_EXTRACT_NO_OVERWRITE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_NO_OVERWRITE_NEWER"
+>ARCHIVE_EXTRACT_NO_OVERWRITE_NEWER</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_OWNER"
+>ARCHIVE_EXTRACT_OWNER</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_PERM"
+>ARCHIVE_EXTRACT_PERM</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_SAFE_WRITES"
+>ARCHIVE_EXTRACT_SAFE_WRITES</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS"
+>ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_SECURE_NODOTDOT"
+>ARCHIVE_EXTRACT_SECURE_NODOTDOT</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_SECURE_SYMLINKS"
+>ARCHIVE_EXTRACT_SECURE_SYMLINKS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_SPARSE"
+>ARCHIVE_EXTRACT_SPARSE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_TIME"
+>ARCHIVE_EXTRACT_TIME</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_UNLINK"
+>ARCHIVE_EXTRACT_UNLINK</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_EXTRACT_XATTR"
+>ARCHIVE_EXTRACT_XATTR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FAILED"
+>ARCHIVE_FAILED</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FATAL"
+>ARCHIVE_FATAL</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_BZIP2"
+>ARCHIVE_FILTER_BZIP2</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_COMPRESS"
+>ARCHIVE_FILTER_COMPRESS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_GRZIP"
+>ARCHIVE_FILTER_GRZIP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_GZIP"
+>ARCHIVE_FILTER_GZIP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_LRZIP"
+>ARCHIVE_FILTER_LRZIP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_LZ4"
+>ARCHIVE_FILTER_LZ4</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_LZIP"
+>ARCHIVE_FILTER_LZIP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_LZMA"
+>ARCHIVE_FILTER_LZMA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_LZOP"
+>ARCHIVE_FILTER_LZOP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_NONE"
+>ARCHIVE_FILTER_NONE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_PROGRAM"
+>ARCHIVE_FILTER_PROGRAM</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_RPM"
+>ARCHIVE_FILTER_RPM</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_UU"
+>ARCHIVE_FILTER_UU</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_XZ"
+>ARCHIVE_FILTER_XZ</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FILTER_ZSTD"
+>ARCHIVE_FILTER_ZSTD</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_7ZIP"
+>ARCHIVE_FORMAT_7ZIP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_AR"
+>ARCHIVE_FORMAT_AR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_AR_BSD"
+>ARCHIVE_FORMAT_AR_BSD</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_AR_GNU"
+>ARCHIVE_FORMAT_AR_GNU</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_BASE_MASK"
+>ARCHIVE_FORMAT_BASE_MASK</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CAB"
+>ARCHIVE_FORMAT_CAB</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO"
+>ARCHIVE_FORMAT_CPIO</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO_AFIO_LARGE"
+>ARCHIVE_FORMAT_CPIO_AFIO_LARGE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO_BIN_BE"
+>ARCHIVE_FORMAT_CPIO_BIN_BE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO_BIN_LE"
+>ARCHIVE_FORMAT_CPIO_BIN_LE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO_POSIX"
+>ARCHIVE_FORMAT_CPIO_POSIX</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO_PWB"
+>ARCHIVE_FORMAT_CPIO_PWB</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO_SVR4_CRC"
+>ARCHIVE_FORMAT_CPIO_SVR4_CRC</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_CPIO_SVR4_NOCRC"
+>ARCHIVE_FORMAT_CPIO_SVR4_NOCRC</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_EMPTY"
+>ARCHIVE_FORMAT_EMPTY</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_ISO9660"
+>ARCHIVE_FORMAT_ISO9660</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_ISO9660_ROCKRIDGE"
+>ARCHIVE_FORMAT_ISO9660_ROCKRIDGE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_LHA"
+>ARCHIVE_FORMAT_LHA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_MTREE"
+>ARCHIVE_FORMAT_MTREE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_RAR"
+>ARCHIVE_FORMAT_RAR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_RAR_V5"
+>ARCHIVE_FORMAT_RAR_V5</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_RAW"
+>ARCHIVE_FORMAT_RAW</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_SHAR"
+>ARCHIVE_FORMAT_SHAR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_SHAR_BASE"
+>ARCHIVE_FORMAT_SHAR_BASE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_SHAR_DUMP"
+>ARCHIVE_FORMAT_SHAR_DUMP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_TAR"
+>ARCHIVE_FORMAT_TAR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_TAR_GNUTAR"
+>ARCHIVE_FORMAT_TAR_GNUTAR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_TAR_PAX_INTERCHANGE"
+>ARCHIVE_FORMAT_TAR_PAX_INTERCHANGE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_TAR_PAX_RESTRICTED"
+>ARCHIVE_FORMAT_TAR_PAX_RESTRICTED</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_TAR_USTAR"
+>ARCHIVE_FORMAT_TAR_USTAR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_WARC"
+>ARCHIVE_FORMAT_WARC</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_XAR"
+>ARCHIVE_FORMAT_XAR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_FORMAT_ZIP"
+>ARCHIVE_FORMAT_ZIP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_MATCH_CTIME"
+>ARCHIVE_MATCH_CTIME</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_MATCH_EQUAL"
+>ARCHIVE_MATCH_EQUAL</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_MATCH_MTIME"
+>ARCHIVE_MATCH_MTIME</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_MATCH_NEWER"
+>ARCHIVE_MATCH_NEWER</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_MATCH_OLDER"
+>ARCHIVE_MATCH_OLDER</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_OK"
+>ARCHIVE_OK</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_HONOR_NODUMP"
+>ARCHIVE_READDISK_HONOR_NODUMP</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_MAC_COPYFILE"
+>ARCHIVE_READDISK_MAC_COPYFILE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_NO_ACL"
+>ARCHIVE_READDISK_NO_ACL</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_NO_FFLAGS"
+>ARCHIVE_READDISK_NO_FFLAGS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_NO_SPARSE"
+>ARCHIVE_READDISK_NO_SPARSE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_NO_TRAVERSE_MOUNTS"
+>ARCHIVE_READDISK_NO_TRAVERSE_MOUNTS</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_NO_XATTR"
+>ARCHIVE_READDISK_NO_XATTR</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READDISK_RESTORE_ATIME"
+>ARCHIVE_READDISK_RESTORE_ATIME</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READ_FORMAT_CAPS_ENCRYPT_DATA"
+>ARCHIVE_READ_FORMAT_CAPS_ENCRYPT_DATA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READ_FORMAT_CAPS_ENCRYPT_METADATA"
+>ARCHIVE_READ_FORMAT_CAPS_ENCRYPT_METADATA</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READ_FORMAT_CAPS_NONE"
+>ARCHIVE_READ_FORMAT_CAPS_NONE</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READ_FORMAT_ENCRYPTION_DONT_KNOW"
+>ARCHIVE_READ_FORMAT_ENCRYPTION_DONT_KNOW</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_READ_FORMAT_ENCRYPTION_UNSUPPORTED"
+>ARCHIVE_READ_FORMAT_ENCRYPTION_UNSUPPORTED</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_RETRY"
+>ARCHIVE_RETRY</a></dt>
+
+<dd>
+<dt><a name="ARCHIVE_WARN"
+>ARCHIVE_WARN</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NOT_IMPLEMENTED"
+>NOT IMPLEMENTED</a></h1>
+
+<p>The following methods are not currently implemented. The reason for this is usually for one of 1) the method doesn&#39;t make sense in the context of Perl 2) the methods have been renamed, and this is the old name kept for compatibility in <code>libarchive</code> 3) the methods have deprecated and will be removed in a future version of <code>libarchive</code> 4) we haven&#39;t gotten around to writing bindings for them.</p>
+
+<dl>
+<dt><a name="archive_compression"
+>archive_compression</a></dt>
+
+<dd>
+<dt><a name="archive_compression_name"
+>archive_compression_name</a></dt>
+
+<dd>
+<dt><a name="archive_entry_acl"
+>archive_entry_acl</a></dt>
+
+<dd>
+<dt><a name="archive_entry_acl_text"
+>archive_entry_acl_text</a></dt>
+
+<dd>
+<dt><a name="archive_entry_acl_text_w"
+>archive_entry_acl_text_w</a></dt>
+
+<dd>
+<dt><a name="archive_entry_gname_w"
+>archive_entry_gname_w</a></dt>
+
+<dd>
+<dt><a name="archive_entry_hardlink_w"
+>archive_entry_hardlink_w</a></dt>
+
+<dd>
+<dt><a name="archive_entry_linkify"
+>archive_entry_linkify</a></dt>
+
+<dd>
+<dt><a name="archive_entry_partial_links"
+>archive_entry_partial_links</a></dt>
+
+<dd>
+<dt><a name="archive_entry_pathname_w"
+>archive_entry_pathname_w</a></dt>
+
+<dd>
+<dt><a name="archive_entry_symlink_w"
+>archive_entry_symlink_w</a></dt>
+
+<dd>
+<dt><a name="archive_entry_uname_w"
+>archive_entry_uname_w</a></dt>
+
+<dd>
+<dt><a name="archive_free"
+>archive_free</a></dt>
+
+<dd>
+<dt><a name="archive_position_compressed"
+>archive_position_compressed</a></dt>
+
+<dd>
+<dt><a name="archive_position_uncompressed"
+>archive_position_uncompressed</a></dt>
+
+<dd>
+<dt><a name="archive_read_add_callback_data"
+>archive_read_add_callback_data</a></dt>
+
+<dd>
+<dt><a name="archive_read_append_callback_data"
+>archive_read_append_callback_data</a></dt>
+
+<dd>
+<dt><a name="archive_read_finish"
+>archive_read_finish</a></dt>
+
+<dd>
+<dt><a name="archive_read_next_header"
+>archive_read_next_header</a></dt>
+
+<dd>
+<dt><a name="archive_read_open"
+>archive_read_open</a></dt>
+
+<dd>
+<dt><a name="archive_read_open2"
+>archive_read_open2</a></dt>
+
+<dd>
+<dt><a name="archive_read_open_file"
+>archive_read_open_file</a></dt>
+
+<dd>
+<dt><a name="archive_read_open_memory2"
+>archive_read_open_memory2</a></dt>
+
+<dd>
+<dt><a name="archive_read_prepend_callback_data"
+>archive_read_prepend_callback_data</a></dt>
+
+<dd>
+<dt><a name="archive_read_set_callback_data2"
+>archive_read_set_callback_data2</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_all"
+>archive_read_support_compression_all</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_bzip2"
+>archive_read_support_compression_bzip2</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_compress"
+>archive_read_support_compression_compress</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_gzip"
+>archive_read_support_compression_gzip</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_lzip"
+>archive_read_support_compression_lzip</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_lzma"
+>archive_read_support_compression_lzma</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_none"
+>archive_read_support_compression_none</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_program"
+>archive_read_support_compression_program</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_program_signature"
+>archive_read_support_compression_program_signature</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_rpm"
+>archive_read_support_compression_rpm</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_uu"
+>archive_read_support_compression_uu</a></dt>
+
+<dd>
+<dt><a name="archive_read_support_compression_xz"
+>archive_read_support_compression_xz</a></dt>
+
+<dd>
+<dt><a name="archive_utility_string_sort"
+>archive_utility_string_sort</a></dt>
+
+<dd>
+<dt><a name="archive_write_finish"
+>archive_write_finish</a></dt>
+
+<dd>
+<dt><a name="archive_write_open_file"
+>archive_write_open_file</a></dt>
+
+<dd>
+<dt><a name="archive_write_open_memory"
+>archive_write_open_memory</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_bzip2"
+>archive_write_set_compression_bzip2</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_compress"
+>archive_write_set_compression_compress</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_gzip"
+>archive_write_set_compression_gzip</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_lzip"
+>archive_write_set_compression_lzip</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_lzma"
+>archive_write_set_compression_lzma</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_none"
+>archive_write_set_compression_none</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_program"
+>archive_write_set_compression_program</a></dt>
+
+<dd>
+<dt><a name="archive_write_set_compression_xz"
+>archive_write_set_compression_xz</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Libarchive::Peek"
+><a href="/pod/Archive/Libarchive/Peek.html" class="podlinkpod"
+>Archive::Libarchive::Peek</a></a></dt>
+
+<dd>
+<p>Provides an interface for listing and retrieving entries from an archive without extracting them to the local filesystem.</p>
+
+<dt><a name="Archive::Libarchive::Extract"
+><a href="/pod/Archive/Libarchive/Extract.html" class="podlinkpod"
+>Archive::Libarchive::Extract</a></a></dt>
+
+<dd>
+<p>Provides an interface for extracting arbitrary archives of any format/filter supported by <code>libarchive</code>.</p>
+
+<dt><a name="Archive::Libarchive::Unwrap"
+><a href="/pod/Archive/Libarchive/Unwrap.html" class="podlinkpod"
+>Archive::Libarchive::Unwrap</a></a></dt>
+
+<dd>
+<p>Decompresses / unwraps files that have been compressed or wrapped in any of the filter formats supported by <code>libarchive</code></p>
+
+<dt><a name="Archive::Libarchive"
+><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+
+<dd>
+<p>This is the main top-level module for using <code>libarchive</code> from Perl. It is the best place to start reading the documentation. It pulls in the other classes and <code>libarchive</code> constants so that you only need one <code>use</code> statement to effectively use <code>libarchive</code>.</p>
+
+<dt><a name="Archive::Libarchive::Archive"
+><a href="/pod/Archive/Libarchive/Archive.html" class="podlinkpod"
+>Archive::Libarchive::Archive</a></a></dt>
+
+<dd>
+<p>The base class of all archive classes. This includes some common error reporting functionality among other things.</p>
+
+<dt><a name="Archive::Libarchive::ArchiveRead"
+><a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a></a></dt>
+
+<dd>
+<p>This class is used for reading from archives.</p>
+
+<dt><a name="Archive::Libarchive::ArchiveWrite"
+><a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a></a></dt>
+
+<dd>
+<p>This class is for creating new archives.</p>
+
+<dt><a name="Archive::Libarchive::DiskRead"
+><a href="/pod/Archive/Libarchive/DiskRead.html" class="podlinkpod"
+>Archive::Libarchive::DiskRead</a></a></dt>
+
+<dd>
+<p>This class is for reading <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> objects from disk so that they can be written to <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a> objects.</p>
+
+<dt><a name="Archive::Libarchive::DiskWrite"
+><a href="/pod/Archive/Libarchive/DiskWrite.html" class="podlinkpod"
+>Archive::Libarchive::DiskWrite</a></a></dt>
+
+<dd>
+<p>This class is for writing <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> objects to disk that have been written from <a href="/pod/Archive/Libarchive/ArchiveRead.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveRead</a> objects.</p>
+
+<dt><a name="Archive::Libarchive::Entry"
+><a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a></a></dt>
+
+<dd>
+<p>This class represents a file in an archive, or on disk.</p>
+
+<dt><a name="Archive::Libarchive::EntryLinkResolver"
+><a href="/pod/Archive/Libarchive/EntryLinkResolver.html" class="podlinkpod"
+>Archive::Libarchive::EntryLinkResolver</a></a></dt>
+
+<dd>
+<p>This class exposes the <code>libarchive</code> link resolver API.</p>
+
+<dt><a name="Archive::Libarchive::Match"
+><a href="/pod/Archive/Libarchive/Match.html" class="podlinkpod"
+>Archive::Libarchive::Match</a></a></dt>
+
+<dd>
+<p>This class exposes the <code>libarchive</code> match API.</p>
+
+<dt><a name="Alien::Libarchive3"
+><a href="/pod/Alien/Libarchive3.html" class="podlinkpod"
+>Alien::Libarchive3</a></a></dt>
+
+<dd>
+<p>If a suitable system <code>libarchive</code> can&#39;t be found, then this <a href="https://metacpan.org/pod/Alien" class="podlinkpod"
+>Alien</a> will be installed to provide it.</p>
+
+<dt><a name="libarchive.org"
+><a href="http://libarchive.org/" class="podlinkurl"
+>libarchive.org</a></a></dt>
+
+<dd>
+<p>The <code>libarchive</code> project home page.</p>
+
+<dt><a name="https://github.com/libarchive/libarchive/wiki"
+><a href="https://github.com/libarchive/libarchive/wiki" class="podlinkurl"
+>https://github.com/libarchive/libarchive/wiki</a></a></dt>
+
+<dd>
+<p>The <code>libarchive</code> project wiki.</p>
+
+<dt><a name="https://github.com/libarchive/libarchive/wiki/ManualPages"
+><a href="https://github.com/libarchive/libarchive/wiki/ManualPages" class="podlinkurl"
+>https://github.com/libarchive/libarchive/wiki/ManualPages</a></a></dt>
+
+<dd>
+<p>Some of the <code>libarchive</code> man pages are listed here.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021,2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

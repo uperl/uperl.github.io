@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NewFangle::CustomEvent</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> <a href="/pod/NewFangle.html">NewFangle</a>::CustomEvent</div>
+    <!--NewFangle::CustomEvent--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_int'>add_attribute_int</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_long'>add_attribute_long</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_double'>add_attribute_double</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_string'>add_attribute_string</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>NewFangle::CustomEvent - NewRelic custom event class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use NewFangle;
+ my $app   = NewFangle::App-&#62;new;
+ my $txn   = $app-&#62;start_web_transaction(&#34;my-txn&#34;);
+ my $event = NewFangle::CustomEvent-&#62;new(&#34;my event&#34;);
+ $txn-&#62;record_custom_event($event);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>NewRelic custom event class.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $event = NewFangle::CustomEvent-&#62;new($event_type);</pre>
+
+<p>Creates a NewRelic application custom event.</p>
+
+<p>(csdk: newrelic_create_custom_event)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_int"
+>add_attribute_int</a></h2>
+
+<pre class="sh_perl"> $event-&#62;add_attribute_int($key, $value);</pre>
+
+<p>(csdk: newrelic_custom_event_add_attribute_int)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_long"
+>add_attribute_long</a></h2>
+
+<pre class="sh_perl"> $event-&#62;add_attribute_long($key, $value);</pre>
+
+<p>(csdk: newrelic_custom_event_add_attribute_long)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_double"
+>add_attribute_double</a></h2>
+
+<pre class="sh_perl"> $event-&#62;add_attribute_double($key, $value);</pre>
+
+<p>(csdk: newrelic_custom_event_add_attribute_double)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_string"
+>add_attribute_string</a></h2>
+
+<pre class="sh_perl"> $event-&#62;add_attribute_string($key, $value);</pre>
+
+<p>(csdk: newrelic_custom_event_add_attribute_string)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="NewFangle"
+><a href="/pod/NewFangle.html" class="podlinkpod"
+>NewFangle</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Owen Allsopp (ALLSOPP)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2020-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

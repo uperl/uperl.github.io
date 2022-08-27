@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dist::Zilla::Plugin::ArchiveTar</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Dist::Zilla::Plugin::ArchiveTar</div>
+    <!--Dist::Zilla::Plugin::ArchiveTar--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#PROPERTIES'>PROPERTIES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#format'>format</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Dist::Zilla::Plugin::ArchiveTar - Create dist archives using Archive::Tar</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.03</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>In your <code>dist.ini</code></p>
+
+<pre class="sh_perl"> [ArchiveTar]</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a> plugin overrides the build in archive builder and uses <a href="https://metacpan.org/pod/Archive%3A%3ATar" class="podlinkpod"
+>Archive::Tar</a> only. Although <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a> does frequently use <a href="https://metacpan.org/pod/Archive%3A%3ATar" class="podlinkpod"
+>Archive::Tar</a> itself, it is different from the built in version in the following ways:</p>
+
+<dl>
+<dt><a name="Predictable"
+>Predictable</a></dt>
+
+<dd>
+<p>The built in behavior will sometimes use <a href="https://metacpan.org/pod/Archive%3A%3ATar" class="podlinkpod"
+>Archive::Tar</a> or <a href="https://metacpan.org/pod/Archive%3A%3ATar%3A%3AWrapper" class="podlinkpod"
+>Archive::Tar::Wrapper</a>. The problem with <a href="https://metacpan.org/pod/Archive%3A%3ATar%3A%3AWrapper" class="podlinkpod"
+>Archive::Tar::Wrapper</a> is that it depends on the system implementation of tar, which in some cases can produce archives that are not readable by older implementations of tar. In particular GNU tar which is typically the default on Linux systems includes unnecessary features that break tar on HP-UX. (You should probably be getting off HP-UX if you are still using it in 2021 as I write this).</p>
+
+<dt><a name="Sorted_by_name"
+>Sorted by name</a></dt>
+
+<dd>
+<p>The contents of the archive are sorted by name instead of being sorted by filename length. While sorting by length makes for a pretty display when they are unpacked, I find it harder to find stuff when the content is listed.</p>
+
+<dt><a name="Additional_formats"
+>Additional formats</a></dt>
+
+<dd>
+<p>This plugin supports the use of compression formats supported by <a href="https://metacpan.org/pod/Archive%3A%3ATar" class="podlinkpod"
+>Archive::Tar</a>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PROPERTIES"
+>PROPERTIES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="format"
+>format</a></h2>
+
+<pre class="sh_perl"> [ArchiveTar]
+ format = tar.gz</pre>
+
+<p>Sets the output format. The default, most common and easiest to unpack for cpan clients is <code>tar.gz</code>. You should consider carefully before not using the default. Supported formats:</p>
+
+<dl>
+<dt><a name="tar"
+><code>tar</code></a></dt>
+
+<dd>
+<dt><a name="tar.gz"
+><code>tar.gz</code></a></dt>
+
+<dd>
+<dt><a name="tar.bz2"
+><code>tar.bz2</code></a></dt>
+
+<dd>
+<dt><a name="tar.xz"
+><code>tar.xz</code></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Libarchive"
+><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+
+<dd>
+<dt><a name="Dist::Zilla"
+><a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a></a></dt>
+
+<dd>
+<dt><a name="Dist::Zilla::Plugin::Libarchive"
+><a href="/pod/Dist/Zilla/Plugin/Libarchive.html" class="podlinkpod"
+>Dist::Zilla::Plugin::Libarchive</a></a></dt>
+
+<dd>
+<dt><a name="Dist::Zilla::Role::ArchiveBuilder"
+><a href="https://metacpan.org/pod/Dist%3A%3AZilla%3A%3ARole%3A%3AArchiveBuilder" class="podlinkpod"
+>Dist::Zilla::Role::ArchiveBuilder</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>App::RegexFileUtils</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> App::RegexFileUtils</div>
+    <!--App::RegexFileUtils--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#--recmd_command'>--recmd command</a>
+    <li class='indexItem indexItem2'><a href='#--reverbose'>--reverbose</a>
+    <li class='indexItem indexItem2'><a href='#--reall'>--reall</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#main'>main</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#BUNDLED_FILES'>BUNDLED FILES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#cp.pl'>cp.pl</a>
+    <li class='indexItem indexItem2'><a href='#ln.pl'>ln.pl</a>
+    <li class='indexItem indexItem2'><a href='#rm.pl'>rm.pl</a>
+    <li class='indexItem indexItem2'><a href='#touch.pl'>touch.pl</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>App::RegexFileUtils - use regexes with file utils like rm,
+cp,
+mv,
+ln</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>Remove all files with a .bak extension:</p>
+
+<pre class="sh_perl"> % rerm &#39;/\.bak$/&#39;</pre>
+
+<p>Change the extension of all files from .jpeg or .JPG (any case) to .jpg</p>
+
+<pre class="sh_perl"> % remv &#39;/\.jpe?g$/.jpg/i&#39;</pre>
+
+<p>Copy all Perl files to a different directory:</p>
+
+<pre class="sh_perl"> % recp &#39;/\.p[lm]$/&#39; /perl/lib</pre>
+
+<p>Create symlinks to .so files so that the symlinks lack a version number</p>
+
+<pre class="sh_perl"> % reln -s &#39;/\.so\..*$/.so/&#39;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This distribution provides a version of <code>rm</code>, <code>cp</code>, <code>mv</code> and <code>ln</code> with a <i>re</i> (as in regular expression) prefix where the file sources can be specified as a regular expression, or the file source and destination can be specified as a regular expression substitution Perl style. The functionality that this provides can be duplicated with shell syntax (typically for loops), but I find these scripts require less typing and work regardless of the shell you are using.</p>
+
+<p>The scripts in this distribution do not remove, copy, move or link files directly, instead they call the real <code>rm</code>, <code>cp</code>, <code>mv</code> and <code>ln</code> programs provided by your operating system. You can therefore use any options that they support, for example the <code>-i</code> option will allow you to interactively delete files:</p>
+
+<pre class="sh_perl"> % rerm -i &#39;/\.bak$/&#39;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<p>In addition to any options supported by the underlying operating system, these scripts will recognize the following options (and NOT pass them to the underlying system utilities). They are prefixed with <code>--re</code> so that they do not interfere with any &#34;real&#34; options.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--recmd_command"
+>--recmd command</a></h2>
+
+<p>Specifies the command to execute. This is usually determined by Perl&#39;s $0 variable.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--reverbose"
+>--reverbose</a></h2>
+
+<p>Print out the system commands that are actually executed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--reall"
+>--reall</a></h2>
+
+<p>Include even hidden dot files, like <code>.profile</code> and <code>.login</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<p>These commands can also be invoked from your Perl script, using this module:</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="main"
+>main</a></h2>
+
+<pre class="sh_perl"> App::RegexFileUtils-&#62;main( $program, @arguments )</pre>
+
+<p>For example:</p>
+
+<pre class="sh_perl"> use App::RegexFileUtils;
+ App::RegexFileUtils-&#62;main( &#39;rm&#39;, &#39;/\.bak$/&#39; );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>You will need to enclose many regular expressions in single quotes &#39;&#39; on the command line as many regular expression characters have special meanings in shells.</p>
+
+<p>The underlying fileutils command (rm, cp, ln, etc) will be called for each file operated on, which may be slow if many files match the regular expression provided.</p>
+
+<p>This was written a long time ago and the code isn&#39;t very modern.</p>
+
+<p>Directories with a training slash may be ambiguous with a regex, so if you want to use a path as a destination instead of a regex, be sure you do NOT include the trailing slash. That is:</p>
+
+<pre class="sh_perl"> # use this:
+ % recp /^foo/ /usr/bin
+ # NOT this:
+ % recp /^foo/ /usr/bin/</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUNDLED_FILES"
+>BUNDLED FILES</a></h1>
+
+<p>This distribution comes bundled with <code>cp</code>, <code>ln</code>, <code>rm</code>, <code>touch</code> from the <a href="https://metacpan.org/release/ppt" class="podlinkurl"
+>Perl Power Tools</a> project. These are only used if the operating system does not provide these commands. This is normally only the case on Windows. They are individually licensed separately.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cp.pl"
+>cp.pl</a></h2>
+
+<p>This program is copyright by Ken Schumack 1999.</p>
+
+<p>This program is free and open software. You may use, modify, distribute and sell this program (and any modified variants) in any way you wish, provided you do not restrict others from doing the same.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ln.pl"
+>ln.pl</a></h2>
+
+<p>This program is copyright by Abigail 1999.</p>
+
+<p>This program is free and open software. You may use, copy, modify, distribute, and sell this program (and any modified variants) in any way you wish, provided you do not restrict others from doing the same.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rm.pl"
+>rm.pl</a></h2>
+
+<p>Copyright (c) Steve Kemp 1999, skx@tardis.ed.ac.uk</p>
+
+<p>This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="touch.pl"
+>touch.pl</a></h2>
+
+<p>This program is copyright by Abigail 1999.</p>
+
+<p>This program is free and open software. You may use, copy, modify, distribute and sell this program (and any modified variants) in any way you wish, provided you do not restrict others to do the same.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

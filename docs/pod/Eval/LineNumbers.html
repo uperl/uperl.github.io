@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Eval::LineNumbers</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Eval::LineNumbers</div>
+    <!--Eval::LineNumbers--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Caller_Level_Example'>Caller Level Example</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#eval_line_numbers'>eval_line_numbers</a>
+    <li class='indexItem indexItem2'><a href='#eval_line_numbers_offset'>eval_line_numbers_offset</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Eval::LineNumbers - Add line numbers to heredoc blocks that contain perl source code</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.35</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Eval::LineNumbers qw(eval_line_numbers);
+
+ eval eval_line_numbers(&#60;&#60;END_HEREIS);
+   code
+ END_HEREIS
+
+ eval eval_line_numbers($caller_level, $code)</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Add a <code>#line &#34;this-file&#34; 392</code> comment to heredoc/hereis text that is going to be eval&#39;ed so that error messages will point back to the right place.</p>
+
+<p>Please note: when you embed <code>\n</code> in your code, it gets expanded in double-quote hereis documents so it will mess up your line numbering. Use <code>\\n</code> instead when you can.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Caller_Level_Example"
+>Caller Level Example</a></h2>
+
+<p>The second form of eval_line_numbers where a caller-level is provided is for the situation where the code is generated in one place and eval&#39;ed in another place. The caller level should be the number of stack levels between where the heredoc was created and where it is eval&#39;ed.</p>
+
+<pre class="sh_perl"> sub example {
+   return &#60;&#60;END_HEREIS
+     code
+END_HEREIS
+ }
+
+ eval eval_line_numbers(1, example())</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<p>All functions are exportable on request, but not by default.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="eval_line_numbers"
+>eval_line_numbers</a></h2>
+
+<pre class="sh_perl"> eval eval_line_numbers($code);
+ eval eval_line_numbers($caller_level, $code);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="eval_line_numbers_offset"
+>eval_line_numbers_offset</a></h2>
+
+<pre class="sh_perl"> eval_line_numbers_offset $offset;</pre>
+
+<p>Sets the offset, which is by default 1. The offset is file scoped. This is useful if you want to pass a string without a heredoc. For example:</p>
+
+<pre class="sh_perl"> eval_line_numbers_offset 0;
+ eval eval_line_numbers q{
+   die &#34;here&#34;;
+ };</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: David Muir Sharnoff</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Olivier Mengu&#233; (DOLMEN)</p>
+
+<p>David Steinbrunner (dsteinbrunner)</p>
+
+<p>Alexey Ugnichev (thaewrapt)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is Copyright (c) 2009-2021 by David Muir Sharnoff.</p>
+
+<p>This is free software, licensed under:</p>
+
+<pre class="sh_perl">  The GNU Lesser General Public License, Version 2.1, February 1999</pre>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

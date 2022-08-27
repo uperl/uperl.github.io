@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>File::XDG</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> File::XDG</div>
+    <!--File::XDG--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#data_home'>data_home</a>
+    <li class='indexItem indexItem2'><a href='#config_home'>config_home</a>
+    <li class='indexItem indexItem2'><a href='#cache_home'>cache_home</a>
+    <li class='indexItem indexItem2'><a href='#state_home'>state_home</a>
+    <li class='indexItem indexItem2'><a href='#runtime_home'>runtime_home</a>
+    <li class='indexItem indexItem2'><a href='#data_dirs'>data_dirs</a>
+    <li class='indexItem indexItem2'><a href='#data_dirs_list'>data_dirs_list</a>
+    <li class='indexItem indexItem2'><a href='#config_dirs'>config_dirs</a>
+    <li class='indexItem indexItem2'><a href='#config_dirs_list'>config_dirs_list</a>
+    <li class='indexItem indexItem2'><a href='#exe_dir'>exe_dir</a>
+    <li class='indexItem indexItem2'><a href='#lookup_data_file'>lookup_data_file</a>
+    <li class='indexItem indexItem2'><a href='#lookup_config_file'>lookup_config_file</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>File::XDG - Basic implementation of the XDG base directory specification</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use File::XDG 1.00;
+ 
+ my $xdg = File::XDG-&#62;new( name =&#62; &#39;foo&#39;, api =&#62; 1 );
+ 
+ # user config
+ my $path = $xdg-&#62;config_home;
+ 
+ # user data
+ my $path = $xdg-&#62;data_home;
+ 
+ # user cache
+ my $path = $xdg-&#62;cache_home;
+ 
+ # system $config
+ my @dirs = $xdg-&#62;config_dirs_list;
+ 
+ # system data
+ my @dirs = $xdg-&#62;data_dirs_list;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides a basic implementation of the XDG base directory specification as exists by the Free Desktop Organization (FDO). It supports all XDG directories except for the runtime directories, which require session management support in order to function.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $xdg = File::XDG-&#62;new( %args );</pre>
+
+<p>Returns a new instance of a <a href="/pod/File/XDG.html" class="podlinkpod"
+>File::XDG</a> object. This must be called with an application name as the <a href="#name" class="podlinkpod"
+>&#34;name&#34;</a> argument.</p>
+
+<p>Takes the following named arguments:</p>
+
+<dl>
+<dt><a name="api"
+>api</a></dt>
+
+<dd>
+<p>[version 0.09]</p>
+
+<p>The API version to use.</p>
+
+<dl>
+<dt><a name="api_=_0"
+>api = 0</a></dt>
+
+<dd>
+<p>The default and original API version. For backward compatibility only.</p>
+
+<dt><a name="api_=_1"
+>api = 1</a></dt>
+
+<dd>
+<p>Recommended stable API version for all new code.</p>
+</dd>
+</dl>
+
+<dt><a name="name"
+>name</a></dt>
+
+<dd>
+<p>Name of the application for which File::XDG is being used.</p>
+
+<dt><a name="path_class"
+>path_class</a></dt>
+
+<dd>
+<p>[version 0.09]</p>
+
+<p>The path class to return</p>
+
+<dl>
+<dt><a name="File::Spec"
+><a href="https://metacpan.org/pod/File%3A%3ASpec" class="podlinkpod"
+>File::Spec</a></a></dt>
+
+<dd>
+<p>All methods that return a file will return a string generated by <a href="https://metacpan.org/pod/File%3A%3ASpec" class="podlinkpod"
+>File::Spec</a>.</p>
+
+<dt><a name="Path::Class"
+><a href="https://metacpan.org/pod/Path%3A%3AClass" class="podlinkpod"
+>Path::Class</a></a></dt>
+
+<dd>
+<p>This is the default with api = 0. All methods that return a file will return an instance of <a href="https://metacpan.org/pod/Path%3A%3AClass%3A%3AFile" class="podlinkpod"
+>Path::Class::File</a> and all methods that return a directory will return an instance of <a href="https://metacpan.org/pod/Path%3A%3AClass%3A%3ADir" class="podlinkpod"
+>Path::Class::Dir</a>.</p>
+
+<dt><a name="Path::Tiny"
+><a href="https://metacpan.org/pod/Path%3A%3ATiny" class="podlinkpod"
+>Path::Tiny</a></a></dt>
+
+<dd>
+<p>This is the default with api = 1. All methods that return a file will return an instance of <a href="https://metacpan.org/pod/Path%3A%3ATiny" class="podlinkpod"
+>Path::Tiny</a>.</p>
+
+<dt><a name="CODEREF"
+><code>CODEREF</code></a></dt>
+
+<dd>
+<p>If a code reference is passed in then this will be called in order to construct the path class. This allows rolling your own customer path class objects. Example:</p>
+
+<pre class="sh_perl"> my $xdg = File::XDG-&#62;new(
+   name =&#62; &#39;foo&#39;,
+   # equivalent to path_class =&#62; &#39;Path::Tiny&#39;
+   path_class =&#62; sub { Path::Tiny-&#62;new(@_),
+ );</pre>
+
+<dt><a name="ARRAY"
+><code>ARRAY</code></a></dt>
+
+<dd>
+<p>Similar to passing a code reference, an array reference with two code references means the first code reference will be used for file paths and the second will be used for directory paths. This is for path classes that differentiate between files and directories.</p>
+
+<pre class="sh_perl"> # equivalent to path_class =&#62; &#39;Path::Class&#39;
+ my $xdg = File::XDG-&#62;new(
+   name =&#62; &#39;foo&#39;,
+   path_class =&#62; [
+     sub { Path::Class::File-&#62;new(@_) ),
+     sub { Path::Class::Dir-&#62;new(@_) },
+   ],
+ );</pre>
+</dd>
+</dl>
+
+<dt><a name="strict"
+>strict</a></dt>
+
+<dd>
+<p>[version 0.10]</p>
+
+<p>More strictly follow the XDG base directory specification. In particular</p>
+
+<ul>
+<li>On Windows a an exception will be thrown when creating the <a href="/pod/File/XDG.html" class="podlinkpod"
+>File::XDG</a> object because the spec cannot correctly be implemented.
+<p>Historically this module has made some useful assumptions like using <code>;</code> instead of <code>:</code> for the path separator character. This breaks the spec.</p>
+</li>
+
+<li>On some systems, this module will look in system specific locations for the <a href="#runtime_home" class="podlinkpod"
+>&#34;runtime_home&#34;</a>. This is useful, but technically violates the spec, so under strict mode the <a href="#runtime_home" class="podlinkpod"
+>&#34;runtime_home&#34;</a> method will only return a path if one can be found via the spec.</li>
+</ul>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="data_home"
+>data_home</a></h2>
+
+<pre class="sh_perl"> my $path = $xdg-&#62;data_home;</pre>
+
+<p>Returns the user-specific data directory for the application as a path class object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_home"
+>config_home</a></h2>
+
+<pre class="sh_perl"> my $path = $xdg-&#62;config_home;</pre>
+
+<p>Returns the user-specific configuration directory for the application as a path class object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cache_home"
+>cache_home</a></h2>
+
+<pre class="sh_perl"> my $path = $xdg-&#62;cache_home;</pre>
+
+<p>Returns the user-specific cache directory for the application as a path class object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="state_home"
+>state_home</a></h2>
+
+<pre class="sh_perl"> my $path = $xdg-&#62;state_home;</pre>
+
+<p>Returns the user-specific state directory for the application as a path class object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="runtime_home"
+>runtime_home</a></h2>
+
+<p>[version 0.10]</p>
+
+<pre class="sh_perl"> my $dir = $xdg-&#62;runtime_home;</pre>
+
+<p>Returns the directory for user-specific non-essential runtime files and other file objects (such as sockets, named pipes, etc) for the application.</p>
+
+<p>This is not always provided, if not available, this method will return <code>undef</code>.</p>
+
+<p>Under strict mode, this method will only rely on the <code>XDG_RUNTIME_DIR</code> to find this directory. Under non-strict mode, system specific methods may be used, if the environment variable is not set:</p>
+
+<dl>
+<dt><a name="Linux_systemd"
+>Linux systemd</a></dt>
+
+<dd>
+<p>The path <code>/run/user/UID</code> will be used, if it exists, and fulfills the requirements of the spec.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="data_dirs"
+>data_dirs</a></h2>
+
+<pre class="sh_perl"> my $dirs = $xdg-&#62;data_dirs;</pre>
+
+<p>Returns the system data directories, not modified for the application. Per the specification, the returned string is <code>:</code>-delimited, except on Windows where it is <code>;</code>-delimited.</p>
+
+<p>For portability <a href="#data_dirs_list" class="podlinkpod"
+>&#34;data_dirs_list&#34;</a> is preferred.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="data_dirs_list"
+>data_dirs_list</a></h2>
+
+<p>[version 0.06]</p>
+
+<pre class="sh_perl"> my @dirs = $xdg-&#62;data_dirs_list;</pre>
+
+<p>Returns the system data directories as a list of path class objects.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_dirs"
+>config_dirs</a></h2>
+
+<pre class="sh_perl"> my $dirs = $xdg-&#62;config_dirs;</pre>
+
+<p>Returns the system config directories, not modified for the application. Per the specification, the returned string is :-delimited, except on Windows where it is <code>;</code>-delimited.</p>
+
+<p>For portability <a href="#config_dirs_list" class="podlinkpod"
+>&#34;config_dirs_list&#34;</a> is preferred.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_dirs_list"
+>config_dirs_list</a></h2>
+
+<p>[version 0.06]</p>
+
+<pre class="sh_perl"> my @dirs = $xdg-&#62;config_dirs_list;</pre>
+
+<p>Returns the system config directories as a list of path class objects.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="exe_dir"
+>exe_dir</a></h2>
+
+<p>[version 0.10]</p>
+
+<pre class="sh_perl"> my $exe = $xdg-&#62;exe_dir;</pre>
+
+<p>Returns the user-specific executable files directory <code>$HOME/.local/bin</code>, if it exists. If it does not exist then <code>undef</code> will be returned. This directory <i>should</i> be added to the <code>PATH</code> according to the spec.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="lookup_data_file"
+>lookup_data_file</a></h2>
+
+<pre class="sh_perl"> my $xdg = File::XDG-&#62;new( name =&#62; $name, api =&#62; 1 ); # recommended
+ my $path = $xdg-&#62;lookup_data_File($filename);</pre>
+
+<p>Looks up the data file by searching for <code>./$name/$filename</code> (where <code>$name</code> is provided by the constructor) relative to all base directories indicated by <code>$XDG_DATA_HOME</code> and <code>$XDG_DATA_DIRS</code>. If an environment variable is either not set or empty, its default value as defined by the specification is used instead. Returns a path class object.</p>
+
+<pre class="sh_perl"> my $xdg = File::XDG-&#62;new( name =&#62; $name ); # back compat only
+ my $path = $xdg-&#62;lookup_data_file($subdir, $filename);</pre>
+
+<p>Looks up the data file by searching for <code>./$subdir/$filename</code> relative to all base directories indicated by <code>$XDG_DATA_HOME</code> and <code>$XDG_DATA_DIRS</code>. If an environment variable is either not set or empty, its default value as defined by the specification is used instead. Returns a path class object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="lookup_config_file"
+>lookup_config_file</a></h2>
+
+<pre class="sh_perl"> my $xdg = File::XDG-&#62;new( name =&#62; $name, api =&#62; 1 ); # recommended
+ my $path = $xdg-&#62;lookup_config_file($filename);</pre>
+
+<p>Looks up the configuration file by searching for <code>./$name/$filename</code> (where <code>$name</code> is provided by the constructor) relative to all base directories indicated by <code>$XDG_CONFIG_HOME</code> and <code>$XDG_CONFIG_DIRS</code>. If an environment variable is either not set or empty, its default value as defined by the specification is used instead. Returns a path class object.</p>
+
+<pre class="sh_perl"> my $xdg = File::XDG-&#62;new( name =&#62; $name ); # back compat only
+ my $path = $xdg-&#62;lookup_config_file($subdir, $filename);</pre>
+
+<p>Looks up the configuration file by searching for <code>./$subdir/$filename</code> relative to all base directories indicated by <code>$XDG_CONFIG_HOME</code> and <code>$XDG_CONFIG_DIRS</code>. If an environment variable is either not set or empty, its default value as defined by the specification is used instead. Returns a path class object.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html" class="podlinkurl"
+>XDG Base Directory specification, version 0.7</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>This module intentionally and out of necessity does not follow the spec on the following platforms:</p>
+
+<dl>
+<dt><a name="MSWin32_(Strawberry_Perl,_Visual_C++_Perl,_etc)"
+><code>MSWin32</code> (Strawberry Perl, Visual C++ Perl, etc)</a></dt>
+
+<dd>
+<p>The spec requires <code>:</code> as the path separator, but use of this character is essential for absolute path names in Windows, so the Windows Path separator <code>;</code> is used instead.</p>
+
+<p>There are no global data or config directories in windows so the data and config directories are empty list instead of the default UNIX locations.</p>
+
+<p>The base directory instead of being the user&#39;s home directory is <code>%LOCALAPPDATA%</code>. Arguably the data and config base directory should be <code>%APPDATA%</code>, but cache should definitely be in <code>%LOCALAPPDATA%</code>, and we chose to use just one base directory for simplicity.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Path::Class"
+><a href="https://metacpan.org/pod/Path%3A%3AClass" class="podlinkpod"
+>Path::Class</a></a></dt>
+
+<dd>
+<p>Portable native path class used by this module used by default (api = 0) and optionally (api = 1).</p>
+
+<dt><a name="Path::Tiny"
+><a href="https://metacpan.org/pod/Path%3A%3ATiny" class="podlinkpod"
+>Path::Tiny</a></a></dt>
+
+<dd>
+<p>Smaller lighter weight path class used optionally (api = 0) and by default (api = 1).</p>
+
+<dt><a name="Path::Spec"
+><a href="https://metacpan.org/pod/Path%3A%3ASpec" class="podlinkpod"
+>Path::Spec</a></a></dt>
+
+<dd>
+<p>Core Perl library for working with file and directory paths.</p>
+
+<dt><a name="File::BaseDir"
+><a href="/pod/File/BaseDir.html" class="podlinkpod"
+>File::BaseDir</a></a></dt>
+
+<dd>
+<p>Provides similar functionality to this module with a different interface.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: S&#237;le Ekaterin Aman</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012-2021 by S&#237;le Ekaterin Aman.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

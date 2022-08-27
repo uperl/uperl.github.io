@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>File::IconTheme</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> File::IconTheme</div>
+    <!--File::IconTheme--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#xdg_icon_theme_search_dirs'>xdg_icon_theme_search_dirs</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CONFIGURATION_AND_ENVIRONMENT'>CONFIGURATION AND ENVIRONMENT</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>File::IconTheme - Find icon directories</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use File::IconTheme qw(xdg_icon_theme_search_dirs);
+ print join &#34;\n&#34;, xdg_icon_theme_search_dirs;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module can be used to find directories as specified by the Freedesktop.org Icon Theme Specification. Currently only a tiny (but most useful) part of the specification is implemented.</p>
+
+<p>In case you want to <b>store</b> an icon theme, use the directory returned by:</p>
+
+<pre class="sh_perl"> use File::BaseDir qw(data_dirs);
+ print scalar data_dirs(&#39;icons&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<p>Can be exported on request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="xdg_icon_theme_search_dirs"
+>xdg_icon_theme_search_dirs</a></h2>
+
+<pre class="sh_perl"> my @dirs = xdg_icon_theme_search_dir;</pre>
+
+<p>Returns a list of the base directories of icon themes.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONFIGURATION_AND_ENVIRONMENT"
+>CONFIGURATION AND ENVIRONMENT</a></h1>
+
+<p><code>$XDG_DATA_HOME</code>, <code>$XDG_DATA_DIRS</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="http://standards.freedesktop.org/icon-theme-spec/" class="podlinkurl"
+>http://standards.freedesktop.org/icon-theme-spec/</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Jaap Karssenberg || Pardus [Larus] &#60;pardus@cpan.org&#62;</li>
+
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2003-2021 by Jaap Karssenberg || Pardus [Larus] &#60;pardus@cpan.org&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

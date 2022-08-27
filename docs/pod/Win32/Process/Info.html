@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Win32::Process::Info</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Win32::Process::Info</div>
+    <!--Win32::Process::Info--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#NOTICE'>NOTICE</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#USE_IN_OTHER_MODULES'>USE IN OTHER MODULES</a>
+  <li class='indexItem indexItem1'><a href='#ENVIRONMENT'>ENVIRONMENT</a>
+  <li class='indexItem indexItem1'><a href='#REQUIREMENTS'>REQUIREMENTS</a>
+  <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
+  <li class='indexItem indexItem1'><a href='#RESTRICTIONS'>RESTRICTIONS</a>
+  <li class='indexItem indexItem1'><a href='#RELATED_MODULES'>RELATED MODULES</a>
+  <li class='indexItem indexItem1'><a href='#ACKNOWLEDGMENTS'>ACKNOWLEDGMENTS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Win32::Process::Info - Provide process information for Windows 32 systems.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Win32::Process::Info;
+ $pi = Win32::Process::Info-&#62;new ();
+ $pi-&#62;Set (elapsed_in_seconds =&#62; 0);    # In clunks, not seconds.
+ @pids = $pi-&#62;ListPids ();      # Get all known PIDs
+ @info = $pi-&#62;GetProcInfo ();   # Get the max
+ %subs = $pi-&#62;Subprocesses ();  # Figure out subprocess relationships.
+ @info = grep {
+     defined $_-&#62;{Name} &#38;&#38;
+     $_-&#62;{Name} =~ m/perl/
+ } $pi-&#62;GetProcInfo ();        # All processes with &#39;perl&#39; in name.</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NOTICE"
+>NOTICE</a></h1>
+
+<p>This package covers a multitude of sins - as many as Microsoft has invented ways to get process info and I have resources and gumption to code. The key to this mess is the &#39;variant&#39; argument to the &#39;new&#39; method (q.v.).</p>
+
+<p>The WMI variant has various problems, known or suspected to be inherited from Win32::OLE. See <a href="#BUGS" class="podlinkpod"
+>&#34;BUGS&#34;</a> for the gory details. The worst of these is that if you use fork(), you <b>must</b> disallow WMI completely by loading this module as follows:</p>
+
+<pre class="sh_perl"> use Win32::Process::Info qw{NT};</pre>
+
+<p>This method of controlling things must be considered experimental until I can confirm it causes no unexpected insurmountable problems. If I am forced to change it, the change will be flagged prominently in the documentation.</p>
+
+<p>This change is somewhat incompatible with 1.006 and earlier because it requires the import() method to be called in the correct place with the correct arguments. If you <code>require Win32::Process::Info</code>, you <b>must</b> explicitly call Win32::Process::Info-&#62;import().</p>
+
+<p>See the import() documentation below for the details.</p>
+
+<p><b>YOU HAVE BEEN WARNED!</b></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>The main purpose of the Win32::Process::Info package is to get whatever information is convenient (for the author!) about one or more Windows 32 processes. <a href="#GetProcInfo" class="podlinkpod"
+>&#34;GetProcInfo&#34;</a> is therefore the most-important method in the package. See it for more information.</p>
+
+<p>The process IDs made available are those returned by the variant in use. See the documentation to the individual variants for details, especially if you are a Cygwin user.</p>
+
+<p>Unless explicitly stated otherwise, modules, variables, and so on are considered private. That is, the author reserves the right to make arbitrary changes in the way they work, without telling anyone. For methods, variables, and so on which are considered public, the author will make an effort keep them stable, and failing that to call attention to changes.</p>
+
+<p>The following methods should be considered public:</p>
+
+<dl>
+<dt><a name="$pi_=_Win32::Process::Info-&#62;new_([machine],_[variant],_[hash])"
+>$pi = Win32::Process::Info-&#62;new ([machine], [variant], [hash])</a></dt>
+
+<dd>
+<p>This method instantiates a process information object, connected to the given machine, and using the given variant.</p>
+
+<p>The following variants are currently supported:</p>
+
+<p>NT - Uses the NT-native mechanism. Good on any NT, including Windows 2000. This variant does not support connecting to another machine, so the &#39;machine&#39; argument must be an empty string (or undef, if you prefer).</p>
+
+<p>PT - Uses Dan Urist&#39;s Proc::ProcessTable, making it possible (paradoxically) to use this module on other operating systems than Windows. Only those Proc::ProcessTable::Process fields which seem to correspond to WMI items are returned. <b>Caveat:</b> the PT variant is to be considered experimental, and may be changed or retracted in future releases.</p>
+
+<p>WMI - Uses the Windows Management Implementation. Good on Win2K, ME, and possibly others, depending on their vintage and whether WMI has been retrofitted.</p>
+
+<p>The initial default variant comes from environment variable PERL_WIN32_PROCESS_INFO_VARIANT. If this is not found, it will be &#39;WMI,NT,PT&#39;, which means to try WMI first, NT if WMI fails, and PT as a last resort. This can be changed using Win32::Process::Info-&#62;Set (variant =&#62; whatever).</p>
+
+<p>The hash argument is a hash reference to additional arguments, if any. The hash reference can actually appear anywhere in the argument list, though positional arguments are illegal after the hash reference.</p>
+
+<p>The following hash keys are supported:</p>
+
+<pre class="sh_perl">  variant =&#62; corresponds to the &#39;variant&#39; argument (all)
+  assert_debug_priv =&#62; assert debug if available (all) This
+        only has effect under WMI. The NT variant always
+        asserts debug. You want to be careful doing this
+        under WMI if you&#39;re fetching the process owner
+        information, since the script can be badly behaved
+        (i.e. die horribly) for those processes whose
+        ExecutablePath is only available with the debug
+        privilege turned on.
+  host =&#62; corresponds to the &#39;machine&#39; argument (WMI)
+  user =&#62; username to perform operation under (WMI)
+  password =&#62; password corresponding to the given
+        username (WMI)</pre>
+
+<p>ALL hash keys are optional. SOME hash keys are only supported under certain variants. These are indicated in parentheses after the description of the key. It is an error to specify a key that the variant in use does not support.</p>
+
+<dt><a name="@values_=_$pi-&#62;Get_(attributes_...)"
+>@values = $pi-&#62;Get (attributes ...)</a></dt>
+
+<dd>
+<p>This method returns the values of the listed attributes. If called in scalar context, it returns the value of the first attribute specified, or undef if none was. An exception is raised if you specify a non-existent attribute.</p>
+
+<p>This method can also be called as a class method (that is, as Win32::Process::Info-&#62;Get ()) to return default attributes values.</p>
+
+<p>The relevant attribute names are:</p>
+
+<p><b>elapsed_as_seconds</b> is TRUE to convert elapsed user and kernel times to seconds. If FALSE, they are returned in clunks (that is, hundreds of nanoseconds). The default is TRUE.</p>
+
+<p><b>variant</b> is the variant of the Process::Info code in use, and should be zero or more of &#39;WMI&#39; or &#39;NT&#39;, separated by commas. &#39;WMI&#39; selects the Windows Management Implementation, and &#39;NT&#39; selects the Windows NT native interface.</p>
+
+<p><b>machine</b> is the name of the machine connected to. This is not available as a class attribute.</p>
+
+<dt><a name="@values_=_$pi-&#62;Set_(attribute_=&#62;_value_...)"
+>@values = $pi-&#62;Set (attribute =&#62; value ...)</a></dt>
+
+<dd>
+<p>This method sets the values of the listed attributes, returning the values of all attributes listed if called in list context, or of the first attribute listed if called in scalar context.</p>
+
+<p>This method can also be called as a class method (that is, as Win32::Process::Info-&#62;Set ()) to change default attribute values.</p>
+
+<p>The relevant attribute names are the same as for Get. However:</p>
+
+<p><b>variant</b> is read-only at the instance level. That is, Win32::Process::Info-&#62;Set (variant =&#62; &#39;NT&#39;) is OK, but $pi-&#62;Set (variant =&#62; &#39;NT&#39;) will raise an exception. If you set <b>variant</b> to an empty string (the default), the next &#34;new&#34; will iterate over all possibilities (or the contents of environment variable PERL_WIN32_PROCESS_INFO_VARIANT if present), and set <b>variant</b> to the first one that actually works.</p>
+
+<p><b>machine</b> is not available as a class attribute, and is read-only as an instance attribute. It is <b>not</b> useful for discovering your machine name - if you instantiated the object without specifying a machine name, you will get nothing useful back.</p>
+
+<dt><a name="@pids_=_$pi-&#62;ListPids_();"
+>@pids = $pi-&#62;ListPids ();</a></dt>
+
+<dd>
+<p>This method lists all known process IDs in the system. If called in scalar context, it returns a reference to the list of PIDs. If you pass in a list of pids, the return will be the intersection of the argument list and the actual PIDs in the system.</p>
+
+<dt><a name="@info_=_$pi-&#62;GetProcInfo_();"
+>@info = $pi-&#62;GetProcInfo ();</a></dt>
+
+<dd>
+<p>This method returns a list of anonymous hashes, each containing information on one process. If no arguments are passed, the list represents all processes in the system. You can pass a list of process IDs, and get out a list of the attributes of all such processes that actually exist. If you call this method in scalar context, you get a reference to the list.</p>
+
+<p>What keys are available depends on the variant in use. You can hope to get at least the following keys for a &#34;normal&#34; process (i.e. not the idle process, which is PID 0, nor the system, which is some small indeterminate PID) to which you have access:</p>
+
+<pre class="sh_perl">    CreationDate
+    ExecutablePath
+    KernelModeTime
+    MaximumWorkingSetSize
+    MinimumWorkingSetSize
+    Name (generally the name of the executable file)
+    ProcessId
+    UserModeTime</pre>
+
+<p>You may find other keys available as well, depending on which operating system you&#39;re using, and which variant of Process::Info you&#39;re using.</p>
+
+<p>This method also optionally takes as its first argument a reference to a hash of option values. The only supported key is:</p>
+
+<pre class="sh_perl">    no_user_info =&#62; 1
+        Do not return keys Owner and OwnerSid, even if available.
+        These tend to be time-consuming, and can cause problems
+        under the WMI variant.</pre>
+
+<dt><a name="Win32::Process::Info-&#62;import_()"
+>Win32::Process::Info-&#62;import ()</a></dt>
+
+<dd>
+<p>The purpose of this static method is to specify which variants of the functionality are legal to use. Possible arguments are &#39;NT&#39;, &#39;WMI&#39;, &#39;PT&#39;, or some combination of these (e.g. (&#39;NT&#39;, &#39;WMI&#39;)). Unrecognized arguments are ignored, though this may change if this class becomes a subclass of Exporter. If called with no arguments, it is as though it were called with arguments (&#39;NT&#39;, &#39;WMI&#39;, &#39;PT&#39;). See <a href="#BUGS" class="podlinkpod"
+>&#34;BUGS&#34;</a>, below, for why this mess was introduced in the first place.</p>
+
+<p>This method must be called at least once, <b>in a BEGIN block</b>, or <b>no</b> variants will be legal to use. Usually it does <b>not</b> need to be explicitly called by the user, since it is called implicitly when you <code>use Win32::Process::Info;</code>. If you <code>require Win32::Process::Info;</code> you <b>will</b> have to call this method explicitly.</p>
+
+<p>If this method is called more than once, the second and subsequent calls will have no effect on what variants are available. The reason for this will be made clear (I hope!) under <a href="#USE_IN_OTHER_MODULES" class="podlinkpod"
+>&#34;USE IN OTHER MODULES&#34;</a>, below.</p>
+
+<p>The only time a user of this module needs to do anything different versus version 1.006 and previous of this module is if this module is being loaded in such a way that this method is not implicitly called. This can happen two ways:</p>
+
+<pre class="sh_perl"> use Win32::Process::Info ();</pre>
+
+<p>explicitly bypasses the implicit call of this method. Don&#39;t do that.</p>
+
+<pre class="sh_perl"> require Win32::Process::Info;</pre>
+
+<p>also does not call this method. If you must load this module using require rather than use, follow the require with</p>
+
+<pre class="sh_perl"> Win32::Process::Info-&#62;import ();</pre>
+
+<p>passing any necessary arguments.</p>
+
+<dt><a name="%subs_=_$pi-&#62;Subprocesses_([pid_...])"
+>%subs = $pi-&#62;Subprocesses ([pid ...])</a></dt>
+
+<dd>
+<p>This method takes as its argument a list of PIDs, and returns a hash indexed by PID and containing, for each PID, a reference to a list of all subprocesses of that process. If those processes have subprocesses as well, you will get the sub-sub processes, and so ad infinitum, so you may well get back more hash keys than you passed process IDs. Note that the process of finding the sub-sub processes is iterative, not recursive; so you don&#39;t get back a tree.</p>
+
+<p>If no argument is passed, you get all processes in the system.</p>
+
+<p>If called in scalar context you get a reference to the hash.</p>
+
+<p>This method works off the ParentProcessId attribute. Not all variants support this. If the variant you&#39;re using doesn&#39;t support this attribute, you get back an empty hash. Specifically:</p>
+
+<pre class="sh_perl"> NT -&#62; unsupported
+ PT -&#62; supported
+ WMI -&#62; supported</pre>
+
+<dt><a name="@info_=_$pi-&#62;SubProcInfo_();"
+>@info = $pi-&#62;SubProcInfo ();</a></dt>
+
+<dd>
+<p>This is a convenience method which wraps GetProcInfo(). It has the same calling sequence, and returns generally the same data. But the data returned by this method will also have the {subProcesses} key, which will contain a reference to an array of hash references representing the data on subprocesses of each process.</p>
+
+<p>Unlike the data returned from Subprocesses(), the data here are not flattened; so if you specify one or more process IDs as arguments, you will get back at most the number of process IDs you specified; fewer if some of the specified processes do not exist.</p>
+
+<p><b>Note well</b> that a given process can occur more than once in the output. If you call SubProcInfo without arguments, the @info array will contain every process in the system, even those which are also in some other process&#39; {subProcesses} array.</p>
+
+<p>Also unlike Subprocesses(), you will get an exception if you use this method with a variant that does not support the ParentProcessId key.</p>
+
+<dt><a name="$pid_=_$pi-&#62;My_Pid()"
+>$pid = $pi-&#62;My_Pid()</a></dt>
+
+<dd>
+<p>This convenience method returns the process ID of the current process, in a form appropriate to the operating system and the variant in use. Normally, it simply returns <code>$$</code>. But Cygwin has its own idea of what the process ID is, which may differ from Windows. Worse than that, under Cygwin the NT and WMI variants return Windows PIDs, while PT appears to return Cygwin PIDs.</p>
+
+<dt><a name="$text_=_Win32::Process::Info-&#62;variant_support_status($variant);"
+>$text = Win32::Process::Info-&#62;variant_support_status($variant);</a></dt>
+
+<dd>
+<p>This static method returns the support status of the given variant. The return is false if the variant is supported, or an appropriate message if the variant is unsupported.</p>
+
+<p>This method can also be called as a normal method, or even as a subroutine.</p>
+
+<dt><a name="print_&#34;$pi_Version_=_@{[$pi-&#62;Version_()]}\n&#34;"
+>print &#34;$pi Version = @{[$pi-&#62;Version ()]}\n&#34;</a></dt>
+
+<dd>
+<p>This method just returns the version number of the Win32::Process::Info object.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="USE_IN_OTHER_MODULES"
+>USE IN OTHER MODULES</a></h1>
+
+<p>Other modules that use this module are also subject to the effects of the collision between Win32::OLE and the emulated fork call, and to the requirements of the import() method. I will not address subclassing, since I am not sure how well this module subclasses (the variants are implemented as subclasses of this module).</p>
+
+<p>Modules that simply make use of this module (the &#39;has-a&#39; relationship) should work as before, <b>provided</b> they &#39;use Win32::Process::Info&#39;. Note that the phrase &#39;as before&#39; is literal, and means (among other things), that you can&#39;t use the emulated fork.</p>
+
+<p>If you as the author of a module that uses Win32::Process::Info wish to allow emulated forks, you have a number of options.</p>
+
+<p>The easiest way to go is</p>
+
+<pre class="sh_perl"> use Win32::Process::Info qw{NT};</pre>
+
+<p>if this provides enough information for your module.</p>
+
+<p>If you would prefer the extra information provided by WMI but can operate in a degraded mode if needed, you can do something like</p>
+
+<pre class="sh_perl"> use Win32::Process::Info ();
+ 
+ sub import {
+    my $pkg = shift;
+    $pkg-&#62;SUPER::import (@_);  # Optional (see below)
+    Win32::Process::Info-&#62;import (@_);
+ }</pre>
+
+<p>The call to $pkg-&#62;SUPER::import is needed only if your package is a subclass of Exporter.</p>
+
+<p>Note to users of modules that require this module:</p>
+
+<p>If the above &#39;rules&#39; are violated, the symptoms will be either that you cannot instantiate an object (because there are no legal variants) or that you cannot use fork (because the WMI variant was enabled by default). The workaround for you is to</p>
+
+<pre class="sh_perl"> use Win32::Process::Info;</pre>
+
+<p>before you &#39;use&#39; the problematic module. If the problem is coexistence with fork, you will of course need to</p>
+
+<pre class="sh_perl"> use Win32::Process::Info qw{NT};</pre>
+
+<p>This is why only the first import() sets the possible variants.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ENVIRONMENT"
+>ENVIRONMENT</a></h1>
+
+<p>This package is sensitive to a number of environment variables. Note that these are normally consulted only when the package is initialized (i.e. when it&#39;s &#34;used&#34; or &#34;required&#34;).</p>
+
+<p>PERL_WIN32_PROCESS_INFO_VARIANT</p>
+
+<p>If present, specifies which variant(s) are tried, in which order. The default behavior is equivalent to specifying &#39;WMI,NT&#39;. This environment variable is consulted when you &#34;use Win32::Process::Info;&#34;. If you want to change it in your Perl code you should use the static Set () method.</p>
+
+<p>PERL_WIN32_PROCESS_INFO_WMI_DEBUG</p>
+
+<p>If present and containing a value Perl recognizes as true, causes the WMI variant to assert the &#34;Debug&#34; privilege. This has the advantage of returning more full paths, but the disadvantage of tending to cause Perl to die when trying to get the owner information on the newly-accessible processes.</p>
+
+<p>PERL_WIN32_PROCESS_INFO_WMI_PARIAH</p>
+
+<p>If present, should contain a semicolon-delimited list of process names for which the package should not attempt to get owner information. &#39;*&#39; is a special case meaning &#39;all&#39;. You will probably need to use this if you assert PERL_WIN32_PROCESS_INFO_WMI_DEBUG.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REQUIREMENTS"
+>REQUIREMENTS</a></h1>
+
+<p>It should be obvious that this library must run under some flavor of Windows.</p>
+
+<p>This library uses the following libraries:</p>
+
+<pre class="sh_perl"> Carp
+ Time::Local
+ Proc::ProcessTable (if using the PT variant)
+ Win32::API (if using the NT-native variant)
+ Win32API::Registry (if using the NT-native variant)
+ Win32::ODBC (if using the WMI variant)</pre>
+
+<p>As of ActivePerl 630, none of this uses any packages that are not included with ActivePerl. Carp and Time::Local have been in the core since at least 5.004. Your mileage may, of course, vary.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUGS"
+>BUGS</a></h1>
+
+<p>The WMI variant leaks memory - badly for 1.001 and earlier. After 1.001 it only leaks badly if you retrieve the process owner information. If you&#39;re trying to write a daemon, the NT variant is recommended. If you&#39;re stuck with WMI, set the no_user_info flag when you call GetProcInfo. This won&#39;t stop the leaks, but it minimizes them, at the cost of not returning the username or SID.</p>
+
+<p>If you intend to use fork (), your script will die horribly unless you load this module as</p>
+
+<pre class="sh_perl"> use Win32::Process::Info qw{NT};</pre>
+
+<p>The problem is that fork() and Win32::OLE (used by the WMI variant) do not play <b>at all</b> nicely together. This appears to be an acknowledged problem with Win32::OLE, which is brought on simply by loading the module. See import() above for the gory details.</p>
+
+<p>The use of the NT and WMI variants under non-Microsoft systems is unsupported. ReactOS 0.3.3 is known to lock up when GetProcInfo() is called; since this works on the Microsoft OSes, I am inclined to attribute this to the acknowledged alpha-ness of ReactOS. I have no idea what happens under Wine. <b>Caveat user.</b></p>
+
+<p>Bugs can be reported to the author by mail, or through <a href="http://rt.cpan.org" class="podlinkurl"
+>http://rt.cpan.org</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RESTRICTIONS"
+>RESTRICTIONS</a></h1>
+
+<p>You can not <code>require</code> this module except in a BEGIN block. This is a consequence of the use of Win32::API, which has the same restriction, at least in some versions.</p>
+
+<p>If you <code>require</code> this module, you <b>must</b> explicitly call <code>Win32::Process::Info-&#62;import()</code>, so that the module will know what variants are available.</p>
+
+<p>If your code calls fork (), you must load this module as</p>
+
+<pre class="sh_perl"> use Win32::Process::Info qw{NT};</pre>
+
+<p>This renders the WMI variant unavailable. See <a href="#BUGS" class="podlinkpod"
+>&#34;BUGS&#34;</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RELATED_MODULES"
+>RELATED MODULES</a></h1>
+
+<p>Win32::Process::Info focuses on returning static data about a process. If this module doesn&#39;t do what you want, maybe one of the following ones will.</p>
+
+<dl>
+<dt><a name="Proc::ProcessTable_by_Dan_Urist"
+>Proc::ProcessTable by Dan Urist</a></dt>
+
+<dd>
+<p>This module does not as of this writing support Windows, though there is a minimal Cygwin version that might serve as a starting point. The &#39;PT&#39; variant makes use of this module.</p>
+
+<dt><a name="Win32::PerfLib_by_Jutta_M._Klebe"
+>Win32::PerfLib by Jutta M. Klebe</a></dt>
+
+<dd>
+<p>This module focuses on performance counters. It is a &#34;.xs&#34; module, and requires Visual C++ 6.0 to install. But it&#39;s also part of LibWin32, and should come with ActivePerl.</p>
+
+<dt><a name="Win32::IProc_by_Amine_Moulay_Ramdane"
+>Win32::IProc by Amine Moulay Ramdane</a></dt>
+
+<dd>
+<p>This module is no longer supported, which is a shame because it returns per-thread information as well. As of December 27, 2004, Jenda Krynicky (<em>http://jenda.krynicky.cz/</em>) was hosting a PPM kit in PPM repository <em>http://jenda.krynicky.cz/perl/</em>, which may be usable. But the source for the DLL files is missing, so if some Windows upgrade breaks it you&#39;re out of luck.</p>
+
+<dt><a name="Win32API::ProcessStatus,_by_Ferdinand_Prantl"
+>Win32API::ProcessStatus, by Ferdinand Prantl</a></dt>
+
+<dd>
+<p>This module focuses on the .exe and .dll files used by the process. It is a &#34;.xs&#34; module, requiring Visual C++ 6.0 and psapi.h to install.</p>
+
+<dt><a name="pulist"
+>pulist</a></dt>
+
+<dd>
+<p>This is not a Perl module, it&#39;s an executable that comes with the NT resource kit.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ACKNOWLEDGMENTS"
+>ACKNOWLEDGMENTS</a></h1>
+
+<p>This module would not exist without the following people:</p>
+
+<p>Aldo Calpini, who gave us Win32::API.</p>
+
+<p>Jenda Krynicky, whose &#34;How2 create a PPM distribution&#34; (<em>http://jenda.krynicky.cz/perl/PPM.html</em>) gave me a leg up on both PPM and tar distributions.</p>
+
+<p>Dave Roth, <em>http://www.roth.net/perl/</em>, author of <b>Win32 Perl Programming: Administrators Handbook</b>, which is published by Macmillan Technical Publishing, ISBN 1-57870-215-1</p>
+
+<p>Dan Sugalski <em>sugalskd@osshe.edu</em>, author of VMS::Process, where I got (for good or ill) the idea of just grabbing all the data I could find on a process and smashing it into a big hash.</p>
+
+<p>The folks of Cygwin (<em>http://www.cygwin.com/</em>), especially Christopher G. Faylor, author of ps.cc.</p>
+
+<p>Judy Hawkins of Pitney Bowes, for providing testing and patches for NT 4.0 without WMI.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Thomas R. Wyant, III (<em>wyant at cpan dot org</em>)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>Copyright (C) 2001-2005 by E. I. DuPont de Nemours and Company, Inc. All rights reserved.</p>
+
+<p>Copyright (C) 2007-2011, 2013-2014 by Thomas R. Wyant, III</p>
+
+<p>This program is free software; you can redistribute it and/or modify it under the same terms as Perl 5.10.0. For more details, see the full text of the licenses in the directory LICENSES.</p>
+
+<p>This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

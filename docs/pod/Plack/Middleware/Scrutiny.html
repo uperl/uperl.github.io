@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Plack::Middleware::Scrutiny</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Plack::Middleware::Scrutiny</div>
+    <!--Plack::Middleware::Scrutiny--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNPOSIS'>SYNPOSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#WHY'>WHY</a>
+  <li class='indexItem indexItem1'><a href='#HOW'>HOW</a>
+  <li class='indexItem indexItem1'><a href='#INTERNAL_METHODS'>INTERNAL METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#%24scrutiny-%3Eprepare_app'>$scrutiny-&#62;prepare_app</a>
+    <li class='indexItem indexItem2'><a href='#%24scrutiny-%3Ecall(%24env)'>$scrutiny-&#62;call($env)</a>
+    <li class='indexItem indexItem2'><a href='#%24scrutiny-%3Enew_request(%24env%2C_%24respond_cb)'>$scrutiny-&#62;new_request($env, $respond_cb)</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
+  <li class='indexItem indexItem1'><a href='#TODO'>TODO</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT'>COPYRIGHT</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Plack::Middleware::Scrutiny - Scrutinize your [psgi] app with an [inline] debugger</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNPOSIS"
+>SYNPOSIS</a></h1>
+
+<pre class="sh_perl">  # This uses AnyEvent, so go with twiggy
+
+  builder {
+    enable &#39;Scrutiny&#39;;
+    $app;
+  };
+
+  # Now pass ?_scrutinize=1 to your app, and you&#39;ll get an inline debugger</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>THIS IS A PROOF OF CONCEPT, MUCH WORK REMAINS!</p>
+
+<p>Status: Kinda works!</p>
+
+<p>This middleware adds an in-band debugger to your web application. When triggered (via a query string), your <code>$app</code> is executed in a forked context under the <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> debugger. Instead of getting your application output, you get a web-based debugger UI so you can step through your program&#39;s execution.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="WHY"
+>WHY</a></h1>
+
+<p>I was wondering why people don&#39;t use the perl debugger more. I did some very unscientific interviews and came up with the idea that it isn&#39;t that people are horribly opposed (though some are), but rather that it just isn&#39;t at their fingertips. Unlike Firebug, or even prints to STDERR, firing up the debugger is a bit of complication that doesn&#39;t seem worth the effort.</p>
+
+<p>I&#39;m hoping that putting <code>enable &#39;Scrutiny&#39;</code> into your <a href="https://metacpan.org/pod/Plack%3A%3ABuilder" class="podlinkpod"
+>Plack::Builder</a> setup will be worth the effort. Once this is working I&#39;ll probably look around for other ways to make this easy (like work on <a href="https://metacpan.org/pod/CGI%3A%3AInspect" class="podlinkpod"
+>CGI::Inspect</a>).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="HOW"
+>HOW</a></h1>
+
+<p>When this middleware is activated, right now by the <code>_scrutinize=1</code> query param, it takes over the request. It forks into a parent and a child. The parent is what will talk to your browser for the debugging session, and the child is where your <code>$app</code> is actually executed. It opens a set of unix pipes to talk back and forth.</p>
+
+<p>From there, the child uses <a href="https://metacpan.org/pod/Enbugger" class="podlinkpod"
+>Enbugger</a> to load up <a href="/pod/Devel/ebug/Backend.html" class="podlinkpod"
+>Devel::ebug::Backend</a> and gets ready to be debugged. Meanwhile the parent sets up <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> to talk to the child. I initially did this with <a href="https://metacpan.org/pod/Debug%3A%3AClient" class="podlinkpod"
+>Debug::Client</a>, and that worked but I like the concept of <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> a bit better.</p>
+
+<p>Finally, the parent outputs some HTML back to the browser with the actual UI. Future interactions from the browser are intercepted by the parent and considered commands to the debugger until the <code>$app</code> has completed its execution. Upon completion, the output from <code>$app</code> is finally sent to the browser instead of the debugger UI.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INTERNAL_METHODS"
+>INTERNAL METHODS</a></h1>
+
+<p>This is documentation for maintainers, not for users.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$scrutiny-&#62;prepare_app"
+>$scrutiny-&#62;prepare_app</a></h2>
+
+<p>This gets called on middleware instantiation. All we need to do is get our static files set up.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$scrutiny-&#62;call($env)"
+>$scrutiny-&#62;call($env)</a></h2>
+
+<p>Process a request. Here we split into two modes - either we are already in the debugger and need to display that UI, or we are working on a new request and need to get the parent/child setup going.</p>
+
+<p>Also we might want to serve some static files for the debugger UI.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$scrutiny-&#62;new_request($env,_$respond_cb)"
+>$scrutiny-&#62;new_request($env, $respond_cb)</a></h2>
+
+<p>This is a new request. After calling out to get the child started, we&#39;ll start watching for responses from the child.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUGS"
+>BUGS</a></h1>
+
+<p>TONS I&#39;m sure :)</p>
+
+<p>This is still just a sketch.</p>
+
+<p>One thing that I&#39;ve found annoying is that &#39;step&#39; doesn&#39;t actually seem to step over things. Along the same lines, this doesn&#39;t walk over the $app the way I expect/want.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="TODO"
+>TODO</a></h1>
+
+<p>There are a TON of ways this could be taken, especially since this is just a proof-of-concept so far. Some things are probably needed pretty soon, such as session based debugging (right now ALL new requests go to the debugger).</p>
+
+<p>One significant thing that I&#39;d like to do is to provide a more advanced separate window mode. In this mode you could explore code and set breakpoints (including on the path/query), and get a list of sessions that are currently awaiting your debugging. Selecting one would enter you into a debugging session. Handy for AJAXy stuff I think.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Code is on github: <a href="http://github.com/awwaiid/Scrutiny" class="podlinkurl"
+>http://github.com/awwaiid/Scrutiny</a></p>
+
+<p>Other fun stuff: <a href="https://metacpan.org/pod/Plack%3A%3AMiddleware" class="podlinkpod"
+>Plack::Middleware</a>, <a href="https://metacpan.org/pod/Plack%3A%3AMiddleware%3A%3ADebug" class="podlinkpod"
+>Plack::Middleware::Debug</a>, <a href="https://metacpan.org/pod/Plack%3A%3AMiddleware%3A%3AInteractiveDebugger" class="podlinkpod"
+>Plack::Middleware::InteractiveDebugger</a>, <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<pre class="sh_perl">  Brock Wilcox &#60;awwaiid@thelackthereof.org&#62; - http://thelackthereof.org/</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT"
+>COPYRIGHT</a></h1>
+
+<pre class="sh_perl">  Copyright (c) 2011 Brock Wilcox &#60;awwaiid@thelackthereof.org&#62;. All rights
+  reserved.  This program is free software; you can redistribute it and/or
+  modify it under the same terms as Perl itself.</pre>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

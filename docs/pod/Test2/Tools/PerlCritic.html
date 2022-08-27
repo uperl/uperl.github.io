@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::PerlCritic</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::PerlCritic</div>
+    <!--Test2::Tools::PerlCritic--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#perl_critic_ok'>perl_critic_ok</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::PerlCritic - Testing tools to enforce Perl::Critic policies</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test2::Tools::PerlCritic;
+ 
+ perl_critic_ok [&#39;lib&#39;,&#39;t&#39;], &#39;test library files&#39;;
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Test for <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> violations using <a href="https://metacpan.org/pod/Test2" class="podlinkpod"
+>Test2</a>. Although this testing tool uses the <a href="https://metacpan.org/pod/Test2" class="podlinkpod"
+>Test2</a> API instead of the older <a href="https://metacpan.org/pod/Test%3A%3ABuilder" class="podlinkpod"
+>Test::Builder</a> API, the primary motivation is to provide output in a more useful form. That is policy violations are grouped by policy class, and the policy class name is clearly displayed as a diagnostic. The author finds the former more useful because he tends to address one type of violation at a time. The author finds the latter more useful because he tends to want to lookup or adjust the configuration of the policy as he is addressing violations.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="perl_critic_ok"
+>perl_critic_ok</a></h2>
+
+<pre class="sh_perl"> perl_critic_ok $path, \@options, $test_name;
+ perl_critic_ok \@path, \@options, $test_name;
+ perl_critic_ok $path, \%options, $test_name;
+ perl_critic_ok \@path, \%options, $test_name;
+ perl_critic_ok $path, $critic, $test_name;
+ perl_critic_ok \@path, $critic, $test_name;
+ perl_critic_ok $path, $test_name;
+ perl_critic_ok \@path, $test_name;
+ perl_critic_ok $path;
+ perl_critic_ok \@path;</pre>
+
+<p>Run <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> on the given files or directories. The first argument (<code>$path</code> or <code>\@path</code>) can be either the path to a file or directory, or a array reference to a list of paths to files and directories. If <code>\@options</code> or <code>\%options</code> are provided, then they will be passed into the <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> constructor. If <code>$critic</code> (an instance of <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a>) is provided, then that <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> instance will be used instead of creating one internally. Finally the <code>$test_name</code> may be provided if you do not like the default test name.</p>
+
+<p>Only a single test is run regardless of how many files are processed. this is so that the policy violations can be grouped by policy class across multiple files.</p>
+
+<p>As a convenience, if the test passes then a true value is returned. Otherwise a false will be returned.</p>
+
+<p><code>done_testing</code> or the equivalent is NOT called by this function. You are responsible for calling that yourself.</p>
+
+<p>Since we do not automatically call <code>done_testing</code>, you can call <code>perl_critic_ok</code> multiple times, but keep in mind that the policy violations will only be grouped in each individual call, so it is probably better to provide a list of paths, rather than make multiple calls.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p><a href="https://metacpan.org/pod/Test%3A%3APerl%3A%3ACritic" class="podlinkpod"
+>Test::Perl::Critic</a> has been around longer, and probably does at least some things smarter. The fact that this module groups policy violations for all files by class means that it has to store more diagnostics in memory before sending them out <i>en masse</i>, where as <a href="https://metacpan.org/pod/Test%3A%3APerl%3A%3ACritic" class="podlinkpod"
+>Test::Perl::Critic</a> sends violations for each file as it processes them. <a href="https://metacpan.org/pod/Test%3A%3APerl%3A%3ACritic" class="podlinkpod"
+>Test::Perl::Critic</a> also comes with some code to optionally do processing in parallel. Some of these issues may or may not be addressed in future versions of this module.</p>
+
+<p>Since this module formats it&#39;s output the <code>-verbose</code> option is ignored at the <code>set_format</code> value is ignored.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test::Perl::Critic"
+><a href="https://metacpan.org/pod/Test%3A%3APerl%3A%3ACritic" class="podlinkpod"
+>Test::Perl::Critic</a></a></dt>
+
+<dd>
+<dt><a name="Perl::Critic"
+><a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2019-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

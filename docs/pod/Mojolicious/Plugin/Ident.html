@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mojolicious::Plugin::Ident</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Mojolicious::Plugin::Ident</div>
+    <!--Mojolicious::Plugin::Ident--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#timeout'>timeout</a>
+    <li class='indexItem indexItem2'><a href='#port'>port</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#HELPERS'>HELPERS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#ident_%5B_%24tx%2C_%5B_%24timeout_%5D_%5D%2C_%5B_%24callback_%5D'>ident [ $tx, [ $timeout ] ], [ $callback ]</a>
+    <li class='indexItem indexItem2'><a href='#ident_same_user_%5B_%24tx%2C_%5B_%24timeout_%5D_%5D%2C_%5B_%24callback_%5D'>ident_same_user [ $tx, [ $timeout ] ], [ $callback ]</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Mojolicious::Plugin::Ident - Mojolicious plugin to interact with a remote ident service</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.31</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Mojolicious::Lite;
+ plugin &#39;ident&#39;;
+ 
+ # log the ident user for every connection (async ident)
+ under sub {
+   shift-&#62;ident(sub {
+     my $id_res = shift; # $id_res isa Mojolicious::Plugin::Ident::Response
+     if($id_res-&#62;is_success) {
+       app-&#62;log-&#62;info(&#34;ident user is &#34; . $id_res-&#62;username);
+     } else {
+       app-&#62;log-&#62;info(&#34;unable to ident remote user&#34;);
+     }
+   });
+
+   1;
+ };
+ 
+ # get the username of the remote using ident protocol
+ get &#39;/&#39; =&#62; sub {
+   my $self = shift;
+   my $id_res = $self-&#62;ident; # $id_res isa Mojolicious::Plugin::Ident::Response
+   $self-&#62;render(text =&#62; &#34;hello &#34; . $id_res-&#62;username);
+ };
+ 
+ # only allow access to the user on localhost which
+ # started the mojolicious lite app with non-blocking
+ # ident call (requires Mojolicious 4.28)
+ under sub {
+   my($self) = @_;
+   $self-&#62;ident_same_user(sub {
+     my($same) = @_;
+     unless($same) {
+       return $self-&#62;render(
+         text   =&#62; &#39;permission denied&#39;,
+         status =&#62; 403,
+       );
+     }
+     $self-&#62;continue;
+   });
+   return undef;
+ };
+ 
+ get &#39;/private&#39; =&#62; sub {
+   shift-&#62;render(text =&#62; &#34;secret place&#34;);
+ };
+ 
+ # only allow access to the user on localhost which 
+ # started the mojolicious lite app (all versions of
+ # Mojolicious)
+ under sub {
+   my($self) = @_;
+   if($self-&#62;ident_same_user) {
+     return 1;
+   } else {
+     $self-&#62;render(
+       text   =&#62; &#39;permission denied&#39;,
+       status =&#62; 403,
+     );
+   }
+ };
+ 
+ get &#39;/private&#39; =&#62; sub {
+   shift-&#62;render(text =&#62; &#34;secret place&#34;);
+ };</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This plugin provides an interface for querying an ident service on a remote system. The ident protocol helps identify the user of a particular TCP connection. If the remote client connecting to your Mojolicious application is running the ident service you can identify the remote users&#39; name. This can be useful for determining the source of abusive or malicious behavior. Although ident can be used to authenticate users, it is not recommended for untrusted networks and systems (see CAVEATS below).</p>
+
+<p>Under the covers this plugin uses <a href="/pod/AnyEvent/Ident.html" class="podlinkpod"
+>AnyEvent::Ident</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="timeout"
+>timeout</a></h2>
+
+<pre class="sh_perl"> plugin &#39;ident&#39; =&#62; { timeout =&#62; 60 };</pre>
+
+<p>Default number of seconds to wait before timing out when contacting the remote ident server. The default is 2.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="port"
+>port</a></h2>
+
+<pre class="sh_perl"> plugin &#39;ident&#39; =&#62; { port =&#62; 113 };</pre>
+
+<p>Port number to connect to. Usually this will be 113, but you may want to change this for testing or some other purpose.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="HELPERS"
+>HELPERS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ident_[_$tx,_[_$timeout_]_],_[_$callback_]"
+>ident [ $tx, [ $timeout ] ], [ $callback ]</a></h2>
+
+<p>This helper makes a ident request. This helper takes two optional arguments, a transaction <code>$tx</code> and a timeout <code>$timeout</code>. If not specified, the current transaction and the configured default timeout will be used. If a callback is provided then the request is non-blocking. If no callback is provided, it will block until a response comes back or the timeout expires.</p>
+
+<p>With a callback (non-blocking):</p>
+
+<pre class="sh_perl"> get &#39;/&#39; =&#62; sub {
+   my $self = shift;
+   $self-&#62;ident(sub {
+     my $res = shift-&#62;res;
+     if($res-&#62;is_success)
+     {
+       $self-&#62;render(text =&#62;
+         &#34;username: &#34; . $res-&#62;username .
+         &#34;os:       &#34; . $res-&#62;os
+       );
+     }
+     else
+     {
+       $self-&#62;render(text =&#62;
+         &#34;error: &#34; . $res-&#62;error_type
+       );
+     }
+   };
+ };</pre>
+
+<p>The callback is passed an instance of <a href="/pod/Mojolicious/Plugin/Ident/Response.html" class="podlinkpod"
+>Mojolicious::Plugin::Ident::Response</a>. Even if the response is an error. The <code>is_success</code> method on <a href="/pod/Mojolicious/Plugin/Ident/Response.html" class="podlinkpod"
+>Mojolicious::Plugin::Ident::Response</a> will tell you if the response is an error or not.</p>
+
+<p>Without a callback (blocking):</p>
+
+<pre class="sh_perl"> get &#39;/&#39; =&#62; sub {
+   my $self = shift;
+   my $ident = $self-&#62;ident;
+   $self-&#62;render(text =&#62;
+     &#34;username: &#34; . $ident-&#62;username .
+     &#34;os:       &#34; . $ident-&#62;os
+   );
+ };</pre>
+
+<p>Returns an instance of <a href="/pod/Mojolicious/Plugin/Ident/Response.html" class="podlinkpod"
+>Mojolicious::Plugin::Ident::Response</a>, which provides two fields, username and os for the remote connection.</p>
+
+<p>When called in blocking mode (without a callback), the ident helper will throw an exception if</p>
+
+<ul>
+<li>it cannot connect to the remote&#39;s ident server</li>
+
+<li>the connection to the remote&#39;s ident server times out</li>
+
+<li>the remote ident server returns an error</li>
+</ul>
+
+<pre class="sh_perl"> under sub { eval { shift-&#62;ident-&#62;same_user } };
+ get &#39;/private&#39; =&#62; &#39;private_route&#39;;</pre>
+
+<p>The ident response class also has a same_user method which can be used to determine if the user which started the Mojolicious application and the remote user are the same. The user is considered the same if the remote connection came over the loopback address (127.0.0.1) and the username matches either the server&#39;s username or real UID. Although this can be used as a simple authentication method, keep in mind that it may not be secure (see CAVEATS below).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ident_same_user_[_$tx,_[_$timeout_]_],_[_$callback_]"
+>ident_same_user [ $tx, [ $timeout ] ], [ $callback ]</a></h2>
+
+<p>This helper makes an ident request and attempts to determine if the user that made the request is the same as the one that started the Mojolicious application. This helper takes two optional arguments, a transaction <code>$tx</code> and a timeout <code>$timeout</code>. If not specified, the current transaction and the configured default timeout will be used. If a callback is provided then the request is non-blocking. If no callback is provided, it will block until a response comes back or the timeout expires.</p>
+
+<p>With a callback (non-blocking):</p>
+
+<pre class="sh_perl"> get &#39;/private&#39; =&#62; sub {
+   my $self = shift;
+   $self-&#62;ident_same_user(sub {
+     my $same_user = shift;
+     $same_user ? $self-&#62;render(text =&#62; &#39;private text&#39;) : $self-&#62;reply-&#62;not_found;
+   });
+ }</pre>
+
+<p>When the response comes back it will call the callback and pass in a boolean value indicating if the user is the same. If the ident request connects and does not timeout, then result will be cached. If cached the callback may be called immediately, before re-entering the event loop.</p>
+
+<p>Without a callback (blocking):</p>
+
+<pre class="sh_perl"> under sub { shift-&#62;ident_same_user };
+ get &#39;/private&#39; =&#62; &#39;private_route&#39;;</pre>
+
+<p>without a callback this helper will return true or false depending on if the user is the same. It should never throw an exception.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p><a href="http://tools.ietf.org/html/rfc1413" class="podlinkurl"
+>The RFC for the ident protocol</a> clearly states that ident should not be used for authentication, at most it should be used only for audit (for example annotating log files).</p>
+
+<p>In Windows and possibly other operating systems, an unprivileged user can listen to port 113 and on any untrusted network, a remote ident server is not a secure authentication mechanism. Most modern operating systems do not enable the ident service by default, so unless you have control both the client and the server and can configure the ident service securely on both, its usefulness is reduced.</p>
+
+<p>Using this module in the non-blocking mode requires that <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> use its <a href="https://metacpan.org/pod/EV" class="podlinkpod"
+>EV</a> implementation, which is also used by <a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a>, if it is loaded. This shouldn&#39;t be a problem, as <a href="https://metacpan.org/pod/EV" class="podlinkpod"
+>EV</a> is a prerequisite to this module (though it does not use it directly), and both <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> and <a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a> will prefer to use <a href="https://metacpan.org/pod/EV" class="podlinkpod"
+>EV</a> if it is installed. You do have to make sure that you do not force another event loop, such as <a href="https://metacpan.org/pod/AnyEvent%3A%3ALoop" class="podlinkpod"
+>AnyEvent::Loop</a>, unless you are using only the blocking mode.</p>
+
+<p><a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a> 4.28 introduced support for non-blocking operations in bridges. Prior to that if a bridge returned false the server would generate a 404 &#34;Not Found&#34; reply. In 4.29 a bridge returning false would not render anything and thus timeout if the bridge didn&#39;t render anything. Thus in older versions of <a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a> this:</p>
+
+<pre class="sh_perl"> under sub { shift-&#62;ident_same_user };</pre>
+
+<p>would return 404 if the remote and local users are not the same. To get the same behavior in both new and old versions of <a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a>:</p>
+
+<pre class="sh_perl"> under sub {
+   my($self) = @_;
+   if($self-&#62;ident_same_user) {
+     return 0;
+   } else {
+     $self-&#62;reply-&#62;not_found;
+     return 1;
+   }
+ };</pre>
+
+<p>Most of the time you should really return a 403, instead of not found (as in the synopsis above), but this is what you would want to do if you wanted a resource to be invisible and unavailable rather than just unavailable to the wrong user.</p>
+
+<p>I only mention this because old versions of this plugin had documentation which included the older form in its synopsis.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

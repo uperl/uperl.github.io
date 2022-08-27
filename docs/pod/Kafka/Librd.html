@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Kafka::Librd</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Kafka::Librd</div>
+    <!--Kafka::Librd--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#brokers_add'>brokers_add</a>
+    <li class='indexItem indexItem2'><a href='#subscribe'>subscribe</a>
+    <li class='indexItem indexItem2'><a href='#unsubscribe'>unsubscribe</a>
+    <li class='indexItem indexItem2'><a href='#subscription'>subscription</a>
+    <li class='indexItem indexItem2'><a href='#assign'>assign</a>
+    <li class='indexItem indexItem2'><a href='#assignment'>assignment</a>
+    <li class='indexItem indexItem2'><a href='#consumer_poll'>consumer_poll</a>
+    <li class='indexItem indexItem2'><a href='#commit'>commit</a>
+    <li class='indexItem indexItem2'><a href='#commit_message'>commit_message</a>
+    <li class='indexItem indexItem2'><a href='#committed'>committed</a>
+    <li class='indexItem indexItem2'><a href='#position'>position</a>
+    <li class='indexItem indexItem2'><a href='#consumer_close'>consumer_close</a>
+    <li class='indexItem indexItem2'><a href='#topic'>topic</a>
+    <li class='indexItem indexItem2'><a href='#outq_len'>outq_len</a>
+    <li class='indexItem indexItem2'><a href='#flush'>flush</a>
+    <li class='indexItem indexItem2'><a href='#destroy'>destroy</a>
+    <li class='indexItem indexItem2'><a href='#dump'>dump</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Kafka%3A%3ALibrd%3A%3ATopic'>Kafka::Librd::Topic</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#produce'>produce</a>
+    <li class='indexItem indexItem2'><a href='#destroy'>destroy</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Kafka%3A%3ALibrd%3A%3AMessage'>Kafka::Librd::Message</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#err'>err</a>
+    <li class='indexItem indexItem2'><a href='#topic'>topic</a>
+    <li class='indexItem indexItem2'><a href='#partition'>partition</a>
+    <li class='indexItem indexItem2'><a href='#offset'>offset</a>
+    <li class='indexItem indexItem2'><a href='#key'>key</a>
+    <li class='indexItem indexItem2'><a href='#payload'>payload</a>
+    <li class='indexItem indexItem2'><a href='#timestamp(%5C%24tstype)'>timestamp(\$tstype)</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Kafka%3A%3ALibrd%3A%3AError'>Kafka::Librd::Error</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Kafka%3A%3ALibrd%3A%3AError%3A%3Ato_string'>Kafka::Librd::Error::to_string</a>
+    <li class='indexItem indexItem2'><a href='#Kafka%3A%3ALibrd%3A%3AError%3A%3Alast_error'>Kafka::Librd::Error::last_error</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE_AND_COPYRIGHT'>LICENSE AND COPYRIGHT</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Kafka::Librd - bindings for librdkafka</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    use Kafka::Librd;
+
+    my $kafka = Kafka::Librd-&#62;new(
+        Kafka::Librd::RD_KAFKA_CONSUMER,
+        {
+            &#34;group.id&#34; =&#62; &#39;consumer_id&#39;,
+        },
+    );
+    $kafka-&#62;brokers_add(&#39;server1:9092,server2:9092&#39;);
+    $kafka-&#62;subscribe( \@topics );
+    while (1) {
+        my $msg = $kafka-&#62;consumer_poll(1000);
+        if ($msg) {
+            if ( $msg-&#62;err ) {
+                say &#34;Error: &#34;, Kafka::Librd::Error::to_string($err);
+            }
+            else {
+                say $msg-&#62;payload;
+            }
+        }
+    }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides perl bindings for librdkafka.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl">    $kafka = $class-&#62;new($type, \%config)</pre>
+
+<p>Create a new instance. $type can be either <code>RD_KAFKA_CONSUMER</code> or <code>RD_KAFKA_PRODUCER</code>. Config is a hash with configuration parameters as described in <a href="https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md" class="podlinkurl"
+>https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md</a>, additionally it may include <code>default_topic_config</code> key, with a hash containing default topic configuration properties.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="brokers_add"
+>brokers_add</a></h2>
+
+<pre class="sh_perl">    $cnt = $kafka-&#62;brokers_add($brokers)</pre>
+
+<p>add one or more brokers to the list of initial bootstrap brokers. <i>$brokers</i> is a comma separated list of brokers in the format <code>[proto://]host[:port]</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="subscribe"
+>subscribe</a></h2>
+
+<pre class="sh_perl">    $err = $kafka-&#62;subscribe(\@topics)</pre>
+
+<p>subscribe to the list of topics using balanced consumer groups.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unsubscribe"
+>unsubscribe</a></h2>
+
+<pre class="sh_perl">    $err = $kafka-&#62;unsubscribe</pre>
+
+<p>unsubscribe from the current subscription set</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="subscription"
+>subscription</a></h2>
+
+<pre class="sh_perl">    $tplist = $kafka-&#62;subscription</pre>
+
+<p>return current subscriptions. Subscription returned as a reference to array of hashes with the following fields: <code>topic</code>, <code>partition</code>, <code>offset</code>, <code>metadata</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="assign"
+>assign</a></h2>
+
+<pre class="sh_perl">    $err = $kafka-&#62;assign(\@tplist)</pre>
+
+<p>assign partitions to consume. <code>@tplist</code> is an array of hashes with <code>topic</code> and <code>partition</code> fields set.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="assignment"
+>assignment</a></h2>
+
+<pre class="sh_perl">    $tplist = $kafka-&#62;assignment</pre>
+
+<p>return current assignment. Result returned in the same way as for <a href="#subscription" class="podlinkpod"
+>&#34;subscription&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="consumer_poll"
+>consumer_poll</a></h2>
+
+<pre class="sh_perl">    $msg = $kafka-&#62;consumer_poll($timeout_ms)</pre>
+
+<p>poll for messages or events. If any message or event received, returns <a href="#Kafka%3A%3ALibrd%3A%3AMessage" class="podlinkpod"
+>&#34;Kafka::Librd::Message&#34;</a> object. If <code>&#60;$msg-</code>err&#62;&#62; for returned object is zero (RD_KAFKA_RESP_ERR_NO_ERROR), then it is a proper message, otherwise it is an event or an error.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="commit"
+>commit</a></h2>
+
+<pre class="sh_perl">    $err = $kafka-&#62;commit(\@tplist, $async)</pre>
+
+<p>commit offsets to the broker. <code>@tplist</code> is an array of hashes with the following keys: <code>topic</code>, <code>partition</code>, <code>offset</code>, <code>metadata</code>. If @topic_partition_list is missing or undef, then current partition assignment is used instead. If <code>$async</code> is 1, then method returns immediately, if it is 0 or missing then method blocks until offsets are committed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="commit_message"
+>commit_message</a></h2>
+
+<pre class="sh_perl">    $err = $kafka-&#62;commit_message($msg, $async)</pre>
+
+<p>commit message&#39;s offset for the message&#39;s partition. <code>$async</code> same as for <a href="#commit" class="podlinkpod"
+>&#34;commit&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="committed"
+>committed</a></h2>
+
+<pre class="sh_perl">    $tplist = $kafka-&#62;committed(\@tplist, $timeout_ms)</pre>
+
+<p>retrieve committed offsets for topics and partitions specified in <code>@tplist</code>, which is an array of hashes with <code>topic</code> and <code>partition</code> fields. Returned <code>$tplist</code> contains a copy of the input list with added <code>offset</code> fields.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="position"
+>position</a></h2>
+
+<pre class="sh_perl">    $tplist = $kafka-&#62;position(\@tplist)</pre>
+
+<p>retrieve current offsets for topics and partitions specified in <code>@tplist</code>, which is an array of hashes with <code>topic</code> and <code>partition</code> fields. Returned <code>$tplist</code> contains a copy of the input list with added <code>offset</code> fields.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="consumer_close"
+>consumer_close</a></h2>
+
+<pre class="sh_perl">    $err = $kafka-&#62;consumer_close</pre>
+
+<p>close down the consumer</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="topic"
+>topic</a></h2>
+
+<pre class="sh_perl">    $topic = $kafka-&#62;topic($name, \%config)</pre>
+
+<p>Return a <a href="#Kafka%3A%3ALibrd%3A%3ATopic" class="podlinkpod"
+>topic</a> object, that can be used to produce messages.</p>
+
+<p>If an error occurs during creation of the topic, <code>undef</code> is returned. In such case use <a href="#Kafka%3A%3ALibrd%3A%3AError%3A%3Alast_error" class="podlinkpod"
+>&#34;Kafka::Librd::Error::last_error&#34;</a> to obtain the corresponding error code!</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="outq_len"
+>outq_len</a></h2>
+
+<pre class="sh_perl">    $len = $kafka-&#62;outq_len</pre>
+
+<p>return the current out queue length.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="flush"
+>flush</a></h2>
+
+<pre class="sh_perl">    $kafka-&#62;flush($timeout_ms)</pre>
+
+<p>wait until all outstanding produce requests, et.al, are completed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="destroy"
+>destroy</a></h2>
+
+<pre class="sh_perl">    $kafka-&#62;destroy</pre>
+
+<p>destroy kafka handle</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="dump"
+>dump</a></h2>
+
+<pre class="sh_perl">    $kafka-&#62;dump</pre>
+
+<p>dump internal state of kafka handle to stdout, only useful for debugging</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Kafka::Librd::Topic"
+>Kafka::Librd::Topic</a></h1>
+
+<p>This class maps to <code>rd_kafka_topic_t</code> structure from librdkafka and represents topic. It should be created with <a href="#topic" class="podlinkpod"
+>&#34;topic&#34;</a> method of Kafka::Librd object. It provides the following method:</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="produce"
+>produce</a></h2>
+
+<pre class="sh_perl">    $status = $topic-&#62;produce($partition, $msgflags, $payload, $key)</pre>
+
+<p>produce a message for the topic. <i>$msgflags</i> can be RD_KAFKA_MSG_F_BLOCK in the future, but currently it should be set to 0, RD_KAFKA_MSG_F_COPY and RD_KAFKA_MSG_F_FREE must not be used, internally RD_KAFKA_MSG_F_COPY is always set.</p>
+
+<p>The returned status is -1 in case of an error, otherwise 0. The error code can be retrieved using the <a href="#Kafka%3A%3ALibrd%3A%3AError%3A%3Alast_error" class="podlinkpod"
+>&#34;Kafka::Librd::Error::last_error&#34;</a> function.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="destroy"
+>destroy</a></h2>
+
+<pre class="sh_perl">    $topic-&#62;destroy</pre>
+
+<p>destroy topic handle</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Kafka::Librd::Message"
+>Kafka::Librd::Message</a></h1>
+
+<p>This class maps to <code>rd_kafka_message_t</code> structure from librdkafka and represents message or event. Objects of this class have the following methods:</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="err"
+>err</a></h2>
+
+<p>return error code from the message</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="topic"
+>topic</a></h2>
+
+<p>return topic name</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="partition"
+>partition</a></h2>
+
+<p>return partition number</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="offset"
+>offset</a></h2>
+
+<p>return offset. Note, that the value is truncated to 32 bit if your perl doesn&#39;t support 64 bit integers.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="key"
+>key</a></h2>
+
+<p>return message key</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="payload"
+>payload</a></h2>
+
+<p>return message payload</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="timestamp(\$tstype)"
+>timestamp(\$tstype)</a></h2>
+
+<p>return message timestamp (milliseconds since UNIX epoch)</p>
+
+<p>The $tstype argument is optional, and if present, it should be a scalar reference. It will be filled with one of the following values:</p>
+
+<ul>
+<li><code>Kafka::Librd::RD_KAFKA_TIMESTAMP_NOT_AVAILABLE</code></li>
+
+<li><code>Kafka::Librd::RD_KAFKA_TIMESTAMP_CREATE_TIME</code></li>
+
+<li><code>Kafka::Librd::RD_KAFKA_TIMESTAMP_LOG_APPEND_TIME</code></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Kafka::Librd::Error"
+>Kafka::Librd::Error</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Kafka::Librd::Error::to_string"
+>Kafka::Librd::Error::to_string</a></h2>
+
+<pre class="sh_perl">   my $error_message =  Kafka::Librd::Error::to_string($err)</pre>
+
+<p>Convert an error code into a human-readable error description. Use this for error codes returned by <a href="#Kafka%3A%3ALibrd%3A%3AError%3A%3Alast_error" class="podlinkpod"
+>&#34;Kafka::Librd::Error::last_error&#34;</a> and <a href="#err" class="podlinkpod"
+>Kafka::Librd::Message::err</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Kafka::Librd::Error::last_error"
+>Kafka::Librd::Error::last_error</a></h2>
+
+<pre class="sh_perl">    my $err = Kafka::Librd::Error::last_error</pre>
+
+<p>Retrieve the last error state set by function calls <a href="#topic" class="podlinkpod"
+>&#34;topic&#34;</a> and <a href="#produce" class="podlinkpod"
+>&#34;produce&#34;</a>. This function should be called immediately after those functions, since they store error information globally.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Message offset is truncated to 32 bit if perl compiled without support for 64 bit integers.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://github.com/edenhill/librdkafka" class="podlinkurl"
+>https://github.com/edenhill/librdkafka</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUGS"
+>BUGS</a></h1>
+
+<p>Please report any bugs or feature requests via GitHub bug tracker at <a href="http://github.com/uperl/Kafka-Librd/issues" class="podlinkurl"
+>http://github.com/uperl/Kafka-Librd/issues</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author Pavel Shaydo <code>&#60;zwon at cpan.org&#62;</code></p>
+
+<p>Current maintainer Graham Ollis <code>&#60;plicease@cpan.org&#62;</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE_AND_COPYRIGHT"
+>LICENSE AND COPYRIGHT</a></h1>
+
+<p>Copyright (C) 2016, 2017 Pavel Shaydo</p>
+
+<p>This program is free software; you can redistribute it and/or modify it under the terms of either: the GNU General Public License as published by the Free Software Foundation; or the Artistic License.</p>
+
+<p>See http://dev.perl.org/licenses/ for more information.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

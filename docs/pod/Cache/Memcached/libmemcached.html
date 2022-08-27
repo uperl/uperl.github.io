@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cache::Memcached::libmemcached</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Cache::Memcached::libmemcached</div>
+    <!--Cache::Memcached::libmemcached--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#Cache%3A%3AMemcached_COMPATIBLE_METHODS'>Cache::Memcached COMPATIBLE METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#Cache%3A%3AMemcached_options%3A'>Cache::Memcached options:</a>
+      <li class='indexItem indexItem3'><a href='#servers'>servers</a>
+      <li class='indexItem indexItem3'><a href='#compress_threshold'>compress_threshold</a>
+      <li class='indexItem indexItem3'><a href='#namespace'>namespace</a>
+      <li class='indexItem indexItem3'><a href='#debug'>debug</a>
+      <li class='indexItem indexItem3'><a href='#readonly%2C_no_rehash'>readonly, no_rehash</a>
+      <li class='indexItem indexItem3'><a href='#Options_specific_to_Cache%3A%3AMemcached%3A%3Alibmemcached%3A'>Options specific to Cache::Memcached::libmemcached:</a>
+      <li class='indexItem indexItem3'><a href='#compress_savings'>compress_savings</a>
+      <li class='indexItem indexItem3'><a href='#behavior_*'>behavior_*</a>
+      <li class='indexItem indexItem3'><a href='#no_block'>no_block</a>
+      <li class='indexItem indexItem3'><a href='#hashing_algorithm'>hashing_algorithm</a>
+      <li class='indexItem indexItem3'><a href='#distribution_method'>distribution_method</a>
+      <li class='indexItem indexItem3'><a href='#binary_protocol'>binary_protocol</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#set_servers'>set_servers</a>
+    <li class='indexItem indexItem2'><a href='#namespace'>namespace</a>
+    <li class='indexItem indexItem2'><a href='#get'>get</a>
+    <li class='indexItem indexItem2'><a href='#get_multi'>get_multi</a>
+    <li class='indexItem indexItem2'><a href='#set'>set</a>
+    <li class='indexItem indexItem2'><a href='#add'>add</a>
+    <li class='indexItem indexItem2'><a href='#replace'>replace</a>
+    <li class='indexItem indexItem2'><a href='#append'>append</a>
+    <li class='indexItem indexItem2'><a href='#prepend'>prepend</a>
+    <li class='indexItem indexItem2'><a href='#incr'>incr</a>
+    <li class='indexItem indexItem2'><a href='#decr'>decr</a>
+    <li class='indexItem indexItem2'><a href='#delete'>delete</a>
+    <li class='indexItem indexItem2'><a href='#remove'>remove</a>
+    <li class='indexItem indexItem2'><a href='#flush_all'>flush_all</a>
+    <li class='indexItem indexItem2'><a href='#set_compress_threshold'>set_compress_threshold</a>
+    <li class='indexItem indexItem2'><a href='#enable_compress'>enable_compress</a>
+    <li class='indexItem indexItem2'><a href='#stats'>stats</a>
+    <li class='indexItem indexItem2'><a href='#disconnect_all'>disconnect_all</a>
+    <li class='indexItem indexItem2'><a href='#cas'>cas</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Cache%3A%3AMemcached%3A%3AFast_COMPATIBLE_METHODS'>Cache::Memcached::Fast COMPATIBLE METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#server_versions'>server_versions</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Cache%3A%3AMemcached%3A%3Alibmemcached_SPECIFIC_METHODS'>Cache::Memcached::libmemcached SPECIFIC METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#server_add'>server_add</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#UTILITY_METHODS'>UTILITY METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#get_compress_threshold'>get_compress_threshold</a>
+    <li class='indexItem indexItem2'><a href='#set_compress_enable'>set_compress_enable</a>
+    <li class='indexItem indexItem2'><a href='#get_compress_enable'>get_compress_enable</a>
+    <li class='indexItem indexItem2'><a href='#set_compress_savings'>set_compress_savings</a>
+    <li class='indexItem indexItem2'><a href='#get_compress_savings'>get_compress_savings</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#BEHAVIOR_CUSTOMIZATION'>BEHAVIOR CUSTOMIZATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#set_no_block'>set_no_block</a>
+    <li class='indexItem indexItem2'><a href='#is_no_block'>is_no_block</a>
+    <li class='indexItem indexItem2'><a href='#set_distribution_method'>set_distribution_method</a>
+    <li class='indexItem indexItem2'><a href='#get_distribution_method'>get_distribution_method</a>
+    <li class='indexItem indexItem2'><a href='#set_hashing_algorithm'>set_hashing_algorithm</a>
+    <li class='indexItem indexItem2'><a href='#get_hashing_algorithm'>get_hashing_algorithm</a>
+    <li class='indexItem indexItem2'><a href='#set_binary_protocol'>set_binary_protocol</a>
+    <li class='indexItem indexItem2'><a href='#is_binary_protocol'>is_binary_protocol</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#OPTIMIZE_FLAG'>OPTIMIZE FLAG</a>
+  <li class='indexItem indexItem1'><a href='#VARIOUS_MEMCACHED_MODULES'>VARIOUS MEMCACHED MODULES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Cache%3A%3AMemcached'>Cache::Memcached</a>
+    <li class='indexItem indexItem2'><a href='#Cache%3A%3AMemcached%3A%3Alibmemcached'>Cache::Memcached::libmemcached</a>
+    <li class='indexItem indexItem2'><a href='#Cache%3A%3AMemcached%3A%3AFast'>Cache::Memcached::Fast</a>
+    <li class='indexItem indexItem2'><a href='#Memcached%3A%3Alibmemcached'>Memcached::libmemcached</a>
+    <li class='indexItem indexItem2'><a href='#Cache%3A%3AMemcached%3A%3AXS'>Cache::Memcached::XS</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#TODO'>TODO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Cache::Memcached::libmemcached - Cache interface to Memcached::libmemcached</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">  use Cache::Memcached::libmemcached;
+
+  my $memd = Cache::Memcached::libmemcached-&#62;new({
+      servers =&#62; [
+            &#34;10.0.0.15:11211&#34;,
+            [ &#34;10.0.0.15:11212&#34;, 2 ], # weight
+            &#34;/var/sock/memcached&#34;
+      ],
+      compress_threshold =&#62; 10_000,
+      # ... many more options supported
+  });
+
+  $memd-&#62;set(&#34;my_key&#34;, &#34;Some value&#34;);
+  $memd-&#62;set(&#34;object_key&#34;, { &#39;complex&#39; =&#62; [ &#34;object&#34;, 2, 4 ]});
+
+  $val = $memd-&#62;get(&#34;my_key&#34;);
+  $val = $memd-&#62;get(&#34;object_key&#34;);
+  print $val-&#62;{complex}-&#62;[2] if $val;
+
+  $memd-&#62;incr(&#34;key&#34;);
+  $memd-&#62;decr(&#34;key&#34;);
+  $memd-&#62;incr(&#34;key&#34;, 2);
+
+  $memd-&#62;delete(&#34;key&#34;);
+  $memd-&#62;remove(&#34;key&#34;); # Alias to delete
+
+  my $hashref = $memd-&#62;get_multi(@keys);
+
+  # Import Memcached::libmemcached constants - explicitly by name or by tags
+  # see Memcached::libmemcached::constants for a list
+  use Cache::Memcached::libmemcached qw(MEMCACHED_DISTRIBUTION_CONSISTENT);
+  use Cache::Memcached::libmemcached qw(
+      :defines
+      :memcached_allocated
+      :memcached_behavior
+      :memcached_callback
+      :memcached_connection
+      :memcached_hash
+      :memcached_return
+      :memcached_server_distribution
+  );
+
+  my $memd = Cache::Memcached::libmemcached-&#62;new({
+      distribution_method =&#62; MEMCACHED_DISTRIBUTION_CONSISTENT,
+      hashing_algorithm   =&#62; MEMCACHED_HASH_FNV1A_32,
+      behavior_... =&#62; ...,
+      ...
+  });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This is the Cache::Memcached compatible interface to libmemcached, a C library to interface with memcached.</p>
+
+<p>Cache::Memcached::libmemcached is built on top of Memcached::libmemcached. While Memcached::libmemcached aims to port libmemcached API to perl, Cache::Memcached::libmemcached attempts to be API compatible with Cache::Memcached, so it can be used as a drop-in replacement.</p>
+
+<p>Cache::Memcached::libmemcached <i>inherits</i> from Memcached::libmemcached. While you are free to use the Memcached::libmemcached specific methods directly on the object, doing so will mean that your code is no longer compatible with the original Cache::Memcached API therefore losing some of the portability in case you want to replace it with some other package.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached_COMPATIBLE_METHODS"
+>Cache::Memcached COMPATIBLE METHODS</a></h1>
+
+<p>Except for the minor incompatiblities, below methods are compatible with Cache::Memcached.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<p>Takes one parameter, a hashref of options.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached_options:"
+>Cache::Memcached options:</a></h3>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="servers"
+>servers</a></h3>
+
+<p>The value is passed to the <a href="#set_servers" class="podlinkpod"
+>&#34;set_servers&#34;</a> method.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="compress_threshold"
+>compress_threshold</a></h3>
+
+<p>Set a compression threshold, in bytes. Values larger than this threshold will be compressed by set and decompressed by get.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="namespace"
+>namespace</a></h3>
+
+<p>The value is passed to the <a href="#namespace" class="podlinkpod"
+>&#34;namespace&#34;</a> method.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="debug"
+>debug</a></h3>
+
+<p>Sets the <code>trace_level</code> for the Memcached::libmemcached object.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="readonly,_no_rehash"
+>readonly, no_rehash</a></h3>
+
+<p>These Cache::Memcached options are not supported.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Options_specific_to_Cache::Memcached::libmemcached:"
+>Options specific to Cache::Memcached::libmemcached:</a></h3>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="compress_savings"
+>compress_savings</a></h3>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="behavior_*"
+>behavior_*</a></h3>
+
+<p>Any of the <i>many</i> behaviors documented in <a href="https://metacpan.org/pod/Memcached%3A%3Alibmemcached%3A%3Amemcached_behavior" class="podlinkpod"
+>Memcached::libmemcached::memcached_behavior</a> can be specified by using argument key names that start with <code>behavior_</code>. For example:</p>
+
+<pre class="sh_perl">    behavior_ketama_weighted =&#62; 1,
+    behavior_noreply =&#62; 1,
+    behavior_number_of_replicas =&#62; 2,
+    behavior_server_failure_limit =&#62; 3,
+    behavior_auto_eject_hosts =&#62; 1,</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="no_block"
+>no_block</a></h3>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="hashing_algorithm"
+>hashing_algorithm</a></h3>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="distribution_method"
+>distribution_method</a></h3>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="binary_protocol"
+>binary_protocol</a></h3>
+
+<p>These are equivalent to the same options prefixed with <code>behavior_</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_servers"
+>set_servers</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;set_servers( [ &#39;serv1:port1&#39;, &#39;serv2:port2&#39;, ... ]);</pre>
+
+<p>Calls <a href="#server_add" class="podlinkpod"
+>&#34;server_add&#34;</a> for each element of the supplied arrayref. See <a href="#server_add" class="podlinkpod"
+>&#34;server_add&#34;</a> for details of valid values, including how to specify weights.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="namespace"
+>namespace</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;namespace;
+  $memd-&#62;namespace($string);</pre>
+
+<p>Without the argument return the current namespace prefix. With the argument set the namespace prefix to <i>$string</i>, and return the old prefix.</p>
+
+<p>The effect is to pefix all keys with the provided namespace value. That is, if you set namespace to &#34;app1:&#34; and later do a set of &#34;foo&#34; to &#34;bar&#34;, memcached is actually seeing you set &#34;app1:foo&#34; to &#34;bar&#34;.</p>
+
+<p>The namespace string must be less than 128 bytes (MEMCACHED_PREFIX_KEY_MAX_SIZE).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get"
+>get</a></h2>
+
+<pre class="sh_perl">  my $val = $memd-&#62;get($key);</pre>
+
+<p>Retrieves a key from the memcached. Returns the value (automatically thawed with Storable, if necessary) or undef.</p>
+
+<p>Currently the arrayref form of $key is NOT supported. Perhaps in the future.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_multi"
+>get_multi</a></h2>
+
+<pre class="sh_perl">  my $hashref = $memd-&#62;get_multi(@keys);</pre>
+
+<p>Retrieves multiple keys from the memcache doing just one query. Returns a hashref of key/value pairs that were available.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set"
+>set</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;set($key, $value[, $expires]);</pre>
+
+<p>Unconditionally sets a key to a given value in the memcache. Returns true if it was stored successfully.</p>
+
+<p>Currently the arrayref form of $key is NOT supported. Perhaps in the future.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add"
+>add</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;add($key, $value[, $expires]);</pre>
+
+<p>Like set(), but only stores in memcache if they key doesn&#39;t already exist.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="replace"
+>replace</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;replace($key, $value[, $expires]);</pre>
+
+<p>Like set(), but only stores in memcache if they key already exist.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="append"
+>append</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;append($key, $value);</pre>
+
+<p>Appends $value to whatever value associated with $key. Only available for memcached &#62; 1.2.4</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="prepend"
+>prepend</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;prepend($key, $value);</pre>
+
+<p>Prepends $value to whatever value associated with $key. Only available for memcached &#62; 1.2.4</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="incr"
+>incr</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="decr"
+>decr</a></h2>
+
+<pre class="sh_perl">  my $newval = $memd-&#62;incr($key);
+  my $newval = $memd-&#62;decr($key);
+
+  my $newval = $memd-&#62;incr($key, $offset);
+  my $newval = $memd-&#62;decr($key, $offset);</pre>
+
+<p>Atomically increments or decrements the specified the integer value specified by $key. Returns undef if the key doesn&#39;t exist on the server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="delete"
+>delete</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remove"
+>remove</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;delete($key);
+  $memd-&#62;delete($key, $time);</pre>
+
+<p>Deletes a key.</p>
+
+<p>If $time is non-zero then the item is marked for later expiration. Expiration works by placing the item into a delete queue, which means that it won&#39;t possible to retrieve it by the &#34;get&#34; command, but &#34;add&#34; and &#34;replace&#34; command with this key will also fail (the &#34;set&#34; command will succeed, however). After the time passes, the item is finally deleted from server memory.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="flush_all"
+>flush_all</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;fush_all;</pre>
+
+<p>Runs the memcached &#34;flush_all&#34; command on all configured hosts, emptying all their caches.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_compress_threshold"
+>set_compress_threshold</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;set_compress_threshold($threshold);</pre>
+
+<p>Set the compress threshold.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="enable_compress"
+>enable_compress</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;enable_compress($bool);</pre>
+
+<p>This is actually an alias to set_compress_enable(). The original version from Cache::Memcached is, despite its naming, a setter as well.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stats"
+>stats</a></h2>
+
+<pre class="sh_perl">  my $h = $memd-&#62;stats();
+  my $h = $memd-&#62;stats($keys);</pre>
+
+<p>Returns a hashref of statistical data regarding the memcache server(s), the $memd object, or both. $keys can be an arrayref of keys wanted, a single key wanted, or absent (in which case the default value is <code>[ &#39;&#39; ]</code>). For each key the <code>stats</code> command is run on each server.</p>
+
+<p>For example <code>&#60;$memd-</code>stats([ &#39;&#39;, &#39;sizes&#39; ])&#62;&#62; would return a structure like this:</p>
+
+<pre class="sh_perl">    {
+        hosts =&#62; {
+            &#39;N.N.N.N:P&#39; =&#62; {
+                misc =&#62; {
+                    ...
+                },
+                sizes =&#62; {
+                    ...
+                },
+            },
+            ...,
+        },
+        totals =&#62; {
+            ...
+        }
+    }</pre>
+
+<p>The general stats (where the key is &#34;&#34;) are returned with a key of <code>misc</code>. The <code>totals</code> element contains the aggregate totals for all hosts of some of the statistics.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="disconnect_all"
+>disconnect_all</a></h2>
+
+<p>Disconnects from servers</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cas"
+>cas</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;cas($key, $cas, $value[, $exptime]);</pre>
+
+<p>Overwrites data in the server as long as the &#34;cas&#34; value is still the same in the server.</p>
+
+<p>You can get the cas value of a result by calling memcached_result_cas() on a memcached_result_st(3) structure.</p>
+
+<p>Support for &#34;cas&#34; is disabled by default as there is a slight performance penalty. To enable it use the <code>support_cas</code> option to <a href="#new" class="podlinkpod"
+>&#34;new&#34;</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached::Fast_COMPATIBLE_METHODS"
+>Cache::Memcached::Fast COMPATIBLE METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="server_versions"
+>server_versions</a></h2>
+
+<pre class="sh_perl">    $href = $memd-&#62;server_versions;</pre>
+
+<p>Returns a reference to hash, where $href-&#62;{$server} holds corresponding server version string, e.g. &#34;1.4.4&#34;. $server is either host:port or /path/to/unix.sock.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached::libmemcached_SPECIFIC_METHODS"
+>Cache::Memcached::libmemcached SPECIFIC METHODS</a></h1>
+
+<p>These methods are libmemcached-specific.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="server_add"
+>server_add</a></h2>
+
+<pre class="sh_perl">    $self-&#62;server_add( $server_host_port );   # 10.10.10.10:11211
+    $self-&#62;server_add( $server_socket_path ); # /path/to/socket
+    $self-&#62;server_add( [ $server, $weight ] );
+    $self-&#62;server_add( { address =&#62; $server, weight =&#62; $weight } );</pre>
+
+<p>Adds a memcached server address with an optional weight (default 0).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="UTILITY_METHODS"
+>UTILITY METHODS</a></h1>
+
+<p>WARNING: Please do not consider the existance for these methods to be final. They may be renamed or may entirely disappear from future releases.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_compress_threshold"
+>get_compress_threshold</a></h2>
+
+<p>Return the current value of compress_threshold</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_compress_enable"
+>set_compress_enable</a></h2>
+
+<p>Set the value of compress_enable</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_compress_enable"
+>get_compress_enable</a></h2>
+
+<p>Return the current value of compress_enable</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_compress_savings"
+>set_compress_savings</a></h2>
+
+<p>Set the value of compress_savings</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_compress_savings"
+>get_compress_savings</a></h2>
+
+<p>Return the current value of compress_savings</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BEHAVIOR_CUSTOMIZATION"
+>BEHAVIOR CUSTOMIZATION</a></h1>
+
+<p>Memcached::libmemcached supports <i>many</i> &#39;behaviors&#39; that can be used to configure the behavior of the library and its interaction with the servers.</p>
+
+<p>Certain libmemcached behaviors can be configured with the following methods.</p>
+
+<p>(NOTE: This API is not fixed yet)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_no_block"
+>set_no_block</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;set_no_block( 1 );</pre>
+
+<p>Set to use blocking/non-blocking I/O. When this is in effect, get() becomes flaky, so don&#39;t attempt to call it. This has the most effect for set() operations, because libmemcached stops waiting for server response after writing to the socket (set() will also always return success).</p>
+
+<p>Please consult the man page for <code>memcached_behavior_set()</code> for details before setting.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_no_block"
+>is_no_block</a></h2>
+
+<p>Get the current value of no_block behavior.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_distribution_method"
+>set_distribution_method</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;set_distribution_method( MEMCACHED_DISTRIBUTION_CONSISTENT );</pre>
+
+<p>Set the distribution behavior.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_distribution_method"
+>get_distribution_method</a></h2>
+
+<p>Get the distribution behavior.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_hashing_algorithm"
+>set_hashing_algorithm</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;set_hashing_algorithm( MEMCACHED_HASH_KETAMA );</pre>
+
+<p>Set the hashing algorithm used.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_hashing_algorithm"
+>get_hashing_algorithm</a></h2>
+
+<p>Get the hashing algorithm used.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_binary_protocol"
+>set_binary_protocol</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_binary_protocol"
+>is_binary_protocol</a></h2>
+
+<pre class="sh_perl">  $memd-&#62;set_binary_protocol( 1 );
+  $binary = $memd-&#62;is_binary_protocol();</pre>
+
+<p>Use <code>set_binary_protocol</code> to enable/disable binary protocol. Use <code>is_binary_protocol</code> to determine the current setting.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIMIZE_FLAG"
+>OPTIMIZE FLAG</a></h1>
+
+<p>If you are 100% sure that you won&#39;t be using the master key support (where you provide an arrayref as the key) you can get about 4~5% performance boost by setting the environment variable named PERL_LIBMEMCACHED_OPTIMIZE to a true value <i>before</i> loading the module.</p>
+
+<p>This is an EXPERIMENTAL optimization and will possibly be replaced by implementing the methods in C in Memcached::libmemcached.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VARIOUS_MEMCACHED_MODULES"
+>VARIOUS MEMCACHED MODULES</a></h1>
+
+<p>Below are the various memcached modules available on CPAN.</p>
+
+<p>Please check tool/benchmark.pl for a live comparison of these modules. (except for Cache::Memcached::XS, which I wasn&#39;t able to compile under my main dev environment)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached"
+>Cache::Memcached</a></h2>
+
+<p>This is the &#34;original&#34; module. It&#39;s mostly written in Perl, is slow, and lacks significant features like support for the binary protocol.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached::libmemcached"
+>Cache::Memcached::libmemcached</a></h2>
+
+<p>Cache::Memcached::libmemcached, this module, is a perl binding for libmemcached (http://tangent.org/552/libmemcached.html). Not to be confused with libmemcache (see below).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached::Fast"
+>Cache::Memcached::Fast</a></h2>
+
+<p>Cache::Memcached::Fast is a memcached client written in XS from scratch. As of this writing benchmarks shows that Cache::Memcached::Fast is faster on get_multi(), and Cache::Memcached::libmemcached is faster on regular get()/set(). Cache::Memcached::Fast doesn&#39;t support the binary protocol.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Memcached::libmemcached"
+>Memcached::libmemcached</a></h2>
+
+<p>Memcached::libmemcached is a thin binding to the libmemcached C library and provides access to most of the libmemcached API.</p>
+
+<p>If you don&#39;t care about a drop-in replacement for Cache::Memcached, and want to benefit from the feature-rich efficient API that libmemcached offers, this is the way to go.</p>
+
+<p>Since the Memcached::libmemcached module is also the parent class of this module you can call Memcached::libmemcached methods directly.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Cache::Memcached::XS"
+>Cache::Memcached::XS</a></h2>
+
+<p>Cache::Memcached::XS is a binding for libmemcache (http://people.freebsd.org/~seanc/libmemcache/). The main memcached site at http://danga.com/memcached/apis.bml seems to indicate that the underlying libmemcache is no longer in active development. The module hasn&#39;t been updated since 2006.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="TODO"
+>TODO</a></h1>
+
+<p>Check and improve compatibility with Cache::Memcached::Fast.</p>
+
+<p>Add forget_dead_hosts() for greater Cache::Memcached compatibility?</p>
+
+<p>Treat PERL_LIBMEMCACHED_OPTIMIZE as the default and add a subclass that handles the arrayref master key concept. Then the custom methods (get set add replace prepend append cas delete) can then all be removed and the libmemcached ones used directly. Alternatively, add master key via array ref support to the methods in ::libmemcached. Either way the effect on performance should be significant.</p>
+
+<p>Redo tools/benchmarks.pl performance tests (ensuring that methods are not called in void context unless it&#39;s appropriate).</p>
+
+<p>Try using Cache::Memcached::Fast&#39;s test suite to test this module. Via private lib/Cache/Memcached/libmemcachedAsFast.pm wrapper.</p>
+
+<p>Implement automatic no-reply on calls in void context (like Cache::Memcached::Fast). That should yield a signigicant performance boost.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Copyright (c) 2008 Daisuke Maki &#60;daisuke@endeworks.jp&#62;</p>
+
+<p>With contributions by Tim Bunce.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<p>See http://www.perl.com/perl/misc/Artistic.html</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

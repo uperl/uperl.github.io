@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>App::Prove::Plugin::TermTableStty</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> App::Prove::Plugin::TermTableStty</div>
+    <!--App::Prove::Plugin::TermTableStty--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>App::Prove::Plugin::TermTableStty - Set the size of the console for Term::Table using stty size</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.03</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>From command-line:</p>
+
+<pre class="sh_perl"> prove -PTermTable</pre>
+
+<p>From .proverc:</p>
+
+<pre class="sh_perl"> -PTermTable</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Some of the <a href="https://metacpan.org/pod/Test2%3A%3ATools" class="podlinkpod"
+>Test2::Tools</a> provide some pretty tables for comparing deltas from failed tests. It tries to detect the size of the terminal so that long lines can be wrapped and the tables remain readable. Unfortunately when you run the tests under <code>prove</code>, <code>stdout</code> is redirected to a non-terminal and the size of the terminal cannot be detected. This plugin will detect the size of the terminal using <code>/dev/tty</code> instead of <code>stdout</code> and set the appropriate environment variable so that tables can be printed to use the entire terminal diameter.</p>
+
+<p>I understand why 80 columns is the default for when you do not know the size of a terminal, but really who here in 2018 is actually using an 80 column display? sigh.</p>
+
+<p>This module is similar to <a href="/pod/App/Prove/Plugin/TermTableStty.html" class="podlinkpod"
+>App::Prove::Plugin::TermTableStty</a> but has fewer prereqs and requires a platform that supports the <code>stty size</code> command.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test2"
+><a href="https://metacpan.org/pod/Test2" class="podlinkpod"
+>Test2</a></a></dt>
+
+<dd>
+<dt><a name="App::Prove"
+><a href="https://metacpan.org/pod/App%3A%3AProve" class="podlinkpod"
+>App::Prove</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

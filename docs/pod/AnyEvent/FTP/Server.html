@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Server</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::Server</div>
+    <!--AnyEvent::FTP::Server--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#hostname'>hostname</a>
+    <li class='indexItem indexItem2'><a href='#port'>port</a>
+    <li class='indexItem indexItem2'><a href='#default_context'>default_context</a>
+    <li class='indexItem indexItem2'><a href='#welcome'>welcome</a>
+    <li class='indexItem indexItem2'><a href='#bindport'>bindport</a>
+    <li class='indexItem indexItem2'><a href='#inet'>inet</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#start'>start</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Server - Simple asynchronous ftp server</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use AnyEvent;
+ use AnyEvent::FTP::Server;
+ 
+ my $server = AnyEvent::FTP::Server-&#62;new;
+ $server-&#62;start;
+ AnyEvent-&#62;condvar-&#62;recv;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><b>CAUTION</b> <a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a> hasn&#39;t been audited by anyone, including its author, in order to ensure that it is secure. It is intended to be used primarily in testing the companion client <a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a>. It can also be used to write your own context or personality (to use the <a href="https://metacpan.org/pod/Net%3A%3AFTPServer" class="podlinkpod"
+>Net::FTPServer</a> terminology) that use alternate back ends (say a database or memory store) that could theoretically be made to be secure, but you will need to carefully vett both the <a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a> code as well as your own customizations before you deploy on the Internet or on an untrusted network.</p>
+
+<p>This class is used for <a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a> server instances. Each time a client connects to the server a <a href="/pod/AnyEvent/FTP/Server/Connection.html" class="podlinkpod"
+>AnyEvent::FTP::Server::Connection</a> instance is created to manage the TCP connection. Each connection also has a <a href="/pod/AnyEvent/FTP/Server/Context.html" class="podlinkpod"
+>AnyEvent::FTP::Server::Context</a> which defines the behavior or personality of the server, and each context instance keeps track of the current directory, user authentication and authorization status of each connected client.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="hostname"
+>hostname</a></h2>
+
+<pre class="sh_perl"> my $hostname = $server-&#62;hostname;</pre>
+
+<p>Readonly, and should be assigned at the constructor. The hostname to listen on.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="port"
+>port</a></h2>
+
+<pre class="sh_perl"> my $port = $server-&#62;port;</pre>
+
+<p>The port to listen to. Default is 21 - a different port can be assigned at the constructor.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_context"
+>default_context</a></h2>
+
+<pre class="sh_perl"> my $context = $server-&#62;default_context;</pre>
+
+<p>Readonly: the default context class (can be set as a parameter in the constructor).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="welcome"
+>welcome</a></h2>
+
+<pre class="sh_perl"> my($code, $message) = @{ $server-&#62;welcome };</pre>
+
+<p>The welcome messages as key value pairs. Read only and can be overridden by the constructor.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="bindport"
+>bindport</a></h2>
+
+<pre class="sh_perl"> my $port = $server-&#62;bindport;
+ $server-&#62;bindport($port);</pre>
+
+<p>Retrieves or sets the TCP port to bind to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inet"
+>inet</a></h2>
+
+<pre class="sh_perl"> my $bool = $server-&#62;inet;</pre>
+
+<p>Readonly (assignable via the constructor). If true, then assume a TCP connection has been established by inet. The default (false) is to start a standalone server.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="start"
+>start</a></h2>
+
+<pre class="sh_perl"> $server-&#62;start;</pre>
+
+<p>Call this method to start the service.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://metacpan.org/pod/Net%3A%3AFTPServer" class="podlinkpod"
+>Net::FTPServer</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

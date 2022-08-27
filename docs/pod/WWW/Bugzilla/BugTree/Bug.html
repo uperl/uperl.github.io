@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>WWW::Bugzilla::BugTree::Bug</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> WWW::Bugzilla::<a href="/pod/WWW/Bugzilla/BugTree.html">BugTree</a>::Bug</div>
+    <!--WWW::Bugzilla::BugTree::Bug--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#url'>url</a>
+    <li class='indexItem indexItem2'><a href='#res'>res</a>
+    <li class='indexItem indexItem2'><a href='#id'>id</a>
+    <li class='indexItem indexItem2'><a href='#children'>children</a>
+    <li class='indexItem indexItem2'><a href='#as_string'>as_string</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>WWW::Bugzilla::BugTree::Bug - A bug tree returned from WWW::Bugzilla::BugTree</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents an individual bug returned from <a href="/pod/WWW/Bugzilla/BugTree.html" class="podlinkpod"
+>WWW::Bugzilla::BugTree</a>&#39;s <code>fetch</code> method.
+It is also a tree since it has a <code>children</code> accessor which returns the list of bugs that block this bug.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url"
+>url</a></h2>
+
+<pre class="sh_perl"> my $url = $bug-&#62;url;</pre>
+
+<p>The URL of the bug.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="res"
+>res</a></h2>
+
+<pre class="sh_perl"> my $res = $bug-&#62;res;</pre>
+
+<p>The raw <a href="https://metacpan.org/pod/HTTP%3A%3AResponse" class="podlinkpod"
+>HTTP::Response</a> object for the bug.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="id"
+>id</a></h2>
+
+<pre class="sh_perl"> my $id = $bug-&#62;id;</pre>
+
+<p>The bug id for the bug.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="children"
+>children</a></h2>
+
+<pre class="sh_perl"> my @children = $bug-&#62;children-&#62;@*;</pre>
+
+<p>The list of bugs that are blocking this one. This is a list of <a href="/pod/WWW/Bugzilla/BugTree/Bug.html" class="podlinkpod"
+>WWW::Bugzilla::BugTree::Bug</a> objects.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="as_string"
+>as_string</a></h2>
+
+<pre class="sh_perl"> my $string = $bug-&#62;as_string;
+ my $string = &#34;$bug&#34;;</pre>
+
+<p>Returns a human readable form of the string in the form of</p>
+
+<pre class="sh_perl"> &#34;id status (resolution) subject&#34;</pre>
+
+<p>if it has been resolved, and</p>
+
+<pre class="sh_perl"> &#34;id status subject&#34;</pre>
+
+<p>otherwise.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="/pod/bug_tree.html" class="podlinkpod"
+>bug_tree</a>, <a href="/pod/WWW/Bugzilla/BugTree.html" class="podlinkpod"
+>WWW::Bugzilla::BugTree</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

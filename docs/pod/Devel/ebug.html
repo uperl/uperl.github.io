@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Devel::ebug</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Devel::ebug</div>
+    <!--Devel::ebug--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#program'>program</a>
+    <li class='indexItem indexItem2'><a href='#load'>load</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#break_point'>break_point</a>
+    <li class='indexItem indexItem2'><a href='#break_on_load'>break_on_load</a>
+    <li class='indexItem indexItem2'><a href='#break_point_delete'>break_point_delete</a>
+    <li class='indexItem indexItem2'><a href='#break_point_subroutine'>break_point_subroutine</a>
+    <li class='indexItem indexItem2'><a href='#break_points'>break_points</a>
+    <li class='indexItem indexItem2'><a href='#break_points_with_condition'>break_points_with_condition</a>
+    <li class='indexItem indexItem2'><a href='#all_break_points_with_condition'>all_break_points_with_condition</a>
+    <li class='indexItem indexItem2'><a href='#codeline'>codeline</a>
+    <li class='indexItem indexItem2'><a href='#codelines'>codelines</a>
+    <li class='indexItem indexItem2'><a href='#eval'>eval</a>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+    <li class='indexItem indexItem2'><a href='#filenames'>filenames</a>
+    <li class='indexItem indexItem2'><a href='#finished'>finished</a>
+    <li class='indexItem indexItem2'><a href='#line'>line</a>
+    <li class='indexItem indexItem2'><a href='#next'>next</a>
+    <li class='indexItem indexItem2'><a href='#output'>output</a>
+    <li class='indexItem indexItem2'><a href='#package'>package</a>
+    <li class='indexItem indexItem2'><a href='#pad'>pad</a>
+    <li class='indexItem indexItem2'><a href='#return'>return</a>
+    <li class='indexItem indexItem2'><a href='#run'>run</a>
+    <li class='indexItem indexItem2'><a href='#step'>step</a>
+    <li class='indexItem indexItem2'><a href='#subroutine'>subroutine</a>
+    <li class='indexItem indexItem2'><a href='#stack_trace'>stack_trace</a>
+    <li class='indexItem indexItem2'><a href='#stack_trace_human'>stack_trace_human</a>
+    <li class='indexItem indexItem2'><a href='#undo'>undo</a>
+    <li class='indexItem indexItem2'><a href='#watch_point'>watch_point</a>
+    <li class='indexItem indexItem2'><a href='#yaml'>yaml</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Devel::ebug - A simple,
+extensible Perl debugger</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.64</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">  use Devel::ebug;
+  my $ebug = Devel::ebug-&#62;new;
+  $ebug-&#62;program(&#34;calc.pl&#34;);
+  $ebug-&#62;load;
+ 
+  print &#34;At line: &#34;       . $ebug-&#62;line       . &#34;\n&#34;;
+  print &#34;In subroutine: &#34; . $ebug-&#62;subroutine . &#34;\n&#34;;
+  print &#34;In package: &#34;    . $ebug-&#62;package    . &#34;\n&#34;;
+  print &#34;In filename: &#34;   . $ebug-&#62;filename   . &#34;\n&#34;;
+  print &#34;Code: &#34;          . $ebug-&#62;codeline   . &#34;\n&#34;;
+  $ebug-&#62;step;
+  $ebug-&#62;step;
+  $ebug-&#62;next;
+  my($stdout, $stderr) = $ebug-&#62;output;
+  my $actual_line = $ebug-&#62;break_point(6);
+  $ebug-&#62;break_point(6, &#39;$e == 4&#39;);
+  $ebug-&#62;break_point(&#34;t/Calc.pm&#34;, 29);
+  $ebug-&#62;break_point(&#34;t/Calc.pm&#34;, 29, &#39;$i == 2&#39;);
+  $ebug-&#62;break_on_load(&#34;t/Calc.pm&#34;);
+  my $actual_line = $ebug-&#62;break_point_subroutine(&#34;main::add&#34;);
+  $ebug-&#62;break_point_delete(29);
+  $ebug-&#62;break_point_delete(&#34;t/Calc.pm&#34;, 29);
+  my @filenames    = $ebug-&#62;filenames();
+  my @break_points = $ebug-&#62;break_points();
+  my @break_points = $ebug-&#62;break_points(&#34;t/Calc.pm&#34;);
+  my @break_points = $ebug-&#62;break_points_with_condition();
+  my @break_points = $ebug-&#62;break_points_with_condition(&#34;t/Calc.pm&#34;);
+  my @break_points = $ebug-&#62;all_break_points_with_condition();
+  $ebug-&#62;watch_point(&#39;$x &#62; 100&#39;);
+  my $codelines = $ebug-&#62;codelines(@span);
+  $ebug-&#62;run;
+  my $pad  = $ebug-&#62;pad;
+  foreach my $k (sort keys %$pad) {
+    my $v = $pad-&#62;{$k};
+    print &#34;Variable: $k = $v\n&#34;;
+  }
+  my $v = $ebug-&#62;eval(&#39;2 ** $exp&#39;);
+  my( $v, $is_exception ) = $ebug-&#62;eval(&#39;die 123&#39;);
+  my $y = $ebug-&#62;yaml(&#39;$z&#39;);
+  my @frames = $ebug-&#62;stack_trace;
+  my @frames2 = $ebug-&#62;stack_trace_human;
+  $ebug-&#62;undo;
+  $ebug-&#62;return;
+  print &#34;Finished!\n&#34; if $ebug-&#62;finished;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>A debugger is a computer program that is used to debug other programs. <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> is a simple, extensible Perl debugger with a clean API. Using this module, you may easily write a Perl debugger to debug your programs. Alternatively, it comes with an interactive debugger, <a href="/pod/ebug.html" class="podlinkpod"
+>ebug</a>.</p>
+
+<p>perl5db.pl, Perl&#39;s current debugger is currently 2,600 lines of magic and special cases. The code is nearly unreadable: fixing bugs and adding new features is fraught with difficulties. The debugger has no test suite which has caused breakage with changes that couldn&#39;t be properly tested. It will also not debug regexes. <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> is aimed at fixing these problems and delivering a replacement debugger which provides a well-tested simple programmatic interface to debugging programs. This makes it easier to build debuggers on top of <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a>, be they console-, curses-, GUI- or Ajax-based.</p>
+
+<p>There are currently two user interfaces to <a href="https://metacpan.org/pod/Devel%3A%3Adebug" class="podlinkpod"
+>Devel::debug</a>, <a href="/pod/ebug.html" class="podlinkpod"
+>ebug</a> and <a href="/pod/ebug_http.html" class="podlinkpod"
+>ebug_http</a>. <a href="/pod/ebug.html" class="podlinkpod"
+>ebug</a> is a console-based interface to debugging programs, much like perl5db.pl. <a href="/pod/ebug_http.html" class="podlinkpod"
+>ebug_http</a> is an innovative web-based interface to debugging programs.</p>
+
+<p>Note that if you&#39;re debugging a program, you can invoke the debugger in the program itself by using the INT signal:</p>
+
+<pre class="sh_perl">  kill 2, $$ if $square &#62; 100;</pre>
+
+<p><a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> is a work in progress.</p>
+
+<p>Internally, <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> consists of two parts. The frontend is <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a>, which you interact with. The frontend starts the code you are debugging in the background under the backend (running it under perl -d:ebug code.pl). The backend starts a TCP server, which the frontend then connects to, and uses this to drive the backend. This adds some flexibility in the debugger. There is some minor security in the client/server startup (a secret word), and a random port is used from 3141-4165 so that multiple debugging sessions can happen concurrently.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<p>The constructor creats a <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> object:</p>
+
+<pre class="sh_perl">  my $ebug = Devel::ebug-&#62;new;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="program"
+>program</a></h2>
+
+<p>The program method selects which program to load:</p>
+
+<pre class="sh_perl">  $ebug-&#62;program(&#34;calc.pl&#34;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="load"
+>load</a></h2>
+
+<p>The load method loads the program and gets ready to debug it:</p>
+
+<pre class="sh_perl">  $ebug-&#62;load;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="break_point"
+>break_point</a></h2>
+
+<p>The break_point method sets a break point in a program. If you are running through a program, the execution will stop at a break point. Break points can be set in a few ways.</p>
+
+<p>A break point can be set at a line number in the current file:</p>
+
+<pre class="sh_perl">  my $actual_line = $ebug-&#62;break_point(6);</pre>
+
+<p>A break point can be set at a line number in the current file with a condition that must be true for execution to stop at the break point:</p>
+
+<pre class="sh_perl">  my $actual_line = $ebug-&#62;break_point(6, &#39;$e = 4&#39;);</pre>
+
+<p>A break point can be set at a line number in a file:</p>
+
+<pre class="sh_perl">  my $actual_line = $ebug-&#62;break_point(&#34;t/Calc.pm&#34;, 29);</pre>
+
+<p>A break point can be set at a line number in a file with a condition that must be true for execution to stop at the break point:</p>
+
+<pre class="sh_perl">  my $actual_line = $ebug-&#62;break_point(&#34;t/Calc.pm&#34;, 29, &#39;$i == 2&#39;);</pre>
+
+<p>Breakpoints can not be set on some lines (for example comments); in this case a breakpoint will be set at the next breakable line, and the line number will be returned. If no such line exists, no breakpoint is set and the function returns <code>undef</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="break_on_load"
+>break_on_load</a></h2>
+
+<p>Set a breakpoint on file loading, the file name can be relative or absolute.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="break_point_delete"
+>break_point_delete</a></h2>
+
+<p>The break_point_delete method deletes an existing break point. A break point at a line number in the current file can be deleted:</p>
+
+<pre class="sh_perl">  $ebug-&#62;break_point_delete(29);</pre>
+
+<p>A break point at a line number in a file can be deleted:</p>
+
+<pre class="sh_perl">  $ebug-&#62;break_point_delete(&#34;t/Calc.pm&#34;, 29);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="break_point_subroutine"
+>break_point_subroutine</a></h2>
+
+<p>The break_point_subroutine method sets a break point in a program right at the beginning of the subroutine. The subroutine is specified with the full package name:</p>
+
+<pre class="sh_perl">  my $line = $ebug-&#62;break_point_subroutine(&#34;main::add&#34;);
+  $ebug-&#62;break_point_subroutine(&#34;Calc::fib&#34;);</pre>
+
+<p>The return value is the line at which the break point is set.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="break_points"
+>break_points</a></h2>
+
+<p>The break_points method returns a list of all the line numbers in a given file that have a break point set.</p>
+
+<p>Return the list of breakpoints in the current file:</p>
+
+<pre class="sh_perl">  my @break_points = $ebug-&#62;break_points();</pre>
+
+<p>Return the list of breakpoints in a given file:</p>
+
+<pre class="sh_perl">  my @break_points = $ebug-&#62;break_points(&#34;t/Calc.pm&#34;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="break_points_with_condition"
+>break_points_with_condition</a></h2>
+
+<p>The break_points method returns a list of break points for a given file.</p>
+
+<p>Return the list of breakpoints in the current file:</p>
+
+<pre class="sh_perl">  my @break_points = $ebug-&#62;break_points_with_condition();</pre>
+
+<p>Return the list of breakpoints in a given file:</p>
+
+<pre class="sh_perl">  my @break_points = $ebug-&#62;break_points_with_condition(&#34;t/Calc.pm&#34;);</pre>
+
+<p>Each element of the list has the form</p>
+
+<pre class="sh_perl">  { filename  =&#62; &#34;t/Calc.pm&#34;,
+    line      =&#62; 29,
+    condition =&#62; &#34;$foo &#62; 12&#34;,
+    }</pre>
+
+<p>where <code>condition</code> might not be present.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="all_break_points_with_condition"
+>all_break_points_with_condition</a></h2>
+
+<p>Like <code>break_points_with_condition</code> but returns a list of break points for the whole program.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="codeline"
+>codeline</a></h2>
+
+<p>The codeline method returns the line of code that is just about to be executed:</p>
+
+<pre class="sh_perl">  print &#34;Code: &#34;          . $ebug-&#62;codeline   . &#34;\n&#34;;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="codelines"
+>codelines</a></h2>
+
+<p>The codelines method returns lines of code.</p>
+
+<p>It can return all the code lines in the current file:</p>
+
+<pre class="sh_perl">  my @codelines = $ebug-&#62;codelines();</pre>
+
+<p>It can return a span of code lines from the current file:</p>
+
+<pre class="sh_perl">  my @codelines = $ebug-&#62;codelines(1, 3, 4, 5);</pre>
+
+<p>It can return all the code lines in a file:</p>
+
+<pre class="sh_perl">  my @codelines = $ebug-&#62;codelines(&#34;t/Calc.pm&#34;);</pre>
+
+<p>It can return a span of code lines in a file:</p>
+
+<pre class="sh_perl">  my @codelines = $ebug-&#62;codelines(&#34;t/Calc.pm&#34;, 5, 6);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="eval"
+>eval</a></h2>
+
+<p>The eval method evaluates Perl code in the current program and returns the result. If the evaluation results in an exception, <code>$@</code> is returned.</p>
+
+<pre class="sh_perl">  my $v = $ebug-&#62;eval(&#39;2 ** $exp&#39;);</pre>
+
+<p>In list context, eval also returns a flag indicating if the evaluation resulted in an exception.</p>
+
+<pre class="sh_perl">  my( $v, $is_exception ) = $ebug-&#62;eval(&#39;die 123&#39;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<p>The filename method returns the filename of the currently running code:</p>
+
+<pre class="sh_perl">  print &#34;In filename: &#34;   . $ebug-&#62;filename   . &#34;\n&#34;;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filenames"
+>filenames</a></h2>
+
+<p>The filenames method returns a list of the filenames of all the files currently loaded:</p>
+
+<pre class="sh_perl">  my @filenames = $ebug-&#62;filenames();</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="finished"
+>finished</a></h2>
+
+<p>The finished method returns whether the program has finished running:</p>
+
+<pre class="sh_perl">  print &#34;Finished!\n&#34; if $ebug-&#62;finished;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="line"
+>line</a></h2>
+
+<p>The line method returns the line number of the statement about to be executed:</p>
+
+<pre class="sh_perl">  print &#34;At line: &#34;       . $ebug-&#62;line       . &#34;\n&#34;;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="next"
+>next</a></h2>
+
+<p>The next method steps onto the next line in the program. It executes any subroutine calls but does not step through them.</p>
+
+<pre class="sh_perl">  $ebug-&#62;next;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="output"
+>output</a></h2>
+
+<p>The output method returns any content the program has output to either standard output or standard error:</p>
+
+<pre class="sh_perl">  my($stdout, $stderr) = $ebug-&#62;output;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="package"
+>package</a></h2>
+
+<p>The package method returns the package of the currently running code:</p>
+
+<pre class="sh_perl">  print &#34;In package: &#34;    . $ebug-&#62;package    . &#34;\n&#34;;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pad"
+>pad</a></h2>
+
+<pre class="sh_perl">  my $pad  = $ebug-&#62;pad;
+  foreach my $k (sort keys %$pad) {
+    my $v = $pad-&#62;{$k};
+    print &#34;Variable: $k = $v\n&#34;;
+  }</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="return"
+>return</a></h2>
+
+<p>The return subroutine returns from a subroutine. It continues running the subroutine, then single steps when the program flow has exited the subroutine:</p>
+
+<pre class="sh_perl">  $ebug-&#62;return;</pre>
+
+<p>It can also return your own values from a subroutine, for testing purposes:</p>
+
+<pre class="sh_perl">  $ebug-&#62;return(3.141);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="run"
+>run</a></h2>
+
+<p>The run subroutine starts executing the code. It will only stop on a break point or watch point.</p>
+
+<pre class="sh_perl">  $ebug-&#62;run;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="step"
+>step</a></h2>
+
+<p>The step method steps onto the next line in the program. It steps through into any subroutine calls.</p>
+
+<pre class="sh_perl">  $ebug-&#62;step;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="subroutine"
+>subroutine</a></h2>
+
+<p>The subroutine method returns the subroutine of the currently working code:</p>
+
+<pre class="sh_perl">  print &#34;In subroutine: &#34; . $ebug-&#62;subroutine . &#34;\n&#34;;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stack_trace"
+>stack_trace</a></h2>
+
+<p>The stack_trace method returns the current stack trace, using <a href="https://metacpan.org/pod/Devel%3A%3AStackTrace" class="podlinkpod"
+>Devel::StackTrace</a>. It returns a list of <a href="https://metacpan.org/pod/Devel%3A%3AStackTraceFrame" class="podlinkpod"
+>Devel::StackTraceFrame</a> methods:</p>
+
+<pre class="sh_perl">  my @traces = $ebug-&#62;stack_trace;
+  foreach my $trace (@traces) {
+    print $trace-&#62;package, &#34;-&#62;&#34;,$trace-&#62;subroutine,
+    &#34;(&#34;, $trace-&#62;filename, &#34;#&#34;, $trace-&#62;line, &#34;)\n&#34;;
+  }</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stack_trace_human"
+>stack_trace_human</a></h2>
+
+<p>The stack_trace_human method returns the current stack trace in a human-readable format:</p>
+
+<pre class="sh_perl">  my @traces = $ebug-&#62;stack_trace_human;
+  foreach my $trace (@traces) {
+    print &#34;$trace\n&#34;;
+  }</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="undo"
+>undo</a></h2>
+
+<p>The undo method undoes the last action. It accomplishes this by restarting the process and passing (almost) all the previous commands to it. Note that commands which do not change state are ignored. Commands that change state are: break_point, break_point_delete, break_point_subroutine, eval, next, step, return, run and watch_point.</p>
+
+<pre class="sh_perl">  $ebug-&#62;undo;</pre>
+
+<p>It can also undo multiple commands:</p>
+
+<pre class="sh_perl">  $ebug-&#62;undo(3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="watch_point"
+>watch_point</a></h2>
+
+<p>The watch point method sets a watch point. A watch point has a condition, and the debugger will stop running as soon as this condition is true:</p>
+
+<pre class="sh_perl">  $ebug-&#62;watch_point(&#39;$x &#62; 100&#39;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="yaml"
+>yaml</a></h2>
+
+<p>The eval method evaluates Perl code in the current program and returns the result of YAML&#39;s Dump() method:</p>
+
+<pre class="sh_perl">  my $y = $ebug-&#62;yaml(&#39;$z&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="perldebguts"
+><a href="https://metacpan.org/pod/perldebguts" class="podlinkpod"
+>perldebguts</a></a></dt>
+
+<dd>
+<p>The guts of debugging Perl</p>
+
+<dt><a name="Devel::Chitin"
+><a href="https://metacpan.org/pod/Devel%3A%3AChitin" class="podlinkpod"
+>Devel::Chitin</a></a></dt>
+
+<dd>
+<p>A class that exposes the Perl debugging facilities as an API, with some functional overlap with <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a>.</p>
+
+<dt><a name="ebug"
+><a href="/pod/ebug.html" class="podlinkpod"
+>ebug</a></a></dt>
+
+<dd>
+<p>Command-line interface to <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a></p>
+
+<dt><a name="ebug_http"
+><a href="/pod/ebug_http.html" class="podlinkpod"
+>ebug_http</a></a></dt>
+
+<dd>
+<p>Web based interface to <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a></p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p><a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> does not support Perls prior to 5.10.1.</p>
+
+<p><a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> does not handle signals under Windows.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: Leon Brocard &#60;acme@astray.com&#62;</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Brock Wilcox &#60;awwaiid@thelackthereof.org&#62;</p>
+
+<p>Taisuke Yamada</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2005-2021 by Leon Brocard.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

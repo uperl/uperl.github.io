@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Time::JulianDay</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Time::JulianDay</div>
+    <!--Time::JulianDay--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ERRATA'>ERRATA</a>
+  <li class='indexItem indexItem1'><a href='#GENESIS'>GENESIS</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Time::JulianDay -- Julian calendar manipulations</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">        use Time::JulianDay
+
+        $jd = julian_day($year, $month_1_to_12, $day)
+        $jd = local_julian_day($seconds_since_1970);
+        $jd = gm_julian_day($seconds_since_1970);
+        ($year, $month_1_to_12, $day) = inverse_julian_day($jd)
+        $dow = day_of_week($jd) 
+
+        print (Sun,Mon,Tue,Wed,Thu,Fri,Sat)[$dow];
+
+        $seconds_since_jan_1_1970 = jd_secondslocal($jd, $hour, $min, $sec)
+        $seconds_since_jan_1_1970 = jd_secondsgm($jd, $hour, $min, $sec)
+        $seconds_since_jan_1_1970 = jd_timelocal($sec,$min,$hours,$mday,$month_0_to_11,$year)
+        $seconds_since_jan_1_1970 = jd_timegm($sec,$min,$hours,$mday,$month_0_to_11,$year)</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>JulianDay is a package that manipulates dates as number of days since some time a long time ago. It&#39;s easy to add and subtract time using julian days...</p>
+
+<p>The day_of_week returned by day_of_week() is 0 for Sunday, and 6 for Saturday and everything else is in between.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ERRATA"
+>ERRATA</a></h1>
+
+<p>Time::JulianDay is not a correct implementation. There are two problems. The first problem is that Time::JulianDay only works with integers. Julian Day can be fractional to represent time within a day. If you call inverse_julian_day() with a non-integer time, it will often give you an incorrect result.</p>
+
+<p>The second problem is that Julian Days start at noon rather than midnight. The julian_day() function returns results that are too large by 0.5.</p>
+
+<p>What to do about these problems is currently open for debate. I&#39;m tempted to leave the current functions alone and add a second set with more accurate behavior.</p>
+
+<p>There is another implementation in Astro::Time that may be more accurate.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="GENESIS"
+>GENESIS</a></h1>
+
+<p>Written by David Muir Sharnoff &#60;cpan@dave.sharnoff.org&#62; with help from previous work by Kurt Jaeger aka PI &#60;zrzr0111@helpdesk.rus.uni-stuttgart.de&#62; based on postings from: Ian Miller &#60;ian_m@cix.compulink.co.uk&#62;; Gary Puckering &#60;garyp%cognos.uucp@uunet.uu.net&#62; based on Collected Algorithms of the ACM ?; and the unknown-to-me author of Time::Local.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>Copyright (C) 1996-1999 David Muir Sharnoff. License hereby granted for anyone to use, modify or redistribute this module at their own risk. Please feed useful changes back to cpan@dave.sharnoff.org.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

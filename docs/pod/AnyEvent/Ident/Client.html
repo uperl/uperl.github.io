@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Ident::Client</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/Ident.html">Ident</a>::Client</div>
+    <!--AnyEvent::Ident::Client--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#hostname'>hostname</a>
+    <li class='indexItem indexItem2'><a href='#port'>port</a>
+    <li class='indexItem indexItem2'><a href='#on_error'>on_error</a>
+    <li class='indexItem indexItem2'><a href='#response_close'>response_close</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#ident'>ident</a>
+    <li class='indexItem indexItem2'><a href='#close'>close</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Ident::Client - Simple asynchronous ident client</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use AnyEvent::Ident::Client;
+ 
+ my $client = AnyEvent::Ident::Client-&#62;new( hostname =&#62; 127.0.0.1&#39; );
+ $client-&#62;ident($server_port, $client_port, sub {
+   my($res) = @_; # isa AnyEvent::Client::Response 
+   if($res-&#62;is_success)
+   {
+     print &#34;user: &#34;, $res-&#62;username, &#34;\n&#34;;
+     print &#34;os:   &#34;, $res-&#62;os, &#34;\n&#34;;
+   }
+   else
+   {
+     warn &#34;Ident error: &#34; $res-&#62;error_type;
+   }
+ });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<pre class="sh_perl"> my $client = AnyEvent::Ident::Client-&#62;new(%args);</pre>
+
+<p>The constructor takes the following optional arguments:</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="hostname"
+>hostname</a></h2>
+
+<p>default 127.0.0.1</p>
+
+<p>The hostname to connect to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="port"
+>port</a></h2>
+
+<p>default 113</p>
+
+<p>The port to connect to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="on_error"
+>on_error</a></h2>
+
+<p>default carp error</p>
+
+<p>A callback subref to be called on error (either connection or transmission error). Passes the error string as the first argument to the callback.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="response_close"
+>response_close</a></h2>
+
+<p>default <a href="/pod/AnyEvent/Ident/Response.html" class="podlinkpod"
+>AnyEvent::Ident::Response</a></p>
+
+<p>Bless the response object into the given class. This class SHOULD inherit from <a href="/pod/AnyEvent/Ident/Response.html" class="podlinkpod"
+>AnyEvent::Ident::Response</a>, or at least mimic its interface. This allows you to define your own methods for the response class.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ident"
+>ident</a></h2>
+
+<pre class="sh_perl"> $client-&#62;ident( $server_port, $client_port, $callback );</pre>
+
+<p>Send an ident request to the ident server with the given TCP port pair. The callback will be called when the response is returned from the server. Its only argument will be an instance of <a href="/pod/AnyEvent/Ident/Response.html" class="podlinkpod"
+>AnyEvent::Ident::Response</a>.</p>
+
+<p>On the first call to this method, a connection to the ident server is opened, and will remain open until <code>close</code> (see below) is called, or if the <code>$client</code> object falls out of scope.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="close"
+>close</a></h2>
+
+<pre class="sh_perl"> $client-&#62;close;</pre>
+
+<p>Close the connection to the ident server. Requests that are in progress will receive an error response with the type <code>UNKNOWN-ERROR</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

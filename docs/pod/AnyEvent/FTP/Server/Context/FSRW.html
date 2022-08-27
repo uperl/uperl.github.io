@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Server::Context::FSRW</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::<a href="/pod/AnyEvent/FTP/Server.html">Server</a>::<a href="/pod/AnyEvent/FTP/Server/Context.html">Context</a>::FSRW</div>
+    <!--AnyEvent::FTP::Server::Context::FSRW--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#SUPER_CLASS'>SUPER CLASS</a>
+  <li class='indexItem indexItem1'><a href='#ROLES'>ROLES</a>
+  <li class='indexItem indexItem1'><a href='#COMMANDS'>COMMANDS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Server::Context::FSRW - FTP Server client context class with full read/write access</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use AnyEvent::FTP::Server;
+ 
+ my $server = AnyEvent::FTP::Server-&#62;new(
+   default_context =&#62; &#39;AnyEvent::FTP::Server::Context::FSRW&#39;,
+ );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class provides a context for <a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a> which uses the actual filesystem to provide storage.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SUPER_CLASS"
+>SUPER CLASS</a></h1>
+
+<p>This class inherits from</p>
+
+<p><a href="/pod/AnyEvent/FTP/Server/Context/FS.html" class="podlinkpod"
+>AnyEvent::FTP::Server::Context::FS</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ROLES"
+>ROLES</a></h1>
+
+<p>This class consumes these roles:</p>
+
+<blockquote>
+<p><a href="/pod/AnyEvent/FTP/Server/Role/TransferPrep.html" class="podlinkpod"
+>AnyEvent::FTP::Server::Role::TransferPrep</a></p>
+</blockquote>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COMMANDS"
+>COMMANDS</a></h1>
+
+<p>In addition to the commands provided by the above roles, and super class, this context provides these FTP commands:</p>
+
+<dl>
+<dt><a name="RETR"
+>RETR</a></dt>
+
+<dd>
+<dt><a name="NLST"
+>NLST</a></dt>
+
+<dd>
+<dt><a name="LIST"
+>LIST</a></dt>
+
+<dd>
+<dt><a name="STOR"
+>STOR</a></dt>
+
+<dd>
+<dt><a name="APPE"
+>APPE</a></dt>
+
+<dd>
+<dt><a name="STOU"
+>STOU</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

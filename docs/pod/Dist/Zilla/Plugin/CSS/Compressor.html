@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dist::Zilla::Plugin::CSS::Compressor</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Dist::Zilla::Plugin::CSS::Compressor</div>
+    <!--Dist::Zilla::Plugin::CSS::Compressor--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#finder'>finder</a>
+    <li class='indexItem indexItem2'><a href='#output_regex'>output_regex</a>
+    <li class='indexItem indexItem2'><a href='#output'>output</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#%24plugin-%3Egather_files(_%24arg_)'>$plugin-&#62;gather_files( $arg )</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Dist::Zilla::Plugin::CSS::Compressor - Compress CSS files</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> [CSS::Compressor]</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Compress CSS files in your distribution using <a href="https://metacpan.org/pod/CSS%3A%3ACompressor" class="podlinkpod"
+>CSS::Compressor</a>. By default for each <code>foo.css</code> file in your distribution this plugin will create a <code>foo.min.css</code> which has been compressed.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="finder"
+>finder</a></h2>
+
+<p>Specifies a <a href="https://metacpan.org/pod/Dist%3A%3AZilla%3A%3ARole%3A%3AFileFinder" class="podlinkpod"
+>FileFinder</a> for the CSS files that you want compressed. If this is not specified, it will compress all the CSS files that do not have a <code>.min.</code> in their filenames. Roughly equivalent to this:</p>
+
+<pre class="sh_perl"> [FileFinder::ByName / CSSFiles]
+ file = *.css
+ skip = .min.
+ [CSS::Compressor]
+ finder = CSSFile</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="output_regex"
+>output_regex</a></h2>
+
+<p>Regular expression substitution used to generate the output filenames. By default this is</p>
+
+<pre class="sh_perl"> [CSS::Compressor]
+ output_regex = /\.css$/.min.css/</pre>
+
+<p>which generates a <code>foo.min.css</code> for each <code>foo.css</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="output"
+>output</a></h2>
+
+<p>Output filename. Not used by default, but if specified, all CSS files are merged and compressed into a single file using this as the output filename.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$plugin-&#62;gather_files(_$arg_)"
+>$plugin-&#62;gather_files( $arg )</a></h2>
+
+<p>This method adds the compressed CSS files to your distribution.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

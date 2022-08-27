@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Text::HumanComputerWords</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Text::HumanComputerWords</div>
+    <!--Text::HumanComputerWords--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#default_perl'>default_perl</a>
+    <li class='indexItem indexItem2'><a href='#split'>split</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Text::HumanComputerWords - Split human and computer words in a naturalish manner</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Text::HumanComputerWords;
+ 
+ my $hcw = Text::HumanComputerWords-&#62;new(
+   Text::HumanComputerWords-&#62;default_perl,
+ );
+ 
+ my $text = &#34;this is some text with a url: https://metacpan.org, &#34;
+          . &#34;a unix path name: /usr/local/bin &#34;
+          . &#34;and a windows path name: c:\\Windows&#34;;
+ 
+ foreach my $combo ($hcw-&#62;split($text))
+ {
+   my($type, $word) = @$combo;
+   if($type eq &#39;word&#39;)
+   {
+     # $word is a regular human word
+     # this, is, some, etc.
+   }
+   elsif($type eq &#39;module&#39;)
+   {
+     # $word looks like a module
+   }
+   elsif($type eq &#39;url_link&#39;)
+   {
+     # $word looks like a URL
+     # https://metacpan.org,
+   }
+   elsif($type eq &#39;path_name&#39;)
+   {
+     # $word looks like a windows or unix filename
+     # /usr/local/bin
+     # c:\\Windows
+   }
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module extracts human and computer words from text. This is useful for checking the validity of these words. Human words can be checked for spelling, while &#34;computer&#34; words like URLs can be validated by other means. URLs for example could be checked for 404s and module names could be checked against a module registry like CPAN.</p>
+
+<p>The algorithm works like thus:</p>
+
+<dl>
+<dt><a name="1._The_text_is_split_on_whitespace_into_fragments_/\s/"
+>1. The text is split on whitespace into fragments <code>/\s/</code></a></dt>
+
+<dd>
+<p>fragments could be either a single computer word like a URL or a module, or it could be one or more human words. If a fragment doesn&#39;t contain any word characters then it is skipped entirely <code>/\w/</code>.</p>
+
+<dt><a name="2._If_the_fragment_is_recognized_as_a_computer_word_we_are_done."
+>2. If the fragment is recognized as a computer word we are done.</a></dt>
+
+<dd>
+<p>Computer words can be defined any way you want. The <code>default_perl</code> method below is reasonable for Perl technical documentation.</p>
+
+<dt><a name="3._Split_the_fragment_into_words_using_the_Unicode_word_boundary_/\b{wb}/"
+>3. Split the fragment into words using the Unicode word boundary <code>/\b{wb}/</code></a></dt>
+
+<dd>
+<p>After the split words are identified as those containing word characters <code>/\w/</code>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $hcw = Text::HumanComputerWords-&#62;new(@cpu);</pre>
+
+<p>Creates a new instance of the splitter class. The <code>@cpu</code> pairs lets you specify the logic for identifying &#34;computer&#34; words. The keys are the type names and the values are code references that identify those words. These are special reserved types:</p>
+
+<dl>
+<dt><a name="skip"
+>skip</a></dt>
+
+<dd>
+<pre class="sh_perl"> Text::HumanComputerWords-&#62;new(
+   skip =&#62; sub ($word) {
+     # return true if $word should be skipped entirely
+   },
+ );</pre>
+
+<p>This is a code reference which should return true, if the <code>$word</code> should be skipped entirely. The default skip code reference always returns false.</p>
+
+<dt><a name="substitute"
+>substitute</a></dt>
+
+<dd>
+<pre class="sh_perl"> Text::HumanComputerWord-&#62;new(
+   substitute =&#62; sub {
+     # the value is passed in as $_ and can be modified
+   },
+ );</pre>
+
+<p>This allows you to substitute the current word. The main intent here is to allow supporting splitting CamelCase and snakeCase into separate words, so they can be checked as human words. Example:</p>
+
+<pre class="sh_perl"> Text::HumanComputerWords-&#62;new(
+   substitute =&#62; sub {
+     # this should split both CamelCase and snakeCase
+     s/([A-Z]+)/ $1/g if /^[a-z]+$/i &#38;&#38; lcfirst($_) ne lc $_;
+   },
+ ),</pre>
+
+<dt><a name="word"
+>word</a></dt>
+
+<dd>
+<pre class="sh_perl"> Text::HumanComputerWords-&#62;new(
+   word =&#62; sub ($word) {},  # error
+ );</pre>
+
+<p>The <code>word</code> type is reserved for human words, and cannot be overridden.</p>
+</dd>
+</dl>
+
+<p>The order of the pairs matters and a type can be specified more than once. If a given computer word matches multiple types it will only be reported as the first type matches. Example:</p>
+
+<pre class="sh_perl"> Text::HumanComputerWords-&#62;new(
+   foo_or_bar =&#62; sub ($word) { $word eq &#39;foo&#39; },
+   foo_or_bar =&#62; sub ($word) { $word eq &#39;bar&#39; },
+ );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_perl"
+>default_perl</a></h2>
+
+<pre class="sh_perl"> my @cpu = Text::HumanComputerWords-&#62;default_perl;</pre>
+
+<p>Returns the computer word pairs reasonable for a technical Perl document. These pairs should be passed into <a href="#new" class="podlinkpod"
+>&#34;new&#34;</a>, optionally with extra pairs if you like, for example:</p>
+
+<pre class="sh_perl"> my $hcw = Text::HumanComputerWords-&#62;new(
+ 
+   # this needs to come first so that platypus modules are recognized before
+   # non-platypus modules in the default rule set
+   platypus_module =&#62; sub ($word) { $word =~ /^FFI::Platypus(::[A-Za-z0-9_]+)*$/ },
+ 
+   # the normal Perl rules.
+   Text::HumanComputerWords-&#62;default_perl,
+ 
+   # this can go anywhere, but we check for it last.
+   plus_one =&#62; sub ($word) { $word eq &#39;+1&#39; },
+ );</pre>
+
+<p>By itself, this returns pairs that will recognize these types:</p>
+
+<dl>
+<dt><a name="path_name"
+>path_name</a></dt>
+
+<dd>
+<p>A file system path. Something that looks like a UNIX or Windows filename or directory path.</p>
+
+<dt><a name="url_link"
+>url_link</a></dt>
+
+<dd>
+<p>A URL. The regex to recognize a URL is naive so if the URLs need to be validated they should be done separately.</p>
+
+<dt><a name="module"
+>module</a></dt>
+
+<dd>
+<p>A Perl module name. <code>Something::Like::This</code>.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="split"
+>split</a></h2>
+
+<pre class="sh_perl"> my @pairs = $hcw-&#62;split($text);</pre>
+
+<p>This method splits the text into word combo pairs. Each pair is returned as an array reference. The first element is the type, and the second is the word. The types are as defined when the <code>$hcw</code> object is created, plus the <code>word</code> type for human words.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Doesn&#39;t recognize VMS paths! Oh noes!</p>
+
+<p>The <code>default_perl</code> method provides computer &#34;words&#34; that are identified with a regular expression which is somewhat reasonable, but probably has a few false positives or negatives, and doesn&#39;t do any validation for things like URLs or modules. Modules like <a href="https://metacpan.org/pod/strict" class="podlinkpod"
+>strict</a> or <a href="https://metacpan.org/pod/warnings" class="podlinkpod"
+>warnings</a> that do not have a <code>::</code> cannot be recognized.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

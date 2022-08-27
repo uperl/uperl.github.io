@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::FTP::Client::Transfer</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/FTP.html">FTP</a>::<a href="/pod/AnyEvent/FTP/Client.html">Client</a>::Transfer</div>
+    <!--AnyEvent::FTP::Client::Transfer--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ROLES'>ROLES</a>
+  <li class='indexItem indexItem1'><a href='#EVENTS'>EVENTS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#open'>open</a>
+    <li class='indexItem indexItem2'><a href='#close'>close</a>
+    <li class='indexItem indexItem2'><a href='#eof'>eof</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#cb'>cb</a>
+    <li class='indexItem indexItem2'><a href='#ready'>ready</a>
+    <li class='indexItem indexItem2'><a href='#recv'>recv</a>
+    <li class='indexItem indexItem2'><a href='#remote_name'>remote_name</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::FTP::Client::Transfer - Transfer class for asynchronous ftp client</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use AnyEvent::FTP::Client;
+ my $client = AnyEvent::FTP::Client;
+ $client-&#62;connect(&#39;ftp://ftp.cpan.org&#39;)-&#62;cb(sub {
+ 
+   # $upload_transfer and $download_transfer are instances of
+   # AnyEvent::FTP::Client::Transfer
+   my $upload_transfer = $client-&#62;stor(&#39;remote_filename.txt&#39;, &#39;content&#39;);
+ 
+   my $buffer;
+   my $download_transfer = $client-&#62;retr(&#39;remote_filename.txt&#39;, \$buffer);
+ 
+ });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents a file transfer with a remote server. Transfers may be initiated between a remote file name and a local object. The local object may be a regular scalar, reference to a scalar or a file handle, for details, see the <code>stor</code>, <code>stou</code>, <code>appe</code> and <code>retr</code> methods in <a href="/pod/AnyEvent/FTP/Client.html" class="podlinkpod"
+>AnyEvent::FTP::Client</a>.</p>
+
+<p>This documentation covers what you can do with the transfer object once it has been initiated.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ROLES"
+>ROLES</a></h1>
+
+<p>This class consumes these roles:</p>
+
+<ul>
+<li><a href="/pod/AnyEvent/FTP/Role/Event.html" class="podlinkpod"
+>AnyEvent::FTP::Role::Event</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EVENTS"
+>EVENTS</a></h1>
+
+<p>This class provides these events:</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open"
+>open</a></h2>
+
+<p>Emitted when the data connection is opened, and passes in as its first argument the <a href="https://metacpan.org/pod/AnyEvent%3A%3AHandle" class="podlinkpod"
+>AnyEvent::Handle</a> instance used to transfer the file.</p>
+
+<pre class="sh_perl"> $xfer-&#62;on_open(sub {
+   my($handle) = @_;
+   # $handle isa AnyEvent::Handle
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="close"
+>close</a></h2>
+
+<p>Emitted when the transfer is complete, either due to a successful transfer or the server returned a failure status. Passes in the final <a href="/pod/AnyEvent/FTP/Client/Response.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Response</a> message associated with the transfer.</p>
+
+<pre class="sh_perl"> $xfer-&#62;on_close(sub {
+   my($res) = @_;
+   # $res isa AnyEvent::FTP::Client::Response
+ });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="eof"
+>eof</a></h2>
+
+<p>Emitted when the data connection closes.</p>
+
+<pre class="sh_perl"> $xfer-&#62;on_eof(sub {
+   # no args passed in
+ });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="cb"
+>cb</a></h2>
+
+<p>Register a callback with the transfer to be executed when the transfer successfully completes, or fails. Works exactly like the <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> condition variable <code>cb</code> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ready"
+>ready</a></h2>
+
+<p>Returns true if the transfer has completed (either successfully or not). If true, then it is safe to call <code>recv</code> to retrieve the response (Some event loops do not support calling <code>recv</code> before there is a message waiting).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="recv"
+>recv</a></h2>
+
+<p>Retrieve the <a href="/pod/AnyEvent/FTP/Client/Response.html" class="podlinkpod"
+>AnyEvent::FTP::Client::Response</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remote_name"
+>remote_name</a></h2>
+
+<p>For <code>STOU</code> transfers ONLY, this returns the remote file name.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

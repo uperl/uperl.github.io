@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Win32::Process::Info::PT</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Win32::Process::<a href="/pod/Win32/Process/Info.html">Info</a>::PT</div>
+    <!--Win32::Process::Info::PT--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#REQUIREMENTS'>REQUIREMENTS</a>
+  <li class='indexItem indexItem1'><a href='#ACKNOWLEDGMENTS'>ACKNOWLEDGMENTS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Win32::Process::Info::PT - Provide process information via Proc::ProcessTable.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>This package fetches process information on a given machine,
+using Dan Urist&#39;s <b>Proc::ProcessTable</b>.
+This makes the &#39;Win32::&#39; part of our name bogus,
+but lets one use the same basic interface under a wider range of operating systems.</p>
+
+<pre class="sh_perl"> use Win32::Process::Info
+ $pi = Win32::Process::Info-&#62;new (undef, &#39;PT&#39;);
+ $pi-&#62;Set (elapsed_as_seconds =&#62; 0);    # In clunks, not seconds.
+ @pids = $pi-&#62;ListPids ();      # Get all known PIDs
+ @info = $pi-&#62;GetProcInfo ();   # Get the max</pre>
+
+<p>CAVEAT USER:</p>
+
+<p>This package does not support access to a remote machine, because the underlying API doesn&#39;t. If you specify a machine name (other than &#39;&#39;, 0, or undef) when you instantiate a new Win32::Process::Info::PT object, you will get an exception.</p>
+
+<p>This package is <b>not</b> intended to be used independently; instead, it is a subclass of Win32::Process::Info, and should only be called via that package.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>The main purpose of the Win32::Process::Info::PT package is to get whatever information is convenient (for the author!) about one or more processes. GetProcInfo (which see) is therefore the most-important method in the package. See it for more information.</p>
+
+<p>This package returns whatever process IDs are made available by Proc::ProcessTable. Under Cygwin, this seems to mean Cygwin process IDs, not Windows process IDs.</p>
+
+<p>Unless explicitly stated otherwise, modules, variables, and so on are considered private. That is, the author reserves the right to make arbitrary changes in the way they work, without telling anyone. For subroutines, variables, and so on which are considered public, the author will make an effort keep them stable, and failing that to call attention to changes.</p>
+
+<p>Nothing is exported by default, though all the public subroutines are exportable, either by name or by using the :all tag.</p>
+
+<p>The following subroutines should be considered public:</p>
+
+<dl>
+<dt><a name="@info_=_$pi-&#62;GetProcInfo_();"
+>@info = $pi-&#62;GetProcInfo ();</a></dt>
+
+<dd>
+<p>This method returns a list of anonymous hashes, each containing information on one process. If no arguments are passed, the list represents all processes in the system. You can pass a list of process IDs, and get out a list of the attributes of all such processes that actually exist. If you call this method in scalar context, you get a reference to the list.</p>
+
+<p>What keys are available depend on the variant in use. With the PT variant you can hope to get at most the following keys. The caveat is that the Win32::Process::Info keys are derived from Proc::ProcessTable::Process fields, and if your OS does not support the underlying field, you will not get it. Here are the possible keys and the fields from which they are derived:</p>
+
+<pre class="sh_perl">    CreationDate: start
+    Description: cmndline
+    ExecutablePath: fname (note 1)
+    KernelModeTime: stime (note 2)
+    Name: basename (fname)
+    Owner: &#39;\&#39; . getpwuid (uid) (note 3)
+    OwnerSid: uid (note 4)
+    ParentProcessId: ppid
+    ProcessId: pid
+    UserModeTime: utime (note 2)</pre>
+
+<p>Notes:</p>
+
+<p>1) ExecutablePath may not be an absolute pathname.</p>
+
+<p>2) We assume that Proc::ProcessTable::Process returns stime and utime in microseconds, and multiply by 10 to get clunks. This may be wrong under some operating systems.</p>
+
+<p>3) Owner has a backslash prefixed because Windows returns domain\user. I don&#39;t see a good way to get domain, but I wanted to be consistent (read: I was too lazy to special-case the test script).</p>
+
+<p>4) Note that under Cygwin this is <b>not</b> the same as the Windows PID, which is returned in field &#39;winpid&#39;. But the Subprocesses method needs the ProcessId and ParentProcessId to be consistent, and there was no documented &#39;winppid&#39; field.</p>
+
+<p>The output will contain all processes for which information was requested, but will not necessarily contain all information for all processes.</p>
+
+<p>The _status key of the process hash contains the status of GetProcInfo&#39;s request(s) for information. In the case of Win32::Process::Info::PT, this will always be 0, but is provided to be consistent with the other variants.</p>
+
+<dt><a name="@pids_=_$pi-&#62;ListPids_()"
+>@pids = $pi-&#62;ListPids ()</a></dt>
+
+<dd>
+<p>This subroutine returns a list of all known process IDs in the system, in no particular order. If called in list context, the list of process IDs itself is returned. In scalar context, a reference to the list is returned.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REQUIREMENTS"
+>REQUIREMENTS</a></h1>
+
+<p>This library uses the following libraries:</p>
+
+<pre class="sh_perl"> Carp
+ Time::Local
+ Proc::ProcessTable</pre>
+
+<p>As of this writing, all but Proc::ProcessTable are part of the standard Perl distribution.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ACKNOWLEDGMENTS"
+>ACKNOWLEDGMENTS</a></h1>
+
+<p>This module would not exist without the following people</p>
+
+<p>Dan Urist, author (or at least coordinator) of the Proc::ProcessTable module, upon which this is based.</p>
+
+<p>Jenda Krynicky, whose &#34;How2 create a PPM distribution&#34; (<em>http://jenda.krynicky.cz/perl/PPM.html</em>) gave me a leg up on both PPM and tar distributions.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Thomas R. Wyant, III (<em>wyant at cpan dot org</em>)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>Copyright (C) 2007, 2009-2011, 2013-2014 by Thomas R. Wyant, III</p>
+
+<p>This program is free software; you can redistribute it and/or modify it under the same terms as Perl 5.10.0. For more details, see the full text of the licenses in the directory LICENSES.</p>
+
+<p>This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

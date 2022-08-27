@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Archive::Libarchive::Peek</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Archive::<a href="/pod/Archive/Libarchive.html">Libarchive</a>::Peek</div>
+    <!--Archive::Libarchive::Peek--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PROPERTIES'>PROPERTIES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#files'>files</a>
+    <li class='indexItem indexItem2'><a href='#file'>file</a>
+    <li class='indexItem indexItem2'><a href='#iterate'>iterate</a>
+    <li class='indexItem indexItem2'><a href='#as_hash'>as_hash</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Archive::Libarchive::Peek - Peek into archives without extracting them</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Archive::Libarchive::Peek;
+ my $peek = Archive::Libarchive::Peek-&#62;new( filename =&#62; &#39;archive.tar&#39; );
+ my @files = $peek-&#62;files();
+ my $contents = $peek-&#62;file(&#39;README.txt&#39;)</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module lets you peek into archives without extracting them. It is based on <a href="https://metacpan.org/pod/Archive%3A%3APeek" class="podlinkpod"
+>Archive::Peek</a>, but it uses <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a>, and thus all of the many formats supported by <code>libarchive</code>. It also supports some unique features of the various classes that use the &#34;Peek&#34; style interface:</p>
+
+<dl>
+<dt><a name="Many_Many_formats"
+>Many Many formats</a></dt>
+
+<dd>
+<p>compressed tar, Zip, RAR, ISO 9660 images, etc.</p>
+
+<dt><a name="Zips_with_encrypted_entries"
+>Zips with encrypted entries</a></dt>
+
+<dd>
+<p>You can specify the passphrase or a passphrase callback with the constructor</p>
+
+<dt><a name="Multi-file_RAR_archives"
+>Multi-file RAR archives</a></dt>
+
+<dd>
+<p>If filename is an array reference it will be assumed to be a list of filenames representing a single multi-file archive.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $peek = Archive::Libarchive::Peek-&#62;new(%options);</pre>
+
+<p>This creates a new instance of the Peek object. One of the <a href="#filename" class="podlinkpod"
+>&#34;filename&#34;</a> or <a href="#memory" class="podlinkpod"
+>&#34;memory&#34;</a> option</p>
+
+<dl>
+<dt><a name="filename"
+>filename</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $peek = Archive::Libarchive::Peek-&#62;new( filename =&#62; $filename );</pre>
+
+<p>The filename of the archive to read from.</p>
+
+<dt><a name="memory"
+>memory</a></dt>
+
+<dd>
+<p>[version 0.03]</p>
+
+<pre class="sh_perl"> my $peek = Archive::Libarchive::Peek-&#62;new( memory =&#62; \$content );</pre>
+
+<p>A reference to the memory region containing the archive. Passing in a plain scalar will throw an exception.</p>
+
+<dt><a name="passphrase"
+>passphrase</a></dt>
+
+<dd>
+<pre class="sh_perl"> my $peek = Archive::Libarchive::Peek-&#62;new( passphrase =&#62; $passphrase );
+ my $peek = Archive::Libarchive::Peek-&#62;new( passphrase =&#62; sub {
+   ...
+   return $passphrase;
+ });</pre>
+
+<p>This option is the passphrase for encrypted zip entries, or a callback which will return the passphrase.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PROPERTIES"
+>PROPERTIES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<p>This is the archive filename for the Peek object. This will be <code>undef</code> for in-memory archives.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="files"
+>files</a></h2>
+
+<pre class="sh_perl"> my @files = $peek-&#62;files;</pre>
+
+<p>This method returns the filenames of the entries in the archive.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="file"
+>file</a></h2>
+
+<pre class="sh_perl"> my $content = $peek-&#62;file($filename);</pre>
+
+<p>This method files the filename in the archive and returns its content.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="iterate"
+>iterate</a></h2>
+
+<pre class="sh_perl"> $peek-&#62;iterate(sub ($filename, $content, $e) {
+   ...
+ });</pre>
+
+<p>This method iterates over the entries in the archive and calls the callback for each entry. The arguments are:</p>
+
+<dl>
+<dt><a name="filename"
+>filename</a></dt>
+
+<dd>
+<p>The filename of the entry</p>
+
+<dt><a name="content"
+>content</a></dt>
+
+<dd>
+<p>The content of the entry, or <code>&#39;&#39;</code> for non-regular or zero-sized files</p>
+
+<dt><a name="entry"
+>entry</a></dt>
+
+<dd>
+<p>This is a <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> instance which has metadata about the file, like the permissions, timestamps and file type.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="as_hash"
+>as_hash</a></h2>
+
+<p>[version 0.02]</p>
+
+<pre class="sh_perl"> my $hashref = $peek-&#62;as_hash;</pre>
+
+<p>Returns a hash reference where the keys are entry pathnames and the values are the entry content. This method will attempt to resolve symbolic links as scalar references. Hardlinks will be reference aliased. Directory and other special types will be handled as array reference, the exact format to be determined in the future, although the first element in the array reference will be the file type.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Peek"
+><a href="https://metacpan.org/pod/Archive%3A%3APeek" class="podlinkpod"
+>Archive::Peek</a></a></dt>
+
+<dd>
+<p>The original!</p>
+
+<dt><a name="Archive::Peek::External"
+><a href="https://metacpan.org/pod/Archive%3A%3APeek%3A%3AExternal" class="podlinkpod"
+>Archive::Peek::External</a></a></dt>
+
+<dd>
+<p>Another implementation that uses external commands to peek into archives</p>
+
+<dt><a name="Archive::Peek::Libarchive"
+><a href="https://metacpan.org/pod/Archive%3A%3APeek%3A%3ALibarchive" class="podlinkpod"
+>Archive::Peek::Libarchive</a></a></dt>
+
+<dd>
+<p>Another implementation that also relies on <code>libarchive</code>, but doesn&#39;t support the file type in iterate mode, encrypted zip entries, or multi-file RAR archives.</p>
+
+<dt><a name="Archive::Libarchive"
+><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+
+<dd>
+<p>A lower-level interface to <code>libarchive</code> which can be used to read/extract and create archives of various formats.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

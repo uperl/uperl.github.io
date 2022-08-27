@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Time::CTime</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Time::CTime</div>
+    <!--Time::CTime--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#strftime_conversions'>strftime conversions</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#GENESIS'>GENESIS</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Time::CTime -- format times ala POSIX asctime</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">        use Time::CTime
+        print ctime(time);
+        print asctime(localtime(time));
+        print strftime(template, localtime(time)); </pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="strftime_conversions"
+>strftime conversions</a></h2>
+
+<pre class="sh_perl">        %%      PERCENT
+        %a      day of the week abbr
+        %A      day of the week
+        %b      month abbr
+        %B      month
+        %c      ctime format: Sat Nov 19 21:05:57 1994
+        %d      DD
+        %D      MM/DD/YY
+        %e      numeric day of the month
+        %f      floating point seconds (milliseconds): .314
+        %F      floating point seconds (microseconds): .314159
+        %h      month abbr
+        %H      hour, 24 hour clock, leading 0&#39;s)
+        %I      hour, 12 hour clock, leading 0&#39;s)
+        %j      day of the year
+        %k      hour
+        %l      hour, 12 hour clock
+        %m      month number, starting with 1, leading 0&#39;s
+        %M      minute, leading 0&#39;s
+        %n      NEWLINE
+        %o      ornate day of month -- &#34;1st&#34;, &#34;2nd&#34;, &#34;25th&#34;, etc.
+        %p      AM or PM 
+        %r      time format: 09:05:57 PM
+        %R      time format: 21:05
+        %S      seconds, leading 0&#39;s
+        %t      TAB
+        %T      time format: 21:05:57
+        %U      week number, Sunday as first day of week
+        %v      DD-Mon-Year
+        %w      day of the week, numerically, Sunday == 0
+        %W      week number, Monday as first day of week
+        %x      date format: 11/19/94
+        %X      time format: 21:05:57
+        %y      year (2 digits)
+        %Y      year (4 digits)
+        %Z      timezone in ascii. eg: PST</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides routines to format dates. They correspond to the libc routines. &#38;strftime() supports a pretty good set of conversions -- more than most C libraries.</p>
+
+<p>strftime supports a pretty good set of conversions.</p>
+
+<p>The POSIX module has very similar functionality. You should consider using it instead if you do not have allergic reactions to system libraries.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="GENESIS"
+>GENESIS</a></h1>
+
+<p>Written by David Muir Sharnoff &#60;muir@idiom.org&#62;.</p>
+
+<p>The starting point for this package was a posting by Paul Foley &#60;paul@ascent.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>Copyright (C) 1996-2010 David Muir Sharnoff. Copyright (C) 2011 Google, Inc. License hereby granted for anyone to use, modify or redistribute this module at their own risk. Please feed useful changes back to cpan@dave.sharnoff.org.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

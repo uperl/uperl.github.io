@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Finger::Request</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/Finger.html">Finger</a>::Request</div>
+    <!--AnyEvent::Finger::Request--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#verbose'>verbose</a>
+    <li class='indexItem indexItem2'><a href='#username'>username</a>
+    <li class='indexItem indexItem2'><a href='#hostnames'>hostnames</a>
+    <li class='indexItem indexItem2'><a href='#as_string'>as_string</a>
+    <li class='indexItem indexItem2'><a href='#listing_request'>listing_request</a>
+    <li class='indexItem indexItem2'><a href='#forward_request'>forward_request</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Finger::Request - Simple asynchronous finger request</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.12</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> my $request = AnyEvent::Finger::Request-&#62;new(&#39;foo@localhost&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class represents finger request. It is passed into <a href="/pod/AnyEvent/Finger/Server.html" class="podlinkpod"
+>AnyEvent::Finger::Server</a> when a finger request is made. See the documentation on that class for more details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $request = AnyEvent::Finger::Request-&#62;new( $address )</pre>
+
+<p>The constructor takes a string which is the raw finger request.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<p>All attributes for this class are read only.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="verbose"
+>verbose</a></h2>
+
+<pre class="sh_perl"> my $value = $request-&#62;verbose</pre>
+
+<p>True if request is asking for a verbose response. False if request is not asking for a verbose response.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="username"
+>username</a></h2>
+
+<pre class="sh_perl"> my $value = $request-&#62;username</pre>
+
+<p>The username being requested.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="hostnames"
+>hostnames</a></h2>
+
+<pre class="sh_perl"> my $value = $request-&#62;hostnames</pre>
+
+<p>Returns a list of hostnames (as an array ref) in the request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="as_string"
+>as_string</a></h2>
+
+<pre class="sh_perl"> my $value = $request-&#62;as_string</pre>
+
+<p>Converts just the username and hostnames fields into a string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="listing_request"
+>listing_request</a></h2>
+
+<pre class="sh_perl"> my $value = $request-&#62;listing_request</pre>
+
+<p>Return true if the request is for a listing of users.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="forward_request"
+>forward_request</a></h2>
+
+<pre class="sh_perl"> my $value = $request-&#62;forward_request</pre>
+
+<p>Return true if the request is to query another host.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<ul>
+<li><a href="/pod/AnyEvent/Finger.html" class="podlinkpod"
+>AnyEvent::Finger</a></li>
+
+<li><a href="/pod/AnyEvent/Finger/Client.html" class="podlinkpod"
+>AnyEvent::Finger::Client</a></li>
+
+<li><a href="/pod/AnyEvent/Finger/Server.html" class="podlinkpod"
+>AnyEvent::Finger::Server</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

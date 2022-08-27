@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Pod::Simple::Words</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Pod::Simple::Words</div>
+    <!--Pod::Simple::Words--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PROPERTIES'>PROPERTIES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#callback'>callback</a>
+    <li class='indexItem indexItem2'><a href='#splitter'>splitter</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#skip_sections'>skip_sections</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Pod::Simple::Words - Parse words and locations from a POD document</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.07</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Pod::Simple::Words;
+ 
+ my $parser = Pod::Simple::Words-&#62;new;
+ 
+ $parser-&#62;callback(sub {
+   my($type, $filename, $line, $input) = @_;
+ 
+   if($type eq &#39;word&#39;)
+   {
+     # $input is human language word
+   }
+   elsif($type eq &#39;stopword&#39;)
+   {
+     # $input is a stopword in tech speak
+   }
+   elsif($type eq &#39;module&#39;)
+   {
+     # $input is CPAN moudle (eg FFI::Platypus)
+   }
+   elsif($type eq &#39;url_link&#39;)
+   {
+     # $input   is the URL
+   }
+   elsif($type eq &#39;pod_link&#39;)
+   {
+     my($podname, $section) = @$input;
+     # $podname is the POD document (undef for current)
+     # $section is the section      (can be undef)
+   }
+   elsif($type eq &#39;man_link&#39;)
+   {
+     my($manname, $section) = @$input;
+     # $manname is the MAN document
+     # $section is the section      (can be undef)
+   }
+   elsif($type eq &#39;section&#39;)
+   {
+     # $input is the name of a documentation section
+   }
+   elsif($type eq &#39;error&#39;)
+   {
+     # $input is a POD error
+   }
+ });
+ 
+ $parser-&#62;parse_file(&#39;lib/Foo.pm&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This <a href="https://metacpan.org/pod/Pod%3A%3ASimple" class="podlinkpod"
+>Pod::Simple</a> parser extracts words from POD, with location information. Some other event types are supported for convenience. The intention is to feed this into a spell checker. Note:</p>
+
+<dl>
+<dt><a name="stopwords"
+>stopwords</a></dt>
+
+<dd>
+<p>This module recognizes inlined stopwords. These are words that shouldn&#39;t be considered misspelled for the POD document.</p>
+
+<dt><a name="head1_is_normalized_to_lowercase"
+>head1 is normalized to lowercase</a></dt>
+
+<dd>
+<p>Since the convention is to uppercase <code>=head1</code> elements in POD, and most spell checkers consider this a spelling error, we convert <code>=head1</code> elements to lower case.</p>
+
+<dt><a name="comments_in_verbatim_blocks"
+>comments in verbatim blocks</a></dt>
+
+<dd>
+<p>Comments are extracted from verbatim blocks and their words are included, because misspelled words in the synopsis comments can be embarrassing!</p>
+
+<dt><a name="unicode"
+>unicode</a></dt>
+
+<dd>
+<p>Should correctly handle unicode, if the <code>=encoding</code> directive is correctly set.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $parser = Pod::Simple::Words-&#62;new;</pre>
+
+<p>This creates an instance of the parser.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PROPERTIES"
+>PROPERTIES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="callback"
+>callback</a></h2>
+
+<pre class="sh_perl"> $parser-&#62;callback(sub {
+   my($type, $filename, $line, $input) = @_;
+   ...
+ });</pre>
+
+<p>This defines the callback when the specific input items are found. Types:</p>
+
+<dl>
+<dt><a name="word"
+>word</a></dt>
+
+<dd>
+<p>Regular human language word.</p>
+
+<dt><a name="stopword"
+>stopword</a></dt>
+
+<dd>
+<p>Word that should not be considered misspelled. This is often for technical jargon which is spelled correctly but not in the regular human language dictionary.</p>
+
+<dt><a name="module"
+>module</a></dt>
+
+<dd>
+<p>CPAN Perl module. Of the form <code>Foo::Bar</code>. As a special case <code>Foo::Bar&#39;s</code> is recognized as the possessive of the <code>Foo::Bar</code> module.</p>
+
+<dt><a name="url_link"
+>url_link</a></dt>
+
+<dd>
+<p>A regular internet URL link.</p>
+
+<dt><a name="pod_link"
+>pod_link</a></dt>
+
+<dd>
+<pre class="sh_perl"> my($podname, $section) = @$input;</pre>
+
+<p>A link to another POD document. Usually a module or a script. The <code>$podname</code> is the name of the pod document to link to. If this is <code>undef</code>, it means that the link is to a section inside the current document. The <code>$section</code> is the section of the document to link to. The <code>$section</code> will be <code>undef</code> if not linking to a specific section.</p>
+
+<dt><a name="man_link"
+>man_link</a></dt>
+
+<dd>
+<pre class="sh_perl"> my($manname, $section) = @$input;</pre>
+
+<p>A link to a UNIX man page. The <code>$manname</code> is the name of the man page. The <code>$section</code> is the section of the man page to link to, which will be <code>undef</code> if not linking to a specific section.</p>
+
+<dt><a name="section"
+>section</a></dt>
+
+<dd>
+<p>A section inside of the current document which can be linked to externally or internally. This is usually the title of a header like <code>=head1</code>, <code>=head2</code>, etc.</p>
+
+<dt><a name="error"
+>error</a></dt>
+
+<dd>
+<p>An error that was detected during parsing. This allows the spell checker to check the correctness of the POD at the same time if it so chooses.</p>
+</dd>
+</dl>
+
+<p>Additional arbitrary types can be added to the <code>splitter</code> class in addition to these.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="splitter"
+>splitter</a></h2>
+
+<pre class="sh_perl"> $parser-&#62;splitter($splitter);</pre>
+
+<p>The <code>$splitter</code> is an instance of <a href="/pod/Text/HumanComputerWords.html" class="podlinkpod"
+>Text::HumanComputerWords</a>, or something that implements a <code>split</code> method exactly like it does. It is used to split text into human and computer words. The default is reasonable for Perl.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="skip_sections"
+>skip_sections</a></h2>
+
+<pre class="sh_perl"> $parser-&#62;skip_sections(@sections);</pre>
+
+<p>Skip the given <code>=head1</code> level sections. Note that words from the section header itself will be included, but the content of the section will not. This is useful for skipping <code>CONTRIBUTOR</code> or similar sections which are usually mostly names and shouldn&#39;t be spell checked against a human language dictionary.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Pod::Spell"
+><a href="https://metacpan.org/pod/Pod%3A%3ASpell" class="podlinkpod"
+>Pod::Spell</a></a></dt>
+
+<dd>
+<p>and other modules do similar parsing of POD for potentially misspelled words. At least internally. The usually explicitly exclude comments from verbatim blocks, and often split words on the wrong boundaries.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

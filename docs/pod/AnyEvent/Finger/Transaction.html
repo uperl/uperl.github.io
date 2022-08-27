@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AnyEvent::Finger::Transaction</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> AnyEvent::<a href="/pod/AnyEvent/Finger.html">Finger</a>::Transaction</div>
+    <!--AnyEvent::Finger::Transaction--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#req'>req</a>
+    <li class='indexItem indexItem2'><a href='#res'>res</a>
+    <li class='indexItem indexItem2'><a href='#remote_port'>remote_port</a>
+    <li class='indexItem indexItem2'><a href='#local_port'>local_port</a>
+    <li class='indexItem indexItem2'><a href='#remote_address'>remote_address</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>AnyEvent::Finger::Transaction - Simple asynchronous finger transaction</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.12</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class is a container for response and request objects which is used when a finger request comes into <a href="/pod/AnyEvent/Finger/Server.html" class="podlinkpod"
+>AnyEvent::Finger::Server</a> server instance.
+It also provides information about the connection (the remote,
+local ports and the remote client&#39;s address).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<p>All attributes for this class are read-only.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="req"
+>req</a></h2>
+
+<pre class="sh_perl"> my $request = $tx-&#62;req;</pre>
+
+<p>Returns the request object associated with the transaction (an instance of <a href="/pod/AnyEvent/Finger/Request.html" class="podlinkpod"
+>AnyEvent::Finger::Request</a>).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="res"
+>res</a></h2>
+
+<pre class="sh_perl"> my $response = $tx-&#62;res;</pre>
+
+<p>Returns the response object associated with the transaction (an instance of <a href="/pod/AnyEvent/Finger/Response.html" class="podlinkpod"
+>AnyEvent::Finger::Response</a>).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remote_port"
+>remote_port</a></h2>
+
+<pre class="sh_perl"> my $port = $tx-&#62;remote_port;</pre>
+
+<p>Returns the remote TCP port being used to make the request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="local_port"
+>local_port</a></h2>
+
+<pre class="sh_perl"> my $port = $tx-&#62;local_port;</pre>
+
+<p>Returns the local TCP port being used to make the request.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remote_address"
+>remote_address</a></h2>
+
+<pre class="sh_perl"> my $address = $tx-&#62;remote_address;</pre>
+
+<p>Returns the IP address from whence the finger request is coming from.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<ul>
+<li><a href="/pod/AnyEvent/Finger.html" class="podlinkpod"
+>AnyEvent::Finger</a></li>
+
+<li><a href="/pod/AnyEvent/Finger/Client.html" class="podlinkpod"
+>AnyEvent::Finger::Client</a></li>
+
+<li><a href="/pod/AnyEvent/Finger/Server.html" class="podlinkpod"
+>AnyEvent::Finger::Server</a></li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2012-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

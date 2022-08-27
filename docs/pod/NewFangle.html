@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NewFangle</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> NewFangle</div>
+    <!--NewFangle--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#newrelic_configure_log'>newrelic_configure_log</a>
+    <li class='indexItem indexItem2'><a href='#newrelic_init'>newrelic_init</a>
+    <li class='indexItem indexItem2'><a href='#newrelic_version'>newrelic_version</a>
+    <li class='indexItem indexItem2'><a href='#newrelic_set_hostname'>newrelic_set_hostname</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ENVIRONMENT'>ENVIRONMENT</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>NewFangle - Unofficial Perl NewRelic SDK</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use NewFangle;
+ my $app = NewFangle::App-&#62;new({app_name =&#62; &#39;MyApp&#39;, license_key =&#62; $license_key});
+ my $txn = $app-&#62;start_web_transaction(&#39;my transaction&#39;);
+ $txn-&#62;end;</pre>
+
+<p>Or using a <a href="/pod/NewFangle/Config.html" class="podlinkpod"
+>NewFangle::Config</a>:</p>
+
+<pre class="sh_perl"> use NewFangle;
+ my $config = NewFangle::Config-&#62;new(
+   app_name =&#62; &#39;MyApp&#39;,
+   license_key =&#62; $license_key,
+ );
+ my $app = NewFangle::App-&#62;new($config);
+ my $txn = $app-&#62;start_web_transaction(&#39;my transaction&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides bindings to the NewRelic C-SDK. Since NewRelic doesn&#39;t provide native Perl bindings for their product, and the older Agent SDK is not supported, this is probably the best way to instrument your Perl application with NewRelic.</p>
+
+<p>This distribution provides a light OO interface using <a href="https://metacpan.org/pod/FFI%3A%3APlatypus" class="podlinkpod"
+>FFI::Platypus</a> and will optionally use <a href="/pod/Alien/libnewrelic.html" class="podlinkpod"
+>Alien::libnewrelic</a> if the C-SDK can&#39;t be found in your library path. Unfortunately the naming convention used by NewRelic doesn&#39;t always have an obvious mapping to the OO Perl interface, so I&#39;ve added notation (example: (csdk: newrelic_version)) so that the C version of functions and methods can be found easily. The documentation has decent coverage of all methods, but it doesn&#39;t always make sense to reproduce everything that is in the C-SDK documentation, so it is recommended that you review it before getting started.</p>
+
+<p>This module requires a running <code>newrelic-daemon</code>. If you forget, the service <code>newrelic-infra</code> will return an initialization diagnostic like this:</p>
+
+<pre class="sh_perl"> 2021-05-27 06:41:27.160 +0000 (23284 23284) error: failed to connect to the daemon using a timeout of 0 ms at the path /tmp/.newrelic.sock
+ 2021-05-27 06:41:27.160 +0000 (23284 23284) error: error initialising libnewrelic; cannot create application</pre>
+
+<p>I&#39;ve called this module <a href="/pod/NewFangle.html" class="podlinkpod"
+>NewFangle</a> in the hopes that one day NewRelic will write native Perl bindings and they can use the more obvious NewRelic namespace.</p>
+<p>On your dashboard side, you will get:</p>
+
+<div style="display: flex">
+<div style="margin: 3px; flex: 1 1 50%">
+<img alt="Test" src="/newrelic-dashboard-result.png" style="max-width: 100%">
+</div>
+</div>
+
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<p>These may be imported on request using <a href="https://metacpan.org/pod/Exporter" class="podlinkpod"
+>Exporter</a>.</p>
+
+<p>For instance:</p>
+
+<pre class="sh_perl"> use NewFangle qw( newrelic_init );</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="newrelic_configure_log"
+>newrelic_configure_log</a></h2>
+
+<pre class="sh_perl"> my $bool = newrelic_configure_log($filename, $level);</pre>
+
+<p>Configure the C SDK&#39;s logging system. If the literal string <code>stdout</code> or <code>stdout</code> is specified for <code>$filename</code>, then the logs will be written to standard output or standard error, respectively. <code>$level</code> should be one of:</p>
+
+<dl>
+<dt><a name="error"
+><code>error</code></a></dt>
+
+<dd>
+<dt><a name="warning"
+><code>warning</code></a></dt>
+
+<dd>
+<dt><a name="info"
+><code>info</code></a></dt>
+
+<dd>
+<dt><a name="debug"
+><code>debug</code></a></dt>
+</dl>
+
+<p>(csdk: newrelic_configure_log)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="newrelic_init"
+>newrelic_init</a></h2>
+
+<pre class="sh_perl"> my $bool = newrelic_init($daemon_socket, $time_limit_ms);</pre>
+
+<p>Initialize the C SDK with non-default settings.</p>
+
+<p>(csdk: newrelic_init)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="newrelic_version"
+>newrelic_version</a></h2>
+
+<pre class="sh_perl"> my $version = newrelic_version();</pre>
+
+<p>(csdk: newrelic_version)</p>
+
+<p>Returns the version of the NewRelic C-SDK as a string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="newrelic_set_hostname"
+>newrelic_set_hostname</a></h2>
+
+<pre class="sh_perl"> my $bool = newrelic_set_hostname($hostname);</pre>
+
+<p>Sets the default hostname to be used in the NewRelic UI. This is the result of <code>gethostname</code> by default, but that might not be usefully meaningful when running in a docker or similar container.</p>
+
+<p>This requires a properly patched NewRelic C-SDK to work, since the base C-SDK doesn&#39;t currently support overriding the hostname. If you installed with <a href="/pod/Alien/libnewrelic.html" class="podlinkpod"
+>Alien::libnewrelic</a> then it should have been properly patched for you.</p>
+
+<p>Returns true if successful, false otherwise. Normally a failure would only happen if the NewRelic C-SDK hadn&#39;t been patched.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ENVIRONMENT"
+>ENVIRONMENT</a></h1>
+
+<dl>
+<dt><a name="NEWRELIC_APP_NAME"
+><code>NEWRELIC_APP_NAME</code></a></dt>
+
+<dd>
+<p>The default app name, if not specified in the configuration.</p>
+
+<dt><a name="NEWRELIC_LICENSE_KEY"
+><code>NEWRELIC_LICENSE_KEY</code></a></dt>
+
+<dd>
+<p>The NewRelic license key.</p>
+
+<dt><a name="NEWRELIC_APP_HOSTNAME"
+><code>NEWRELIC_APP_HOSTNAME</code></a></dt>
+
+<dd>
+<p>The host display name that will be reported to NewRelic, if the <code>libnewrelic</code> has been properly patched (see <code>newrelic_set_hostname</code> above).</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Unlike the older NewRelic Agent SDK, there is no interface to set the programming language or version. Since we are using the C-SDK the language shows up as <code>C</code> instead of <code>Perl</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="NewFangle::App"
+><a href="/pod/NewFangle/App.html" class="podlinkpod"
+>NewFangle::App</a></a></dt>
+
+<dd>
+<dt><a name="NewFangle::Config"
+><a href="/pod/NewFangle/Config.html" class="podlinkpod"
+>NewFangle::Config</a></a></dt>
+
+<dd>
+<dt><a name="NewFangle::CustomEvent"
+><a href="/pod/NewFangle/CustomEvent.html" class="podlinkpod"
+>NewFangle::CustomEvent</a></a></dt>
+
+<dd>
+<dt><a name="NewFangle::Segment"
+><a href="/pod/NewFangle/Segment.html" class="podlinkpod"
+>NewFangle::Segment</a></a></dt>
+
+<dd>
+<dt><a name="NewFangle::Transaction"
+><a href="/pod/NewFangle/Transaction.html" class="podlinkpod"
+>NewFangle::Transaction</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Owen Allsopp (ALLSOPP)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2020-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

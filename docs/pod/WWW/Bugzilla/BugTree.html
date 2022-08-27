@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>WWW::Bugzilla::BugTree</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> WWW::Bugzilla::BugTree</div>
+    <!--WWW::Bugzilla::BugTree--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#ua'>ua</a>
+    <li class='indexItem indexItem2'><a href='#url'>url</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#fetch'>fetch</a>
+    <li class='indexItem indexItem2'><a href='#clear_cache'>clear_cache</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>WWW::Bugzilla::BugTree - Fetch a tree of bugzilla bugs blocking a bug</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use WWW::Bugzilla::BugTree;
+ 
+ my $tree = WWW::Bugzilla::BugTree-&#62;new(
+   url =&#62; &#39;http://bugzilla&#39;,
+ );
+ 
+ # $bug isa WWW::Bugzilla::BugTree::Bug
+ my $bug = $tree-&#62;fetch(749922);
+ print $bug;
+ foreach my $subbug (@{ $bug-&#62;children })
+ {
+   print $bug;
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides a way to fetch a tree of dependent bugs from Bugzilla. You give it a bug id and it returns a tree of all the bugs that bug depends on (or all the bugs that are blocking your bug). I wrote this to use the <code>XML</code> output of Bugzilla&#39;s <code>show_bug.cgi</code> page because we are still using Bugzilla 3.6, which doesn&#39;t provide dependency information via its API, which would probably be faster.</p>
+
+<p>There is also a companion script <a href="/pod/bug_tree.html" class="podlinkpod"
+>bug_tree</a> which will print out the tree for you with pretty colors indicating each bug&#39;s status.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ua"
+>ua</a></h2>
+
+<pre class="sh_perl"> my $lwp = $tree-&#62;ua;</pre>
+
+<p>Instance of <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> used to fetch information from the bugzilla server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="url"
+>url</a></h2>
+
+<pre class="sh_perl"> my$url = $tree-&#62;url</pre>
+
+<p>The URI of the bugzilla server. You may pass in to the constructor either a string or a <a href="https://metacpan.org/pod/URI" class="podlinkpod"
+>URI</a> object. If you use a string it will be converted into a <a href="https://metacpan.org/pod/URI" class="podlinkpod"
+>URI</a>.</p>
+
+<p>If not provided it falls back to using the <code>BUG_TREE_URL</code> environment variable, and if that isn&#39;t set it uses this bugzilla provided for testing:</p>
+
+<p><a href="https://landfill.bugzilla.org/bugzilla-4.2-branch" class="podlinkurl"
+>Bugzilla v4.2</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fetch"
+>fetch</a></h2>
+
+<pre class="sh_perl"> my $bug = $tree-&#62;fetch($id);</pre>
+
+<p>Fetch the bug tree for the bug specified by the given <code>id</code>. Returns an instance of <a href="/pod/WWW/Bugzilla/BugTree/Bug.html" class="podlinkpod"
+>WWW::Bugzilla::BugTree::Bug</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_cache"
+>clear_cache</a></h2>
+
+<pre class="sh_perl"> $tree-&#62;clear_cache;</pre>
+
+<p>Clears out the cache.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="/pod/bug_tree.html" class="podlinkpod"
+>bug_tree</a>, <a href="/pod/WWW/Bugzilla/BugTree/Bug.html" class="podlinkpod"
+>WWW::Bugzilla::BugTree::Bug</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

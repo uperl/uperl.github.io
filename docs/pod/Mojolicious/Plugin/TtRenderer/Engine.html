@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mojolicious::Plugin::TtRenderer::Engine</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Mojolicious::Plugin::<a href="/pod/Mojolicious/Plugin/TtRenderer.html">TtRenderer</a>::Engine</div>
+    <!--Mojolicious::Plugin::TtRenderer::Engine--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#RENDERING'>RENDERING</a>
+  <li class='indexItem indexItem1'><a href='#HELPERS'>HELPERS</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#build'>build</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Mojolicious::Plugin::TtRenderer::Engine - Template Toolkit renderer for Mojolicious</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.62</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>Add the handler:</p>
+
+<pre class="sh_perl"> sub startup {
+     ...
+ 
+     # Via mojolicious plugin
+     $self-&#62;plugin(tt_renderer =&#62; {template_options =&#62; {FILTERS =&#62; [ ... ]}});
+ 
+     # Or manually
+     use Mojolicious::Plugin::TtRenderer::Engine;
+ 
+     my $tt = Mojolicious::Plugin::TtRenderer::Engine-&#62;build(
+         mojo =&#62; $self,
+         template_options =&#62; {
+             PROCESS  =&#62; &#39;tpl/wrapper&#39;,
+             FILTERS  =&#62; [ ... ],
+             UNICODE  =&#62; 1,
+             ENCODING =&#62; &#39;UTF-8&#39;,
+         }
+     );
+ 
+     $self-&#62;renderer-&#62;add_handler( tt =&#62; $tt );
+ }</pre>
+
+<p>Template parameter are taken from <code>$c-&#62;stash</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>See <a href="/pod/Mojolicious/Plugin/TtRenderer.html" class="podlinkpod"
+>Mojolicious::Plugin::TtRenderer</a> for details on the plugin interface to this module.</p>
+
+<p>This module provides an engine for the rendering of <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template Toolkit</a> templates within a Mojolicious context. Templates may be, stored on the local file system, provided inline by the controller or included in the <code>__DATA__</code> section. Where possible this modules attempts to provide a TT analogue interface to the <a href="https://metacpan.org/pod/Mojo%3A%3ATemplate" class="podlinkpod"
+>Perlish templates</a> which come with Mojolicious.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RENDERING"
+>RENDERING</a></h1>
+
+<p>The template file for <code>&#34;example/welcome&#34;</code> would be <code>&#34;templates/welcome.html.tt&#34;</code>.</p>
+
+<p>When template file is not available rendering from <code>__DATA__</code> is attempted.</p>
+
+<pre class="sh_perl"> __DATA__
+ 
+ @@ welcome.html.tt
+ Welcome, [% user.name %]!</pre>
+
+<p>Inline template is also supported:</p>
+
+<pre class="sh_perl"> $self-&#62;render(inline =&#62; &#39;[% 1 + 1 %]&#39;, handler =&#62; &#39;tt&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="HELPERS"
+>HELPERS</a></h1>
+
+<p>Helpers are exported automatically under <code>h</code> namespace.</p>
+
+<pre class="sh_perl"> [% h.url_for(&#39;index&#39;) %]</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="build"
+>build</a></h2>
+
+<p>This method returns a handler for the Mojolicious renderer.</p>
+
+<p>Supported parameters are</p>
+
+<dl>
+<dt><a 
+>mojo <code>build</code> currently uses a <code>mojo</code> parameter pointing to the base class (Mojo). object. When used the INCLUDE_PATH will be set to</a></dt>
+
+<dd>
+<dt><a name="template_options"
+>template_options</a></dt>
+
+<dd>
+<p>A hash reference of options that are passed to Template-&#62;new(). Note that if you specify an <code>INCLUDE_PATH</code> through this option it will remove the DATA section templates from your path. A better way to specify an <code>INCLUDE_PATH</code> if you also want to use DATA section templates it by manipulating the <a href="https://metacpan.org/pod/Mojolicious%3A%3ARenderer" class="podlinkpod"
+>Mojolicious::Renderer</a> path.</p>
+
+<dt><a name="cache_dir"
+>cache_dir</a></dt>
+
+<dd>
+<p>Absolute or relative dir to your app home, to cache processed versions of your templates. Will default to a temp-dir if not set.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="/pod/Mojolicious/Plugin/TtRenderer.html" class="podlinkpod"
+>Mojolicious::Plugin::TtRenderer</a>, <a href="https://metacpan.org/pod/Mojolicious" class="podlinkpod"
+>Mojolicious</a>, <a href="https://metacpan.org/pod/Mojolicious%3A%3AGuides" class="podlinkpod"
+>Mojolicious::Guides</a>, <a href="http://mojolicious.org" class="podlinkurl"
+>http://mojolicious.org</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: Ask Bj&#248;rn Hansen</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>vti</p>
+
+<p>Marcus Ramberg</p>
+
+<p>Matthias Bethke</p>
+
+<p>Htbaa</p>
+
+<p>Magnus Holm</p>
+
+<p>Maxim Vuets</p>
+
+<p>Rafael Kitover</p>
+
+<p>giftnuss</p>
+
+<p>Cosimo Streppone</p>
+
+<p>Fayland Lam</p>
+
+<p>Jason Crowther</p>
+
+<p>spleenjack</p>
+
+<p>&#193;rp&#225;d Sz&#225;sz</p>
+
+<p>&#1057;&#1077;&#1088;&#1075;&#1077;&#1081; &#1056;&#1086;&#1084;&#1072;&#1085;&#1086;&#1074;</p>
+
+<p>uwisser</p>
+
+<p>Dinis Lage</p>
+
+<p>jay mortensen (GMORTEN)</p>
+
+<p>Matthew Lawrence (MATTLAW)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2009-2021 by Ask Bj&#248;rn Hansen.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

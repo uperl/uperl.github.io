@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>File::Which</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> File::Which</div>
+    <!--File::Which--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Implementations'>Implementations</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#Linux%2C_*BSD_and_other_UNIXes'>Linux, *BSD and other UNIXes</a>
+      <li class='indexItem indexItem3'><a href='#Modern_Windows_(including_NT%2C_XP%2C_Vista%2C_7%2C_8%2C_10_etc)'>Modern Windows (including NT, XP, Vista, 7, 8, 10 etc)</a>
+      <li class='indexItem indexItem3'><a href='#Cygwin'>Cygwin</a>
+      <li class='indexItem indexItem3'><a href='#Windows_ME%2C_98%2C_95%2C_MS-DOS%2C_OS%2F2'>Windows ME, 98, 95, MS-DOS, OS/2</a>
+      <li class='indexItem indexItem3'><a href='#VMS'>VMS</a>
+    </ul>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#which'>which</a>
+    <li class='indexItem indexItem2'><a href='#where'>where</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#GLOBALS'>GLOBALS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#%24IMPLICIT_CURRENT_DIR'>$IMPLICIT_CURRENT_DIR</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SUPPORT'>SUPPORT</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>File::Which - Perl implementation of the which utility as an API</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 1.27</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use File::Which;                  # exports which()
+ use File::Which qw(which where);  # exports which() and where()
+ 
+ my $exe_path = which &#39;perldoc&#39;;
+ 
+ my @paths = where &#39;perl&#39;;
+ # Or
+ my @paths = which &#39;perl&#39;; # an array forces search for all of them</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><a href="/pod/File/Which.html" class="podlinkpod"
+>File::Which</a> finds the full or relative paths to executable programs on the system. This is normally the function of <code>which</code> utility. <code>which</code> is typically implemented as either a program or a built in shell command. On some platforms, such as Microsoft Windows it is not provided as part of the core operating system. This module provides a consistent API to this functionality regardless of the underlying platform.</p>
+
+<p>The focus of this module is correctness and portability. As a consequence platforms where the current directory is implicitly part of the search path such as Microsoft Windows will find executables in the current directory, whereas on platforms such as UNIX where this is not the case executables in the current directory will only be found if the current directory is explicitly added to the path.</p>
+
+<p>If you need a portable <code>which</code> on the command line in an environment that does not provide it, install <a href="/pod/App/pwhich.html" class="podlinkpod"
+>App::pwhich</a> which provides a command line interface to this API.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Implementations"
+>Implementations</a></h2>
+
+<p><a href="/pod/File/Which.html" class="podlinkpod"
+>File::Which</a> searches the directories of the user&#39;s <code>PATH</code> (the current implementation uses <a href="https://metacpan.org/pod/File%3A%3ASpec%23path" class="podlinkpod"
+>File::Spec#path</a> to determine the correct <code>PATH</code>), looking for executable files having the name specified as a parameter to <a href="#which" class="podlinkpod"
+>&#34;which&#34;</a>. Under Win32 systems, which do not have a notion of directly executable files, but uses special extensions such as <code>.exe</code> and <code>.bat</code> to identify them, <code>File::Which</code> takes extra steps to assure that you will find the correct file (so for example, you might be searching for <code>perl</code>, it&#39;ll try <em>perl.exe</em>, <em>perl.bat</em>, etc.)</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Linux,_*BSD_and_other_UNIXes"
+>Linux, *BSD and other UNIXes</a></h3>
+
+<p>There should not be any surprises here. The current directory will not be searched unless it is explicitly added to the path.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Modern_Windows_(including_NT,_XP,_Vista,_7,_8,_10_etc)"
+>Modern Windows (including NT, XP, Vista, 7, 8, 10 etc)</a></h3>
+
+<p>Windows NT has a special environment variable called <code>PATHEXT</code>, which is used by the shell to look for executable files. Usually, it will contain a list in the form <code>.EXE;.BAT;.COM;.JS;.VBS</code> etc. If <code>File::Which</code> finds such an environment variable, it parses the list and uses it as the different extensions.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Cygwin"
+>Cygwin</a></h3>
+
+<p>Cygwin provides a Unix-like environment for Microsoft Windows users. In most ways it works like other Unix and Unix-like environments, but in a few key aspects it works like Windows. As with other Unix environments, the current directory is not included in the search unless it is explicitly included in the search path. Like on Windows, files with <code>.EXE</code> or &#60;.BAT&#62; extensions will be discovered even if they are not part of the query. <code>.COM</code> or extensions specified using the <code>PATHEXT</code> environment variable will NOT be discovered without the fully qualified name, however.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Windows_ME,_98,_95,_MS-DOS,_OS/2"
+>Windows ME, 98, 95, MS-DOS, OS/2</a></h3>
+
+<p>This set of operating systems don&#39;t have the <code>PATHEXT</code> variable, and usually you will find executable files there with the extensions <code>.exe</code>, <code>.bat</code> and (less likely) <code>.com</code>. <code>File::Which</code> uses this hardcoded list if it&#39;s running under Win32 but does not find a <code>PATHEXT</code> variable.</p>
+
+<p>As of 2015 none of these platforms are tested frequently (or perhaps ever), but the current maintainer is determined not to intentionally remove support for older operating systems.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="VMS"
+>VMS</a></h3>
+
+<p>Same case as Windows 9x: uses <code>.exe</code> and <code>.com</code> (in that order).</p>
+
+<p>As of 2015 the current maintainer does not test on VMS, and is in fact not certain it has ever been tested on VMS. If this platform is important to you and you can help me verify and or support it on that platform please contact me.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="which"
+>which</a></h2>
+
+<pre class="sh_perl"> my $path = which $short_exe_name;
+ my @paths = which $short_exe_name;</pre>
+
+<p>Exported by default.</p>
+
+<p><code>$short_exe_name</code> is the name used in the shell to call the program (for example, <code>perl</code>).</p>
+
+<p>If it finds an executable with the name you specified, <code>which()</code> will return the absolute path leading to this executable (for example, <em>/usr/bin/perl</em> or <em>C:\Perl\Bin\perl.exe</em>).</p>
+
+<p>If it does <i>not</i> find the executable, it returns <code>undef</code>.</p>
+
+<p>If <code>which()</code> is called in list context, it will return <i>all</i> the matches.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="where"
+>where</a></h2>
+
+<pre class="sh_perl"> my @paths = where $short_exe_name;</pre>
+
+<p>Not exported by default.</p>
+
+<p>Same as <a href="#which" class="podlinkpod"
+>&#34;which&#34;</a> in array context. Similar to the <code>where</code> csh built-in command or <code>which -a</code> command for platforms that support the <code>-a</code> option. Will return an array containing all the path names matching <code>$short_exe_name</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="GLOBALS"
+>GLOBALS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="$IMPLICIT_CURRENT_DIR"
+>$IMPLICIT_CURRENT_DIR</a></h2>
+
+<p>True if the current directory is included in the search implicitly on whatever platform you are using. Normally the default is reasonable, but on Windows the current directory is included implicitly for older shells like <code>cmd.exe</code> and <code>command.com</code>, but not for newer shells like PowerShell. If you overrule this default, you should ALWAYS localize the variable to the tightest scope possible, since setting this variable from a module can affect other modules. Thus on Windows you can get the correct result if the user is running either <code>cmd.exe</code> or PowerShell on Windows you can do this:</p>
+
+<pre class="sh_perl"> use File::Which qw( which );
+ use Shell::Guess;
+ 
+ my $path = do {
+   my $is_power = Shell::Guess-&#62;running_shell-&#62;is_power;
+   local $File::Which::IMPLICIT_CURRENT_DIR = !$is_power;
+   which &#39;foo&#39;;
+ };</pre>
+
+<p>For a variety of reasons it is difficult to accurately compute the shell that a user is using, but <a href="/pod/Shell/Guess.html" class="podlinkpod"
+>Shell::Guess</a> makes a reasonable effort.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>This module has no non-core requirements for Perl 5.6.2 and better.</p>
+
+<p>This module is fully supported back to Perl 5.8.1. It may work on 5.8.0. It should work on Perl 5.6.x and I may even test on 5.6.2. I will accept patches to maintain compatibility for such older Perls, but you may need to fix it on 5.6.x / 5.8.0 and send me a patch.</p>
+
+<p>Not tested on VMS although there is platform specific code for those. Anyone who haves a second would be very kind to send me a report of how it went.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SUPPORT"
+>SUPPORT</a></h1>
+
+<p>Bugs should be reported via the GitHub issue tracker</p>
+
+<p><a href="https://github.com/uperl/File-Which/issues" class="podlinkurl"
+>https://github.com/uperl/File-Which/issues</a></p>
+
+<p>For other issues, contact the maintainer.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="pwhich,_App::pwhich"
+><a href="/pod/pwhich.html" class="podlinkpod"
+>pwhich</a>, <a href="/pod/App/pwhich.html" class="podlinkpod"
+>App::pwhich</a></a></dt>
+
+<dd>
+<p>Command line interface to this module.</p>
+
+<dt><a name="IPC::Cmd"
+><a href="https://metacpan.org/pod/IPC%3A%3ACmd" class="podlinkpod"
+>IPC::Cmd</a></a></dt>
+
+<dd>
+<p>Requires Perl 5.8.3. Included as part of the Perl core as of 5.9.5.</p>
+
+<p>This module provides (among other things) a <code>can_run</code> function, which is similar to <code>which</code>. It is a much heavier module since it does a lot more, and if you use <code>can_run</code> it pulls in <a href="https://metacpan.org/pod/ExtUtils%3A%3AMakeMaker" class="podlinkpod"
+>ExtUtils::MakeMaker</a>. This combination may be overkill for applications which do not need <a href="https://metacpan.org/pod/IPC%3A%3ACmd" class="podlinkpod"
+>IPC::Cmd</a>&#39;s complicated interface for running programs, or do not need the memory overhead required for installing Perl modules.</p>
+
+<p>At least some older versions will find executables in the current directory, even if the current directory is not in the search path (which is the default on modern Unix).</p>
+
+<p><code>can_run</code> converts directory path name to the 8.3 version on Windows using <code>Win32::GetShortPathName</code> in some cases. This is frequently useful for tools that just need to run something using <code>system</code> in scalar mode, but may be inconvenient for tools like <a href="/pod/App/pwhich.html" class="podlinkpod"
+>App::pwhich</a> where user readability is a premium. Relying on <code>Win32::GetShortPathName</code> to produce filenames without spaces is problematic, as 8.3 filenames can be turned off with tweaks to the registry (see <a href="https://technet.microsoft.com/en-us/library/cc959352.aspx" class="podlinkurl"
+>https://technet.microsoft.com/en-us/library/cc959352.aspx</a>).</p>
+
+<dt><a name="Devel::CheckBin"
+><a href="https://metacpan.org/pod/Devel%3A%3ACheckBin" class="podlinkpod"
+>Devel::CheckBin</a></a></dt>
+
+<dd>
+<p>Requires Perl 5.8.1.</p>
+
+<p>This module purports to &#34;check that a command is available&#34;, but does not provide any documentation on how you might use it.</p>
+
+<p>This module also relies on <a href="https://metacpan.org/pod/ExtUtils%3A%3AMakeMaker" class="podlinkpod"
+>ExtUtils::MakeMaker</a> so has the same overhead burdens as <a href="https://metacpan.org/pod/IPC%3A%3ACmd" class="podlinkpod"
+>IPC::Cmd</a>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<ul>
+<li>Per Einar Ellefsen &#60;pereinar@cpan.org&#62;</li>
+
+<li>Adam Kennedy &#60;adamk@cpan.org&#62;</li>
+
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2002 by Per Einar Ellefsen &#60;pereinar@cpan.org&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

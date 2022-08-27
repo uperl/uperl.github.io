@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NewFangle::Transaction</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> <a href="/pod/NewFangle.html">NewFangle</a>::Transaction</div>
+    <!--NewFangle::Transaction--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#start_segment'>start_segment</a>
+    <li class='indexItem indexItem2'><a href='#start_datastore_segment'>start_datastore_segment</a>
+    <li class='indexItem indexItem2'><a href='#start_external_segment'>start_external_segment</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_int'>add_attribute_int</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_long'>add_attribute_long</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_double'>add_attribute_double</a>
+    <li class='indexItem indexItem2'><a href='#add_attribute_string'>add_attribute_string</a>
+    <li class='indexItem indexItem2'><a href='#notice_error'>notice_error</a>
+    <li class='indexItem indexItem2'><a href='#notice_error_with_stacktrace'>notice_error_with_stacktrace</a>
+    <li class='indexItem indexItem2'><a href='#ignore'>ignore</a>
+    <li class='indexItem indexItem2'><a href='#end'>end</a>
+    <li class='indexItem indexItem2'><a href='#record_custom_event'>record_custom_event</a>
+    <li class='indexItem indexItem2'><a href='#record_custom_metric'>record_custom_metric</a>
+    <li class='indexItem indexItem2'><a href='#set_name'>set_name</a>
+    <li class='indexItem indexItem2'><a href='#create_distributed_trace_payload'>create_distributed_trace_payload</a>
+    <li class='indexItem indexItem2'><a href='#create_distributed_trace_payload_httpsafe'>create_distributed_trace_payload_httpsafe</a>
+    <li class='indexItem indexItem2'><a href='#accept_distributed_trace_payload'>accept_distributed_trace_payload</a>
+    <li class='indexItem indexItem2'><a href='#accept_distributed_trace_payload_httpsafe'>accept_distributed_trace_payload_httpsafe</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>NewFangle::Transaction - NewRelic application class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use NewFangle;
+ my $app = NewFangle::App-&#62;new;
+ $app-&#62;start_web_transaction(&#34;txn_name&#34;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>NewRelic transaction class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="start_segment"
+>start_segment</a></h2>
+
+<pre class="sh_perl"> my $seg = $txn-&#62;start_segment($name, $category);</pre>
+
+<p>Start a new segment. Returns <a href="/pod/NewFangle/Segment.html" class="podlinkpod"
+>NewFangle::Segment</a> instance.</p>
+
+<p>(csdk: newrelic_start_segment)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="start_datastore_segment"
+>start_datastore_segment</a></h2>
+
+<pre class="sh_perl"> my $seg = $txn-&#62;start_datastore_segment([$product, $collection, $operation, $host, $port_path_or_id, $database_name, $query]);</pre>
+
+<p>Start a new datastore segment. Returns <a href="/pod/NewFangle/Segment.html" class="podlinkpod"
+>NewFangle::Segment</a> instance.</p>
+
+<p>(csdk: newrelic_start_datastore_segment)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="start_external_segment"
+>start_external_segment</a></h2>
+
+<pre class="sh_perl"> my $seg = $txn-&#62;start_external_segment([$uri,$method,$library]);</pre>
+
+<p>Start a new external segment. Returns <a href="/pod/NewFangle/Segment.html" class="podlinkpod"
+>NewFangle::Segment</a> instance.</p>
+
+<p>(csdk: newrelic_start_external_segment)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_int"
+>add_attribute_int</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;add_attribute_int($key, $value);</pre>
+
+<p>(csdk: newrelic_add_attribute_int)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_long"
+>add_attribute_long</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;add_attribute_long($key, $value);</pre>
+
+<p>(csdk: newrelic_add_attribute_long)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_double"
+>add_attribute_double</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;add_attribute_double($key, $value);</pre>
+
+<p>(csdk: newrelic_add_attribute_double)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attribute_string"
+>add_attribute_string</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;add_attribute_string($key, $value);</pre>
+
+<p>(csdk: newrelic_add_attribute_string)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="notice_error"
+>notice_error</a></h2>
+
+<pre class="sh_perl"> $txn-&#62;notice_error($priority, $errmsg, $errclass);</pre>
+
+<p>For Perl you probably want to use <code>notice_error_with_stacktrace</code>, see below.</p>
+
+<p>(csdk: newrelic_notice_error)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="notice_error_with_stacktrace"
+>notice_error_with_stacktrace</a></h2>
+
+<pre class="sh_perl"> $txn-&#62;notice_error_with_stacktrace($priority, $errmsg, $errorclass, $errstacktrace);</pre>
+
+<p>This works like notice_error above, except it lets you specify the stack trace instead of using the C stack trace, which is likely not helpful for a Perl application.</p>
+
+<p>This method requires a patch that hasn&#39;t currently been applied to the official NewRelic C-SDK. <a href="/pod/Alien/libnewrelic.html" class="podlinkpod"
+>Alien::libnewrelic</a> should apply this fro you, but if you are building the C-SDK yourself and need this method then you will need to apply this patch.</p>
+
+<p>(csdk: notice_error_with_stacktrace)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ignore"
+>ignore</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;ignore;</pre>
+
+<p>(csdk: newrelic_ignore_transaction)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="end"
+>end</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;end;</pre>
+
+<p>Ends the transaction.</p>
+
+<p>(csdk: newrelic_end_transaction)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="record_custom_event"
+>record_custom_event</a></h2>
+
+<pre class="sh_perl"> $txn-&#62;record_custom_event($event);</pre>
+
+<p><code>$event</code> should be an instance of <a href="/pod/NewFangle/CustomEvent.html" class="podlinkpod"
+>NewFangle::CustomEvent</a>.</p>
+
+<p>(csdk: newrelic_record_custom_event)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="record_custom_metric"
+>record_custom_metric</a></h2>
+
+<pre class="sh_perl"> $txn-&#62;record_custom_metric($name, $milliseconds);</pre>
+
+<p>(csdk: newrelic_record_custom_metric)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_name"
+>set_name</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;set_name($name);</pre>
+
+<p>(csdk: newrelic_set_transaction_name)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="create_distributed_trace_payload"
+>create_distributed_trace_payload</a></h2>
+
+<pre class="sh_perl"> my $payload = $txn-&#62;create_distributed_trace_payload;
+ my $payload = $txn-&#62;create_distributed_trace_payload($seg);</pre>
+
+<p>Note that to use distributed tracing the <a href="/pod/NewFangle/App.html" class="podlinkpod"
+>NewFangle::App</a> instance must have it enabled in the configuration. You can do this like:</p>
+
+<pre class="sh_perl"> my $app = NewFangle::App-&#62;new({ distributed_tracing =&#62; { enabled =&#62; 1 } });</pre>
+
+<p>(csdk: newrelic_create_distributed_trace_payload)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="create_distributed_trace_payload_httpsafe"
+>create_distributed_trace_payload_httpsafe</a></h2>
+
+<pre class="sh_perl"> my $payload = $txn-&#62;create_distributed_trace_payload_httpsafe;
+ my $payload = $txn-&#62;create_distributed_trace_payload_httpsafe($seg);</pre>
+
+<p>(csdk: newrelic_create_distributed_trace_payload_httpsafe)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="accept_distributed_trace_payload"
+>accept_distributed_trace_payload</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;accept_distributed_trace_payload($payload, $transport_type);</pre>
+
+<p><code>$transport_type</code> the recommended values are:</p>
+
+<dl>
+<dt><a name="Unknown"
+><code>Unknown</code></a></dt>
+
+<dd>
+<dt><a name="HTTP"
+><code>HTTP</code></a></dt>
+
+<dd>
+<dt><a name="HTTPS"
+><code>HTTPS</code></a></dt>
+
+<dd>
+<dt><a name="Kafka"
+><code>Kafka</code></a></dt>
+
+<dd>
+<dt><a name="JMS"
+><code>JMS</code></a></dt>
+
+<dd>
+<dt><a name="IronMQ"
+><code>IronMQ</code></a></dt>
+
+<dd>
+<dt><a name="AMQP"
+><code>AMQP</code></a></dt>
+
+<dd>
+<dt><a name="Queue"
+><code>Queue</code></a></dt>
+
+<dd>
+<dt><a name="Other"
+><code>Other</code></a></dt>
+</dl>
+
+<p><code>undef</code> can also be used in place of <code>Unknown</code>, but an info-level message will be logged.</p>
+
+<p>(csdk: newrelic_accept_distributed_trace_payload)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="accept_distributed_trace_payload_httpsafe"
+>accept_distributed_trace_payload_httpsafe</a></h2>
+
+<pre class="sh_perl"> my $bool = $txn-&#62;accept_distributed_trace_payload_httpsafe($payload, $transport_type);</pre>
+
+<p>Same as <code>accept_distributed_trace_payload</code> above, but uses the payload from <code>create_distributed_trace_payload_httpsafe</code>.</p>
+
+<p>(csdk: newrelic_accept_distributed_trace_payload_httpsafe)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="NewFangle"
+><a href="/pod/NewFangle.html" class="podlinkpod"
+>NewFangle</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Owen Allsopp (ALLSOPP)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2020-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

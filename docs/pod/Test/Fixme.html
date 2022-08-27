@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::Fixme</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::Fixme</div>
+    <!--Test::Fixme--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#run_tests'>run_tests</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#HINTS'>HINTS</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#ACKNOWLEDGMENTS'>ACKNOWLEDGMENTS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::Fixme - Check code for FIXMEs.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.16</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> # In a test script like &#39;t/test-fixme.t&#39;
+ use Test::Fixme;
+ run_tests();
+ 
+ # You can also tailor the behaviour.
+ use Test::Fixme;
+ run_tests( where    =&#62; &#39;lib&#39;,      # where to find files to check
+            match    =&#62; &#39;TODO&#39;,     # what to check for
+            skip_all =&#62; $ENV{SKIP}  # should all tests be skipped
+ );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>When coding it is common to come up against problems that need to be addressed but that are not a big deal at the moment. What generally happens is that the coder adds comments like:</p>
+
+<pre class="sh_perl"> # FIXME - what about windows that are bigger than the screen?
+
+ # FIXME - add checking of user privileges here.</pre>
+
+<p><a href="/pod/Test/Fixme.html" class="podlinkpod"
+>Test::Fixme</a> allows you to add a test file that ensures that none of these get forgotten in the module.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="run_tests"
+>run_tests</a></h2>
+
+<p>By default run_tests will search for &#39;FIXME&#39; in all the files it can find in the project. You can change these defaults by using &#39;where&#39; or &#39;match&#39; as follows:</p>
+
+<pre class="sh_perl"> run_tests( where =&#62; &#39;lib&#39;, # just check the modules.
+            match =&#62; &#39;TODO&#39; # look for things that are not done yet.
+ );</pre>
+
+<dl>
+<dt><a name="where"
+>where</a></dt>
+
+<dd>
+<p>Specifies where to search for files. This can be a scalar containing a single directory name, or it can be a list reference containing multiple directory names.</p>
+
+<dt><a name="match"
+>match</a></dt>
+
+<dd>
+<p>Expression to search for within the files. This may be a simple string, or a qr//-quoted regular expression. For example:</p>
+
+<pre class="sh_perl"> match =&#62; qr/[T]ODO|[F]IXME|[B]UG/,</pre>
+
+<dt><a name="filename_match"
+>filename_match</a></dt>
+
+<dd>
+<p>Expression to filter file names. This should be a qr//-quoted regular expression. For example:</p>
+
+<pre class="sh_perl"> match =&#62; qr/\.(:pm|pl)$/,</pre>
+
+<p>would only match .pm and .pl files under your specified directory.</p>
+
+<dt><a name="manifest"
+>manifest</a></dt>
+
+<dd>
+<p>Specifies the name of your MANIFEST file which will be used as the list of files to test instead of <i>where</i> or <i>filename_match</i>.</p>
+
+<pre class="sh_perl"> manifest =&#62; &#39;MANIFEST&#39;,</pre>
+
+<dt><a name="warn"
+>warn</a></dt>
+
+<dd>
+<p>Do not fail when a FIXME or other pattern is matched. Tests that would have been failures will still issue a diagnostic that will be viewed when you run <code>prove</code> without <code>-v</code>, <code>make test</code> or <code>./Build test</code>.</p>
+
+<dt><a name="format"
+>format</a></dt>
+
+<dd>
+<p>Specifies format to be used for display of pattern matches.</p>
+
+<dl>
+<dt><a name="original"
+>original</a></dt>
+
+<dd>
+<p>The original and currently default format looks something like this:</p>
+
+<pre class="sh_perl"> # File: &#39;./lib/Test/Fixme.pm&#39;
+ #     16      # ABSTRACT: Check code for FIXMEs.
+ #     25          $args{match} = &#39;FIXME&#39; unless defined $args{match} &#38;&#38; length $args{match};
+ #     28          $args{format} ||= $ENV{TEST_FIXME_FORMAT};
+ #     228      # FIXME - what about windows that are bigger than the screen?
+ #     230      # FIXME - add checking of user privileges here.
+ #     239     By default run_tests will search for &#39;FIXME&#39; in all the files it can
+ #     280     Do not fail when a FIXME or other pattern is matched.  Tests that would
+ #     288     If you want to match something other than &#39;FIXME&#39; then you may find
+ #     296      run_tests( skip_all =&#62; $ENV{SKIP_TEST_FIXME} );
+ #     303     L&#60;Devel::FIXME&#62;</pre>
+
+<p>With the line numbers on the left and the offending text on the right.</p>
+
+<dt><a name="perl"
+>perl</a></dt>
+
+<dd>
+<p>The &#34;perl&#34; format is that used by Perl itself to report warnings and errors.</p>
+
+<pre class="sh_perl"> # Pattern found at ./lib/Test/Fixme.pm line 16:
+ #  # ABSTRACT: Check code for FIXMEs.
+ # Pattern found at ./lib/Test/Fixme.pm line 25:
+ #      $args{match} = &#39;FIXME&#39; unless defined $args{match} &#38;&#38; length $args{match};
+ # Pattern found at ./lib/Test/Fixme.pm line 28:
+ #      $args{format} ||= $ENV{TEST_FIXME_FORMAT};
+ # Pattern found at ./lib/Test/Fixme.pm line 228:
+ #   # FIXME - what about windows that are bigger than the screen?
+ # Pattern found at ./lib/Test/Fixme.pm line 230:
+ #   # FIXME - add checking of user privileges here.
+ # Pattern found at ./lib/Test/Fixme.pm line 239:
+ #  By default run_tests will search for &#39;FIXME&#39; in all the files it can
+ # Pattern found at ./lib/Test/Fixme.pm line 280:
+ #  Do not fail when a FIXME or other pattern is matched.  Tests that would
+ # Pattern found at ./lib/Test/Fixme.pm line 288:
+ #  If you want to match something other than &#39;FIXME&#39; then you may find
+ # Pattern found at ./lib/Test/Fixme.pm line 296:
+ #   run_tests( skip_all =&#62; $ENV{SKIP_TEST_FIXME} );
+ # Pattern found at ./lib/Test/Fixme.pm line 303:
+ #  L&#60;Devel::FIXME&#62;</pre>
+
+<p>For files that contain many offending patterns it may be a bit harder to read for humans, but easier to parse for IDEs.</p>
+</dd>
+</dl>
+
+<p>You may also use the <code>TEST_FIXME_FORMAT</code> environment variable to override either the default or the value specified in the test file.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="HINTS"
+>HINTS</a></h1>
+
+<p>If you want to match something other than &#39;FIXME&#39; then you may find that the test file itself is being caught. Try doing this:</p>
+
+<pre class="sh_perl"> run_tests( match =&#62; &#39;TO&#39;.&#39;DO&#39; );</pre>
+
+<p>You may also wish to suppress the tests - try this:</p>
+
+<pre class="sh_perl"> use Test::Fixme;
+ run_tests( skip_all =&#62; $ENV{SKIP_TEST_FIXME} );</pre>
+
+<p>You can only run run_tests once per file. Please use several test files if you want to run several different tests.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>This module is fully supported back to Perl 5.8.1. It may work on 5.8.0. It should work on Perl 5.6.x and I may even test on 5.6.2. I will accept patches to maintain compatibility for such older Perls, but you may need to fix it on 5.6.x / 5.8.0 and send me a patch.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://metacpan.org/pod/Devel%3A%3AFIXME" class="podlinkpod"
+>Devel::FIXME</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ACKNOWLEDGMENTS"
+>ACKNOWLEDGMENTS</a></h1>
+
+<p>Dave O&#39;Neill added support for &#39;filename_match&#39; and also being able to pass a list of several directories in the &#39;where&#39; argument. Many thanks.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: Edmund von der Burg</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Dave O&#39;Neill</p>
+
+<p>gregor herrmann &#60;gregoa@debian.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2016 by Edmund von der Burg &#60;evdb@ecclestoad.co.uk&#62;, Graham Ollis &#60;plicease@cpan.org&#62;.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

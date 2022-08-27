@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>aeftpd</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> aeftpd</div>
+    <!--aeftpd--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#--port_port'>--port port</a>
+    <li class='indexItem indexItem2'><a href='#--hostname_hostname'>--hostname hostname</a>
+    <li class='indexItem indexItem2'><a href='#--inet'>--inet</a>
+    <li class='indexItem indexItem2'><a href='#--stderr_path'>--stderr path</a>
+    <li class='indexItem indexItem2'><a href='#--chroot'>--chroot</a>
+    <li class='indexItem indexItem2'><a href='#--cred_%5B_user%3Apass_%7C_random_%5D'>--cred [ user:pass | random ]</a>
+    <li class='indexItem indexItem2'><a href='#--auth_class'>--auth class</a>
+    <li class='indexItem indexItem2'><a href='#--auth_key%3Dval'>--auth key=val</a>
+    <li class='indexItem indexItem2'><a href='#--pam_service'>--pam service</a>
+    <li class='indexItem indexItem2'><a href='#--verbose'>--verbose</a>
+    <li class='indexItem indexItem2'><a href='#--context_context'>--context context</a>
+    <li class='indexItem indexItem2'><a href='#--version'>--version</a>
+    <li class='indexItem indexItem2'><a href='#--help'>--help</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>aeftpd - FTP Server</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.19</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> % aeftpd [ --port port ]
+          [ --hostname hostname ]
+          [ --inet ]
+          [ --stderr path ]
+          [ --context context ]
+          [ --chroot ]
+            --pam service |
+            --cred user:pass |
+            --cred random |
+            --auth class [ --auth key=val ]
+          [ --verbose ]
+ % aeftpd --version
+ % aeftpd --help</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This program starts an FTP daemon using the perl library <a href="/pod/AnyEvent/FTP/Server.html" class="podlinkpod"
+>AnyEvent::FTP::Server</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--port_port"
+>--port <i>port</i></a></h2>
+
+<p>The TCP port to listen to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--hostname_hostname"
+>--hostname <i>hostname</i></a></h2>
+
+<p>The hostname or IP address to listen on.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--inet"
+>--inet</a></h2>
+
+<p>Run in inet mode. By default <code>aeftpd</code> runs as a single process in standalone mode. By using this option you can run <code>aeftp</code> from <code>inetd</code>, <code>xinetd</code> or similar daemon. Here is a line for /etc/inetd.conf which was tested on Debian Wheezy, and may work for you if your operating system supports PAM and you have <a href="https://metacpan.org/pod/Authen%3A%3ASimple%3A%3APAM" class="podlinkpod"
+>Authen::Simple::PAM</a> installed.</p>
+
+<pre class="sh_perl"> ftp stream tcp nowait root /usr/sbin/tcpd aeftpd --inet --stderr /tmp/aeftp.log --pam login</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--stderr_path"
+>--stderr <i>path</i></a></h2>
+
+<p>Redirect stderr from the daemon to the file specified by the given path</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--chroot"
+>--chroot</a></h2>
+
+<p>Use <code>chroot</code> to restrict the user to only his home directory once he has logged in. This option requires the <code>chroot</code> function, which is supported by Perl on most UNIX and UNIX like operating systems.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--cred_[_user:pass_|_random_]"
+>--cred [ <i>user</i>:<i>pass</i> | random ]</a></h2>
+
+<p>Allow authentication with the given username and password. If you specify <code>random</code> then a randomly generated username and password will be used.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--auth_class"
+>--auth <i>class</i></a></h2>
+
+<p>Specify a <a href="https://metacpan.org/pod/Authen%3A%3ASimple" class="podlinkpod"
+>Authen::Simple</a> class to use for authentication. You should NOT include the Authen::Simple prefix when specifying the class (that is use <code>PAM</code> instead of <code>Authen::Simple::PAM</code>).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--auth_key=val"
+>--auth <i>key</i>=<i>val</i></a></h2>
+
+<p>Specify an argument to pass into the chosen <a href="https://metacpan.org/pod/Authen%3A%3ASimple" class="podlinkpod"
+>Authen::Simple</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--pam_service"
+>--pam <i>service</i></a></h2>
+
+<p>Use PAM for authentication. This option is simply a shortcut. This:</p>
+
+<pre class="sh_perl"> % aeftpd --pam login</pre>
+
+<p>is the same as</p>
+
+<pre class="sh_perl"> % aeftpd --auth PAM --auth service=login</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--verbose"
+>--verbose</a></h2>
+
+<p>Print all FTP commands and their responses to stderr.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--context_context"
+>--context <i>context</i></a></h2>
+
+<p>Set the default context. The default is FSRW.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--version"
+>--version</a></h2>
+
+<p>Print out the <a href="/pod/AnyEvent/FTP.html" class="podlinkpod"
+>AnyEvent::FTP</a> version to stdout and exit.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="--help"
+>--help</a></h2>
+
+<p>Display the usage for this command.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Ryo Okamoto</p>
+
+<p>Shlomi Fish</p>
+
+<p>Jos&#233; Joaqu&#237;n Atria</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2017-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Text::Hunspell::FFI</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Text::Hunspell::FFI</div>
+    <!--Text::Hunspell::FFI--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#add_dic'>add_dic</a>
+    <li class='indexItem indexItem2'><a href='#check'>check</a>
+    <li class='indexItem indexItem2'><a href='#suggest'>suggest</a>
+    <li class='indexItem indexItem2'><a href='#analyze'>analyze</a>
+    <li class='indexItem indexItem2'><a href='#stem'>stem</a>
+    <li class='indexItem indexItem2'><a href='#generate2'>generate2</a>
+    <li class='indexItem indexItem2'><a href='#generate'>generate</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Text::Hunspell::FFI - Perl FFI interface to the Hunspell library</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    use Text::Hunspell::FFI;
+ 
+    # You can use relative or absolute paths.
+    my $speller = Text::Hunspell::FFI-&#62;new(
+        &#34;/usr/share/hunspell/en_US.aff&#34;,    # Hunspell affix file
+        &#34;/usr/share/hunspell/en_US.dic&#34;     # Hunspell dictionary file
+    );
+ 
+    die unless $speller;
+ 
+    # Check a word against the dictionary
+    my $word = &#39;opera&#39;;
+    print $speller-&#62;check($word)
+          ? &#34;&#39;$word&#39; found in the dictionary\n&#34;
+          : &#34;&#39;$word&#39; not found in the dictionary!\n&#34;;
+ 
+    # Spell check suggestions
+    my $misspelled = &#39;programmng&#39;;
+    my @suggestions = $speller-&#62;suggest($misspelled);
+    print &#34;\n&#34;, &#34;You typed &#39;$misspelled&#39;. Did you mean?\n&#34;;
+    for (@suggestions) {
+        print &#34;  - $_\n&#34;;
+    }
+ 
+    # Add dictionaries later
+    $speller-&#62;add_dic(&#39;dictionary_file.dic&#39;);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><b>NOTE</b>: This module is a reimplementation of <a href="https://metacpan.org/pod/Text%3A%3AHunspell" class="podlinkpod"
+>Text::Hunspell</a> using <a href="https://metacpan.org/pod/FFI%3A%3APlatypus" class="podlinkpod"
+>FFI::Platypus</a> instead of <code>XS</code>. The documentation has largely be cribbed from that module. The main advantage to this module is that it does not require a compiler. The man disadvantage is that it is experimental and may break.</p>
+
+<p>This module provides a Perl interface to the <b>Hunspell</b> library. This module is to meet the need of looking up many words, one at a time, in a single session, such as spell-checking a document in memory.</p>
+
+<p>The example code describes the interface on <a href="http://hunspell.sf.net" class="podlinkurl"
+>http://hunspell.sf.net</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<p>The following methods are available:</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $spell = Text::Hunspell::FFI-&#62;new($full_path_to_affix, $full_path_to_dic);</pre>
+
+<p>Creates a new speller object. Parameters are:</p>
+
+<dl>
+<dt><a name="full_path_of_affix_(.aff)_file"
+>full path of affix (.aff) file</a></dt>
+
+<dd>
+<dt><a name="full_path_of_dictionary_(.dic)_file"
+>full path of dictionary (.dic) file</a></dt>
+</dl>
+
+<p>Returns <code>undef</code> if the object could not be created, which is unlikely.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_dic"
+>add_dic</a></h2>
+
+<pre class="sh_perl"> $spell-&#62;add_dic($path_to_dic);</pre>
+
+<p>Adds a new dictionary to the current <code>Text::Hunspell::FFI</code> object. This dictionary will use the same affix file as the original dictionary, so this is like using a personal word list in a given language. To check spellings in several different languages, use multiple <code>Text::Hunspell::FFI</code> objects.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="check"
+>check</a></h2>
+
+<pre class="sh_perl"> my $bool = $spell-&#62;check($word);</pre>
+
+<p>Check the word. Returns 1 if the word is found, 0 otherwise.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="suggest"
+>suggest</a></h2>
+
+<pre class="sh_perl"> my @words = $spell-&#62;suggest($misspelled_word);</pre>
+
+<p>Returns the list of suggestions for the misspelled word.</p>
+
+<p>The following methods are used for morphological analysis, which is looking at the structure of words; parts of speech, inflectional suffixes and so on. However, most of the dictionaries that Hunspell can use are missing this information and only contain affix flags which allow, for example, &#39;cat&#39; to turn into &#39;cats&#39; but not &#39;catability&#39;. (Users of the French and Hungarian dictionaries will find that they have more information available.)</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="analyze"
+>analyze</a></h2>
+
+<pre class="sh_perl"> my @words = $spell-&#62;analyze($word);</pre>
+
+<p>Returns the analysis list for the word. This will be a list of strings that contain a stem word and the morphological information about the changes that have taken place from the stem. This will most likely be &#39;fl:X&#39; strings that indicate that affix flag &#39;X&#39; was applied to the stem. Words may have more than one stem, and each one will be returned as a different item in the list.</p>
+
+<p>However, with a French dictionary loaded, <code>analyze(&#39;chanson&#39;)</code> will return</p>
+
+<pre class="sh_perl">  st:chanson po:nom is:fem is:sg</pre>
+
+<p>to tell you that &#34;chanson&#34; is a feminine singular noun, and <code>analyze(&#39;chansons&#39;)</code> will return</p>
+
+<pre class="sh_perl">  st:chanson po:nom is:fem is:pl</pre>
+
+<p>to tell you that you&#39;ve analyzed the plural of the same noun.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stem"
+>stem</a></h2>
+
+<pre class="sh_perl"> my @stems = $spell-&#62;stem($word);</pre>
+
+<p>Returns the stem list for the word. This is a simpler version of the results from <code>analyze()</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="generate2"
+>generate2</a></h2>
+
+<pre class="sh_perl"> my @ana = $spell-&#62;generate2($stem, \@suggestions)</pre>
+
+<p>Returns a morphologically modified stem as defined in <code>@suggestions</code> (got by analysis).</p>
+
+<p>With a French dictionary:</p>
+
+<pre class="sh_perl">  $feminine_form = &#39;chanteuse&#39;;
+  @ana = $speller-&#62;analyze($feminine_form);
+  $ana[0] =~ s/is:fem/is:mas/;
+  print $speller-&#62;generate2($feminine_form, \@ana)</pre>
+
+<p>will print &#39;chanteur&#39;.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="generate"
+>generate</a></h2>
+
+<pre class="sh_perl"> my @ana = generate($stem, $word)</pre>
+
+<p>Returns morphologically modified stem like $word.</p>
+
+<pre class="sh_perl">  $french_speller-&#62;generate(&#39;danseuse&#39;, &#39;chanteur&#39;);</pre>
+
+<p>tells us that the masculine form of &#39;danseuse&#39; is &#39;danseur&#39;.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Text::Hunspell"
+><a href="https://metacpan.org/pod/Text%3A%3AHunspell" class="podlinkpod"
+>Text::Hunspell</a></a></dt>
+
+<dd>
+<dt><a name="FFI::Platypus"
+><a href="https://metacpan.org/pod/FFI%3A%3APlatypus" class="podlinkpod"
+>FFI::Platypus</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Please see:</p>
+
+<dl>
+<dt><a name="http://hunspell.sf.net"
+><a href="http://hunspell.sf.net" class="podlinkurl"
+>http://hunspell.sf.net</a></a></dt>
+</dl>
+
+<p>For the dictionaries:</p>
+
+<dl>
+<dt><a name="https://wiki.openoffice.org/wiki/Dictionaries"
+><a href="https://wiki.openoffice.org/wiki/Dictionaries" class="podlinkurl"
+>https://wiki.openoffice.org/wiki/Dictionaries</a></a></dt>
+
+<dd>
+<dt><a name="http://magyarispell.sf.net_for_Hungarian_dictionary"
+><a href="http://magyarispell.sf.net" class="podlinkurl"
+>http://magyarispell.sf.net</a> for Hungarian dictionary</a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2015-2021 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

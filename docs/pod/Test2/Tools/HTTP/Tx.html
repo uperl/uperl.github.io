@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::HTTP::Tx</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::<a href="/pod/Test2/Tools/HTTP.html">HTTP</a>::Tx</div>
+    <!--Test2::Tools::HTTP::Tx--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#req'>req</a>
+    <li class='indexItem indexItem2'><a href='#res'>res</a>
+    <li class='indexItem indexItem2'><a href='#ok'>ok</a>
+    <li class='indexItem indexItem2'><a href='#connection_error'>connection_error</a>
+    <li class='indexItem indexItem2'><a href='#location'>location</a>
+    <li class='indexItem indexItem2'><a href='#note'>note</a>
+    <li class='indexItem indexItem2'><a href='#diag'>diag</a>
+    <li class='indexItem indexItem2'><a href='#add_helper'>add_helper</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::HTTP::Tx - Object representing the last transaction for Test2::Tools::HTTP</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.10</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test2::Tools::HTTP;
+ use HTTP::Request::Common;
+ 
+ http_request GET(&#39;http://example.test&#39;);
+ 
+ # get the HTTP::Request/Response object
+ my $req = http_tx-&#62;req;
+ my $res = http_tx-&#62;res;
+ 
+ # send a diagnostic of the most recent
+ # transaction as a note.
+ http_tx-&#62;note;
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class provides an interface to the most recent transaction performed by <code>http_request</code> in <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
+>Test2::Tools::HTTP</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="req"
+>req</a></h2>
+
+<pre class="sh_perl"> my $req = http_tx-&#62;req;</pre>
+
+<p>The <a href="https://metacpan.org/pod/HTTP%3A%3ARequest" class="podlinkpod"
+>HTTP::Request</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="res"
+>res</a></h2>
+
+<pre class="sh_perl"> my $res = http_tx-&#62;res;</pre>
+
+<p>The <a href="https://metacpan.org/pod/HTTP%3A%3AResponse" class="podlinkpod"
+>HTTP::Response</a> object. May or may not be defined in the case of a connection error.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ok"
+>ok</a></h2>
+
+<pre class="sh_perl"> my $bool = http_tx-&#62;ok;</pre>
+
+<p>True if the most recent call to <code>http_request</code> passed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="connection_error"
+>connection_error</a></h2>
+
+<pre class="sh_perl"> my $string = http_tx-&#62;connection_error;</pre>
+
+<p>The connection error if any from the most recent <code>http_reequest</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="location"
+>location</a></h2>
+
+<p>The <code>Location</code> header converted to an absolute URL, if provided by the response.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="note"
+>note</a></h2>
+
+<pre class="sh_perl"> http_tx-&#62;note;</pre>
+
+<p>Send the request, response and ok to Test2&#39;s &#34;note&#34; output. Note that the message bodies may be decoded, but the headers will not be modified.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="diag"
+>diag</a></h2>
+
+<p>Send the request, response and ok to Test2&#39;s &#34;diag&#34; output. Note that the message bodies may be decoded, but the headers will not be modified.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_helper"
+>add_helper</a></h2>
+
+<pre class="sh_perl"> Test2::Tools::HTTP::Tx-&#62;add_helper( $name, $code );</pre>
+
+<p>Adds a transaction helper to the given class. For example.</p>
+
+<pre class="sh_perl"> Test2::Tools::HTTP::Tx-&#62;add_helper( &#39;tx.foo&#39; =&#62; sub {
+   my $tx = shift;
+   ...
+ } );
+ Test2::Tools::HTTP::Tx-&#62;add_helper( &#39;req.bar&#39; =&#62; sub {
+   my $req = shift;
+   ...
+ } );
+ Test2::Tools::HTTP::Tx-&#62;add_helper( &#39;res.baz&#39; =&#62; sub {
+   my $res = shift;
+   ...
+ } );</pre>
+
+<p>Lets you call these helpers thus:</p>
+
+<pre class="sh_perl"> http_tx-&#62;foo;
+ http_tx-&#62;req-&#62;bar;
+ http_tx-&#62;res-&#62;baz;</pre>
+
+<p>A useful application of this technique is to provide conversion of the response body:</p>
+
+<pre class="sh_perl"> use JSON::PP qw( decode_json );
+ Test2::Tools::HTTP::Tx-&#62;add_helper( &#39;res.json&#39; =&#62; sub {
+   my $res = shift;
+   decode_json( $res-&#62;decoded_content );
+ });</pre>
+
+<p>You cannot add helpers that replace existing methods.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2018-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

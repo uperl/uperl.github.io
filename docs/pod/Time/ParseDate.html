@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Time::ParseDate</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Time::ParseDate</div>
+    <!--Time::ParseDate--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <li class='indexItem indexItem1'><a href='#DATE_FORMATS_RECOGNIZED'>DATE FORMATS RECOGNIZED</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Absolute_date_formats'>Absolute date formats</a>
+    <li class='indexItem indexItem2'><a href='#Relative_date_formats%3A'>Relative date formats:</a>
+    <li class='indexItem indexItem2'><a href='#Absolute_time_formats%3A'>Absolute time formats:</a>
+    <li class='indexItem indexItem2'><a href='#Relative_time_formats%3A'>Relative time formats:</a>
+    <li class='indexItem indexItem2'><a href='#Timezone_formats%3A'>Timezone formats:</a>
+    <li class='indexItem indexItem2'><a href='#Special_formats%3A'>Special formats:</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#EXAMPLES'>EXAMPLES</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Time::ParseDate -- date parsing both relative and absolute</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">        use Time::ParseDate;
+        $seconds_since_jan1_1970 = parsedate(&#34;12/11/94 2pm&#34;, NO_RELATIVE =&#62; 1)
+        $seconds_since_jan1_1970 = parsedate(&#34;12/11/94 2pm&#34;, %options)</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<p>Date parsing can also use options. The options are as follows:</p>
+
+<pre class="sh_perl">        FUZZY   -&#62; it&#39;s okay not to parse the entire date string
+        NOW     -&#62; the &#34;current&#34; time for relative times (defaults to time())
+        ZONE    -&#62; local timezone (defaults to $ENV{TZ})
+        WHOLE   -&#62; the whole input string must be parsed
+        GMT     -&#62; input time is assumed to be GMT, not localtime
+        UK      -&#62; prefer UK style dates (dd/mm over mm/dd)
+        DATE_REQUIRED -&#62; do not default the date
+        TIME_REQUIRED -&#62; do not default the time
+        NO_RELATIVE -&#62; input time is not relative to NOW
+        TIMEFIRST -&#62; try parsing time before date [not default]
+        PREFER_PAST -&#62; when year or day of week is ambiguous, assume past
+        PREFER_FUTURE -&#62; when year or day of week is ambiguous, assume future
+        SUBSECOND -&#62; parse fraction seconds
+        VALIDATE -&#62; only accept normal values for HHMMSS, YYMMDD.  Otherwise
+                days like -1 might give the last day of the previous month.</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DATE_FORMATS_RECOGNIZED"
+>DATE FORMATS RECOGNIZED</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Absolute_date_formats"
+>Absolute date formats</a></h2>
+
+<pre class="sh_perl">        Dow, dd Mon yy
+        Dow, dd Mon yyyy
+        Dow, dd Mon
+        dd Mon yy
+        dd Mon yyyy
+        Month day{st,nd,rd,th}, year
+        Month day{st,nd,rd,th}
+        Mon dd yyyy
+        yyyy/mm/dd
+        yyyy-mm-dd      (usually the best date specification syntax)
+        yyyy/mm
+        mm/dd/yy
+        mm/dd/yyyy
+        mm/yy
+        yy/mm      (only if year &#62; 12, or &#62; 31 if UK)
+        yy/mm/dd   (only if year &#62; 12 and day &#60; 32, or year &#62; 31 if UK)
+        dd/mm/yy   (only if UK, or an invalid mm/dd/yy or yy/mm/dd)
+        dd/mm/yyyy (only if UK, or an invalid mm/dd/yyyy)
+        dd/mm      (only if UK, or an invalid mm/dd)</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Relative_date_formats:"
+>Relative date formats:</a></h2>
+
+<pre class="sh_perl">        count &#34;days&#34;
+        count &#34;weeks&#34;
+        count &#34;months&#34;
+        count &#34;years&#34;
+        Dow &#34;after next&#34;
+        Dow &#34;before last&#34;
+        Dow                     (requires PREFER_PAST or PREFER_FUTURE)
+        &#34;next&#34; Dow
+        &#34;tomorrow&#34;
+        &#34;today&#34;
+        &#34;yesterday&#34;
+        &#34;last&#34; dow
+        &#34;last week&#34;
+        &#34;now&#34;
+        &#34;now&#34; &#34;+&#34; count units
+        &#34;now&#34; &#34;-&#34; count units
+        &#34;+&#34; count units         
+        &#34;-&#34; count units
+        count units &#34;ago&#34;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Absolute_time_formats:"
+>Absolute time formats:</a></h2>
+
+<pre class="sh_perl">        hh:mm:ss[.ddd] 
+        hh:mm 
+        hh:mm[AP]M
+        hh[AP]M
+        hhmmss[[AP]M] 
+        &#34;noon&#34;
+        &#34;midnight&#34;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Relative_time_formats:"
+>Relative time formats:</a></h2>
+
+<pre class="sh_perl">        count &#34;minutes&#34;         (count can be franctional &#34;1.5&#34; or &#34;1 1/2&#34;)
+        count &#34;seconds&#34;
+        count &#34;hours&#34;
+        &#34;+&#34; count units
+        &#34;+&#34; count
+        &#34;-&#34; count units
+        &#34;-&#34; count
+        count units &#34;ago&#34;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Timezone_formats:"
+>Timezone formats:</a></h2>
+
+<pre class="sh_perl">        [+-]dddd
+        GMT[+-]d+
+        [+-]dddd (TZN)
+        TZN</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Special_formats:"
+>Special formats:</a></h2>
+
+<pre class="sh_perl">        [ d]d/Mon/yyyy:hh:mm:ss [[+-]dddd]
+        yy/mm/dd.hh:mm</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module recognizes the above date/time formats. Usually a date and a time are specified. There are numerous options for controlling what is recognized and what is not.</p>
+
+<p>The return code is always the time in seconds since January 1st, 1970 or undef if it was unable to parse the time.</p>
+
+<p>If a timezone is specified it must be after the time. Year specifications can be tacked onto the end of absolute times.</p>
+
+<p>If <code>parsedate()</code> is called from array context, then it will return two elements. On successful parses, it will return the seconds and what remains of its input string. On unsuccessful parses, it will return <code>undef</code> and an error string.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLES"
+>EXAMPLES</a></h1>
+
+<pre class="sh_perl">        $seconds = parsedate(&#34;Mon Jan  2 04:24:27 1995&#34;);
+        $seconds = parsedate(&#34;Tue Apr 4 00:22:12 PDT 1995&#34;);
+        $seconds = parsedate(&#34;04.04.95 00:22&#34;, ZONE =&#62; PDT);
+        $seconds = parsedate(&#34;Jan 1 1999 11:23:34.578&#34;, SUBSECOND =&#62; 1);
+        $seconds = parsedate(&#34;122212 950404&#34;, ZONE =&#62; PDT, TIMEFIRST =&#62; 1);
+        $seconds = parsedate(&#34;+3 secs&#34;, NOW =&#62; 796978800);
+        $seconds = parsedate(&#34;2 months&#34;, NOW =&#62; 796720932);
+        $seconds = parsedate(&#34;last Tuesday&#34;);
+        $seconds = parsedate(&#34;Sunday before last&#34;);
+
+        ($seconds, $remaining) = parsedate(&#34;today is the day&#34;);
+        ($seconds, $error) = parsedate(&#34;today is&#34;, WHOLE=&#62;1);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>Copyright (C) 1996-2010 David Muir Sharnoff. Copyright (C) 2011 Google, Inc. License hereby granted for anyone to use, modify or redistribute this module at their own risk. Please feed useful changes back to cpan@dave.sharnoff.org.</p>
+
+
+    <div class="nx-footer">
+      <p>Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>
