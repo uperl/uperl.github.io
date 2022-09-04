@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Plack::App::Libarchive</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Plack::App::Libarchive</div>
+    <!--Plack::App::Libarchive--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONFIGURATION'>CONFIGURATION</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Plack::App::Libarchive - Serve an archive via libarchive as a PSGI web app</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Plack::App::Libarchive;
+ my $app = Plack::App::Libarchive-&#62;new( archive =&#62; &#39;foo.tar.tz&#39; )-&#62;to_app;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This <a href="https://metacpan.org/pod/PSGI" class="podlinkpod"
+>PSGI</a> application serves the content of an archive (any format supported by <code>libarchive</code> via <a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a>). A request to the root for the app will return an index of the files contained within the archive.</p>
+
+<p>The index is generated using <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template</a>. There is a bundled template that will list the entry files and link to their content. If you want to customize the index you can provide your own template. Here are the template variables that are available from within the template:</p>
+
+<dl>
+<dt><a name="archive"
+><code>archive</code></a></dt>
+
+<dd>
+<p>A hash reference containing information about the archive</p>
+
+<dt><a name="archive.name"
+><code>archive.name</code></a></dt>
+
+<dd>
+<p>The basename of the archive filename. For example: <code>foo.tar.gz</code>.</p>
+
+<dt><a name="archive.get_next_entry"
+><code>archive.get_next_entry</code></a></dt>
+
+<dd>
+<p>Get the next <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a> object from the archive.</p>
+</dd>
+</dl>
+
+<p>Here is the default wrapper.html.tt:</p>
+
+<pre class="sh_perl"> &#60;!doctype html&#62;
+ &#60;html&#62;
+   &#60;head&#62;
+     &#60;meta charset=&#34;utf-8&#34; /&#62;
+     &#60;title&#62;[% archive.name %]&#60;/title&#62;
+   &#60;/head&#62;
+   &#60;body&#62;
+     [% content %]
+   &#60;/body&#62;
+ &#60;/html&#62;</pre>
+
+<p>and the default archive_index.html.tt</p>
+
+<pre class="sh_perl"> &#60;ul&#62;
+   [% WHILE (entry = archive.get_next_entry) %]
+     &#60;li&#62;&#60;a href=&#34;[% entry.pathname | uri %]&#34;&#62;[% entry.pathname | html %]&#60;/a&#62;&#60;/li&#62;
+   [% END %]
+ &#60;/ul&#62;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONFIGURATION"
+>CONFIGURATION</a></h1>
+
+<dl>
+<dt><a name="archive"
+>archive</a></dt>
+
+<dd>
+<p>The relative or absolute path to the archive.</p>
+
+<dt><a name="tt"
+>tt</a></dt>
+
+<dd>
+<p>Instance of <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template</a> that will be used to generate the html index. The default is:</p>
+
+<pre class="sh_perl"> Template-&#62;new(
+   WRAPPER            =&#62; &#39;wrapper.html.tt&#39;,
+   INCLUDE_PATH       =&#62; File::ShareDir::Dist::dist_share(&#39;Plack-App-Libarchive&#39;),
+   DELIMITER          =&#62; &#39;:&#39;,
+   render_die         =&#62; 1,
+   TEMPLATE_EXTENSION =&#62; &#39;.tt&#39;,
+   ENCODING           =&#62; &#39;utf8&#39;,
+ )</pre>
+
+<p>On <code>MSWin32</code> a delimiter of <code>;</code> is used instead.</p>
+
+<dt><a name="tt_include_path"
+>tt_include_path</a></dt>
+
+<dd>
+<p>Array reference of additional <a href="https://metacpan.org/pod/Template#INCLUDE_PATH" class="podlinkpod"
+>Template INCLUDE_PATH directories</a>. This id useful for writing your own custom template.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Archive::Libarchive"
+><a href="/pod/Archive/Libarchive.html" class="podlinkpod"
+>Archive::Libarchive</a></a></dt>
+
+<dd>
+<dt><a name="Plack"
+><a href="https://metacpan.org/pod/Plack" class="podlinkpod"
+>Plack</a></a></dt>
+
+<dd>
+<dt><a name="PSGI"
+><a href="https://metacpan.org/pod/PSGI" class="podlinkpod"
+>PSGI</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>[
+        <a href="https://alienfile.org">alienfile.org</a> |
+        <a href="https://pl.atypus.org">pl.atypus.org</a> |
+        <a href="https://perlwasm.github.io">perlwasm</a> |
+        <a href="https://uperl.github.io">uperl</a>
+      ] Copyright &copy; 2022 Graham Ollis</p>
+    </div>
+  </body>
+</html>

@@ -459,6 +459,19 @@
       ]
    },
    {
+      "name" : "App-tarweb",
+      "pods" : [
+         {
+            "href" : "/pod/App/tarweb.html",
+            "name" : "App::tarweb"
+         },
+         {
+            "href" : "/pod/tarweb.html",
+            "name" : "tarweb"
+         }
+      ]
+   },
+   {
       "name" : "Archive-Ar-Libarchive",
       "pods" : [
          {
@@ -1157,6 +1170,15 @@
          {
             "href" : "/pod/Photography/EV.html",
             "name" : "Photography::EV"
+         }
+      ]
+   },
+   {
+      "name" : "Plack-App-Libarchive",
+      "pods" : [
+         {
+            "href" : "/pod/Plack/App/Libarchive.html",
+            "name" : "Plack::App::Libarchive"
          }
       ]
    },
