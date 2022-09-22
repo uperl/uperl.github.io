@@ -36,51 +36,48 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.02</p>
+<p>version 0.03</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
+<p>In your Makefile.PL:</p>
+
+<pre class="sh_perl"> use ExtUtils::MakeMaker;
+ use Alien::Base::Wrapper ();
+
+ WriteMakefile(
+   Alien::Base::Wrapper-&#62;new(&#39;Alien::LZO&#39;)-&#62;mm_args2(
+     # MakeMaker args
+     NAME =&#62; &#39;My::XS&#39;,
+     ...
+   ),
+ );</pre>
+
 <p>In your Build.PL:</p>
 
 <pre class="sh_perl"> use Module::Build;
- use Alien::LZO;
+ use Alien::Base::Wrapper qw( Alien::LZO !export );
+
  my $builder = Module::Build-&#62;new(
    ...
    configure_requires =&#62; {
      &#39;Alien::LZO&#39; =&#62; &#39;0&#39;,
      ...
    },
-   extra_compiler_flags =&#62; Alien::LZO-&#62;cflags,
-   extra_linker_flags   =&#62; Alien::LZO-&#62;libs,
+   Alien::Base::Wrapper-&#62;mb_args,
    ...
  );
- 
+
  $build-&#62;create_build_script;</pre>
-
-<p>In your Makefile.PL:</p>
-
-<pre class="sh_perl"> use ExtUtils::MakeMaker;
- use Config;
- use Alien::LZO;
- 
- WriteMakefile(
-   ...
-   CONFIGURE_REQUIRES =&#62; {
-     &#39;Alien::LZO&#39; =&#62; &#39;0&#39;,
-   },
-   CCFLAGS =&#62; Alien::LZO-&#62;cflags . &#34; $Config{ccflags}&#34;,
-   LIBS    =&#62; [ Alien::LZO-&#62;libs ],
-   ...
- );</pre>
 
 <p>In your <a href="https://pl.atypus.org/pod/FFI/Platypus.html" class="podlinkpod"
 >FFI::Platypus</a> script or module:</p>
 
 <pre class="sh_perl"> use FFI::Platypus;
  use Alien::LZO;
- 
+
  my $ffi = FFI::Platypus-&#62;new(
    lib =&#62; [ Alien::LZO-&#62;dynamic_libs ],
  );</pre>
@@ -110,7 +107,7 @@ name="AUTHOR"
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2017 by Graham Ollis.</p>
+<p>This software is copyright (c) 2017-2022 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
