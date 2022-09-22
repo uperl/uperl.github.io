@@ -68,6 +68,7 @@
     <li class='indexItem indexItem2'><a href='#open_FILE'>open_FILE</a>
     <li class='indexItem indexItem2'><a href='#open_fd'>open_fd</a>
     <li class='indexItem indexItem2'><a href='#open_filename'>open_filename</a>
+    <li class='indexItem indexItem2'><a href='#open_filename'>open_filename</a>
     <li class='indexItem indexItem2'><a href='#open_filename_w'>open_filename_w</a>
     <li class='indexItem indexItem2'><a href='#open_filenames'>open_filenames</a>
     <li class='indexItem indexItem2'><a href='#open_memory'>open_memory</a>
@@ -419,7 +420,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.05</p>
+<p>version 0.07</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -890,6 +891,15 @@ name="open_fd"
 
 <pre class="sh_perl"> # archive_read_open_fd
  my $int1 = $r-&#62;open_fd($int2, $size_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="open_filename"
+>open_filename</a></h2>
+
+<pre class="sh_perl"> # archive_read_open_filename
+ my $int = $r-&#62;open_filename($string, $size_t);</pre>
+
+<p>Open a single-file archive. The <code>$size_t</code> argument is the block size.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="open_filename"
@@ -4187,6 +4197,15 @@ name="SEE_ALSO"
 
 <dd>
 <p>This class exposes the <code>libarchive</code> match API.</p>
+
+<dt><a name="Dist::Zilla::Plugin::Libarchive"
+><a href="/pod/Dist/Zilla/Plugin/Libarchive.html" class="podlinkpod"
+>Dist::Zilla::Plugin::Libarchive</a></a></dt>
+
+<dd>
+<p>Build <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a> based dist tarballs with libarchive instead of the built in <a href="https://metacpan.org/pod/Archive%3A%3ATar" class="podlinkpod"
+>Archive::Tar</a>.</p>
 
 <dt><a name="Alien::Libarchive3"
 ><a href="/pod/Alien/Libarchive3.html" class="podlinkpod"
