@@ -20,6 +20,7 @@
   <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
   <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
@@ -36,7 +37,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.32</p>
+<p>version 0.33</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -95,8 +96,18 @@ name="DESCRIPTION"
 
 <p>This distribution provides libarchive so that it can be used by other Perl distributions that are on CPAN. It does this by first trying to detect an existing install of libarchive on your system. If found it will use that. If it cannot be found, the source code will be downloaded from the internet and it will be installed in a private share location for the use of other modules.</p>
 
-<p>The intention is for this to eventually replace <a href="/pod/Alien/Libarchive.html" class="podlinkpod"
->Alien::Libarchive</a></p>
+<p>The older <a href="/pod/Alien/Libarchive.html" class="podlinkpod"
+>Alien::Libarchive</a> exists as a compatibility layer over this module.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>On some older operating systems some of the dependencies may not build, <a href="/pod/Alien/Nettle.html" class="podlinkpod"
+>Alien::Nettle</a> does not build correctly with older versions of OpenSSL. If you do not need the encryption features provided by <a href="/pod/Alien/Nettle.html" class="podlinkpod"
+>Alien::Nettle</a> and <code>nettle</code>, then you can skip it when you install this module:</p>
+
+<pre class="sh_perl"> $ env ALIEN_LIBARCHIVE_DEPS=Alien::xz,Alien::LZO,Alien::Libbz2,Alien::Libxml2 cpanm Alien::Libarchive3</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SEE_ALSO"
@@ -117,7 +128,7 @@ name="AUTHOR"
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2017 by Graham Ollis.</p>
+<p>This software is copyright (c) 2017-2022 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
