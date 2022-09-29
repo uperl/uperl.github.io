@@ -1358,6 +1358,15 @@
       ]
    },
    {
+      "name" : "Test2-Tools-MemoryCycle",
+      "pods" : [
+         {
+            "href" : "/pod/Test2/Tools/MemoryCycle.html",
+            "name" : "Test2::Tools::MemoryCycle"
+         }
+      ]
+   },
+   {
       "name" : "Test2-Tools-PerlCritic",
       "pods" : [
          {
