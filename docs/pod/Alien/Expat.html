@@ -36,7 +36,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.03</p>
+<p>version 0.04</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -98,19 +98,11 @@ name="SYNOPSIS"
    lib =&#62; [ Alien::Expat-&#62;dynamic_libs ],
  );</pre>
 
-<p>or for xmlwf from your Perl script / module</p>
-
-<pre class="sh_perl"> use Alien::Expat;
- use Env qw( @PATH );
- 
- unshift @PATH, Alien::Expat-&#62;bin_dir;
- system &#39;xmlwf&#39;, &#39;-v&#39;;</pre>
-
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>This module can be used as a prereq for XS or FFI modules that need expat or the command-line tool that it comes from: xmlwf. For more detail on how to use this module you can see the <a href="https://alienfile.org/pod/Alien/Build.html" class="podlinkpod"
+<p>This module can be used as a prereq for XS or FFI modules that need expat. For more detail on how to use this module you can see the <a href="https://alienfile.org/pod/Alien/Build.html" class="podlinkpod"
 >Alien::Build</a> user documentation at <a href="https://alienfile.org/pod/Alien/Build/Manual/AlienUser.html" class="podlinkpod"
 >Alien::Build::Manual::AlienUser</a>.</p>
 
