@@ -1398,6 +1398,15 @@
       ]
    },
    {
+      "name" : "Test2-Tools-Rustfmt",
+      "pods" : [
+         {
+            "href" : "/pod/Test2/Tools/Rustfmt.html",
+            "name" : "Test2::Tools::Rustfmt"
+         }
+      ]
+   },
+   {
       "name" : "Test2-Tools-URL",
       "pods" : [
          {
