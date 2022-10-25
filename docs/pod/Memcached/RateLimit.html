@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Memcached::RateLimit</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Memcached::RateLimit</div>
+    <!--Memcached::RateLimit--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#rate_limit'>rate_limit</a>
+    <li class='indexItem indexItem2'><a href='#set_read_timeout'>set_read_timeout</a>
+    <li class='indexItem indexItem2'><a href='#set_write_timeout'>set_write_timeout</a>
+    <li class='indexItem indexItem2'><a href='#error_handler'>error_handler</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Memcached::RateLimit - Sliding window rate limiting with Memcached</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.03</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Memcached::RateLimit;
+
+ my $rl = Memcached::RateLimit-&#62;new(&#34;memcache://localhost:11211&#34;);
+ $rl-&#62;error_handler(sub ($rl, $message) {
+   warn &#34;rate limit error: $message&#34;;
+ });
+
+ # allow 30 requests per minute
+ if($rl-&#62;rate_limit(&#34;resource&#34;, 1, 30, 60))
+ {
+   # rate limit exceeded
+ }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module implements rate limiting logic. It is intended for high volume websites that require limits on the access or modification to resources. It is implemented using Rust and <a href="https://pl.atypus.org/pod/FFI/Platypus.html" class="podlinkpod"
+>FFI::Platypus</a>, so you will need the rust toolchain in order to install this module.</p>
+
+<p>Why Rust? Well none of the Perl Memcache clients I found supported TLS, and the Rust <a href="https://crates.io/crates/memcache" class="podlinkurl"
+>memcache crate</a> did. Also Rust is fast and has a number of safety checks that give me confidence that it won&#39;t crash our app.</p>
+
+<p>The actual algorithm is based one used by Bugzilla, and by default it will &#34;fail open&#34;, meaning if for some reason the client cannot connect to the Memcached server, it will <b>allow</b> the request.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $rl = Memcached::RateLimit-&#62;new($url);
+ my $rl = Memcached::RateLimit-&#62;new(\%config);</pre>
+
+<p>Create a new instance of <a href="/pod/Memcached/RateLimit.html" class="podlinkpod"
+>Memcached::RateLimit</a>. The URL should be of the form shown in the synopsis above.</p>
+
+<p>The following schemes are supported:</p>
+
+<dl>
+<dt><a name="memcache"
+><code>memcache</code></a></dt>
+
+<dd>
+<dt><a name="memcache+tcp"
+><code>memcache+tcp</code></a></dt>
+
+<dd>
+<dt><a name="memcache+tls"
+><code>memcache+tls</code></a></dt>
+
+<dd>
+<dt><a name="memcache+udp"
+><code>memcache+udp</code></a></dt>
+
+<dd>
+<dt><a name="memcache+unix"
+><code>memcache+unix</code></a></dt>
+</dl>
+
+<p>You can append these query parameters to the URL:</p>
+
+<dl>
+<dt><a name="connect_timeout"
+><code>connect_timeout</code></a></dt>
+
+<dd>
+<p><b>Experimental</b>: Connect timeout in seconds. May be specified as a floating point, that is <code>0.2</code> is 20 milliseconds.</p>
+
+<dt><a name="protocol"
+><code>protocol</code></a></dt>
+
+<dd>
+<p>If set to <code>ascii</code> this will use the ASCII protocol instead of binary.</p>
+
+<dt><a name="tcp_nodelay"
+><code>tcp_nodelay</code></a></dt>
+
+<dd>
+<p>Boolean <code>true</code> or <code>false</code>.</p>
+
+<dt><a name="timeout"
+><code>timeout</code></a></dt>
+
+<dd>
+<p>IO timeout in seconds.</p>
+
+<p><b>Experimental</b>: May be specified as a floating point, that is <code>0.2</code> is 20 milliseconds.</p>
+
+<dt><a name="verify_mode"
+><code>verify_mode</code></a></dt>
+
+<dd>
+<p>For TLS, this can be set to <code>none</code> or <code>peer</code>.</p>
+</dd>
+</dl>
+
+<p>[version 0.03]</p>
+
+<p>You can provide a <code>%Config</code> hash instead of a URL. All of the query parameters mentioned above can be provided in addition to these:</p>
+
+<dl>
+<dt><a name="scheme"
+><code>scheme</code></a></dt>
+
+<dd>
+<p>The scheme (example: <code>memcache</code> or <code>memcache+tls</code>).</p>
+
+<dt><a name="host"
+><code>host</code></a></dt>
+
+<dd>
+<p>The server hostname or IPv4/IPv6 address.</p>
+
+<dt><a name="port"
+><code>port</code></a></dt>
+
+<dd>
+<p>The TCP or UDP port to connect to.</p>
+
+<dt><a name="read_timeout"
+><code>read_timeout</code></a></dt>
+
+<dd>
+<p>The read timeout in seconds. May be specified as a floating point, that is <code>0.2</code> is 20 milliseconds.</p>
+
+<dt><a name="write_timeout"
+><code>write_timeout</code></a></dt>
+
+<dd>
+<p>The write timeout in seconds. May be specified as a floating point, that is <code>0.2</code> is 20 milliseconds.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rate_limit"
+>rate_limit</a></h2>
+
+<pre class="sh_perl"> my $limited = $rl-&#62;rate_limt($name, $size, $rate_max, $rate_seconds);</pre>
+
+<p>This method returns a boolean true, if a request of <code>$size</code> exceeds the rate limit of <code>$rate_max</code> over the past <code>$rate_seconds</code>. If you only want to rate limit the number of requests then you can set <code>$size</code> to 1.</p>
+
+<p>This method will return a boolean false, and increment the appropriate counters if the requests fits within the rate limit.</p>
+
+<p>This method will <b>also</b> return boolean false, if it is unable to connect to or otherwise experiences an error talking to the memcached server. In this case it will also call the <a href="#error_handler" class="podlinkpod"
+>error handler</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_read_timeout"
+>set_read_timeout</a></h2>
+
+<pre class="sh_perl"> $rl-&#62;set_read_timeout($secs);</pre>
+
+<p>Sets the IO Read timeout to <code>$secs</code>, may be fractional.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_write_timeout"
+>set_write_timeout</a></h2>
+
+<pre class="sh_perl"> $rl-&#62;set_write_timeout($secs);</pre>
+
+<p>Sets the IO Write timeout to <code>$secs</code>, may be fractional.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="error_handler"
+>error_handler</a></h2>
+
+<pre class="sh_perl"> $rl-&#62;error_handler(sub ($rl, $message) {
+   ...
+ });</pre>
+
+<p>This method will set the error handler, to be called in the case of an error with the memcached server. It will pass in the instance of <a href="/pod/Memcached/RateLimit.html" class="podlinkpod"
+>Memcached::RateLimit</a> as <code>$rl</code> and a diagnostic as <code>$message</code>. Since this module will fail open, it is probably useful to increment error counters and provide diagnostics with this method to your monitoring system.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Cache::Memcached::Fast"
+><a href="https://metacpan.org/pod/Cache%3A%3AMemcached%3A%3AFast" class="podlinkpod"
+>Cache::Memcached::Fast</a></a></dt>
+
+<dd>
+<dt><a name="Redis::RateLimit"
+><a href="https://metacpan.org/pod/Redis%3A%3ARateLimit" class="podlinkpod"
+>Redis::RateLimit</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://wdlabs.com">wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

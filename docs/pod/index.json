@@ -1041,6 +1041,15 @@
       ]
    },
    {
+      "name" : "Memcached-RateLimit",
+      "pods" : [
+         {
+            "href" : "/pod/Memcached/RateLimit.html",
+            "name" : "Memcached::RateLimit"
+         }
+      ]
+   },
+   {
       "name" : "Mojolicious-Plugin-Ident",
       "pods" : [
          {
