@@ -30,6 +30,7 @@
     <li class='indexItem indexItem2'><a href='#set_read_timeout'>set_read_timeout</a>
     <li class='indexItem indexItem2'><a href='#set_write_timeout'>set_write_timeout</a>
     <li class='indexItem indexItem2'><a href='#error_handler'>error_handler</a>
+    <li class='indexItem indexItem2'><a href='#final_error_handler'>final_error_handler</a>
   </ul>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
@@ -47,19 +48,19 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.03</p>
+<p>version 0.04</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
 <pre class="sh_perl"> use Memcached::RateLimit;
-
+ 
  my $rl = Memcached::RateLimit-&#62;new(&#34;memcache://localhost:11211&#34;);
  $rl-&#62;error_handler(sub ($rl, $message) {
    warn &#34;rate limit error: $message&#34;;
  });
-
+ 
  # allow 30 requests per minute
  if($rl-&#62;rate_limit(&#34;resource&#34;, 1, 30, 60))
  {
@@ -186,6 +187,14 @@ name="new"
 
 <dd>
 <p>The write timeout in seconds. May be specified as a floating point, that is <code>0.2</code> is 20 milliseconds.</p>
+
+<dt><a name="retry"
+><code>retry</code></a></dt>
+
+<dd>
+<p>[version 0.04]</p>
+
+<p>The default instance number of retries.</p>
 </dd>
 </dl>
 
@@ -197,7 +206,8 @@ name="METHODS"
 name="rate_limit"
 >rate_limit</a></h2>
 
-<pre class="sh_perl"> my $limited = $rl-&#62;rate_limt($name, $size, $rate_max, $rate_seconds);</pre>
+<pre class="sh_perl"> my $limited = $rl-&#62;rate_limt($name, $size, $rate_max, $rate_seconds);
+ my $limited = $rl-&#62;rate_limt($name, $size, $rate_max, $rate_seconds, $retry);</pre>
 
 <p>This method returns a boolean true, if a request of <code>$size</code> exceeds the rate limit of <code>$rate_max</code> over the past <code>$rate_seconds</code>. If you only want to rate limit the number of requests then you can set <code>$size</code> to 1.</p>
 
@@ -205,6 +215,10 @@ name="rate_limit"
 
 <p>This method will <b>also</b> return boolean false, if it is unable to connect to or otherwise experiences an error talking to the memcached server. In this case it will also call the <a href="#error_handler" class="podlinkpod"
 >error handler</a>.</p>
+
+<p>[version 0.04]</p>
+
+<p>If <code>$retry</code> is provided then if there are errors talking to memcached, it will be attempted <code>$retry</code> times. If this parameter is not provided, then the default instance retry limit will be used, and if there is not instance default the class default of <code>1</code> will be used.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="set_read_timeout"
@@ -232,6 +246,18 @@ name="error_handler"
 
 <p>This method will set the error handler, to be called in the case of an error with the memcached server. It will pass in the instance of <a href="/pod/Memcached/RateLimit.html" class="podlinkpod"
 >Memcached::RateLimit</a> as <code>$rl</code> and a diagnostic as <code>$message</code>. Since this module will fail open, it is probably useful to increment error counters and provide diagnostics with this method to your monitoring system.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="final_error_handler"
+>final_error_handler</a></h2>
+
+<p>[version 0.04]</p>
+
+<pre class="sh_perl"> $rl-&#62;final_error_handler(sub ($rl, $message) {
+ });</pre>
+
+<p>This method is like the <a href="#error_handler" class="podlinkpod"
+>error_handler method</a>, but it only gets called at the end if none of the retry attempts succeed. The last error message is passed in.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SEE_ALSO"
