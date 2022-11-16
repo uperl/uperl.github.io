@@ -73,7 +73,7 @@ name="DESCRIPTION"
 
 <p>This module provides bindings to the NewRelic C-SDK. Since NewRelic doesn&#39;t provide native Perl bindings for their product, and the older Agent SDK is not supported, this is probably the best way to instrument your Perl application with NewRelic.</p>
 
-<p>This distribution provides a light OO interface using <a href="https://metacpan.org/pod/FFI%3A%3APlatypus" class="podlinkpod"
+<p>This distribution provides a light OO interface using <a href="https://pl.atypus.org/pod/FFI/Platypus.html" class="podlinkpod"
 >FFI::Platypus</a> and will optionally use <a href="/pod/Alien/libnewrelic.html" class="podlinkpod"
 >Alien::libnewrelic</a> if the C-SDK can&#39;t be found in your library path. Unfortunately the naming convention used by NewRelic doesn&#39;t always have an obvious mapping to the OO Perl interface, so I&#39;ve added notation (example: (csdk: newrelic_version)) so that the C version of functions and methods can be found easily. The documentation has decent coverage of all methods, but it doesn&#39;t always make sense to reproduce everything that is in the C-SDK documentation, so it is recommended that you review it before getting started.</p>
 
