@@ -864,6 +864,10 @@
             "name" : "Dist::Zilla::Plugin::Author::Plicease"
          },
          {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Cleaner.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::Cleaner"
+         },
+         {
             "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Core.html",
             "name" : "Dist::Zilla::Plugin::Author::Plicease::Core"
          },

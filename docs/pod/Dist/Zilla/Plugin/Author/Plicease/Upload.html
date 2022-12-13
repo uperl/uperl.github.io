@@ -23,7 +23,6 @@
   <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
   <ul   class='indexList indexList2'>
     <li class='indexItem indexItem2'><a href='#cpan'>cpan</a>
-    <li class='indexItem indexItem2'><a href='#scp_dest'>scp_dest</a>
     <li class='indexItem indexItem2'><a href='#url'>url</a>
   </ul>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
@@ -42,7 +41,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 2.72</p>
+<p>version 2.73</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -69,7 +68,7 @@ name="DESCRIPTION"
 >Asks first</a></dt>
 
 <dd>
-<p>It asks if you really want to upload to CPAN. Some of my releases go to my server using <code>scp</code> so if you either say no, or set <code>cpan</code> to <code>0</code> in the configuration it will do this instead.</p>
+<p>If <code>cpan</code> is set to a true value, ask first before uploading to CPAN. Sometimes and for some dists I instead commit it to a GitHub pages website for internal use. If <code>cpan</code> is set to a false value or if you deny uploading to CPAN, the dist will be copied into the usual place where the aforementioned GitHub pages repository is checked out.</p>
 </dd>
 </dl>
 
@@ -84,12 +83,6 @@ name="cpan"
 >cpan</a></h2>
 
 <p>Either <code>1</code> or <code>0</code>. Set to <code>0</code> and dist will not be uploaded to CPAN on release.</p>
-
-<h2><a class='u' href='#___top' title='click to go to top of document'
-name="scp_dest"
->scp_dest</a></h2>
-
-<p>Valid <code>scp</code> destination if CPAN upload is disabled.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="url"
