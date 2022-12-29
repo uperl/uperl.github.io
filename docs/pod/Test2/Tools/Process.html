@@ -50,7 +50,7 @@ system or qx()</p>
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.06</p>
+<p>version 0.07</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -62,7 +62,7 @@ name="SYNOPSIS"
  process {
    system &#39;foo&#39;, &#39;bar&#39;;
  } [
-   # check tht the first system call is to
+   # check that the first system call is to
    # a command foo with any arguments
    proc_event(system =&#62; array {
      item &#39;foo&#39;;
@@ -71,7 +71,7 @@ name="SYNOPSIS"
      # simulate the foo command
      my($proc, @args) = @_;
      note &#34;faux bar command: @args&#34;;
-     # simulate a notmsl exit
+     # simulate a normal exit
      $proc-&#62;exit(0);
    }),
  ];
@@ -374,13 +374,17 @@ name="SEE_ALSO"
 name="AUTHOR"
 >AUTHOR</a></h1>
 
-<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+<p>Author: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Jeremy Mates (THRIG)</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2015-2021 by Graham Ollis.</p>
+<p>This software is copyright (c) 2015-2022 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
