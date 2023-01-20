@@ -853,6 +853,67 @@
       ]
    },
    {
+      "name" : "Dist-Zilla-PluginBundle-Author-Plicease",
+      "pods" : [
+         {
+            "href" : "/pod/Dist/Zilla/MintingProfile/Author/Plicease.html",
+            "name" : "Dist::Zilla::MintingProfile::Author::Plicease"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Cleaner.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::Cleaner"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Core.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::Core"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Init2.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::Init2"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/MakeMaker.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::MakeMaker"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/NoUnsafeInc.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::NoUnsafeInc"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/PkgVersionBlock.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::PkgVersionBlock"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/ReadmeAnyFromPod.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::ReadmeAnyFromPod"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/SpecialPrereqs.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::SpecialPrereqs"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Tests.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::Tests"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Thanks.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::Thanks"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/Plugin/Author/Plicease/Upload.html",
+            "name" : "Dist::Zilla::Plugin::Author::Plicease::Upload"
+         },
+         {
+            "href" : "/pod/Dist/Zilla/PluginBundle/Author/Plicease.html",
+            "name" : "Dist::Zilla::PluginBundle::Author::Plicease"
+         }
+      ]
+   },
+   {
       "name" : "Eval-LineNumbers",
       "pods" : [
          {
