@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>UUID::FFI</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> UUID::FFI</div>
+    <!--UUID::FFI--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTORS'>CONSTRUCTORS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#new_random'>new_random</a>
+    <li class='indexItem indexItem2'><a href='#new_time'>new_time</a>
+    <li class='indexItem indexItem2'><a href='#new_null'>new_null</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#is_null'>is_null</a>
+    <li class='indexItem indexItem2'><a href='#clone'>clone</a>
+    <li class='indexItem indexItem2'><a href='#as_hex'>as_hex</a>
+    <li class='indexItem indexItem2'><a href='#compare'>compare</a>
+    <li class='indexItem indexItem2'><a href='#type'>type</a>
+    <li class='indexItem indexItem2'><a href='#variant'>variant</a>
+    <li class='indexItem indexItem2'><a href='#time'>time</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>UUID::FFI - Universally Unique Identifiers FFI style</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.11</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> my $uuid = UUID::FFI-&#62;new_random;
+ print $uuid-&#62;as_hex, &#34;\n&#34;;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides an FFI interface to <code>libuuid</code>. <code>libuuid</code> library is used to generate unique identifiers for objects that may be accessible beyond the local system</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTORS"
+>CONSTRUCTORS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $uuid = UUID::FFI-&#62;new($hex);</pre>
+
+<p>Create a new UUID object from the hex representation <code>$hex</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new_random"
+>new_random</a></h2>
+
+<pre class="sh_perl"> my $uuid = UUID::FFI-&#62;new_random;</pre>
+
+<p>Create a new UUID object with a randomly generated value.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new_time"
+>new_time</a></h2>
+
+<pre class="sh_perl"> my $uuid = UUID::FFI-&#62;new_time;</pre>
+
+<p>Create a new UUID object generated using the time and mac address. This can leak information about when and where the UUID was generated.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new_null"
+>new_null</a></h2>
+
+<pre class="sh_perl"> my $uuid = UUID::FFI-&#62;new_null;</pre>
+
+<p>Create a new UUID <code>NULL UUID</code> object (all zeros).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_null"
+>is_null</a></h2>
+
+<pre class="sh_perl"> my $bool = $uuid-&#62;is_null;</pre>
+
+<p>Returns true if the UUID is <code>NULL UUID</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clone"
+>clone</a></h2>
+
+<pre class="sh_perl"> my $uuid2 = $uuid-&#62;clone;</pre>
+
+<p>Create a new UUID object with the identical value to the original.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="as_hex"
+>as_hex</a></h2>
+
+<pre class="sh_perl"> my $hex = $uuid-&#62;as_hex;
+ my $hex = &#34;$uuid&#34;;</pre>
+
+<p>Returns the hex representation of the UUID. The stringification of <a href="/pod/UUID/FFI.html" class="podlinkpod"
+>UUID::FFI</a> uses this function, so you can also use it in a double quoted string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="compare"
+>compare</a></h2>
+
+<pre class="sh_perl"> my $cmp = $uuid1-&#62;compare($uuid2);
+ my $cmp = $uuid1 &#60;=&#62; $uuid2;
+ my @sorted_uuids = sort { $a-&#62;compare($b) } @uuids;
+ my @sorted_uuids = sort { $a &#60;=&#62; $b } @uuids;</pre>
+
+<p>Returns an integer less than, equal to or greater than zero if <code>$uuid1</code> is found, respectively, to be lexicographically less than, equal, or greater that <code>$uuid2</code>. The <code>&#60;=&#62;</code> is also overloaded so you can use that too.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="type"
+>type</a></h2>
+
+<pre class="sh_perl"> my $type = $uuid-&#62;type;</pre>
+
+<p>Returns the type of UUID, either <code>time</code> or <code>random</code>, if it can be identified.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="variant"
+>variant</a></h2>
+
+<pre class="sh_perl"> my $variant = $uuid-&#62;variant</pre>
+
+<p>Returns the variant of the UUID, either <code>ncs</code>, <code>dce</code>, <code>microsoft</code> or <code>other</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="time"
+>time</a></h2>
+
+<pre class="sh_perl"> my $time = $uuid-&#62;time;</pre>
+
+<p>Returns the time the UUID was generated. The value returned is in seconds since the UNIX epoch, so is compatible with perl builtins like <a href="https://metacpan.org/pod/perlfunc%23time" class="podlinkpod"
+>time</a> and <a href="https://metacpan.org/pod/perlfunc%23localtime" class="podlinkpod"
+>localtime</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2014-2022 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://wdlabs.com">wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>
