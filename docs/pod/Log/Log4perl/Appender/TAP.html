@@ -20,6 +20,7 @@
   <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
   <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
 </ul>
@@ -35,7 +36,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.04</p>
+<p>version 0.05</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -59,12 +60,35 @@ name="SYNOPSIS"
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>This very simple appender sends log output via <a href="https://metacpan.org/pod/Test2%3A%3AAPI" class="podlinkpod"
+<p>This very simple <a href="https://metacpan.org/pod/Log%3A%3ALog4perl" class="podlinkpod"
+>Log::Log4perl</a> appender sends log output via <a href="https://metacpan.org/pod/Test2%3A%3AAPI" class="podlinkpod"
 >Test2::API</a> to TAP (or any other format supported by <a href="https://metacpan.org/pod/Test2%3A%3AAPI" class="podlinkpod"
 >Test2::API</a>). It also works with <a href="https://metacpan.org/pod/Test%3A%3ABuilder" class="podlinkpod"
 >Test::Builder</a> and <a href="https://metacpan.org/pod/Test%3A%3AMore" class="podlinkpod"
 >Test::More</a> so long as you have <a href="https://metacpan.org/pod/Test2%3A%3AAPI" class="podlinkpod"
 >Test2::API</a> installed. It only takes one special argument, the method, which can be either <code>diag</code> or <code>note</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Log::Log4perl"
+><a href="https://metacpan.org/pod/Log%3A%3ALog4perl" class="podlinkpod"
+>Log::Log4perl</a></a></dt>
+
+<dd>
+<p>Main module documentation for <code>Log4perl</code>.</p>
+
+<dt><a name="Log::Dispatch::TAP"
+><a href="https://metacpan.org/pod/Log%3A%3ADispatch%3A%3ATAP" class="podlinkpod"
+>Log::Dispatch::TAP</a></a></dt>
+
+<dd>
+<p>Similar module but for <a href="https://metacpan.org/pod/Log%3A%3ADispatch" class="podlinkpod"
+>Log::Dispatch</a> instead of <code>Log4perl</code>.</p>
+</dd>
+</dl>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AUTHOR"
@@ -76,7 +100,7 @@ name="AUTHOR"
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2017 by Graham Ollis.</p>
+<p>This software is copyright (c) 2017-2022 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
