@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp</title>
+    <title>Perl::Critic::Policy::Plicease::ProhibitSignaturesAndAtUnderscore</title>
     <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
     <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
@@ -11,8 +11,8 @@
   <body onload="sh_highlightDocument();">
     <div class="nx-header-flag-1"></div>
     <div class="nx-header-flag-2"></div>
-    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp</div>
-    <!--Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp--><a name='___top' class='dummyTopAnchor' ></a>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Perl::Critic::Policy::Plicease::ProhibitSignaturesAndAtUnderscore</div>
+    <!----><a name='___top' class='dummyTopAnchor' ></a>
 
 <div class='indexgroup'>
 <ul   class='indexList indexList1'>
@@ -32,7 +32,7 @@
 name="NAME"
 >NAME</a></h1>
 
-<p>Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp - Prohibit non-ASCII \d in regular expressions</p>
+<p>Perl::Critic::Policy::Plicease::ProhibitSignaturesAndAtUnderscore - Prohibit the use of @_ in subroutine using signatures</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="VERSION"
@@ -44,28 +44,14 @@ name="VERSION"
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
-<p>perlcriticrc:</p>
-
-<pre class="sh_perl"> [Plicease::ProhibitUnicodeDigitInRegexp]</pre>
-
-<p>code:</p>
-
-<pre class="sh_perl"> /\d/;      # not ok
- /[0-9]/;   # ok</pre>
+<pre class="sh_perl"> sub foo ($$) { my($a,$b) = @_; }                                    # ok
+ use experimental qw( signatures ); foo ($a, $b) { my($c,$d) = @_; } # not ok</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>The character class <code>\d</code> (also the POSIX character class <code>[:digit:]</code>) in a regular expression matches all unicode digit character, which might not be what you expect if you are testing if a string can be used as a number in Perl. Instead use either <code>[0-9]</code>, or if you are on Perl 5.14 or better you can use the <code>/a</code> modifier. This policy allows <code>\d</code> in expressions with an explicit <code>/u</code> modifier (normally on by default), as it indicates that the code is expecting Unicode semantics, including Unicode digits.</p>
-
-<pre class="sh_perl"> /\d/;           # not ok
- /[[:digit:]]/;  # not ok
- /\d/a;          # ok
- /\d/u;          # ok
- /[[:digit:]]/a; # ok
- /[[:digit:]]/u; # ok
- /[0-9]/;   # ok</pre>
+<p>When signatures were made non-experimental, <code>@_</code> used in a subroutine that used signatures was kept as experimental. This is a problem for a few reasons, for one you don&#39;t see the experimental warning specific to <code>@_</code> unless you are running a Perl after signatures were made non-experimental, for another as of Perl 5.39.10 this is still experimental.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AFFILIATION"
@@ -77,23 +63,16 @@ name="AFFILIATION"
 name="CONFIGURATION"
 >CONFIGURATION</a></h1>
 
-<p>This policy is not configurable except for the standard options.</p>
+<p>This policy can be configured to recognize additional modules as enabling the signatures feature, by putting an entry in a .perlcriticrc file like this:</p>
+
+<pre class="sh_perl"> [Community::Prototypes]
+ signature_enablers = Plicease::ProhibitSignaturesAndAtUnderscore</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="CAVEATS"
 >CAVEATS</a></h1>
 
-<p>This is not a general policy, and should not be applied toward all applications without some thought. This is frequently true for <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
->Perl::Critic</a> policies, but especially so for this policy.</p>
-
-<p>In the general the ability to match against unicode digits is a useful ability, and doesn&#39;t constitute bad code. On the other hand, some applications don&#39;t ever need to match non-ASCII digit characters, and incorrectly rely on <code>\d</code> to validate as a number as Perl understands it (and Perl understands non-ASCII digits as zero regardless of what they mean in their respective languages).</p>
-
-<p>This policy doesn&#39;t take into account using the <a href="https://metacpan.org/pod/re" class="podlinkpod"
->re</a> pragma.</p>
-
-<pre class="sh_perl"> use re &#39;/a&#39;;
- 
- /\d/;  # (still) not ok</pre>
+<p>This module assumes that &#34;prototypes&#34; detected in a source file that has signatures enabled are actually subroutine signatures. This is because through static analysis alone it is not possible to determine if a &#34;prototype&#34; is really a prototype and not a signature. There thus may be false negatives/positives.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AUTHOR"

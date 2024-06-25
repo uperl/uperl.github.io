@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp</title>
+    <title>Perl::Critic::Policy::Plicease::ProhibitSpecificModules</title>
     <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
     <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
@@ -11,8 +11,8 @@
   <body onload="sh_highlightDocument();">
     <div class="nx-header-flag-1"></div>
     <div class="nx-header-flag-2"></div>
-    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp</div>
-    <!--Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp--><a name='___top' class='dummyTopAnchor' ></a>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Perl::Critic::Policy::Plicease::ProhibitSpecificModules</div>
+    <!--Perl::Critic::Policy::Plicease::ProhibitSpecificModules--><a name='___top' class='dummyTopAnchor' ></a>
 
 <div class='indexgroup'>
 <ul   class='indexList indexList1'>
@@ -22,7 +22,6 @@
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
   <li class='indexItem indexItem1'><a href='#AFFILIATION'>AFFILIATION</a>
   <li class='indexItem indexItem1'><a href='#CONFIGURATION'>CONFIGURATION</a>
-  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
 </ul>
@@ -32,7 +31,7 @@
 name="NAME"
 >NAME</a></h1>
 
-<p>Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp - Prohibit non-ASCII \d in regular expressions</p>
+<p>Perl::Critic::Policy::Plicease::ProhibitSpecificModules - Prohibit the use of specific modules or pragmas</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="VERSION"
@@ -46,26 +45,21 @@ name="SYNOPSIS"
 
 <p>perlcriticrc:</p>
 
-<pre class="sh_perl"> [Plicease::ProhibitUnicodeDigitInRegexp]</pre>
+<pre class="sh_perl"> [Plicease::ProhibitSpecificModules]
+ illicit_modules = Foo Bar</pre>
 
 <p>code:</p>
 
-<pre class="sh_perl"> /\d/;      # not ok
- /[0-9]/;   # ok</pre>
+<pre class="sh_perl"> use Foo; # not ok
+ use Bar; # not ok
+ use Baz; # ok</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>The character class <code>\d</code> (also the POSIX character class <code>[:digit:]</code>) in a regular expression matches all unicode digit character, which might not be what you expect if you are testing if a string can be used as a number in Perl. Instead use either <code>[0-9]</code>, or if you are on Perl 5.14 or better you can use the <code>/a</code> modifier. This policy allows <code>\d</code> in expressions with an explicit <code>/u</code> modifier (normally on by default), as it indicates that the code is expecting Unicode semantics, including Unicode digits.</p>
-
-<pre class="sh_perl"> /\d/;           # not ok
- /[[:digit:]]/;  # not ok
- /\d/a;          # ok
- /\d/u;          # ok
- /[[:digit:]]/a; # ok
- /[[:digit:]]/u; # ok
- /[0-9]/;   # ok</pre>
+<p>The policy <a href="https://metacpan.org/pod/Perl%3A%3ACritic%3A%3APolicy%3A%3ACommunity%3A%3ADiscouragedModules" class="podlinkpod"
+>Perl::Critic::Policy::Community::DiscouragedModules</a> provides a good start for modules that typically should not be used in new code, however for specific organizational policies, you may want to disallow specific modules. This policy has been designed to allow you to do exactly that without any &#34;starter&#34; disallowed modules.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AFFILIATION"
@@ -77,23 +71,13 @@ name="AFFILIATION"
 name="CONFIGURATION"
 >CONFIGURATION</a></h1>
 
-<p>This policy is not configurable except for the standard options.</p>
+<ul>
+<li>illicit_modules
+<p>Space separated list of modules that should be disallowed.</p>
+</li>
+</ul>
 
-<h1><a class='u' href='#___top' title='click to go to top of document'
-name="CAVEATS"
->CAVEATS</a></h1>
-
-<p>This is not a general policy, and should not be applied toward all applications without some thought. This is frequently true for <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
->Perl::Critic</a> policies, but especially so for this policy.</p>
-
-<p>In the general the ability to match against unicode digits is a useful ability, and doesn&#39;t constitute bad code. On the other hand, some applications don&#39;t ever need to match non-ASCII digit characters, and incorrectly rely on <code>\d</code> to validate as a number as Perl understands it (and Perl understands non-ASCII digits as zero regardless of what they mean in their respective languages).</p>
-
-<p>This policy doesn&#39;t take into account using the <a href="https://metacpan.org/pod/re" class="podlinkpod"
->re</a> pragma.</p>
-
-<pre class="sh_perl"> use re &#39;/a&#39;;
- 
- /\d/;  # (still) not ok</pre>
+<p>The policy is also configurable with the standard options.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AUTHOR"

@@ -24,6 +24,12 @@
   <ul   class='indexList indexList2'>
     <li class='indexItem indexItem2'><a href='#perl_critic_ok'>perl_critic_ok</a>
   </ul>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#perl_critic_ok'>perl_critic_ok</a>
+    <li class='indexItem indexItem2'><a href='#add_hook'>add_hook</a>
+  </ul>
   <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
@@ -41,16 +47,33 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.04</p>
+<p>version 0.08</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
+<p>Original procedural interface:</p>
+
 <pre class="sh_perl"> use Test2::V0;
  use Test2::Tools::PerlCritic;
  
  perl_critic_ok [&#39;lib&#39;,&#39;t&#39;], &#39;test library files&#39;;
+ 
+ done_testing;</pre>
+
+<p>New OO interface:</p>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test2::Tools::PerlCritic ();
+ use Perl::Critic;
+ 
+ my $test_critic = Test2::Tools::PerlCritic-&#62;new({
+   files     =&#62; [&#39;lib&#39;,&#39;t&#39;],
+   test_name =&#62; &#39;test library_files&#39;,
+ });
+ 
+ $test_critic-&#62;perl_critic_ok;
  
  done_testing;</pre>
 
@@ -98,6 +121,101 @@ name="perl_critic_ok"
 <p>Since we do not automatically call <code>done_testing</code>, you can call <code>perl_critic_ok</code> multiple times, but keep in mind that the policy violations will only be grouped in each individual call, so it is probably better to provide a list of paths, rather than make multiple calls.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<pre class="sh_perl"> my $test_critic = Test2::Tools::PerlCritic-&#62;new(\%properties);</pre>
+
+<p>Properties:</p>
+
+<dl>
+<dt><a name="files"
+>files</a></dt>
+
+<dd>
+<p>(REQUIRED)</p>
+
+<p>List of files or directories. Directories will be recursively searched for Perl files (<code>.pm</code>, <code>.pl</code> and <code>.t</code>).</p>
+
+<dt><a name="critic"
+>critic</a></dt>
+
+<dd>
+<p>The <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> instance. One will be created if not provided.</p>
+
+<dt><a name="test_name"
+>test_name</a></dt>
+
+<dd>
+<p>The name of the test. This is used in diagnostics.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="perl_critic_ok"
+>perl_critic_ok</a></h2>
+
+<pre class="sh_perl"> $test_critic-&#62;perl_critic_ok;</pre>
+
+<p>The method version works just like the functional version above, except it doesn&#39;t take any additional arguments.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_hook"
+>add_hook</a></h2>
+
+<pre class="sh_perl"> $test_critic-&#62;add_hook($hook_name, \&#38;code);</pre>
+
+<p>Adds the given hook. Available hooks:</p>
+
+<dl>
+<dt><a name="cleanup"
+>cleanup</a></dt>
+
+<dd>
+<pre class="sh_perl"> $test_critic-&#62;add_hook(cleanup =&#62; sub ($test_critic, $global) {
+   ...
+ });</pre>
+
+<p>This hook is called when the <a href="/pod/Test2/Tools/PerlCritic.html" class="podlinkpod"
+>Test2::Tools::PerlCritic</a> instance is destroyed.</p>
+
+<p>If the hook is called during global destruction of the Perl interpreter, <code>$global</code> will be set to a true value.</p>
+
+<p>This hook can be set multiple times.</p>
+
+<dt><a name="progressive_check"
+>progressive_check</a></dt>
+
+<dd>
+<pre class="sh_perl"> $test_critic-&#62;add_hook(progressive_check =&#62; sub ($test_critic, $policy, $file, $count) {
+   ...
+   return $bool;
+ });</pre>
+
+<p>This hook is made available for violations in existing code when new policies are added. Passed in are the <a href="/pod/Test2/Tools/PerlCritic.html" class="podlinkpod"
+>Test2::Tools::PerlCritic</a> instance, the policy name, the filename and the number of times the violation was found. If the violations are from an old code base with grandfathered allowed violations, this hook should return true, and the violation will be reported as a <code>note</code> instead of <code>diag</code> and will not cause the test as a whole to fail. Otherwise the violation will be reported using <code>diag</code> and the test as a whole will fail.</p>
+
+<p>This hook can only be set once.</p>
+
+<dt><a name="violations"
+>violations</a></dt>
+
+<dd>
+<pre class="sh_perl"> $test_critic-&#62;add_hook(violations =&#62; sub ($test_critic, @violations) {
+   ...
+ });</pre>
+
+<p>Each time violations are returned from <a href="https://metacpan.org/pod/Perl%3A%3ACritic#critique" class="podlinkpod"
+>&#34;critique&#34; in Perl::Critic</a>, they are passed into this hook as a list. The order and grouping of violations may change in the future.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
 name="CAVEATS"
 >CAVEATS</a></h1>
 
@@ -133,7 +251,7 @@ name="AUTHOR"
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2019-2021 by Graham Ollis.</p>
+<p>This software is copyright (c) 2019-2024 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 

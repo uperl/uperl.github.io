@@ -41,8 +41,8 @@
     <li class='indexItem indexItem2'><a href='#http_base_url'>http_base_url</a>
     <li class='indexItem indexItem2'><a href='#http_ua_%5Bua%5D'>http_ua [ua]</a>
     <li class='indexItem indexItem2'><a href='#psgi_app_add_%5Bapp_add%5D'>psgi_app_add [app_add]</a>
-    <li class='indexItem indexItem2'><a href='#psgi_app_del'>psgi_app_del</a>
-    <li class='indexItem indexItem2'><a href='#psgi_app_guard'>psgi_app_guard</a>
+    <li class='indexItem indexItem2'><a href='#psgi_app_del_%5Bapp_del%5D'>psgi_app_del [app_del]</a>
+    <li class='indexItem indexItem2'><a href='#psgi_app_guard_%5Bapp_guard%5D'>psgi_app_guard [app_guard]</a>
   </ul>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
@@ -60,7 +60,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.11</p>
+<p>version 0.12</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -446,8 +446,8 @@ name="psgi_app_add_[app_add]"
 >LWP::UserAgent</a>.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
-name="psgi_app_del"
->psgi_app_del</a></h2>
+name="psgi_app_del_[app_del]"
+>psgi_app_del [app_del]</a></h2>
 
 <pre class="sh_perl"> psgi_app_del;
  psgi_app_del $url;</pre>
@@ -455,8 +455,8 @@ name="psgi_app_del"
 <p>Remove the app at the given (or default) URL.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
-name="psgi_app_guard"
->psgi_app_guard</a></h2>
+name="psgi_app_guard_[app_guard]"
+>psgi_app_guard [app_guard]</a></h2>
 
 <pre class="sh_perl"> my $guard = psgi_app_guard $app;
  my $guard = psgi_app_guard $url, $app;

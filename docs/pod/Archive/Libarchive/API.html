@@ -273,7 +273,9 @@
     <li class='indexItem indexItem2'><a href='#fflags'>fflags</a>
     <li class='indexItem indexItem2'><a href='#fflags_text'>fflags_text</a>
     <li class='indexItem indexItem2'><a href='#filetype'>filetype</a>
+    <li class='indexItem indexItem2'><a href='#filetype_is_set'>filetype_is_set</a>
     <li class='indexItem indexItem2'><a href='#gid'>gid</a>
+    <li class='indexItem indexItem2'><a href='#gid_is_set'>gid_is_set</a>
     <li class='indexItem indexItem2'><a href='#gname'>gname</a>
     <li class='indexItem indexItem2'><a href='#gname_utf8'>gname_utf8</a>
     <li class='indexItem indexItem2'><a href='#hardlink'>hardlink</a>
@@ -294,6 +296,7 @@
     <li class='indexItem indexItem2'><a href='#pathname'>pathname</a>
     <li class='indexItem indexItem2'><a href='#pathname_utf8'>pathname_utf8</a>
     <li class='indexItem indexItem2'><a href='#perm'>perm</a>
+    <li class='indexItem indexItem2'><a href='#perm_is_set'>perm_is_set</a>
     <li class='indexItem indexItem2'><a href='#rdev'>rdev</a>
     <li class='indexItem indexItem2'><a href='#rdevmajor'>rdevmajor</a>
     <li class='indexItem indexItem2'><a href='#rdevminor'>rdevminor</a>
@@ -347,6 +350,7 @@
     <li class='indexItem indexItem2'><a href='#symlink_type'>symlink_type</a>
     <li class='indexItem indexItem2'><a href='#symlink_utf8'>symlink_utf8</a>
     <li class='indexItem indexItem2'><a href='#uid'>uid</a>
+    <li class='indexItem indexItem2'><a href='#uid_is_set'>uid_is_set</a>
     <li class='indexItem indexItem2'><a href='#uname'>uname</a>
     <li class='indexItem indexItem2'><a href='#uname_utf8'>uname_utf8</a>
     <li class='indexItem indexItem2'><a href='#unset_atime'>unset_atime</a>
@@ -420,7 +424,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.08</p>
+<p>version 0.09</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -2409,11 +2413,25 @@ name="filetype"
 >&#34;CONSTANTS&#34; in Archive::Libarchive::API</a> for the full list.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
+name="filetype_is_set"
+>filetype_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_filetype_is_set (optional)
+ my $int = $e-&#62;filetype_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
 name="gid"
 >gid</a></h2>
 
 <pre class="sh_perl"> # archive_entry_gid
  my $sint64 = $e-&#62;gid;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="gid_is_set"
+>gid_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_gid_is_set (optional)
+ my $int = $e-&#62;gid_is_set;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="gname"
@@ -2557,6 +2575,13 @@ name="perm"
 
 <pre class="sh_perl"> # archive_entry_perm
  my $mode_t = $e-&#62;perm;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="perm_is_set"
+>perm_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_perm_is_set (optional)
+ my $int = $e-&#62;perm_is_set;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="rdev"
@@ -2936,6 +2961,13 @@ name="uid"
 
 <pre class="sh_perl"> # archive_entry_uid
  my $sint64 = $e-&#62;uid;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="uid_is_set"
+>uid_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_uid_is_set (optional)
+ my $int = $e-&#62;uid_is_set;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="uname"

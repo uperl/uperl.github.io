@@ -94,15 +94,6 @@
       ]
    },
    {
-      "name" : "Alien-xz",
-      "pods" : [
-         {
-            "href" : "/pod/Alien/xz.html",
-            "name" : "Alien::xz"
-         }
-      ]
-   },
-   {
       "name" : "Alt-ExtUtils-PkgConfig-PLICEASE",
       "pods" : [
          {
@@ -1172,6 +1163,14 @@
             "name" : "Perl::Critic::Policy::Plicease::ProhibitLeadingZeros"
          },
          {
+            "href" : "/pod/Perl/Critic/Policy/Plicease/ProhibitSignaturesAndAtUnderscore.html",
+            "name" : "Perl::Critic::Policy::Plicease::ProhibitSignaturesAndAtUnderscore"
+         },
+         {
+            "href" : "/pod/Perl/Critic/Policy/Plicease/ProhibitSpecificModules.html",
+            "name" : "Perl::Critic::Policy::Plicease::ProhibitSpecificModules"
+         },
+         {
             "href" : "/pod/Perl/Critic/Policy/Plicease/ProhibitUnicodeDigitInRegexp.html",
             "name" : "Perl::Critic::Policy::Plicease::ProhibitUnicodeDigitInRegexp"
          }
@@ -1201,6 +1200,15 @@
          {
             "href" : "/pod/Plack/App/Libarchive.html",
             "name" : "Plack::App::Libarchive"
+         }
+      ]
+   },
+   {
+      "name" : "Plack-Middleware-Zstandard",
+      "pods" : [
+         {
+            "href" : "/pod/Plack/Middleware/Zstandard.html",
+            "name" : "Plack::Middleware::Zstandard"
          }
       ]
    },
@@ -1394,6 +1402,10 @@
          {
             "href" : "/pod/Test2/Tools/PerlCritic.html",
             "name" : "Test2::Tools::PerlCritic"
+         },
+         {
+            "href" : "/pod/Test2/Tools/PerlCritic/Util.html",
+            "name" : "Test2::Tools::PerlCritic::Util"
          }
       ]
    },

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Test2::Tools::HTTP::UA::LWP</title>
+    <title>Test2::Tools::PerlCritic::Util</title>
     <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
     <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
@@ -11,8 +11,8 @@
   <body onload="sh_highlightDocument();">
     <div class="nx-header-flag-1"></div>
     <div class="nx-header-flag-2"></div>
-    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::<a href="/pod/Test2/Tools/HTTP.html">HTTP</a>::<a href="/pod/Test2/Tools/HTTP/UA.html">UA</a>::LWP</div>
-    <!--Test2::Tools::HTTP::UA::LWP--><a name='___top' class='dummyTopAnchor' ></a>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::<a href="/pod/Test2/Tools/PerlCritic.html">PerlCritic</a>::Util</div>
+    <!--Test2::Tools::PerlCritic::Util--><a name='___top' class='dummyTopAnchor' ></a>
 
 <div class='indexgroup'>
 <ul   class='indexList indexList1'>
@@ -20,7 +20,10 @@
   <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
   <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
-  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#perl_critic_config_id'>perl_critic_config_id</a>
+  </ul>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
 </ul>
@@ -30,55 +33,46 @@
 name="NAME"
 >NAME</a></h1>
 
-<p>Test2::Tools::HTTP::UA::LWP - LWP user agent wrapper for Test2::Tools::HTTP</p>
+<p>Test2::Tools::PerlCritic::Util - Utility functions</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.12</p>
+<p>version 0.08</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
-<pre class="sh_perl"> use Test2::Tools::HTTP;
- use LWP::UserAgent;
- 
- psgi_app_add &#39;http://example.test&#39; =&#62; sub { ... };
- 
- my $ua = LWP::UserAgent-&#62;new;
- http_ua $ua;
- 
- my $res = $ua-&#62;get(&#39;http://example.test&#39;);</pre>
+<pre class="sh_perl"> use Test2::Tools::PerlCritic::Util qw( perl_critic_config_id );</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>This class is not intended to be used directly.</p>
-
-<p>This module provides the machinery for instrumenting <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
->LWP::UserAgent</a> for use with <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
->Test2::Tools::HTTP</a>. Since <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
->LWP::UserAgent</a> is the default user agent for <a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
->Test2::Tools::HTTP</a>, this is the default user agent wrapper as well. It is a subclass of <a href="/pod/Test2/Tools/HTTP/UA.html" class="podlinkpod"
->Test2::Tools::HTTP::UA</a>.</p>
+<p>This module provides some utility functions useful when working with <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> testing.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
-name="SEE_ALSO"
->SEE ALSO</a></h1>
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
 
-<dl>
-<dt><a name="Test2::Tools::HTTP"
-><a href="/pod/Test2/Tools/HTTP.html" class="podlinkpod"
->Test2::Tools::HTTP</a></a></dt>
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="perl_critic_config_id"
+>perl_critic_config_id</a></h2>
 
-<dd>
-<dt><a name="Test2::Tools::HTTP::UA::LWPClass"
-><a href="/pod/Test2/Tools/HTTP/UA/LWPClass.html" class="podlinkpod"
->Test2::Tools::HTTP::UA::LWPClass</a></a></dt>
-</dl>
+<pre class="sh_perl"> my $id = perl_critic_config_id $config;
+ my $id = perl_critic_config_id;</pre>
+
+<p>Computes an id of the <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> configuration. The argument <code>$config</code> should be either an instance of <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> or <a href="https://metacpan.org/pod/Perl%3A%3ACritic%3A%3AConfig" class="podlinkpod"
+>Perl::Critic::Config</a>. If not provided then a default <a href="https://metacpan.org/pod/Perl%3A%3ACritic%3A%3AConfig" class="podlinkpod"
+>Perl::Critic::Config</a> will be created.</p>
+
+<p>CAVEAT: This isn&#39;t really possible with 100% accuracy with the <a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a> API, so we make some assumptions common conventions that typically do hold in virtually all cases.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AUTHOR"
@@ -90,7 +84,7 @@ name="AUTHOR"
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2018-2022 by Graham Ollis.</p>
+<p>This software is copyright (c) 2019-2024 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 

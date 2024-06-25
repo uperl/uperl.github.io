@@ -18,7 +18,10 @@
 <ul   class='indexList indexList1'>
   <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
   <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#AFFILIATION'>AFFILIATION</a>
+  <li class='indexItem indexItem1'><a href='#CONFIGURATION'>CONFIGURATION</a>
   <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
@@ -37,33 +40,60 @@ and other such reasonableness</p>
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.04</p>
+<p>version 0.07</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>perlcriticrc:</p>
+
+<pre class="sh_perl"> [Plicease::ProhibitLeadingZeros]</pre>
+
+<p>code:</p>
+
+<pre class="sh_perl"> 0123;               # not ok
+ 1234;               # ok
+ chmod 0700;         # ok
+ mkpath($foo, 0700); # ok</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>This is a stupid mistake:</p>
+<p>Perl interprets numbers with leading zeros as octal. If that&#39;s what you really want, its better to use <code>oct</code> and make it obvious. However, some operations are well known as using octal such as <code>chmod</code> and <code>mkpath</code> so this policy disallows mistakes like this:</p>
 
 <pre class="sh_perl"> my $x = 1231;
  my $y = 2345;
  my $z = 0032;</pre>
 
-<p>This is not:</p>
+<p>But not non-mistakes like this:</p>
 
 <pre class="sh_perl"> chmod 0700, &#34;secret_file.txt&#34;;</pre>
 
-<p>Neither is this:</p>
+<p>or this:</p>
 
 <pre class="sh_perl"> use File::Path qw( mkpath );
  
  mkpath(&#34;/foo/bar/baz&#34;, 1, 0700);</pre>
 
-<p>Nor is this:</p>
+<p>or is this:</p>
 
 <pre class="sh_perl"> use Path::Class qw( dir );
  
  dir()-&#62;mkpath(1,0700);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AFFILIATION"
+>AFFILIATION</a></h1>
+
+<p>None.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONFIGURATION"
+>CONFIGURATION</a></h1>
+
+<p>This policy is not configurable except for the standard options.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="CAVEATS"
@@ -101,11 +131,13 @@ name="AUTHOR"
 
 <p>Ville Skytt&#228; (SCOP)</p>
 
+<p>Yoshikazu Sawa (yoshikazusawa)</p>
+
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2019 by Graham Ollis.</p>
+<p>This software is copyright (c) 2019-2024 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
