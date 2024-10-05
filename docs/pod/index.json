@@ -1235,6 +1235,15 @@
       ]
    },
    {
+      "name" : "SQL-Formatter",
+      "pods" : [
+         {
+            "href" : "/pod/SQL/Formatter.html",
+            "name" : "SQL::Formatter"
+         }
+      ]
+   },
+   {
       "name" : "Shell-Config-Generate",
       "pods" : [
          {

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SQL::Formatter</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> SQL::Formatter</div>
+    <!--SQL::Formatter--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#format'>format</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>SQL::Formatter - Format SQL using the rust sqlformat library</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.01</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> my $f = SQL::Formatter-&#62;new;
+ say $f-&#62;format(&#39;select foo.a, foo.b, bar.c from foo join bar on foo.a = bar.c where foo.b = 2&#39;);</pre>
+
+<p>prints:</p>
+
+<pre class="sh_perl"> SELECT
+   foo.a,
+   foo.b,
+   bar.c
+ FROM
+   foo
+   JOIN bar ON foo.a = bar.c
+ WHERE
+   foo.b = 2</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Pretty print SQL using the rust crate <code>sqlformat</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<p>The formatting options can be specified either when the object is constructed, or later using accessors.</p>
+
+<pre class="sh_perl"> my $f = SQL::Format-&#62;new( indent =&#62; 4 );
+ $f-&#62;indent(4);</pre>
+
+<dl>
+<dt><a name="indent"
+>indent</a></dt>
+
+<dd>
+<p>Controls the length of indentation to use. The default is <code>2</code>.</p>
+
+<dt><a name="uppercase"
+>uppercase</a></dt>
+
+<dd>
+<p>When set to true (the default), changes reserved keywords to ALL CAPS.</p>
+
+<dt><a name="lines_between_queries"
+>lines_between_queries</a></dt>
+
+<dd>
+<p>Controls the number of line breaks after a query. The default is <code>1</code>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="format"
+>format</a></h2>
+
+<pre class="sh_perl"> my $pretty_sql = $f-&#62;format($sql);</pre>
+
+<p>Formats whitespace in a SQL string to make it easier to read.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://wdlabs.com">wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>
