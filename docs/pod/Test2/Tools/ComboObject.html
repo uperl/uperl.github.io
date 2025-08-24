@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test2::Tools::ComboObject</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test2::Tools::ComboObject</div>
+    <!--Test2::Tools::ComboObject--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#context'>context</a>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+    <li class='indexItem indexItem2'><a href='#status'>status</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#combo'>combo</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#finish'>finish</a>
+    <li class='indexItem indexItem2'><a href='#log'>log</a>
+    <li class='indexItem indexItem2'><a href='#pass'>pass</a>
+    <li class='indexItem indexItem2'><a href='#fail'>fail</a>
+    <li class='indexItem indexItem2'><a href='#ok'>ok</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test2::Tools::ComboObject - Combine checks and diagnostics into a single test as an object</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.01</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test2::Tools::ComboObject;
+ use feature qw( signatures );
+ 
+ sub my_test_tool ($test_name //=&#39;my test tool&#39;, @numbers) {
+   my $combo = combo $test_name;
+   foreach my $number (@numbers) {
+     if($number % 2) {
+       $combo-&#62;fail(&#34;$number is not even&#34;);
+     } else {
+       $combo-&#62;pass;
+     }
+   }
+   return $combo-&#62;finish;
+ }
+ 
+ my_test_tool undef, 4, 6, 8, 9, 100, 200, 300, 9999, 2859452842;
+ my_test_tool &#39;try again&#39;, 2, 4, 6, 8;
+ 
+ done_testing;</pre>
+
+<p>output:</p>
+
+<pre class="sh_perl"> prove -lvm examples/synopsis.t
+ examples/synopsis.t ..
+ # Seeded srand with seed &#39;20241121&#39; from local date.
+ not ok 1 - my test tool
+ 
+ # Failed test &#39;my test tool&#39;
+ # at examples/synopsis.t line 17.
+ # 9 is not even
+ # 9999 is not even
+ ok 2 - try again
+ 1..2
+ Dubious, test returned 1 (wstat 256, 0x100)
+ Failed 1/2 subtests
+ 
+ Test Summary Report
+ -------------------
+ examples/synopsis.t (Wstat: 256 (exited 1) Tests: 2 Failed: 1)
+   Failed test:  1
+   Non-zero exit status: 1
+ Files=1, Tests=2,  0 wallclock secs ( 0.00 usr  0.00 sys +  0.03 cusr  0.00 csys =  0.03 CPU)
+ Result: FAIL</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Combine multiple checks into a single test. Sometimes you want a test tool that has multiple possible failure points, but you want to hide that complexity from the user of your test tool. This class helps provide a OO interface to make this easy without having to track status and diagnostics in separate variables.</p>
+
+<p>If any one check fails the test will fail. If all checks pass then the test will pass. You can log diagnostics which will be directed to either <code>diag</code> or <code>note</code> depending on if the test fails or passes (respectively) overall.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="context"
+>context</a></h2>
+
+<pre class="sh_perl"> my $ctx = $combo-&#62;context;</pre>
+
+<p>The <a href="https://metacpan.org/pod/Test2%3A%3AAPI%3A%3AContext" class="podlinkpod"
+>Test2::API::Context</a> context. When created, this context takes into account the extra stack frames so that any failure diagnostics will point back to the call point of your tool.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<pre class="sh_perl"> my $name = $combo-&#62;name;</pre>
+
+<p>The string name of the test. The default <code>combo object test</code> will be used if not provided.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="status"
+>status</a></h2>
+
+<p>The boolean status of the test. Zero <code>0</code> for failure and One <code>1</code> for pass. You should generally not set this yourself directly, and instead use <a href="#pass" class="podlinkpod"
+>&#34;pass&#34;</a>, <a href="#fail" class="podlinkpod"
+>&#34;fail&#34;</a> or <a href="#ok" class="podlinkpod"
+>&#34;ok&#34;</a> below.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="combo"
+>combo</a></h2>
+
+<pre class="sh_perl"> my $combo = combo $test_name;
+ my $combo = combo;</pre>
+
+<p>Exported by default. Takes an optional test name. Will use <code>combo object test</code> if not provided.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<p>Note that methods that do not specify a return type will return the combo object, so such methods may be chained.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="finish"
+>finish</a></h2>
+
+<pre class="sh_perl"> my $status = $combo-&#62;finish;</pre>
+
+<p>Complete the combo test by generating the appropriate <a href="https://metacpan.org/pod/Test2" class="podlinkpod"
+>Test2</a> events and release its context. It also returns the pass/fail status, to make it a good choice to return from your tool, since it is a common practice for tools to return true/false when the pass/fail (respectively).</p>
+
+<pre class="sh_perl"> sub test_tool {
+   my $combo = combo;
+   ...
+   return $combo-&#62;finish;
+ }</pre>
+
+<p>If the the combo object is not explicitly finished when the object is destroyed then it will be finished for you in its destructor.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="log"
+>log</a></h2>
+
+<pre class="sh_perl"> $combo-&#62;log(@messages);</pre>
+
+<p>Include the given <code>@messages</code> as either a <code>diag</code> or <code>note</code> if the test overall fails or passes (respectively).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pass"
+>pass</a></h2>
+
+<pre class="sh_perl"> $self-&#62;pass;
+ $self-&#62;pass(@messages);</pre>
+
+<p>Marks a passing check. <code>@messages</code> if provided will be added to the log.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fail"
+>fail</a></h2>
+
+<pre class="sh_perl"> $self-&#62;fail;
+ $self-&#62;fail(@messages);</pre>
+
+<p>Marks a failing check. <code>@messages</code> if provided will be added to the log.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ok"
+>ok</a></h2>
+
+<pre class="sh_perl">  $self-&#62;ok($status);
+  $self-&#62;ok($status, @messages);</pre>
+
+<p>Marks a passing or failing check depending on if the <code>$status</code> is true or false (respectively). <code>@messages</code> if provided will be added to the log.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>This class creates a <a href="https://metacpan.org/pod/Test2%3A%3AAPI%3A%3AContext" class="podlinkpod"
+>Test2::API::Context</a>, and does release it when the object is either finished (via <a href="#finish" class="podlinkpod"
+>&#34;finish&#34;</a>) or when it falls out of scope. Because of this any caveats about storing and releasing contexts also applies to objects of this class.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

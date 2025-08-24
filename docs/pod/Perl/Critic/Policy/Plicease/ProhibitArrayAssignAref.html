@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Perl::Critic::Policy::Plicease::ProhibitArrayAssignAref</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Perl::Critic::Policy::Plicease::ProhibitArrayAssignAref</div>
+    <!--Perl::Critic::Policy::Plicease::ProhibitArrayAssignAref--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#List_Assignment_Parens'>List Assignment Parens</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#HOME_PAGE'>HOME PAGE</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT'>COPYRIGHT</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Perl::Critic::Policy::Plicease::ProhibitArrayAssignAref - Don&#39;t assign an anonymous arrayref to an array</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 100.00</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This policy is a fork of <a href="https://metacpan.org/pod/Perl%3A%3ACritic%3A%3APolicy%3A%3AValuesAndExpressions%3A%3AProhibitArrayAssignAref" class="podlinkpod"
+>Perl::Critic::Policy::ValuesAndExpressions::ProhibitArrayAssignAref</a>.
+It differs from the original by not having a dependency on <a href="https://metacpan.org/pod/List%3A%3AMoreUtils" class="podlinkpod"
+>List::MoreUtils</a>.
+It is unfortunately still licensed as GPL3.</p>
+
+<p>It asks you not to assign an anonymous arrayref to an array</p>
+
+<pre class="sh_perl">    @array = [ 1, 2, 3 ];       # bad</pre>
+
+<p>The idea is that it&#39;s rather unclear whether an arrayref is intended, or might have meant to be a list like</p>
+
+<pre class="sh_perl">    @array = ( 1, 2, 3 );</pre>
+
+<p>This policy is under the &#34;bugs&#34; theme (see <a href="https://metacpan.org/pod/Perl%3A%3ACritic#POLICY_THEMES" class="podlinkpod"
+>&#34;POLICY THEMES&#34; in Perl::Critic</a>) for the chance <code>[]</code> is a mistake, and since even if it&#39;s correct it will likely make anyone reading it wonder.</p>
+
+<p>A single arrayref can still be assigned to an array, but with parens to make it clear,</p>
+
+<pre class="sh_perl">    @array = ( [1,2,3] );       # ok</pre>
+
+<p>Dereferences or array and hash slices (see <a href="https://metacpan.org/pod/perldata#Slices" class="podlinkpod"
+>&#34;Slices&#34; in perldata</a>) are recognised as an array target and treated similarly,</p>
+
+<pre class="sh_perl">    @$ref = [1,2,3];            # bad assign to deref
+    @{$ref} = [1,2,3];          # bad assign to deref
+    @x[1,2,3] = [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;];  # bad assign to array slice
+    @x{&#39;a&#39;,&#39;b&#39;} = [1,2];        # bad assign to hash slice</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="List_Assignment_Parens"
+>List Assignment Parens</a></h2>
+
+<p>This policy is not a blanket requirement for <code>()</code> parens on array assignments. It&#39;s normal and unambiguous to have a function call or <code>grep</code> etc without parens.</p>
+
+<pre class="sh_perl">    @array = foo();                    # ok
+    @array = grep {/\.txt$/} @array;   # ok</pre>
+
+<p>The only likely problem from lack of parens in such cases is that the <code>,</code> comma operator has lower precedence than <code>=</code> (see <a href="https://metacpan.org/pod/perlop" class="podlinkpod"
+>perlop</a>), so something like</p>
+
+<pre class="sh_perl">    @array = 1,2,3;   # oops, not a list</pre>
+
+<p>means</p>
+
+<pre class="sh_perl">    @array = (1);
+    2;
+    3;</pre>
+
+<p>Normally the remaining literals in void context provoke a warning from Perl itself.</p>
+
+<p>An intentional single element assignment is quite common as a statement, for instance</p>
+
+<pre class="sh_perl">    @ISA = &#39;My::Parent::Class&#39;;   # ok</pre>
+
+<p>And for reference the range operator precedence is high enough,</p>
+
+<pre class="sh_perl">    @array = 1..10;               # ok</pre>
+
+<p>But of course parens are needed if concatenating some disjoint ranges with the comma operator,</p>
+
+<pre class="sh_perl">    @array = (1..5, 10..15);      # parens needed</pre>
+
+<p>The <code>qw</code> form gives a list too</p>
+
+<pre class="sh_perl">    @array = qw(a b c);           # ok</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Perl::Critic"
+><a href="https://metacpan.org/pod/Perl%3A%3ACritic" class="podlinkpod"
+>Perl::Critic</a></a></dt>
+
+<dd>
+<dt><a name="Perl::Critic::Policy::ValuesAndExpressions::ProhibitArrayAssignAref"
+><a href="https://metacpan.org/pod/Perl%3A%3ACritic%3A%3APolicy%3A%3AValuesAndExpressions%3A%3AProhibitArrayAssignAref" class="podlinkpod"
+>Perl::Critic::Policy::ValuesAndExpressions::ProhibitArrayAssignAref</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="HOME_PAGE"
+>HOME PAGE</a></h1>
+
+<dl>
+<dt><a name="https://github.com/uperl/Perl-Critic-Policy-Plicease-ProhibitArrayAssignAref"
+><a href="https://github.com/uperl/Perl-Critic-Policy-Plicease-ProhibitArrayAssignAref" class="podlinkurl"
+>https://github.com/uperl/Perl-Critic-Policy-Plicease-ProhibitArrayAssignAref</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT"
+>COPYRIGHT</a></h1>
+
+<p>Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2021 Kevin Ryde</p>
+
+<p>Perl-Critic-Policy-Plicease-ProhibitArrayAssignAref is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3, or (at your option) any later version.</p>
+
+<p>Perl-Critic-Policy-Plicease-ProhibitArrayAssignAref is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License along with Perl-Critic-Policy-Plicease-ProhibitArrayAssignAref. If not, see &#60;http://www.gnu.org/licenses&#62;.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: Kevin Ryde</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is Copyright (c) 2011-2021 by Kevin Ryde.</p>
+
+<p>This is free software, licensed under:</p>
+
+<pre class="sh_perl">  The GNU General Public License, Version 3, June 2007</pre>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

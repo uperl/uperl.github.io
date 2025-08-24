@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>IO::Event</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> IO::Event</div>
+    <!--IO::Event--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CHOOSING_AN_EVENT_HANDLER'>CHOOSING AN EVENT HANDLER</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Event'>Event</a>
+    <li class='indexItem indexItem2'><a href='#AnyEvent'>AnyEvent</a>
+    <li class='indexItem indexItem2'><a href='#emulate_Event'>emulate_Event</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTORS'>CONSTRUCTORS</a>
+  <li class='indexItem indexItem1'><a href='#MANDATORY_HANDLERS'>MANDATORY HANDLERS</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONAL_HANDLERS'>OPTIONAL HANDLERS</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <li class='indexItem indexItem1'><a href='#TIMER_API'>TIMER API</a>
+  <li class='indexItem indexItem1'><a href='#IDLE_API'>IDLE API</a>
+  <li class='indexItem indexItem1'><a href='#SUBSTITUED_METHODS'>SUBSTITUED METHODS</a>
+  <li class='indexItem indexItem1'><a href='#EXAMPLE_SERVER'>EXAMPLE SERVER</a>
+  <li class='indexItem indexItem1'><a href='#SYSREAD_and_EOF'>SYSREAD and EOF</a>
+  <li class='indexItem indexItem1'><a href='#DESTRUCTION'>DESTRUCTION</a>
+  <li class='indexItem indexItem1'><a href='#DATA_STRUCTURE'>DATA STRUCTURE</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#POD_ERRORS'>POD ERRORS</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>IO::Event - Tied Filehandles for Nonblocking IO with Object Callbacks</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use IO::Event;
+ use IO::Event &#39;emulate_Event&#39;;
+ use IO::Event &#39;AnyEvent&#39;;
+
+ my $ioe = IO::Event-&#62;new($filehandle);
+
+ my $ioe = IO::Event::Socket::INET-&#62;new( [ARGS] )
+
+ my $ioe = IO::Event::Socket::UNIX-&#62;new( [ARGS] )
+
+ my $timer = IO::Event-&#62;timer(
+        [after =&#62; $seconds],
+        interval =&#62; $seconds,
+        cb =&#62; CODE);
+
+ my $idler = IO::Event-&#62;idle(
+        [min =&#62; $seconds], 
+        [max =&#62; $seconds],
+        [reentrant =&#62; 0],
+        cb =&#62; CODE);
+
+ IO::Event::loop();
+
+ IO::Event::unloop_all();</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>IO::Event provides a object-based callback system for handling nonblocking IO. The design goal is to provide a system that just does the right thing w/o the user needing to think about it much.</p>
+
+<p>All APIs are kept as simple as possible yet at the same time, all functionality is accesible if needed. Simple things are easy. Hard things are possible.</p>
+
+<p>Most of the time file handling syntax will work fine: <code>&#60;$filehandle&#62;</code> and <code>print $filehandle &#39;stuff&#39;</code>.</p>
+
+<p>IO::Event provides automatic buffering of output (with a callback to throttle). It provides automatic line-at-a-time input.</p>
+
+<p>After initial setup, call <code>IO::Event::loop()</code>.</p>
+
+<p>IO::Event was originally written to use <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>. IO::Event still defaults to using <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a> but it can now use <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> or its own event loop.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CHOOSING_AN_EVENT_HANDLER"
+>CHOOSING AN EVENT HANDLER</a></h1>
+
+<p>Until you create your first IO::Event object, you can choose which underlying event handler to use. The default is <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>. To choose an event handler, use one of the following lines, import <code>no_emulate_Event</code>, <code>emulate_Event</code>, or <code>AnyEvent</code>.</p>
+
+<pre class="sh_perl"> use IO::Event &#39;no_emulate_Event&#39;
+ use IO::Event &#39;emulate_Event&#39;
+ use IO::Event &#39;AnyEvent&#39;</pre>
+
+<p>The <code>no_emulate_Event</code> option means: use <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>. The <code>emulate_Event</code> option means IO::Event should use its own event loop.</p>
+
+<p>Why?</p>
+
+<p>You should use <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> if you want to have compatibility with other event loops. You should use <code>emulate_Event</code> if you don&#39;t need compatibility with other event loops and you have missing-event bugs when using <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>. You should use <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a> if it works for you.</p>
+
+<p>The APIs are a bit different depending on which event loop you&#39;re using.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Event"
+><a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a></a></h2>
+
+<p>To use <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>&#39;s event loop:</p>
+
+<pre class="sh_perl"> use IO::Event &#39;no_emulate_Event&#39;;</pre>
+
+<p>or just:</p>
+
+<pre class="sh_perl"> use IO::Event</pre>
+
+<p>IO::Event&#39;s definition for <code>loop()</code>, <code>timer()</code>, <code>idle()</code> and <code>unloop_all()</code> all default to the <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a> version unless <code>emulate_Event</code> or <code>AnyEvent</code> have been imported. This allows you to easily switch back and forth between <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>&#39;s API and the others.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="AnyEvent"
+><a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a></a></h2>
+
+<p>To use <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a>&#39;s select loop, import <code>AnyEvent</code>.</p>
+
+<pre class="sh_perl"> use IO::Event &#39;AnyEvent&#39;;</pre>
+
+<p>You can use <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a>&#39;s API directly or you can use IO::Event&#39;s emulated APIs: <code>IO::Event::loop()</code>, <code>IO::Event::unloop()</code>, <code>IO::Event::timer()</code>, and <code>IO::Event::idle()</code>. These behave like <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>&#39;s routines of the same name but use <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> underneath.</p>
+
+<p>During testing, using the pure-perl event loop of <a href="https://metacpan.org/pod/AnyEvent%3A%3AImpl%3A%3APerl" class="podlinkpod"
+>AnyEvent::Impl::Perl</a> from <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> version 5.271, some read events were dropped. To work around this, a synthetic read-ready event is dispatched for all connected read filehandles every two seconds. Turn this off or adjust its frequency by changing <code>$IO::Event::AnyEvent::lost_event_hack</code>. A numeric value is the time (in seconds) between dispatching read events. A false value turns off this performance-sapping hack.</p>
+
+<p><a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> only provides basic support for idle() events: it promises to invoke them &#34;every now and then&#34;.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="emulate_Event"
+><code>emulate_Event</code></a></h2>
+
+<p>To use IO::Event&#39;s own select loop, import <code>emulate_Event</code>.</p>
+
+<pre class="sh_perl"> use IO::Event &#39;emulate_Event&#39;;</pre>
+
+<p>IO::Event does not provide a complete emulation of everything that <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a> does. It provides the full timer API:</p>
+
+<pre class="sh_perl"> my $timer = IO::Event::timer( [ARGS] )</pre>
+
+<p>instead of</p>
+
+<pre class="sh_perl"> my $timer = Event::timer( [ARGS] )</pre>
+
+<p>However it does not provide timer events on filehandles, nor does it provide events for signals, or variable accesses.</p>
+
+<p>Use <code>IO::Event::loop()</code> instead of <code>Event::loop()</code>. Use <code>IO::Event::unloop_all()</code> instead of <code>Event::unloop_all()</code>. Use <code>IO::Event::idle()</code> instead of <code>Event::idle()</code>. It does not provide any other methods or functions from <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>. If you need them, please send a patch.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTORS"
+>CONSTRUCTORS</a></h1>
+
+<dl>
+<dt><a name="IO::Event-&#62;new($filehandle,_[_$handler,_[_$options_]])"
+>IO::Event-&#62;new($filehandle, [ $handler, [ $options ]])</a></dt>
+
+<dd>
+<p>The basic <code>new</code> constructor takes a filehandle and returns a psuedo-filehandle. Treat the IO::Event object as a filehandle. Do not use the original filehandle without good reason (let us know if you find a good reason so we can fix the problem).</p>
+
+<p>The handler is the class or object where you provide callback functions to handle IO events. It defaults to the package of the calling context.</p>
+
+<p>If present, <code>$options</code> is a hash reference with the following possible keys:</p>
+
+<dl>
+<dt><a name="description"
+>description</a></dt>
+
+<dd>
+<p>A text description of this filehandle. Used for debugging and error messages.</p>
+
+<dt><a name="read_only"
+>read_only</a></dt>
+
+<dd>
+<p>Set to true if this is a read-only filehandle. Do not accept output.</p>
+
+<dt><a name="write_only"
+>write_only</a></dt>
+
+<dd>
+<p>Set to true if this is a write-only filehandle. Do not attept to read.</p>
+
+<dt><a name="autoread"
+>autoread</a></dt>
+
+<dd>
+<p>Set to 0 if this should not be an auto-read filehandle.</p>
+</dd>
+</dl>
+
+<dt><a name="IO::Event::Socket::INET-&#62;new(_[ARGS]_)"
+>IO::Event::Socket::INET-&#62;new( [ARGS] )</a></dt>
+
+<dd>
+<p>This constructor uses IO::Socket::INET-&#62;new() to create a socket using the ARGS provided. It returns an IO::Event object.</p>
+
+<p>The handler defaults as above or can be set with an additional pseudo-parameter for IO::Socket::UNIX-&#62;new(): <code>Handler</code>. A description for the socket can be provided with an additional psuedo-parameter: <code>Description</code>.</p>
+
+<dt><a name="IO::Event::Socket::UNIX-&#62;new(_[ARGS]_)"
+>IO::Event::Socket::UNIX-&#62;new( [ARGS] )</a></dt>
+
+<dd>
+<p>This constructor uses IO::Socket::UNIX-&#62;new() to create a socket using the ARGS provided. It returns an IO::Event object.</p>
+
+<p>The handler defaults as above or can be set with an additional pseudo-parameter for IO::Socket::UNIX-&#62;new(): <code>Handler</code>. A description for the socket can be provided with an additional psuedo-parameter: <code>Description</code>.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="MANDATORY_HANDLERS"
+>MANDATORY HANDLERS</a></h1>
+
+<p>These handler methods must be available in the handler object/class if the situation in which they would be called arises.</p>
+
+<dl>
+<dt><a name="ie_input($handler,_$ioe,_$input_buffer_reference)"
+>ie_input($handler, $ioe, $input_buffer_reference)</a></dt>
+
+<dd>
+<p>Invoked when there is fresh data in the input buffer. The input can be retrieved via directly reading it from <code>$$input_buffer_reference</code> or via <code>read()</code> from the $ioe filehandle, or by using a variety of standard methods for getting data:</p>
+
+<pre class="sh_perl">        &#60;$ioe&#62;                  like IO::Handle
+        $ioe-&#62;get()             like Data::LineBuffer
+        $ioe-&#62;read()            like IO::Handle
+        $ioe-&#62;sysread()         like IO::Handle
+        $ioe-&#62;getline()         like IO::Handle
+        $ioe-&#62;getlines()        like IO::Handle
+        $ioe-&#62;getsome()         see below
+        $ioe-&#62;ungets()          like FileHandle::Unget</pre>
+
+<p>At end-of-file, ie_input will only be invoked once. There may or may not be data in the input buffer.</p>
+
+<dt><a name="ie_connection($handler,_$ioe)"
+>ie_connection($handler, $ioe)</a></dt>
+
+<dd>
+<p>Invoked when a listen()ing socket is ready to accept(). It should call accept:</p>
+
+<pre class="sh_perl">        sub ie_connection
+        {
+                my ($pkg, $ioe) = @_;
+                my $newfh = $ioe-&#62;accept()
+        }</pre>
+
+<dt><a name="ie_read_ready($handler,_$ioe,_$underlying_file_handle)"
+>ie_read_ready($handler, $ioe, $underlying_file_handle)</a></dt>
+
+<dd>
+<p>If autoreading is turned off then this will be invoked.</p>
+
+<dt><a name="ie_werror($handler,_$ioe,_$output_buffer_reference)"
+>ie_werror($handler, $ioe, $output_buffer_reference)</a></dt>
+
+<dd>
+<p>A write error has occured when trying to drain the write buffer. Provide an empty subroutine if you don&#39;t care.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONAL_HANDLERS"
+>OPTIONAL HANDLERS</a></h1>
+
+<p>These handler methods will be called if they are defined but it is not required that they be defined.</p>
+
+<dl>
+<dt><a name="ie_eof($handler,_$ioe,_$input_buffer_reference)"
+>ie_eof($handler, $ioe, $input_buffer_reference)</a></dt>
+
+<dd>
+<p>This is invoked when the read-side of the filehandle has been closed by its source.</p>
+
+<dt><a name="ie_output"
+>ie_output</a></dt>
+
+<dd>
+<p>This is invoked when data has just been written to the underlying filehandle.</p>
+
+<dt><a name="ie_outputdone"
+>ie_outputdone</a></dt>
+
+<dd>
+<p>This is invoked when all pending data has just been written to the underlying filehandle.</p>
+
+<dt><a name="ie_connected"
+>ie_connected</a></dt>
+
+<dd>
+<p>This is invoked when a <code>connect()</code> completes.</p>
+
+<dt><a name="ie_connect_failed($handler,_$ioe,_$error_code)"
+>ie_connect_failed($handler, $ioe, $error_code)</a></dt>
+
+<dd>
+<p>This is invoked when a <code>connect()</code> fails. For a timeout, the error code will be ETIMEOUT.</p>
+
+<dt><a name="ie_died($handler,_$ioe,_$method,_$@)"
+>ie_died($handler, $ioe, $method, $@)</a></dt>
+
+<dd>
+<p>If another handler calls <code>die</code> then ie_died will be called with the IO::Event object, the name of the method just invoked, and the die string. If no ie_died() callback exists then execution will terminate.</p>
+
+<dt><a name="ie_timer"
+>ie_timer</a></dt>
+
+<dd>
+<p>This is invoked for timer events.</p>
+
+<dt><a name="ie_exception"
+>ie_exception</a></dt>
+
+<dd>
+<p>Invoked when an exceptional condition arises on the underlying filehandle</p>
+
+<dt><a name="ie_outputoverflow($handler,_$ioe,_$overflowing,_$output_buffer_reference)"
+>ie_outputoverflow($handler, $ioe, $overflowing, $output_buffer_reference)</a></dt>
+
+<dd>
+<p>Invoked when there is too much output data and the output buffers are overflowing. You can take some action to generate less output. This will be invoked exactly once (with $overflowing == 1) when there is too much data in the buffer and then exactly once again (with $overflowing == 0) when there is no longer too much data in the buffer.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<p>In addition to methods described in detail below, the following methods behave like their <code>IO</code> (mostly <code>IO::Socket</code>) counterparts (except for being mostly non-blocking...):</p>
+
+<pre class="sh_perl">        connect
+        listen
+        open
+        read
+        sysread
+        syswrite
+        print
+        eof
+        shutdown</pre>
+
+<p>Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods are passed to underlying <code>Event</code> objects:</p>
+
+<pre class="sh_perl">        loop
+        unloop
+        and many more...</pre>
+
+<p>Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods are passed to underlying <code>IO</code> objects:</p>
+
+<pre class="sh_perl">        fileno
+        stat
+        truncate
+        error
+        opened
+        untaint
+        and many more...</pre>
+
+<p>IO::Event defines its own methods too:</p>
+
+<dl>
+<dt><a name="-&#62;accept($handler,_%options)"
+>-&#62;accept($handler, %options)</a></dt>
+
+<dd>
+<p>accept() is nearly identical to the normal IO::Socket::accept() method except that instead of optionally passing a class specifier for the new socket, you optionally pass a handler object or class. The returned filehandle is an IO::Event object.</p>
+
+<p>Supported options:</p>
+
+<dl>
+<dt><a name="description"
+>description</a></dt>
+
+<dd>
+<p>Sets the description for the new socket</p>
+
+<dt><a name="autoread"
+>autoread</a></dt>
+
+<dd>
+<p>Set to 0 if you do not want auto-read</p>
+</dd>
+</dl>
+
+<dt><a name="-&#62;can_read($amount)"
+>-&#62;can_read($amount)</a></dt>
+
+<dd>
+<p>Returns true if <code>$amount</code> bytes worth of input is available for reading. Note: this does not return true at EOF so be careful not to hang forever at EOF.</p>
+
+<dt><a name="-&#62;getsome($amount)"
+>-&#62;getsome($amount)</a></dt>
+
+<dd>
+<p>Returns <code>$amount</code> bytes worth of input or undef if the request can&#39;t be filled. Returns what it can at EOF.</p>
+
+<dt><a name="-&#62;get()"
+>-&#62;get()</a></dt>
+
+<dd>
+<p>get() is like getline() except that it pre-chomp()s the results and assumes the input_record_separator is &#34;\n&#34;. This is like get() from <a href="https://metacpan.org/pod/Data%3A%3ALineBuffer" class="podlinkpod"
+>Data::LineBuffer</a>.</p>
+
+<dt><a name="-&#62;unget()"
+>-&#62;unget()</a></dt>
+
+<dd>
+<p>Push chomp()ed lines back into the input buffer. This is like unget() from <a href="https://metacpan.org/pod/Data%3A%3ALineBuffer" class="podlinkpod"
+>Data::LineBuffer</a>.</p>
+
+<dt><a name="-&#62;ungetline(),_-&#62;xungetc(),_-&#62;ungets()"
+>-&#62;ungetline(), -&#62;xungetc(), -&#62;ungets()</a></dt>
+
+<dd>
+<p>This is what ungetc() should be: it pushes a string back into the input buffer. This is unlike IO::Handle-&#62;ungetc which takes an ordinal and pushes one character back into the the input buffer. This is like <a href="https://metacpan.org/pod/FileHandle%3A%3AUnget" class="podlinkpod"
+>FileHandle::Unget</a>.</p>
+
+<dt><a name="-&#62;handler($new_handler)"
+>-&#62;handler($new_handler)</a></dt>
+
+<dd>
+<p>Sets the handler object/class if $new_handler is provided. Returns the old handler.</p>
+
+<dt><a name="-&#62;filehandle()"
+>-&#62;filehandle()</a></dt>
+
+<dd>
+<p>Returns the underlying <code>IO::Handle</code>.</p>
+
+<dt><a name="-&#62;event()"
+>-&#62;event()</a></dt>
+
+<dd>
+<p>Returns the underling <code>Event</code>.</p>
+
+<dt><a name="-&#62;listener($listening)"
+>-&#62;listener($listening)</a></dt>
+
+<dd>
+<p>Used to note that a filehandle is being used to listen for connections (instead of receiving data). A passed parameter of 0 does the opposite. Returns the old value. This is mostly used internally in IO::Event.</p>
+
+<dt><a name="-&#62;input_record_separator($new_sep)"
+>-&#62;input_record_separator($new_sep)</a></dt>
+
+<dd>
+<p>IO::Handle doesn&#39;t allow input_record_separator&#39;s on a per filehandle basis. IO::Event does. If you don&#39;t ever set a filehandle&#39;s input record separator, then it contineously defaults to the current value of <code>$/</code>. If you set it, then it will use your value and never look at <code>$/</code> again.</p>
+
+<dt><a name="-&#62;readevents($readevents)"
+>-&#62;readevents($readevents)</a></dt>
+
+<dd>
+<p>Get/set listening for read-ready events on the underlying filehandle. This could be used by ie_outputoverflow to control input flows.</p>
+
+<dt><a name="-&#62;output_bufsize($output_bufsize)"
+>-&#62;output_bufsize($output_bufsize)</a></dt>
+
+<dd>
+<p>Get/set the size of the output buffer.</p>
+
+<dt><a name="-&#62;autoread($autoread)"
+>-&#62;autoread($autoread)</a></dt>
+
+<dd>
+<p>Get/set automatic reading if data when data can be read. Without autoread turned on, the input buffer ins&#39;t filled and none of the read methods will work. The point of this is for working with non-data filehandles. This is an experts-only method that kinda defeats the purpose of this module. This would be necessary using recv() to get data.</p>
+
+<dt><a name="-&#62;drain()"
+>-&#62;drain()</a></dt>
+
+<dd>
+<p>Used to start looking for write-ready events on the underlying filehandle. In normal operation this is handled automatically. Deprecated: use <code>writeevents(1)</code> instead.</p>
+
+<dt><a name="-&#62;reentrant($reentrant)"
+>-&#62;reentrant($reentrant)</a></dt>
+
+<dd>
+<p>Get/set reentrant callbacks. By default, IO::Event avoids making reentrant callbacks. This is good because your code is less likely to break. This is bad because you won&#39;t learn about things right away. For example, you will not learn the the output buffer is overflowing during print(). You&#39;ll have to wait for the output buffer to begin draining to find out. This could be a problem.</p>
+
+<dt><a name="-&#62;close()"
+>-&#62;close()</a></dt>
+
+<dd>
+<p>If there is output buffered, close will be delayed until the output buffer drains.</p>
+
+<dt><a name="-&#62;forceclose"
+>-&#62;forceclose</a></dt>
+
+<dd>
+<p>Close close immediately, even if there is output buffered.</p>
+</dd>
+</dl>
+
+<dl>
+<dt><a name="-&#62;ie_desc([new_description])"
+>-&#62;ie_desc([new description])</a></dt>
+
+<dd>
+<p>Returns (and sets) the text description of the filehandle. For debugging.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="TIMER_API"
+>TIMER API</a></h1>
+
+<p>The following timer construction arguments are supported by IO::Event&#39;s emulated event loop and IO::Event&#39;s API on top of <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a>:</p>
+
+<dl>
+<dt><a name="cb"
+>cb</a></dt>
+
+<dd>
+<p>A callback to invoke when the timer goes off. The callback can either be a CODE reference or an array reference. If it&#39;s an array reference, the array should be a two element tuple: the first element is an object and the second object is a method to invoke on the object. The only argument to the method call a reference to the timer object:</p>
+
+<pre class="sh_perl"> my ($object, $method) = @{$timer-&#62;{cb}}
+ $object-&#62;$method($timer)</pre>
+
+<dt><a name="at"
+>at</a></dt>
+
+<dd>
+<p>A time at which to invoke the callback.</p>
+
+<dt><a name="interval"
+>interval</a></dt>
+
+<dd>
+<p>An interval, in seconds between repeat invocations of the callback.</p>
+
+<dt><a name="after"
+>after</a></dt>
+
+<dd>
+<p>The interval until the first invocation of the callback. After that, invoke every <i>interval</i>.</p>
+</dd>
+</dl>
+
+<p>The following methods (from <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>) are supported on timer objects: start(), again(), now(), stop(), cancel(), is_cancelled(), is_running(), is_suspended(), pending.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="IDLE_API"
+>IDLE API</a></h1>
+
+<p>The following idle construction arguments are supported by IO::Event&#39;s emulated event loop and IO::Event&#39;s API on top of <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a>:</p>
+
+<dl>
+<dt><a name="cb"
+>cb</a></dt>
+
+<dd>
+<p>A callback to invoke when the event loop is idle. The callback can either be a CODE reference or an array reference. If it&#39;s an array reference, the array should be a two element tuple: the first element is an object and the second object is a method to invoke on the object.</p>
+
+<pre class="sh_perl"> my ($object, $method) = @{$timer-&#62;{cb}}
+ $object-&#62;$method();</pre>
+
+<dt><a name="min"
+>min</a></dt>
+
+<dd>
+<p>The minimum time between invocations of the callback.</p>
+
+<dt><a name="max"
+>max</a></dt>
+
+<dd>
+<p>The maximum time between invocations of the callback.</p>
+</dd>
+</dl>
+
+<p>The following methods (from <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>) are supported on idle objects: start(), again(), now(), stop(), cancel(), is_cancelled(), is_running(), is_suspended(), pending.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SUBSTITUED_METHODS"
+>SUBSTITUED METHODS</a></h1>
+
+<p>Any method invocations that fail because the method isn&#39;t defined in IO::Event will by tried twice more: once using trying for a method on the inner (hidden) filehandle and once more trying for a method on the Event object that&#39;s used to create the select loop for this module.</p>
+
+<p>This dispatch is now deprecated with the choice of event handlers.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLE_SERVER"
+>EXAMPLE SERVER</a></h1>
+
+<pre class="sh_perl">        # This is a tcp line echo server
+
+        my $listener = IO::Event::Socket::INET-&#62;new(
+                Listen =&#62; 10,
+                Proto =&#62; &#39;tcp&#39;,
+                LocalPort =&#62; 2821,
+        );
+
+        Event::loop();
+
+        sub ie_connection
+        {
+                my ($pkg, $lstnr) = @_;
+                my $client = $lstnr-&#62;accept();
+                printf &#34;accepted connection from %s:%s\n&#34;,
+                        $client-&#62;peerhost, $client-&#62;peerport;
+        }
+
+        sub ie_input
+        {
+                my ($pkg, $client, $ibufref) = @_;
+                print $client &#60;$client&#62;;
+        }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYSREAD_and_EOF"
+>SYSREAD and EOF</a></h1>
+
+<p>sysread() is incompatible with eof() because eof() uses getc(). Most of the time this isn&#39;t a problem. In other words, some of the time this is a problem: lines go missing.</p>
+
+<p>For this reason, IO::Event never uses sysread(). In fact, if you ask it to do a sysread() it does a read() for you instead.</p>
+
+<p>On the other hand, at the current time no problems with syswrite have come to light and IO::Event uses syswrite and never any other form of write/print etc.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESTRUCTION"
+>DESTRUCTION</a></h1>
+
+<p>IO::Event keeps copies of all of its registered filehandles. If you want to close a filehandle, you&#39;ll need to actually call close on it.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DATA_STRUCTURE"
+>DATA STRUCTURE</a></h1>
+
+<p>The filehandle object itself is a funny kind of hash reference. If you want to use it to store your own data, you can. Please don&#39;t use hash keys that begin <code>ie_</code> or <code>io_</code> as those are the prefixes used by <code>IO::Event</code> and <code>IO::Socket</code>.</p>
+
+<p>The syntax is kinda funny:</p>
+
+<pre class="sh_perl">        ${*$filehandle}{&#39;your_hash_key&#39;}  </pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>For a different API on top of IO::Event, see <a href="/pod/IO/Event/Callback.html" class="podlinkpod"
+>IO::Event::Callback</a>. It uses IO::Event but provides a simpler and perhaps easier-to-use API.</p>
+
+<p>The following perl modules do something that is kinda similar to what is being done here:</p>
+
+<p><a href="https://metacpan.org/pod/AnyEvent%3A%3AHandle" class="podlinkpod"
+>AnyEvent::Handle</a>, <a href="https://metacpan.org/pod/AnyEvent%3A%3AAIO" class="podlinkpod"
+>AnyEvent::AIO</a>, <a href="https://metacpan.org/pod/IO%3A%3AAIO" class="podlinkpod"
+>IO::AIO</a>, <a href="https://metacpan.org/pod/IO%3A%3AMultiplex" class="podlinkpod"
+>IO::Multiplex</a>, <a href="https://metacpan.org/pod/IO%3A%3ANonBlocking" class="podlinkpod"
+>IO::NonBlocking</a>, <a href="https://metacpan.org/pod/IO%3A%3ASelect" class="podlinkpod"
+>IO::Select</a> <a href="https://metacpan.org/pod/Event" class="podlinkpod"
+>Event</a>, <a href="https://metacpan.org/pod/POE" class="podlinkpod"
+>POE</a>, <a href="https://metacpan.org/pod/POE%3A%3AComponent%3A%3AServer%3A%3ATCP" class="podlinkpod"
+>POE::Component::Server::TCP</a>, <a href="https://metacpan.org/pod/Net%3A%3ASocket%3A%3ANonBlock" class="podlinkpod"
+>Net::Socket::NonBlock</a>, <a href="https://metacpan.org/pod/Net%3A%3AServer%3A%3AMultiplex" class="podlinkpod"
+>Net::Server::Multiplex</a>, <a href="https://metacpan.org/pod/NetServer%3A%3AGeneric" class="podlinkpod"
+>NetServer::Generic</a></p>
+
+<p>The API borrows most heavily from IO::Multiplex. IO::Event uses Event.pm and thus can be used in programs that are already using Event or POE.</p>
+
+<p>Since the original writing of IO::Event, <a href="https://metacpan.org/pod/AnyEvent" class="podlinkpod"
+>AnyEvent</a> has been released and now <a href="https://metacpan.org/pod/AnyEvent%3A%3AAIO" class="podlinkpod"
+>AnyEvent::AIO</a> and <a href="AnyEvent:Handle" class="podlinkurl"
+>AnyEvent:Handle</a> should be considered the only good alternatives to IO::Event.</p>
+
+<p>For an example program using IO::Event, see <a href="https://metacpan.org/pod/IO%3A%3AEvent%3A%3Arinetd" class="podlinkpod"
+>IO::Event::rinetd</a> which used to be included in this package.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUGS"
+>BUGS</a></h1>
+
+<p>The test suite only covers 40% of the code. The module is used by its author and seems solid.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>Copyright (C) 2002-2009 David Muir Sharnoff &#60;muir@idiom.org&#62;. Copyright (C) 2011-2013 Google, Inc. This module may be used/copied/etc on the same terms as Perl itself.</p>
+
+<p>This module is packaged for Fedora by Emmanuel Seyman &#60;emmanuel@seyman.fr&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="POD_ERRORS"
+>POD ERRORS</a></h1>
+
+<p>Hey! <b>The above document had some coding errors, which are explained below:</b></p>
+
+<dl>
+<dt><a name="Around_line_476:"
+>Around line 476:</a></dt>
+
+<dd>
+<p>&#39;=item&#39; outside of any &#39;=over&#39;</p>
+</dd>
+</dl>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

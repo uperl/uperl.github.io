@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Archive::Libarchive::Compress</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Archive::<a href="/pod/Archive/Libarchive.html">Libarchive</a>::Compress</div>
+    <!--Archive::Libarchive::Compress--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+    <li class='indexItem indexItem2'><a href='#from'>from</a>
+    <li class='indexItem indexItem2'><a href='#compress'>compress</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Archive::Libarchive::Compress - Recursively archive a directory (using libarchive)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.01</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Archive::Libarchive::Compress;
+
+ my $w = Archive::Libarchive::Compress-&#62;new( filename =&#62; &#39;foo.tar&#39; );
+ $w-&#62;compress( from =&#62; &#39;.&#39; );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module recursively archives a directory to either a file or to memory. This module does not store directory structure, just the files, so an empty directory will not be represented in the resulting archive.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $w = Archive::Libarchive::Compress-&#62;new(%args);</pre>
+
+<p>Exactly one of <code>filename</code> and <code>memory</code> are required. All other arguments are optional.</p>
+
+<dl>
+<dt><a name="entry"
+>entry</a></dt>
+
+<dd>
+<p>Callback function called for each entry before it is written to the archive. The entry is passed in as an instance of <a href="/pod/Archive/Libarchive/Entry.html" class="podlinkpod"
+>Archive::Libarchive::Entry</a>. If this callback returns a false value, then the entry will not be written to the archive.</p>
+
+<pre class="sh_perl"> my $w = Archive::Libarchive::Compress-&#62;new(
+   filename =&#62; &#39;foo.tar&#39;,
+   entry =&#62; sub ($e) {
+     # skip &#34;hidden&#34; files
+     return $e-&#62;pathname !~ /^\./;
+   },
+ )</pre>
+
+<p>You may also modify the entry, before it gets written. This can be useful for modifying stored file properties like the owner, group or permissions that you may not want in the archive.</p>
+
+<dt><a name="filename"
+>filename</a></dt>
+
+<dd>
+<p>The name of the archive filename to create.</p>
+
+<dt><a name="memory"
+>memory</a></dt>
+
+<dd>
+<p>Scalar reference which will be used as a buffer to write the archive to memory. This scalar does not have to be pre-allocated, so this will work:</p>
+
+<pre class="sh_perl"> my $out = &#39;&#39;;
+ my $w = Archive::Libarchive::Compress-&#62;new( memory =&#62; \$out );</pre>
+
+<dt><a name="prep"
+>prep</a></dt>
+
+<dd>
+<p>Callback function called before the archive has been opened. An instance of <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a> will be passed in. This is useful for specifying a format for the archive. If not provided, then pax restricted format will be used. (This is uncompressed and widely supported). If you wanted to for example use GNU tar format compressed with bzip2:</p>
+
+<pre class="sh_perl"> my $w = Archive::Libarchive::Compress-&#62;new(
+   filename =&#62; &#39;foo.tar.bz2&#39;,
+   prep =&#62; sub ($archive) {
+     $archive-&#62;set_format_gnutar;
+     $archive-&#62;add_filter_bzip2;
+   },
+ );</pre>
+
+<p>See <a href="/pod/Archive/Libarchive/ArchiveWrite.html" class="podlinkpod"
+>Archive::Libarchive::ArchiveWrite</a> for more details.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<pre class="sh_perl"> my $filename = $w-&#62;filename;</pre>
+
+<p>Returns the Archive filename.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="from"
+>from</a></h2>
+
+<pre class="sh_perl"> my $from = $w-&#62;from;</pre>
+
+<p>Returns the directory that was archived. If <a href="#compress" class="podlinkpod"
+>&#34;compress&#34;</a> hasn&#39;t been called yet, then it will return <code>undef</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="compress"
+>compress</a></h2>
+
+<pre class="sh_perl"> $w-&#62;compress( from =&#62; $dir );
+ $w-&#62;compress;</pre>
+
+<p>Recursively archives the directory. If <code>$dir</code> is not provided, then the current directory will be used.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

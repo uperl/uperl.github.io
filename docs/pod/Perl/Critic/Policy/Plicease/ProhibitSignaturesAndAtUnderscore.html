@@ -38,14 +38,14 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.07</p>
+<p>version 0.10</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
-<pre class="sh_perl"> sub foo ($$) { my($a,$b) = @_; }                                    # ok
- use experimental qw( signatures ); foo ($a, $b) { my($c,$d) = @_; } # not ok</pre>
+<pre class="sh_perl"> sub foo ($$) { my($x,$y) = @_; }                                    # ok
+ use experimental qw( signatures ); foo ($x, $y) { my($c,$d) = @_; } # not ok</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
@@ -65,14 +65,16 @@ name="CONFIGURATION"
 
 <p>This policy can be configured to recognize additional modules as enabling the signatures feature, by putting an entry in a .perlcriticrc file like this:</p>
 
-<pre class="sh_perl"> [Community::Prototypes]
- signature_enablers = Plicease::ProhibitSignaturesAndAtUnderscore</pre>
+<pre class="sh_perl"> [Plicease::ProhibitSignaturesAndAtUnderscore]
+ signature_enablers = Foo::Bar</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="CAVEATS"
 >CAVEATS</a></h1>
 
-<p>This module assumes that &#34;prototypes&#34; detected in a source file that has signatures enabled are actually subroutine signatures. This is because through static analysis alone it is not possible to determine if a &#34;prototype&#34; is really a prototype and not a signature. There thus may be false negatives/positives.</p>
+<p>For older versions of <a href="https://metacpan.org/pod/PPI" class="podlinkpod"
+>PPI</a> (newer version is yet unreleased as of this writing), this module assumes that &#34;prototypes&#34; detected in a source file that has signatures enabled are actually subroutine signatures. This is because through static analysis alone it is not possible to determine if a &#34;prototype&#34; is really a prototype and not a signature. There thus may be false negatives/positives. Future versions of this module will require a <a href="https://metacpan.org/pod/PPI" class="podlinkpod"
+>PPI</a> with better signature detection.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AUTHOR"
@@ -86,6 +88,8 @@ name="AUTHOR"
 
 <p>Yoshikazu Sawa (yoshikazusawa)</p>
 
+<p>Christian Walde (wchristian, MITHALDU)</p>
+
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
@@ -98,7 +102,7 @@ name="COPYRIGHT_AND_LICENSE"
     <div class="nx-footer">
       <p>
         [
-            <a href="https://wdlabs.com">wdlabs.com</a> |
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
             <a href="https://alienfile.org">alienfile.org</a> |
             <a href="https://pl.atypus.org">pl.atypus.org</a> |
             <a href="https://perlwasm.github.io">perlwasm</a> |

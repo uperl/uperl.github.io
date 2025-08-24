@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::SpellCheck</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::SpellCheck</div>
+    <!--Test::SpellCheck--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#spell_check'>spell_check</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#common_recipes'>common recipes</a>
+      <li class='indexItem indexItem3'><a href='#plugin_spec'>plugin spec</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#spell_check_ini'>spell_check_ini</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::SpellCheck - Check spelling of POD and other documents</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ 
+ spell_check &#39;lib/**/*.pm&#39;;
+ 
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module is for checking the spelling of program language documentation. It has built in support for Perl (naturally), but provides a plugin API system which should allow it to support other languages in the future. It uses Hunspell at its core.</p>
+
+<p>But why, you ask, when <a href="https://metacpan.org/pod/Test%3A%3ASpelling" class="podlinkpod"
+>Test::Spelling</a> exists? Here briefly are some advantages and disadvantages of this project relative to the older tester.</p>
+
+<dl>
+<dt><a name="&#34;One_true&#34;_spelling_library_and_dictionary"
+>&#34;One true&#34; spelling library and dictionary</a></dt>
+
+<dd>
+<p><a href="https://metacpan.org/pod/Test%3A%3ASpelling" class="podlinkpod"
+>Test::Spelling</a> is quite flexible in the spell checker that it uses under the covers, which is admirable in that it will work out of the box in a lot of places as long as there is a spell checker available. However this makes it less reliable and consistent. This module instead always uses Hunspell (via <a href="https://alienfile.org/pod/Alien/Hunspell.html" class="podlinkpod"
+>Alien::Hunspell</a> and <a href="/pod/Text/Hunspell/FFI.html" class="podlinkpod"
+>Text::Hunspell::FFI</a>), and it has a default human language dictionary (which is configurable). This makes it easier to rely on the results of this module, and it means you don&#39;t have to add stopwords for multiple spell checkers if you develop on multiple platforms with different checkers. The disadvantage of all this is that the install process can be longer because it will build Hunspell if you don&#39;t have it installed, and it won&#39;t use the system human language dictionaries.</p>
+
+<dt><a name="More_accurate_word_splitting"
+>More accurate word splitting</a></dt>
+
+<dd>
+<p>We get this from <a href="/pod/Pod/Simple/Words.html" class="podlinkpod"
+>Pod::Simple::Words</a>, which uses <code>\b{wb}</code> to split words instead of <code>\b</code>. This does also mean that Perls older than 5.22 will never be supported by this module or by <a href="/pod/Pod/Simple/Words.html" class="podlinkpod"
+>Pod::Simple::Words</a>, which could be construed as either an advantage or disadvantage depending on your deprecation politics.</p>
+
+<dt><a name="Doesn&#39;t_have_to_be_for_Perl_only"
+>Doesn&#39;t have to be for Perl only</a></dt>
+
+<dd>
+<p>The initial implementation is for Perl only, but the <a href="/pod/Test/SpellCheck/Plugin.html" class="podlinkpod"
+>plugin</a> architecture is designed to be usable for other languages and technologies.</p>
+
+<dt><a name="Makes_suggestions"
+>Makes suggestions</a></dt>
+
+<dd>
+<p>This module will suggest corrections to words that it finds are misspelled.</p>
+
+<dt><a name="Groups_misspelled"
+>Groups misspelled</a></dt>
+
+<dd>
+<p>If the same misspelling exists in multiple locations, it will be reported once for each word, along with each location, including the line number. I find this easier to manage when making corrections, especially if the appropriate action is to update a dist-level dictionary or add a stopword.</p>
+
+<dt><a name="Can_leverage_Hunspell_tech"
+>Can leverage Hunspell tech</a></dt>
+
+<dd>
+<p>You can write your own Hunspell dictionaries, which allows you to use their affix rules and for <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a> to suggest words from your dictionaries.</p>
+
+<dt><a name="Checks_Perl_comments"
+>Checks Perl comments</a></dt>
+
+<dd>
+<p>This module will check the spelling of Perl comments in POD verbatim blocks, and private comments inside your scripts and modules. (The latter can be be turned off, if you prefer not to check private comments). My feeling is that these are both documentation and it can be embarrassing and or confusing to have spelling errors in comments.</p>
+
+<p>There does exist <a href="https://metacpan.org/pod/Test%3A%3ASpelling%3A%3AComment" class="podlinkpod"
+>Test::Spelling::Comment</a>, but if you want to check both POD and comments that it two separate checks. I think it should be one.</p>
+
+<dt><a name="Configurable_from_a_.ini_file"
+>Configurable from a .ini file</a></dt>
+
+<dd>
+<p>The default plugin for this module is usually reasonable for checking Perl documentation, but if you prefer a more customized approach you can put your configuration in a file, by default called <code>spellcheck.ini</code>, which allows you to separate the configuration from the test file.</p>
+
+<dt><a name="Uses_new_Hunspell_format_jargon_list_for_Perl"
+>Uses new Hunspell format jargon list for Perl</a></dt>
+
+<dd>
+<p>I elected to not use <a href="https://metacpan.org/pod/Pod%3A%3AWordlist" class="podlinkpod"
+>Pod::Wordlist</a> as a default jargon list for Perl code, because I wanted to take advantage of the more sophisticated Hunspell affix system. In the long run, I think this will eventually produce better results, but in the short term this modules default Perl jargon dictionary is not as complete (and also probably has fewer false positives) as <a href="https://metacpan.org/pod/Pod%3A%3AWordlist" class="podlinkpod"
+>Pod::Wordlist</a>. It would be trivial to write a plugin for this module to use <a href="https://metacpan.org/pod/Pod%3A%3AWordlist" class="podlinkpod"
+>Pod::Wordlist</a> if you prefer that list of stopwords though.</p>
+
+<dt><a name="Works_out_of_the_box_on_Strawberry_and_most_other_platforms"
+>Works out of the box on Strawberry and most other platforms</a></dt>
+
+<dd>
+<p><a href="https://metacpan.org/pod/Test%3A%3ASpelling" class="podlinkpod"
+>Test::Spelling</a> will install if it can&#39;t find a spell checker, but it won&#39;t be of much use if it can&#39;t actually check the spelling of words. Because of powerful <a href="https://alienfile.org/pod/Alien.html" class="podlinkpod"
+>Alien</a> and <a href="https://pl.atypus.org/pod/FFI/Platypus.html" class="podlinkpod"
+>Platypus</a> technologies this module can more reliably install and be useful on more platforms.</p>
+</dd>
+</dl>
+
+<p>The TL;DR is that I am a terrible speller and I prefer a more consistent spell checker, and this module fixes a number of frustrations I&#39;ve had with <a href="https://metacpan.org/pod/Test%3A%3ASpelling" class="podlinkpod"
+>Test::Spelling</a> over the years.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="spell_check"
+>spell_check</a></h2>
+
+<pre class="sh_perl"> spell_check \@plugin, $files, $test_name;
+ spell_check $plugin, $files, $test_name;
+ spell_check $files, $test_name;
+ spell_check $files;
+ spell_check;</pre>
+
+<p>The <code>spell_check</code> function is configurable by passing a <code>$plugin</code> instance or a plugin config specified with <code>\@plugin</code> (see more detail below). By default <code>spell_check</code> uses <a href="/pod/Test/SpellCheck/Plugin/Perl.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Perl</a>, which is usually reasonable for most Perl distributions.</p>
+
+<p>The <code>$file</code> argument is a string containing a space separated list of files, which can be globbed using <a href="https://metacpan.org/pod/File%3A%3AGlobstar" class="podlinkpod"
+>File::Globstar</a>. The default is <code>bin/* script/* lib/**/*.pm lib/**/*.pod</code> should find public documentation for most Perl distributions.</p>
+
+<p>The <code>$test_name</code> is an optional test name for the test.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="common_recipes"
+>common recipes</a></h3>
+
+<dl>
+<dt><a name="Check_Perl_code_in_a_language_other_than_English"
+>Check Perl code in a language other than English</a></dt>
+
+<dd>
+<pre class="sh_perl"> spell_check [&#39;Perl&#39;, lang =&#62; &#39;de-de&#39;];</pre>
+
+<p>Or in your <code>spellcheck.ini</code> file:</p>
+
+<pre class="sh_perl"> [Perl]
+ lang = de-de</pre>
+
+<p>This would load the German language dictionary for Germany, which would mean loading <code>Test::SpellCheck::Plugin::DE::DE</code> (if it existed) instead of <a href="https://metacpan.org/pod/Test%3A%3ASPellCheck%3A%3APlugin%3A%3AEN%3A%3AUS" class="podlinkpod"
+>Test::SPellCheck::Plugin::EN::US</a>.</p>
+
+<dt><a name="Add_stop_words_to_just_one_file"
+>Add stop words to just one file</a></dt>
+
+<dd>
+<pre class="sh_perl"> =for stopwords foo bar baz</pre>
+
+<p>Stopwords are words that shouldn&#39;t be considered misspelled. You can specify these in your POD using the standard <code>stopwords</code> directive. If you have a lot of stopwords then you may want to use <code>=begin</code> and <code>=end</code> like so:</p>
+
+<pre class="sh_perl"> =begin stopwords
+ 
+ foo bar baz
+ 
+ =end stopwords</pre>
+
+<p>Stopwords specified in this way are local to just the one file.</p>
+
+<dt><a name="Add_global_stopwords_for_all_files"
+>Add global stopwords for all files</a></dt>
+
+<dd>
+<pre class="sh_perl"> spell_check [&#39;Combo&#39;, [&#39;Perl&#39;],[&#39;StopWords&#39;, word =&#62; [&#39;foo&#39;,&#39;bar&#39;,&#39;baz&#39;]]];</pre>
+
+<p>Or in your <code>spellcheck.ini</code>:</p>
+
+<pre class="sh_perl"> [Perl]
+ [StopWords]
+ word = foo
+ word = bar
+ word = baz</pre>
+
+<p>The <a href="/pod/Test/SpellCheck/Plugin/StopWords.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::StopWords</a> plugin adds stopwords for all documents in your test, and is useful for jargon that is relevant to your entire distribution and not just one file. Contrast with a dist-level dictionary (see next item), which allows you to use Hunspell&#39;s affix rules, and for Hunspell to suggest words that come from the dist-level dictionary.</p>
+
+<p>You can specify the stopwords inline as in the above examples, or use the <code>file</code> directive (or both as it happens) to store the stopwords in a separate file:</p>
+
+<pre class="sh_perl"> spell_check [&#39;Combo&#39;, [&#39;Perl&#39;], [&#39;StopWords&#39;, file =&#62; &#39;foo.txt&#39;]];</pre>
+
+<p>Or in your <code>spellcheck.ini</code>:</p>
+
+<pre class="sh_perl"> [Perl]
+ [StopWords]
+ file = foo.txt</pre>
+
+<p>If you use this mode, then the stop words should be stored in the file one word per line.</p>
+
+<dt><a name="Add_a_dist-level_dictionary"
+>Add a dist-level dictionary</a></dt>
+
+<dd>
+<pre class="sh_perl"> spell_check [&#39;Combo&#39;, [&#39;Perl&#39;],[&#39;Dictionary&#39;, dictionary =&#62; &#39;spellcheck.dic&#39;]];</pre>
+
+<p>Or in <code>spellcheck.ini</code>:</p>
+
+<pre class="sh_perl"> [Perl]
+ [Dictionary]
+ dictionary = spellcheck.dic</pre>
+
+<p>The <a href="/pod/Test/SpellCheck/Plugin/Dictionary.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Dictionary</a> plugin is for adding additional dictionaries, which can be in arbitrary filesystem locations, including inside your Perl distribution. The <a href="http://man.he.net/man5/hunspell" class="podlinkman"
+>hunspell(5)</a> man page can provide detailed information about the format of this file. The advantage of maintaining your own dictionary file is that <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a> can suggest words from your own dictionary. You can also take advantage of the affix codes for your language.</p>
+
+<dt><a name="Don&#39;t_spellcheck_comments"
+>Don&#39;t spellcheck comments</a></dt>
+
+<dd>
+<pre class="sh_perl"> spell_check [&#39;Perl&#39;, check_comments =&#62; 0];</pre>
+
+<p>Or in your <code>spellcheck.ini</code> file:</p>
+
+<pre class="sh_perl"> [Perl]
+ check_comments = 0</pre>
+
+<p>By default this module checks the spelling of words in internal comments, since correctly spelled comments is good. If you prefer to only check the POD and not internal comments, you can set <code>check_comments</code> to a false value.</p>
+
+<p>This module will still check comments in POD verbatim blocks, since those are visible in the POD documentation.</p>
+
+<dt><a name="Skip_/_don&#39;t_skip_POD_sections"
+>Skip / don&#39;t skip POD sections</a></dt>
+
+<dd>
+<pre class="sh_perl"> # these two are the same:
+ spell_check [&#39;Perl&#39;];
+ spell_check [&#39;Perl&#39;, skip_sections =&#62; [&#39;contributors&#39;, &#39;author&#39;, &#39;copyright and license&#39;]];</pre>
+
+<p>By default this module skips the sections <code>CONTRIBUTORS</code>, <code>AUTHOR</code> and <code>COPYRIGHT AND LICENSE</code> since these are often generated automatically and can include a number of names that do not appear in the human language dictionary. If you prefer you can include these sections, or skip a different subset of sections.</p>
+
+<pre class="sh_perl"> spell_check [&#39;Perl&#39;, skip_sections =&#62; []];
+ spell_check [&#39;Perl&#39;, skip_sections =&#62; [&#39;contributors&#39;, &#39;see also&#39;]];</pre>
+
+<p>In your <code>spellcheck.ini</code> file:</p>
+
+<pre class="sh_perl"> [Perl]
+ skip_sections =</pre>
+
+<p>or with different sections:</p>
+
+<pre class="sh_perl"> [Perl]
+ skip_sections = contributors
+ skip_sections = see also</pre>
+</dd>
+</dl>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="plugin_spec"
+>plugin spec</a></h3>
+
+<p>You can specify a plugin using the array reference notation (<code>\@plugin</code> from above). The first element of this array is the short form of the plugin (that is without the <code>Test::SpellCheck::Plugin</code> prefix). The rest of the elements are passed to the plugin constructor. Most of the time, when you are not using the default plugin you will want to combine several plugins to get the right mix, which you can do with <a href="/pod/Test/SpellCheck/Plugin/Combo.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Combo</a>. Each argument passed to the combo plugin is itself an array reference which specifies a plugin. For example the default plugin (without any options) is basically this:</p>
+
+<pre class="sh_perl"> spell_check
+   [&#39;Combo&#39;,
+     [&#39;Lang::EN::US&#39;],
+     [&#39;PerlWords&#39;],
+     [&#39;PerlPOD&#39;, skip_sections =&#62; [&#39;contributors&#39;, &#39;author&#39;, &#39;copyright and license&#39;]],
+     [&#39;PerlComment&#39;],
+   ],
+ ;</pre>
+
+<p>If you didn&#39;t want to check comments, and didn&#39;t want to skip any POD sections, then you could explicitly use this:</p>
+
+<pre class="sh_perl"> spell_check
+   [&#39;Combo&#39;,
+     [&#39;Lang::EN::US&#39;],
+     [&#39;PerlWords&#39;],
+     [&#39;PerlPOD&#39;, skip_sections =&#62; []],
+   ],
+ ;</pre>
+
+<p>A full list of common plugins, as well as documentation for writing your own plugins can be found at <a href="/pod/Test/SpellCheck/Plugin.html" class="podlinkpod"
+>Test::SpellCheck::Plugin</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="spell_check_ini"
+>spell_check_ini</a></h2>
+
+<pre class="sh_perl"> spell_check_ini $filename, $test_name;
+ spell_check_ini $filename;
+ spell_check_ini;</pre>
+
+<p>This test works like <code>spell_check</code> above, but the configuration is stored in an <code>.ini</code> file (<code>spellcheck.ini</code> by default). In the main section you can specify one or more <code>file</code> fields (which can be globbed). Then each section specifies a plugin. If you don&#39;t specify any plugins, then the default plugin will be used. This is roughly equivalent to the default:</p>
+
+<pre class="sh_perl"> ; spellcheck.ini
+ file = bin/*
+ file = script/*
+ file = lib/**/*.pm
+ file = lib/**/*.pod
+ 
+ [Perl]
+ lang           = en-us
+ check_comments = 1
+ skip_sections  = contributors
+ skip_sections  = author
+ skip_sections  = copyright and license</pre>
+
+<p>The <a href="/pod/Test/SpellCheck/Plugin/Perl.html" class="podlinkpod"
+>Perl</a> plugin itself is actually implemented as a <a href="/pod/Test/SpellCheck/Plugin/Combo.html" class="podlinkpod"
+>combo</a> plugin, so you could further break this up like so:</p>
+
+<pre class="sh_perl"> ; spellcheck.ini
+ file = bin/*
+ file = script/*
+ file = lib/**/*.pm
+ file = lib/**/*.pod
+ 
+ [Lang::EN::US]
+ [PerlWords]
+ [PerlPOD]
+ skip_sections  = contributors
+ skip_sections  = author
+ skip_sections  = copyright and license
+ [PerlComments]</pre>
+
+<p>The intent of putting the configuration is to separate the config from the test file, which can be useful in situations where the test file is generated, as is common when using <a href="https://metacpan.org/pod/Dist%3A%3AZilla" class="podlinkpod"
+>Dist::Zilla</a>.</p>
+
+<p>Note that if you have multiple plugins specified in your <code>spellcheck.ini</code> file, <b>the order matters</b>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>I am (frankly) somewhat uneasy making US English the default language, and requiring non-English and non-US based people explicitly download separate dictionaries. However, English is the most common documentation language for CPAN modules, and I happen to use US English in my every-day and technical language, even though I am Australian (and American). In the future I may make other language combinations available by default, or detect an appropriate languages based on the locale.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test::SpellCheck::Plugin"
+><a href="/pod/Test/SpellCheck/Plugin.html" class="podlinkpod"
+>Test::SpellCheck::Plugin</a></a></dt>
+
+<dd>
+<p>List of common plugins for this module, plus specification for writing your own plugins.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::Perl"
+><a href="/pod/Test/SpellCheck/Plugin/Perl.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Perl</a></a></dt>
+
+<dd>
+<p>The default plugin used by this module.</p>
+
+<dt><a name="Text::Hunspell"
+><a href="https://metacpan.org/pod/Text%3A%3AHunspell" class="podlinkpod"
+>Text::Hunspell</a></a></dt>
+
+<dd>
+<p>XS based bindings to the Hunspell spelling library.</p>
+
+<dt><a name="Text::Hunspell::FFI"
+><a href="/pod/Text/Hunspell/FFI.html" class="podlinkpod"
+>Text::Hunspell::FFI</a></a></dt>
+
+<dd>
+<p>FFI based bindings to the Hunspell spelling library.</p>
+
+<dt><a name="Pod::Spell"
+><a href="https://metacpan.org/pod/Pod%3A%3ASpell" class="podlinkpod"
+>Pod::Spell</a></a></dt>
+
+<dd>
+<p>A formatter for spellchecking POD (used by <a href="https://metacpan.org/pod/Test%3A%3ASpelling" class="podlinkpod"
+>Test::Spelling</a></p>
+
+<dt><a name="Pod::Wordlist"
+><a href="https://metacpan.org/pod/Pod%3A%3AWordlist" class="podlinkpod"
+>Pod::Wordlist</a></a></dt>
+
+<dd>
+<p>A list of common jargon words used in Perl documentation.</p>
+
+<dt><a name="Test::Spelling"
+><a href="https://metacpan.org/pod/Test%3A%3ASpelling" class="podlinkpod"
+>Test::Spelling</a></a></dt>
+
+<dd>
+<p>An older spellchecker for POD.</p>
+
+<dt><a name="Test::Spelling::Comment"
+><a href="https://metacpan.org/pod/Test%3A%3ASpelling%3A%3AComment" class="podlinkpod"
+>Test::Spelling::Comment</a></a></dt>
+
+<dd>
+<p>Tool for checking the spelling of comments.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021-2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

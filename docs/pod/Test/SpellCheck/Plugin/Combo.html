@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::SpellCheck::Plugin::Combo</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::<a href="/pod/Test/SpellCheck.html">SpellCheck</a>::<a href="/pod/Test/SpellCheck/Plugin.html">Plugin</a>::Combo</div>
+    <!--Test::SpellCheck::Plugin::Combo--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::SpellCheck::Plugin::Combo - Test::SpellCheck plugin for combining other plugins.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>From your test file:</p>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test::SpellCheck;
+ 
+ spell_check
+   [&#39;Combo&#39;,
+     [&#39;Lang::EN::US&#39;],
+     [&#39;PerlPOD&#39;, skip_sections =&#62; &#39;author&#39;],
+     [&#39;PerlComment&#39;],
+   ],
+ ;</pre>
+
+<p>From your <code>spellcheck.ini</code> file:</p>
+
+<pre class="sh_perl"> [Lang::EN::US]
+ [PerlPOD]
+ skip_sections = author
+ [PerlComment]</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This plugin combines one or more other plugins. This can be useful if you want more fine grain control over how <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a> works. If you specify two or more plugins in your <code>spellcheck.ini</code> then the combo plugin will automatically be used to combine those plugins.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $plugin = Test::SpellCheck::Plugin::Combo-&#62;new(@spec);</pre>
+
+<p>When creating a combo plugin from Perl, you pass in a list of plugin instances or plugin specs. Plugin specs are just an array reference where the first element is the short name of the plugin, and the rest of the elements are passed to the constructor. Thus these are all equivalent:</p>
+
+<pre class="sh_perl"> my $plugin = Test::SpellCheck::Plugin::Combo-&#62;new(
+   Test::SpellCheck::Plugin::PerlPOD-&#62;new(skip_sections =&#62; [&#39;foo&#39;,&#39;bar&#39;]),
+   Test::SpellCheck::Plugin::PerlComment-&#62;new,
+ );
+ 
+ my $plugin = Test::SpellCheck::Plugin::Combo-&#62;new(
+   [&#39;PerlPOD&#39;, skip_sections =&#62; [&#39;foo&#39;,&#39;bar&#39;]],
+   [&#39;PerlComment&#39;],
+ );
+ 
+ ; spellcheck.ini
+ [PerlPOD]
+ skip_section = foo
+ skip_section = bar
+ [PerlComment]</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test::SpellCheck"
+><a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a></a></dt>
+
+<dd>
+<dt><a name="Test::SpellCheck::Plugin"
+><a href="/pod/Test/SpellCheck/Plugin.html" class="podlinkpod"
+>Test::SpellCheck::Plugin</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021-2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

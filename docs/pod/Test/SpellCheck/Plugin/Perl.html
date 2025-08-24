@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::SpellCheck::Plugin::Perl</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::<a href="/pod/Test/SpellCheck.html">SpellCheck</a>::<a href="/pod/Test/SpellCheck/Plugin.html">Plugin</a>::Perl</div>
+    <!--Test::SpellCheck::Plugin::Perl--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#OPTIONS'>OPTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#skip_sections'>skip_sections</a>
+    <li class='indexItem indexItem2'><a href='#lang'>lang</a>
+    <li class='indexItem indexItem2'><a href='#check_comments'>check_comments</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::SpellCheck::Plugin::Perl - Test::SpellCheck plugin for checking spelling in Perl source</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>In Perl:</p>
+
+<pre class="sh_perl"> # these are the default values for all options.
+ spell_check [&#39;Perl&#39;,
+   lang           =&#62; &#39;en-us&#39;,
+   skip_sections  =&#62; [&#39;contributors&#39;, &#39;author&#39;, &#39;copyright and license&#39;],
+   check_comments =&#62; 1,
+ ];</pre>
+
+<p>In <a href="https://metacpan.org/pod/spellcheck.ini" class="podlinkpod"
+>spellcheck.ini</a>:</p>
+
+<pre class="sh_perl"> [Perl]
+ lang           = en-us
+ skip_sections  = contributors
+ skip_sections  = author
+ skip_sections  = copyright and license
+ check_comments = 1</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This plugin is a <a href="/pod/Test/SpellCheck/Plugin/Combo.html" class="podlinkpod"
+>Combo</a> plugin that provides reasonable defaults for checking spelling of most Perl distributions. It is also the default plugin used when you do not otherwise provide one. It roughly combines these plugins:</p>
+
+<dl>
+<dt><a name="Lang::EN::US"
+><a href="/pod/Test/SpellCheck/Plugin/Lang/EN/US.html" class="podlinkpod"
+>Lang::EN::US</a></a></dt>
+
+<dd>
+<p>Although a different primary dictionary can be specified with the <code>lang</code> option.</p>
+
+<dt><a name="PerlWords"
+><a href="/pod/Test/SpellCheck/Plugin/PerlWords.html" class="podlinkpod"
+>PerlWords</a></a></dt>
+
+<dd>
+<p>Add Perl jargon like &#34;autovivify&#34; and <code>gethostbyaddr</code>.</p>
+
+<dt><a name="PerlPOD"
+><a href="/pod/Test/SpellCheck/Plugin/PerlPOD.html" class="podlinkpod"
+>PerlPOD</a></a></dt>
+
+<dd>
+<p>For checking POD for spelling errors.</p>
+
+<dt><a name="PerlPOD"
+><a href="https://metacpan.org/pod/Test%3A%3ASpellCheck%3A%3APlugin%3A%3APerlComments" class="podlinkpod"
+>PerlPOD</a></a></dt>
+
+<dd>
+<p>For checking Perl comments for spelling errors. The use of this plugin can be turned off with the <code>check_comments</code> option below.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OPTIONS"
+>OPTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="skip_sections"
+>skip_sections</a></h2>
+
+<p>This is a list of POD sections that you do not want to check for spelling errors. Note that the section <i>titles</i> will still be checked, just not the content. This is most useful for skipping &#34;author&#34; and &#34;copyright and license&#34; sections which frequently are and contain a lot of names.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="lang"
+>lang</a></h2>
+
+<p>This allows using a different human language dictionary for your test. It can be either a string of the form <code>xx-yy</code> where <code>xx</code> and <code>yy</code> are respectively the language and country code. This only works if there is already a plugin that provides that dictionary, like <a href="/pod/Test/SpellCheck/Plugin/Lang/EN/US.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Lang::EN::US</a>.</p>
+
+<pre class="sh_perl"> spell_check [&#39;Perl&#39;, lang =&#62; [&#39;/foo/bar/baz.aff&#39;, &#39;/foo/bar/baz.dic&#39;]];</pre>
+
+<p>Or in <code>spellcheck.ini</code>:</p>
+
+<pre class="sh_perl"> [Perl]
+ lang = /foo/bar/baz.aff
+ lang = /foo/bar/baz.dic</pre>
+
+<p>You can also specify a pair of files to use, if there is no plugin, or you prefer to specify the path to the dictionary files.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="check_comments"
+>check_comments</a></h2>
+
+<p>By default non-POD comments are checked for spelling errors. If you prefer not to check comments you can set this to a false value.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $plugin = Test::SpellCheck::Plugin::Perl-&#62;new(%options);</pre>
+
+<p>This creates a new instance of the plugin. Any of the options documented above can be passed into the constructor.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test::SpellCheck"
+><a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a></a></dt>
+
+<dd>
+<dt><a name="Test::SpellCheck::Plugin"
+><a href="/pod/Test/SpellCheck/Plugin.html" class="podlinkpod"
+>Test::SpellCheck::Plugin</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021-2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

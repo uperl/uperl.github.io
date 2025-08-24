@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Data::Section::Writer</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Data::Section::Writer</div>
+    <!----><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#perl_filename'>perl_filename</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#add_file'>add_file</a>
+    <li class='indexItem indexItem2'><a href='#render_section'>render_section</a>
+    <li class='indexItem indexItem2'><a href='#update_file'>update_file</a>
+    <li class='indexItem indexItem2'><a href='#unchanged'>unchanged</a>
+    <li class='indexItem indexItem2'><a href='#add_format'>add_format</a>
+    <li class='indexItem indexItem2'><a href='#add_plugin'>add_plugin</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CORE_PLUGINS'>CORE PLUGINS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#json'>json</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PLUGIN_ROLES'>PLUGIN ROLES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#FormatContentPlugin'>FormatContentPlugin</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Data::Section::Writer - Write __DATA__ section files for Data::Section,
+Data::Section::Simple or Mojo::Loader::data_section</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.04</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>This code:</p>
+
+<pre class="sh_perl"> use strict;
+ use warnings;
+ use Data::Section::Writer;
+ use Path::Tiny qw( path );
+ 
+ Data::Section::Writer
+   -&#62;new( perl_filename =&#62; &#34;foo.pl&#34; )
+   -&#62;add_file( &#34;hello.txt&#34;, &#34;hello world&#34; )
+   -&#62;add_file( &#34;a.out&#34;, path(&#34;a.out&#34;)-&#62;slurp_raw, &#39;base64&#39; )
+   -&#62;update_file;</pre>
+
+<p>Will add this to the bottom of <code>foo.pl</code></p>
+
+<pre class="sh_perl"> __DATA__
+ @@ a.out (base64)
+ f0VMRgIBAQAAAAAAAAAAAAMAPgABAAAAQBAAAAAAAABAAAAAAAAAAGA2AAAAAAAAAAAAAEAAOAAN
+ AEAAHQAcAAYAAAAEAAAAQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAA2AIAAAAAAADYAgAAAAAAAAgA
+ AAAAAAAAAwAAAAQAAAAYAwAAAAAAABgDAAAAAAAAGAMAAAAAAAAcAAAAAAAAABwAAAAAAAAAAQAA
+ ...
+ @@ hello.txt
+ hello world</pre>
+
+<p>(binary file truncated for readability)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This class is an interface for updating the <code>__DATA__</code> section of your Perl module or script programmatically for it to work with one of the many modules that allows for multiple files in a <code>__DATA__</code> section, such as <a href="https://metacpan.org/pod/Data%3A%3ASection" class="podlinkpod"
+>Data::Section</a>, <a href="https://metacpan.org/pod/Data%3A%3ASection%3A%3ASimple" class="podlinkpod"
+>Data::Section::Simple</a>, <a href="/pod/Data/Section/Pluggable.html" class="podlinkpod"
+>Data::Section::Pluggable</a> or <a href="https://metacpan.org/pod/Mojo%3A%3ALoader" class="podlinkpod"
+>Mojo::Loader</a>.</p>
+
+<p><a href="https://metacpan.org/pod/Data%3A%3ASection" class="podlinkpod"
+>Data::Section</a> uses a different header format by default, but you can still use this module with it if you set <code>header_re</code> to <code>qr/^@@ (.*)$/</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="perl_filename"
+>perl_filename</a></h2>
+
+<p>The name of the Perl source file. If not provided then the source for the caller will be used.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_file"
+>add_file</a></h2>
+
+<pre class="sh_perl"> $writer-&#62;add_file($text_filename, $content);
+ $writer-&#62;add_file($binary_filename, $content, &#39;base64&#39;);</pre>
+
+<p>Add a file. Binary files can be encoded using <code>base64</code>. Such binaries files are only supported by <a href="https://metacpan.org/pod/Mojo%3A%3ALoader" class="podlinkpod"
+>Mojo::Loader</a> at the moment.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render_section"
+>render_section</a></h2>
+
+<pre class="sh_perl"> my $perl = $writer-&#62;render_section;</pre>
+
+<p>Returns the <code>__DATA__</code> section.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_file"
+>update_file</a></h2>
+
+<pre class="sh_perl"> $writer-&#62;update_file;</pre>
+
+<p>Update the existing Perl source file, OR create a new Perl source file with just the <code>__DATA__</code> section.</p>
+
+<p>[version 0.02]</p>
+
+<p>Starting with version 0.02, this method will not write to the file if the content won&#39;t change.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unchanged"
+>unchanged</a></h2>
+
+<p>[version 0.02]</p>
+
+<pre class="sh_perl"> my $bool = $writer-&#62;unchanged;</pre>
+
+<p>Returns:</p>
+
+<dl>
+<dt><a name="undef"
+><code>undef</code></a></dt>
+
+<dd>
+<p>If <a href="#update_file" class="podlinkpod"
+>&#34;update_file&#34;</a> hasn&#39;t been called yet.</p>
+
+<dt><a name="0"
+><code>0</code></a></dt>
+
+<dd>
+<p>If the last call to <a href="#update_file" class="podlinkpod"
+>&#34;update_file&#34;</a> modified the file.</p>
+
+<dt><a name="1"
+><code>1</code></a></dt>
+
+<dd>
+<p>If the last call to <a href="#update_file" class="podlinkpod"
+>&#34;update_file&#34;</a> did not modify the file.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_format"
+>add_format</a></h2>
+
+<pre class="sh_perl"> $writer-&#62;add_format( $ext, sub ($writer, $content) { return ... } );</pre>
+
+<p>Adds a content formatter to the given filename extension. The extension should be a filename extension without the <code>.</code>, for example <code>txt</code> or <code>json</code>.</p>
+
+<p>The callback takes the <a href="https://metacpan.org/pod/Data%3A%3ASection%3A%3AWritable" class="podlinkpod"
+>Data::Section::Writable</a> instance as its first argument and the content to be processed as the second. This callback should return the format content as a scalar.</p>
+
+<p>You can chain multiple content formatters to the same filename extension, and they will be called in the order that they were added.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_plugin"
+>add_plugin</a></h2>
+
+<pre class="sh_perl"> $writer-&#62;add_plugin( $name, %args );</pre>
+
+<p>Applies the plugin with <code>$name</code>. If the plugin supports instance mode (that is: it has a constructor named new), then %args will be passed to the constructor. For included plugins see <a href="#CORE_PLUGINS" class="podlinkpod"
+>&#34;CORE PLUGINS&#34;</a>. To write your own see <a href="#PLUGIN_ROLES" class="podlinkpod"
+>&#34;PLUGIN ROLES&#34;</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CORE_PLUGINS"
+>CORE PLUGINS</a></h1>
+
+<p>This module will work with some core <a href="/pod/Data/Section/Pluggable.html" class="podlinkpod"
+>Data::Section::Pluggable</a> plugins listed here.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="json"
+>json</a></h2>
+
+<p>Automatically encode json into Perl data structures.</p>
+
+<p>See <a href="/pod/Data/Section/Pluggable/Plugin/Json.html" class="podlinkpod"
+>Data::Section::Pluggable::Plugin::Json</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PLUGIN_ROLES"
+>PLUGIN ROLES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="FormatContentPlugin"
+>FormatContentPlugin</a></h2>
+
+<p>Used for adding content formatting for specific formats. This is essentially a way to wrap the <a href="#add_format" class="podlinkpod"
+>add_format method</a> as a module. See <a href="/pod/Data/Section/Pluggable/Role/FormatContentPlugin.html" class="podlinkpod"
+>Data::Section::Pluggable::Role::FormatContentPlugin</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Added text files will get an added trailing new line if they do not already have them. This is a requirement of the format used by the data section modules.</p>
+
+<p>For binary files (base64 encoded) the content returned by <a href="https://metacpan.org/pod/Mojo%3A%3ALoader" class="podlinkpod"
+>Mojo::Loader</a> should be identical.</p>
+
+<p>Not tested, and probably not working for Windows formatted text files, though patches for this are welcome.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Data::Section::Pluggable"
+><a href="/pod/Data/Section/Pluggable.html" class="podlinkpod"
+>Data::Section::Pluggable</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

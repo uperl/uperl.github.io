@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::SpellCheck::Plugin</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::<a href="/pod/Test/SpellCheck.html">SpellCheck</a>::Plugin</div>
+    <!--Test::SpellCheck::Plugin--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#AVAILABLE_PLUGINS'>AVAILABLE PLUGINS</a>
+  <li class='indexItem indexItem1'><a href='#PLUGIN_AUTHORS'>PLUGIN AUTHORS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new_(constructor)'>new (constructor)</a>
+    <li class='indexItem indexItem2'><a href='#primary_dictionary'>primary_dictionary</a>
+    <li class='indexItem indexItem2'><a href='#dictionary'>dictionary</a>
+    <li class='indexItem indexItem2'><a href='#stopwords'>stopwords</a>
+    <li class='indexItem indexItem2'><a href='#splitter'>splitter</a>
+    <li class='indexItem indexItem2'><a href='#stream'>stream</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::SpellCheck::Plugin - Plugin documentation for Test::SpellCheck</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> perldoc Test::SpellCheck::Plugin</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This is documents commonly available plugins for <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a>. A number of useful recipes in in that documentation. This provides an index of commonly available plugins, as well as documentation for writing your own plugins.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AVAILABLE_PLUGINS"
+>AVAILABLE PLUGINS</a></h1>
+
+<dl>
+<dt><a name="Test::SpellCheck::Plugin::Combo"
+><a href="/pod/Test/SpellCheck/Plugin/Combo.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Combo</a></a></dt>
+
+<dd>
+<p>The Combo plugin combines one or more other plugins into one. Because <code>spell_check</code> only takes one plugin, this is the usual way to combine functionality from multiple plugins.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::Dictionary"
+><a href="/pod/Test/SpellCheck/Plugin/Dictionary.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Dictionary</a></a></dt>
+
+<dd>
+<p>The Dictionary plugin adds additional (non-primary) dictionaries. This is frequently what you want when you have a distribution-level dictionary for local jargon.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::Lang::EN::US"
+><a href="/pod/Test/SpellCheck/Plugin/Lang/EN/US.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Lang::EN::US</a></a></dt>
+
+<dd>
+<p>The <code>Lang::EN::US</code> plugin provides the default dictionary for US English.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::Perl"
+><a href="/pod/Test/SpellCheck/Plugin/Perl.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::Perl</a></a></dt>
+
+<dd>
+<p>The <code>Perl</code> plugin combines a number of Perl related plugins that produce reasonable defaults for most distributions.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::PerlPOD"
+><a href="/pod/Test/SpellCheck/Plugin/PerlPOD.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::PerlPOD</a></a></dt>
+
+<dd>
+<p>The <code>PerlPOD</code> plugin checks for spelling errors in POD.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::PerlComment"
+><a href="/pod/Test/SpellCheck/Plugin/PerlComment.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::PerlComment</a></a></dt>
+
+<dd>
+<p>The <code>PerlComment</code> plugin checks for spelling errors in Perl comments.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::PerlWords"
+><a href="/pod/Test/SpellCheck/Plugin/PerlWords.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::PerlWords</a></a></dt>
+
+<dd>
+<p>The <code>PerlWords</code> plugin provides an additional dictionary with common Perl jargon, like &#34;autovivify&#34; and <code>gethostbyaddr</code>.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::PrimaryDictionary"
+><a href="/pod/Test/SpellCheck/Plugin/PrimaryDictionary.html" class="podlinkpod"
+>Test::SpellCheck::Plugin::PrimaryDictionary</a></a></dt>
+
+<dd>
+<p>The <code>PrimaryDictionary</code> provides a primary affix and dictionary pair. This is useful if you want to use a primary dictionary that isn&#39;t provided by one of the existing plugins.</p>
+
+<dt><a name="Test::SpellCheck::Plugin::Stopwords"
+><a href="https://metacpan.org/pod/Test%3A%3ASpellCheck%3A%3APlugin%3A%3AStopwords" class="podlinkpod"
+>Test::SpellCheck::Plugin::Stopwords</a></a></dt>
+
+<dd>
+<p>The <code>Stopwords</code> plugin adds global stopwords that will cover all files in your test.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PLUGIN_AUTHORS"
+>PLUGIN AUTHORS</a></h1>
+
+<p>So you want to write a spell check plugin? A spell check plugin is just a class. The only requirement is that there be a <code>new</code> constructor that can optionally take arguments. That&#39;s it. All of the other methods documented below are optional. If you do not implement them then <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a> won&#39;t use them.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new_(constructor)"
+>new (constructor)</a></h2>
+
+<pre class="sh_perl"> sub new ($class, @args)
+ {
+   my $self = bless {
+     ...
+   }, $class;
+ }</pre>
+
+<p>The constructor should just create a class. The internal representation is entirely up to you. It does have to return an instance. You may not return a class name and implement the methods as class methods, even if you do not have any data to store in your class.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="primary_dictionary"
+>primary_dictionary</a></h2>
+
+<pre class="sh_perl"> sub primary_dictionary ($self)
+ {
+   ...
+   return ($affix, $dic);
+ }</pre>
+
+<p>This method returns the path to the primary dictionary and affix files to be used in the test. These files should be readable by <a href="/pod/Text/Hunspell/FFI.html" class="podlinkpod"
+>Text::Hunspell::FFI</a>. Only one plugin at a time my define a primary dictionary, so if you are combining several plugins, make sure that only one implements this method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="dictionary"
+>dictionary</a></h2>
+
+<pre class="sh_perl"> sub dictionary ($self)
+ {
+   ...
+   return @dic;
+ }</pre>
+
+<p>This method returns a list of one or more additional dictionaries. These are useful for jargon which doesn&#39;t belong in the main human language dictionary.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stopwords"
+>stopwords</a></h2>
+
+<pre class="sh_perl"> sub stopwords ($self)
+ {
+   ...
+   return @words;
+ }</pre>
+
+<p>The stopwords method returns a list of words that should not be considered misspelled, usually because they are valid jargon within the domain of your distribution. This is different from maintaining an additional dictionary and using the <code>dictionary</code> method above because stopwords will never be offered as suggestions. The stopwords provided by this method are also different from the <code>stopword</code> event below in the <code>stream</code> method because they apply to all files, rather than just the current one.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="splitter"
+>splitter</a></h2>
+
+<pre class="sh_perl"> sub splitter ($self)
+ {
+   ...
+   return @cpu;
+ }</pre>
+
+<p>This is called to allow the plugin to add computer a computer word specification pairs, which allows <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a> to identify computer words and pass them to the appropriate plugins rather than to Hunspell. The list <code>@cpu</code> is passed into the constructor of <a href="/pod/Text/HumanComputerWords.html" class="podlinkpod"
+>Text::HumanComputerWords</a>. The only allowed types are: <code>url_link</code>, <code>module</code>, <code>skip</code>. Note that as of now <code>path_name</code> is NOT allowed, so if you are using the <code>default_perl</code> method then <code>path_name</code> needs to be converted to a <code>skip</code>. (other types may be added in the future; including possibly <code>path_name</code>).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stream"
+>stream</a></h2>
+
+<pre class="sh_perl"> sub stream ($self, $filename, $splitter, $callback)
+ {
+   ...
+   $callback-&#62;( $type, $event_filename, $line_number, $item);
+   ...
+ }</pre>
+
+<p>The stream method parses the input file <code>$filename</code> to find events. The <a href="https://metacpan.org/pod/%24cplitter" class="podlinkpod"
+>$cplitter</a> is an instance of <a href="https://metacpan.org/pod/Text%3A%3AHumanCompuer%3A%3AWords" class="podlinkpod"
+>Text::HumanCompuer::Words</a>, or something that implements a <code>split</code> method exactly like it does. For each event, it calls the <code>$callback</code> with exactly four values. The <code>$type</code> is one of the event types listed below. The <code>$event_filename</code> is the filename the event was found in. This will often be the same as <code>$filename</code>, but it could be other file if the source file that you are reading supports including other source files. The <code>$line_number</code> is the line that event was found at. The <code>$item</code> depends on the <code>$type</code>.</p>
+
+<dl>
+<dt><a name="word"
+>word</a></dt>
+
+<dd>
+<p>Regular human language word that should be checked for spelling <code>$item</code> is the word. If one or more words from this event type are misspelled then the <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a> test will fail.</p>
+
+<dt><a name="stopword"
+>stopword</a></dt>
+
+<dd>
+<p>Word that should not be considered misspelled for the current <code>$filename</code>. This is often for technical jargon which is spelled correctly but not in the regular human language dictionary.</p>
+
+<dt><a name="name"
+>name</a></dt>
+
+<dd>
+<p>The name of the current document. For Perl this would be determined by something like <a href="/pod/PPIx/DocumentName.html" class="podlinkpod"
+>PPIx::DocumentName</a> which looks for a <code>package</code> statement or a comment to indicate the name. This event should normally only appear once per file.</p>
+
+<dt><a name="module"
+>module</a></dt>
+
+<dd>
+<p>a module. For Perl this will be of the form <code>Foo::Bar</code>. These are &#34;words&#34; that another plugin might check, but they would do so against a module registry like CPAN or among the locally installed modules.</p>
+
+<dt><a name="url_link"
+>url_link</a></dt>
+
+<dd>
+<p>A regular internet URL link. Another plugin may check to make sure this does not <code>500</code> or <code>404</code>.</p>
+
+<dt><a name="pod_link"
+>pod_link</a></dt>
+
+<dd>
+<pre class="sh_perl"> my($pod_name, $section) = @$item;</pre>
+
+<p>A link to a module. For Perl this will be of the form <code>Foo::Bar</code> or <code>perldelta</code>. Another plugin may check to make sure this is a valid module. The <code>$pod_name</code> is the name of the POD to link to, which can be <code>undef</code> for links inside the current document. The <code>$section</code> is the section to link to or <code>undef</code> for links to the document as a whole.</p>
+
+<dt><a name="man_link"
+>man_link</a></dt>
+
+<dd>
+<pre class="sh_perl"> my($man_name, $section) = @$item;</pre>
+
+<p>A link to a man page. The <code>$man_name</code> is the name of the man page to link to. The <code>$section</code> is an optional section, which will be <code>undef</code> if linking the document as a whole.</p>
+
+<dt><a name="section"
+>section</a></dt>
+
+<dd>
+<p>The title of a section in the current document.</p>
+
+<dt><a name="error"
+>error</a></dt>
+
+<dd>
+<p>An error happened while parsing the source file. The error message will be in <code>$item</code>. If <a href="/pod/Test/SpellCheck.html" class="podlinkpod"
+>Test::SpellCheck</a> sees this event then it will fail the file.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Text::SpellCheck"
+><a href="https://metacpan.org/pod/Text%3A%3ASpellCheck" class="podlinkpod"
+>Text::SpellCheck</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2021-2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

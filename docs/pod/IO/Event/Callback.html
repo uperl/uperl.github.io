@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>IO::Event::Callback</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> IO::<a href="/pod/IO/Event.html">Event</a>::Callback</div>
+    <!----><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#EXAMPLE'>EXAMPLE</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<pre class="sh_perl"> IO::Event::Callback - A closure based API for IO::Event</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use IO::Event::Callback;
+
+ IO::Event::Callback-&#62;new($filehanle, %callbacks);
+
+ use IO::Event::INET::Callback;
+
+ IO::Event::INET::Callback-&#62;new(%socket_info, %callbacks);
+
+ use IO::Event::UNIX::Callback;
+
+ IO::Event::UNIX::Callback-&#62;new(%socket_info, %callbacks);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>IO::Event::Callback is a wrapper around <a href="/pod/IO/Event.html" class="podlinkpod"
+>IO::Event</a>. It provides an alternative interface to using <a href="/pod/IO/Event.html" class="podlinkpod"
+>IO::Event</a>.</p>
+
+<p>Instead of defining a class with methods like &#34;ie_input&#34;, you provide the callbacks as code references when you create the object.</p>
+
+<p>The keys for the callbacks are the same as the callbacks for <a href="/pod/IO/Event.html" class="podlinkpod"
+>IO::Event</a> with the <code>ie_</code> prefix removed.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLE"
+>EXAMPLE</a></h1>
+
+<pre class="sh_perl"> use IO::Event::Callback;
+
+ my $remote = IO::Event::Callback::INET-&#62;new(
+        peeraddr        =&#62; &#39;10.20.10.3&#39;,
+        peerport        =&#62; &#39;23&#39;,
+        input           =&#62; sub { 
+                # handle input
+        },
+        werror          =&#62; sub {
+                # handdle error
+        },
+        eof             =&#62; sub {
+                # handle end-of-file
+        },
+ );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>See the source for <a href="https://metacpan.org/pod/RPC%3A%3AToWorker" class="podlinkpod"
+>RPC::ToWorker</a> for an exmaple use of IO::Event::Callback.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Data::Section::Pluggable</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Data::Section::Pluggable</div>
+    <!--Data::Section::Pluggable--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#package'>package</a>
+    <li class='indexItem indexItem2'><a href='#prefer_filesystem'>prefer_filesystem</a>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#get_data_section'>get_data_section</a>
+    <li class='indexItem indexItem2'><a href='#add_format'>add_format</a>
+    <li class='indexItem indexItem2'><a href='#add_plugin'>add_plugin</a>
+    <li class='indexItem indexItem2'><a href='#extract'>extract</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CORE_PLUGINS'>CORE PLUGINS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#json'>json</a>
+    <li class='indexItem indexItem2'><a href='#trim'>trim</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PLUGIN_ROLES'>PLUGIN ROLES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#ContentProcessorPlugin'>ContentProcessorPlugin</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Data::Section::Pluggable - Read structured data from __DATA__</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.08</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Data::Section::Pluggable;
+ 
+ my $dsp = Data::Section::Pluggable-&#62;new
+                                   -&#62;add_plugin(&#39;trim&#39;)
+                                   -&#62;add_plugin(&#39;json&#39;);
+ 
+ # prints &#34;Welcome to Perl&#34; without prefix
+ # or trailing white space.
+ say $dsp-&#62;get_data_section(&#39;hello.txt&#39;);
+ 
+ # also prints &#34;Welcome to Perl&#34;
+ say $dsp-&#62;get_data_section(&#39;hello.json&#39;)-&#62;{message};
+ 
+ # prints &#34;This is base64 encoded.\n&#34;
+ say $dsp-&#62;get_data_section(&#39;hello.bin&#39;);
+ 
+ __DATA__
+ 
+ @@ hello.txt
+   Welcome to Perl
+ 
+ 
+ @@ hello.json
+ {&#34;message&#34;:&#34;Welcome to Perl&#34;}
+ 
+ @@ hello.bin (base64)
+ VGhpcyBpcyBiYXNlNjQgZW5jb2RlZC4K</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Data::Section::Simple is a module to extract data from <code>__DATA__</code> section of Perl source file. This module started out as a fork of <a href="https://metacpan.org/pod/Data%3A%3ASection%3A%3ASimple" class="podlinkpod"
+>Data::Section::Simple</a> (itself based on <a href="https://metacpan.org/pod/Mojo%3A%3ALoader" class="podlinkpod"
+>Mojo::Loader</a>), and includes some of its tests to ensure compatibility, but it also includes features not available in either of those modules.</p>
+
+<p>This module caches the result of reading the <code>__DATA__</code> section in the object if you use the OO interface. It doesn&#39;t do any caching of the processing required of &#34;formats&#34; (see below).</p>
+
+<p>This module also supports <code>base64</code> encoding using the same mechanism as <a href="https://metacpan.org/pod/Mojo%3A%3ALoader" class="podlinkpod"
+>Mojo::Loader</a>, which is helpful for putting binary sections in <code>__DATA__</code>.</p>
+
+<p>As mentioned, this module aims to be and is largely a drop in replacement for <a href="https://metacpan.org/pod/Data%3A%3ASection%3A%3ASimple" class="podlinkpod"
+>Data::Section::Simple</a> with some extra features. Here are the known ways in which it is not compatible:</p>
+
+<ul>
+<li>Because <a href="https://metacpan.org/pod/Data%3A%3ASection%3A%3ASimple" class="podlinkpod"
+>Data::Section::Simple</a> does not support <code>base64</code> encoded data, these data sections would include the <code> (base64)</code> in the filename instead of decoding the content.</li>
+
+<li>When a section is not found <a href="https://metacpan.org/pod/Data%3A%3ASection%3A%3ASimple" class="podlinkpod"
+>Data::Section::Simple</a> return the empty list from <code>get_data_section</code>, where as this module returns <code>undef</code>, in order to keep the return value more consistent.</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<pre class="sh_perl"> my $dsp = Data::Section::Pluggable-&#62;new($package);
+ my $dsp = Data::Section::Pluggable-&#62;new(\%attributes);
+ my $dsp = Data::Section::Pluggable-&#62;new(%attributes);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="package"
+>package</a></h2>
+
+<p>The name of the package to read from <code>__DATA__</code>. If not specified, then the current package will be used.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="prefer_filesystem"
+>prefer_filesystem</a></h2>
+
+<p>If provided, this is a directory containing files from where content will be preferred over what is in the <code>__DATA__</code> section, if available. This file still must still exist in the <code>__DATA__</code> section to be found. This can be useful to do local testing with files on the filesystem, but release a script or test a just one combined file.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<p>Read from the <code>__DATA__</code> section of the given file instead of the current Perl process. This can be useful for reading the <code>__DATA__</code> section of a Perl script or module without parsing or running it first.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_data_section"
+>get_data_section</a></h2>
+
+<pre class="sh_perl"> my $hash = get_data_section;
+ my $data = get_data_section $name;
+ my $hash = $dsp-&#62;get_data_section;
+ my $data = $dsp-&#62;get_data_section($name);</pre>
+
+<p>Gets data from <code>__DATA_</code>. This can be called either as a function (which is optionally exported from this module), or as an object method. Creating an instance of <a href="/pod/Data/Section/Pluggable.html" class="podlinkpod"
+>Data::Section::Pluggable</a> allows you to use packages other than the default or use plugins.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_format"
+>add_format</a></h2>
+
+<pre class="sh_perl"> $dsp-&#62;add_format( $ext, sub ($dsp, $content) { return ... } );</pre>
+
+<p>Adds a content processor to the given filename extension. The extension should be a filename extension without the <code>.</code>, for example <code>txt</code> or <code>json</code>.</p>
+
+<p>The callback takes the <a href="/pod/Data/Section/Pluggable.html" class="podlinkpod"
+>Data::Section::Pluggable</a> instance as its first argument and the content to be processed as the second. This callback should return the processed content as a scalar.</p>
+
+<p>You can chain multiple content processors to the same filename extension, and they will be called in the order that they were added.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_plugin"
+>add_plugin</a></h2>
+
+<pre class="sh_perl"> $dsp-&#62;add_plugin( $name, %args );</pre>
+
+<p>Applies the plugin with <code>$name</code>. If the plugin supports instance mode (that is: it has a constructor named <code>new</code>), then <code>%args</code> will be passed to the constructor. For included plugins see <a href="#CORE_PLUGINS" class="podlinkpod"
+>&#34;CORE PLUGINS&#34;</a>. To write your own see <a href="#PLUGIN_ROLES" class="podlinkpod"
+>&#34;PLUGIN ROLES&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="extract"
+>extract</a></h2>
+
+<pre class="sh_perl"> $dsp-&#62;extract($dir);
+ $dsp-&#62;extract;</pre>
+
+<p>Extract all files in Data section to the given <code>$dir</code>, or if not provided the current directory.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CORE_PLUGINS"
+>CORE PLUGINS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="json"
+>json</a></h2>
+
+<p>Automatically decode json into Perl data structures. See <a href="/pod/Data/Section/Pluggable/Plugin/Json.html" class="podlinkpod"
+>Data::Section::Pluggable::Plugin::Json</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="trim"
+>trim</a></h2>
+
+<p>Automatically trim leading and trailing white space. See <a href="/pod/Data/Section/Pluggable/Plugin/Trim.html" class="podlinkpod"
+>Data::Section::Pluggable::Plugin::Trim</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PLUGIN_ROLES"
+>PLUGIN ROLES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ContentProcessorPlugin"
+>ContentProcessorPlugin</a></h2>
+
+<p>Used for adding content processors for specific formats. This is essentially a way to wrap the <a href="#add_format" class="podlinkpod"
+>add_format method</a> as a module. See <a href="/pod/Data/Section/Pluggable/Role/ContentProcessorPlugin.html" class="podlinkpod"
+>Data::Section::Pluggable::Role::ContentProcessorPlugin</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>These are some alternative modules that do a similar thing, each with their own feature set and limitations.</p>
+
+<dl>
+<dt><a name="Data::Section"
+><a href="https://metacpan.org/pod/Data%3A%3ASection" class="podlinkpod"
+>Data::Section</a></a></dt>
+
+<dd>
+<dt><a name="Data::Section::Simple"
+><a href="https://metacpan.org/pod/Data%3A%3ASection%3A%3ASimple" class="podlinkpod"
+>Data::Section::Simple</a></a></dt>
+
+<dd>
+<dt><a name="Data::Section::Writer"
+><a href="/pod/Data/Section/Writer.html" class="podlinkpod"
+>Data::Section::Writer</a></a></dt>
+
+<dd>
+<dt><a name="Mojo::Loader"
+><a href="https://metacpan.org/pod/Mojo%3A%3ALoader" class="podlinkpod"
+>Mojo::Loader</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2024 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>
