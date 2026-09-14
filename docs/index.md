@@ -6,6 +6,7 @@ A<Graham Ollis|PLICEASE> have implemented in Perl.
 ## Resources hosted here
 
  * [📖 uperl Documentation](/pod/)
+ * [❓ FAQ](/faq.html)
 
 ## External Links
 
