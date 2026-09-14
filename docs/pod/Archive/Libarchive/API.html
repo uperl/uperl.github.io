@@ -191,8 +191,12 @@
     <li class='indexItem indexItem2'><a href='#set_skip_file'>set_skip_file</a>
     <li class='indexItem indexItem2'><a href='#write_data'>write_data</a>
     <li class='indexItem indexItem2'><a href='#write_header'>write_header</a>
+    <li class='indexItem indexItem2'><a href='#zip_set_compression_bzip2'>zip_set_compression_bzip2</a>
     <li class='indexItem indexItem2'><a href='#zip_set_compression_deflate'>zip_set_compression_deflate</a>
+    <li class='indexItem indexItem2'><a href='#zip_set_compression_lzma'>zip_set_compression_lzma</a>
     <li class='indexItem indexItem2'><a href='#zip_set_compression_store'>zip_set_compression_store</a>
+    <li class='indexItem indexItem2'><a href='#zip_set_compression_xz'>zip_set_compression_xz</a>
+    <li class='indexItem indexItem2'><a href='#zip_set_compression_zstd'>zip_set_compression_zstd</a>
   </ul>
   <li class='indexItem indexItem1'><a href='#Archive%3A%3ALibarchive%3A%3ADiskRead'>Archive::Libarchive::DiskRead</a>
   <ul   class='indexList indexList2'>
@@ -245,6 +249,7 @@
     <li class='indexItem indexItem2'><a href='#clear'>clear</a>
     <li class='indexItem indexItem2'><a href='#clone'>clone</a>
     <li class='indexItem indexItem2'><a href='#copy_fflags_text'>copy_fflags_text</a>
+    <li class='indexItem indexItem2'><a href='#copy_fflags_text_len'>copy_fflags_text_len</a>
     <li class='indexItem indexItem2'><a href='#copy_fflags_text_w'>copy_fflags_text_w</a>
     <li class='indexItem indexItem2'><a href='#copy_gname'>copy_gname</a>
     <li class='indexItem indexItem2'><a href='#copy_gname_w'>copy_gname_w</a>
@@ -279,6 +284,7 @@
     <li class='indexItem indexItem2'><a href='#gname'>gname</a>
     <li class='indexItem indexItem2'><a href='#gname_utf8'>gname_utf8</a>
     <li class='indexItem indexItem2'><a href='#hardlink'>hardlink</a>
+    <li class='indexItem indexItem2'><a href='#hardlink_is_set'>hardlink_is_set</a>
     <li class='indexItem indexItem2'><a href='#hardlink_utf8'>hardlink_utf8</a>
     <li class='indexItem indexItem2'><a href='#ino'>ino</a>
     <li class='indexItem indexItem2'><a href='#ino64'>ino64</a>
@@ -298,6 +304,7 @@
     <li class='indexItem indexItem2'><a href='#perm'>perm</a>
     <li class='indexItem indexItem2'><a href='#perm_is_set'>perm_is_set</a>
     <li class='indexItem indexItem2'><a href='#rdev'>rdev</a>
+    <li class='indexItem indexItem2'><a href='#rdev_is_set'>rdev_is_set</a>
     <li class='indexItem indexItem2'><a href='#rdevmajor'>rdevmajor</a>
     <li class='indexItem indexItem2'><a href='#rdevminor'>rdevminor</a>
     <li class='indexItem indexItem2'><a href='#set_atime'>set_atime</a>
@@ -318,6 +325,8 @@
     <li class='indexItem indexItem2'><a href='#set_is_data_encrypted'>set_is_data_encrypted</a>
     <li class='indexItem indexItem2'><a href='#set_is_metadata_encrypted'>set_is_metadata_encrypted</a>
     <li class='indexItem indexItem2'><a href='#set_link'>set_link</a>
+    <li class='indexItem indexItem2'><a href='#set_link_to_hardlink'>set_link_to_hardlink</a>
+    <li class='indexItem indexItem2'><a href='#set_link_to_symlink'>set_link_to_symlink</a>
     <li class='indexItem indexItem2'><a href='#set_link_utf8'>set_link_utf8</a>
     <li class='indexItem indexItem2'><a href='#set_mode'>set_mode</a>
     <li class='indexItem indexItem2'><a href='#set_mtime'>set_mtime</a>
@@ -424,7 +433,7 @@ name="NAME"
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.09</p>
+<p>version 0.10</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -1842,6 +1851,13 @@ name="write_header"
  my $int = $w-&#62;write_header($e);</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
+name="zip_set_compression_bzip2"
+>zip_set_compression_bzip2</a></h2>
+
+<pre class="sh_perl"> # archive_write_zip_set_compression_bzip2 (optional)
+ my $int = $w-&#62;zip_set_compression_bzip2;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
 name="zip_set_compression_deflate"
 >zip_set_compression_deflate</a></h2>
 
@@ -1849,11 +1865,32 @@ name="zip_set_compression_deflate"
  my $int = $w-&#62;zip_set_compression_deflate;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
+name="zip_set_compression_lzma"
+>zip_set_compression_lzma</a></h2>
+
+<pre class="sh_perl"> # archive_write_zip_set_compression_lzma (optional)
+ my $int = $w-&#62;zip_set_compression_lzma;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
 name="zip_set_compression_store"
 >zip_set_compression_store</a></h2>
 
 <pre class="sh_perl"> # archive_write_zip_set_compression_store
  my $int = $w-&#62;zip_set_compression_store;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="zip_set_compression_xz"
+>zip_set_compression_xz</a></h2>
+
+<pre class="sh_perl"> # archive_write_zip_set_compression_xz (optional)
+ my $int = $w-&#62;zip_set_compression_xz;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="zip_set_compression_zstd"
+>zip_set_compression_zstd</a></h2>
+
+<pre class="sh_perl"> # archive_write_zip_set_compression_zstd (optional)
+ my $int = $w-&#62;zip_set_compression_zstd;</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="Archive::Libarchive::DiskRead"
@@ -2205,6 +2242,13 @@ name="copy_fflags_text"
  my $string1 = $e-&#62;copy_fflags_text($string2);</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_fflags_text_len"
+>copy_fflags_text_len</a></h2>
+
+<pre class="sh_perl"> # archive_entry_copy_fflags_text_len (optional)
+ my $string1 = $e-&#62;copy_fflags_text_len($string2, $size_t);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
 name="copy_fflags_text_w"
 >copy_fflags_text_w</a></h2>
 
@@ -2455,6 +2499,13 @@ name="hardlink"
  my $string = $e-&#62;hardlink;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
+name="hardlink_is_set"
+>hardlink_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_hardlink_is_set (optional)
+ my $int = $e-&#62;hardlink_is_set;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
 name="hardlink_utf8"
 >hardlink_utf8</a></h2>
 
@@ -2589,6 +2640,13 @@ name="rdev"
 
 <pre class="sh_perl"> # archive_entry_rdev
  my $dev_t = $e-&#62;rdev;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rdev_is_set"
+>rdev_is_set</a></h2>
+
+<pre class="sh_perl"> # archive_entry_rdev_is_set (optional)
+ my $int = $e-&#62;rdev_is_set;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="rdevmajor"
@@ -2732,6 +2790,20 @@ name="set_link"
 
 <pre class="sh_perl"> # archive_entry_set_link
  $e-&#62;set_link($string);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_link_to_hardlink"
+>set_link_to_hardlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_link_to_hardlink (optional)
+ $e-&#62;set_link_to_hardlink;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="set_link_to_symlink"
+>set_link_to_symlink</a></h2>
+
+<pre class="sh_perl"> # archive_entry_set_link_to_symlink (optional)
+ $e-&#62;set_link_to_symlink;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="set_link_utf8"
@@ -3941,6 +4013,14 @@ name="NOT_IMPLEMENTED"
 <p>The following methods are not currently implemented. The reason for this is usually for one of 1) the method doesn&#39;t make sense in the context of Perl 2) the methods have been renamed, and this is the old name kept for compatibility in <code>libarchive</code> 3) the methods have deprecated and will be removed in a future version of <code>libarchive</code> 4) we haven&#39;t gotten around to writing bindings for them.</p>
 
 <dl>
+<dt><a name="archive_cng_version"
+>archive_cng_version</a></dt>
+
+<dd>
+<dt><a name="archive_commoncrypto_version"
+>archive_commoncrypto_version</a></dt>
+
+<dd>
 <dt><a name="archive_compression"
 >archive_compression</a></dt>
 
@@ -3991,6 +4071,66 @@ name="NOT_IMPLEMENTED"
 <dd>
 <dt><a name="archive_free"
 >archive_free</a></dt>
+
+<dd>
+<dt><a name="archive_libacl_version"
+>archive_libacl_version</a></dt>
+
+<dd>
+<dt><a name="archive_libattr_version"
+>archive_libattr_version</a></dt>
+
+<dd>
+<dt><a name="archive_libbsdxml_version"
+>archive_libbsdxml_version</a></dt>
+
+<dd>
+<dt><a name="archive_libexpat_version"
+>archive_libexpat_version</a></dt>
+
+<dd>
+<dt><a name="archive_libiconv_version"
+>archive_libiconv_version</a></dt>
+
+<dd>
+<dt><a name="archive_liblzo2_version"
+>archive_liblzo2_version</a></dt>
+
+<dd>
+<dt><a name="archive_libmd_version"
+>archive_libmd_version</a></dt>
+
+<dd>
+<dt><a name="archive_libpcre2_version"
+>archive_libpcre2_version</a></dt>
+
+<dd>
+<dt><a name="archive_libpcre_version"
+>archive_libpcre_version</a></dt>
+
+<dd>
+<dt><a name="archive_librichacl_version"
+>archive_librichacl_version</a></dt>
+
+<dd>
+<dt><a name="archive_libxml2_version"
+>archive_libxml2_version</a></dt>
+
+<dd>
+<dt><a name="archive_mbedtls_version"
+>archive_mbedtls_version</a></dt>
+
+<dd>
+<dt><a name="archive_nettle_version"
+>archive_nettle_version</a></dt>
+
+<dd>
+<dt><a name="archive_openssl_version"
+>archive_openssl_version</a></dt>
+
+<dd>
+<dt><a name="archive_parse_date"
+>archive_parse_date</a></dt>
 
 <dd>
 <dt><a name="archive_position_compressed"
@@ -4091,6 +4231,10 @@ name="NOT_IMPLEMENTED"
 <dd>
 <dt><a name="archive_utility_string_sort"
 >archive_utility_string_sort</a></dt>
+
+<dd>
+<dt><a name="archive_wincrypt_version"
+>archive_wincrypt_version</a></dt>
 
 <dd>
 <dt><a name="archive_write_finish"
@@ -4280,7 +4424,7 @@ name="AUTHOR"
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2021,2022 by Graham Ollis.</p>
+<p>This software is copyright (c) 2021-2024 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 

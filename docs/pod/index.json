@@ -107,6 +107,19 @@
       ]
    },
    {
+      "name" : "Alt-Params-Util-PLICEASE",
+      "pods" : [
+         {
+            "href" : "/pod/Alt/Params/Util/PLICEASE.html",
+            "name" : "Alt::Params::Util::PLICEASE"
+         },
+         {
+            "href" : "/pod/Params/Util.html",
+            "name" : "Params::Util"
+         }
+      ]
+   },
+   {
       "name" : "AnyEvent-FTP",
       "pods" : [
          {
@@ -506,6 +519,15 @@
          {
             "href" : "/pod/Archive/Ar/Libarchive.html",
             "name" : "Archive::Ar::Libarchive"
+         }
+      ]
+   },
+   {
+      "name" : "Archive-HAR-Writer",
+      "pods" : [
+         {
+            "href" : "/pod/Archive/HAR/Writer.html",
+            "name" : "Archive::HAR::Writer"
          }
       ]
    },
@@ -1091,6 +1113,19 @@
       ]
    },
    {
+      "name" : "IO-Async-Open3-Simple",
+      "pods" : [
+         {
+            "href" : "/pod/IO/Async/Open3/Simple.html",
+            "name" : "IO::Async::Open3::Simple"
+         },
+         {
+            "href" : "/pod/IO/Async/Open3/Simple/Process.html",
+            "name" : "IO::Async::Open3::Simple::Process"
+         }
+      ]
+   },
+   {
       "name" : "IO-Event",
       "pods" : [
          {
@@ -1309,6 +1344,15 @@
       ]
    },
    {
+      "name" : "Params-SomeUtil",
+      "pods" : [
+         {
+            "href" : "/pod/Params/SomeUtil.html",
+            "name" : "Params::SomeUtil"
+         }
+      ]
+   },
+   {
       "name" : "Path-ScanINC",
       "pods" : [
          {
@@ -1366,6 +1410,15 @@
          {
             "href" : "/pod/Photography/EV.html",
             "name" : "Photography::EV"
+         }
+      ]
+   },
+   {
+      "name" : "Plack-App-GitHubPages-Faux",
+      "pods" : [
+         {
+            "href" : "/pod/Plack/App/GitHubPages/Faux.html",
+            "name" : "Plack::App::GitHubPages::Faux"
          }
       ]
    },
@@ -1674,6 +1727,19 @@
       ]
    },
    {
+      "name" : "Test2-Tools-PerlTidy",
+      "pods" : [
+         {
+            "href" : "/pod/Test2/Tools/PerlTidy.html",
+            "name" : "Test2::Tools::PerlTidy"
+         },
+         {
+            "href" : "/pod/Test2/Tools/PerlTidy/Diff.html",
+            "name" : "Test2::Tools::PerlTidy::Diff"
+         }
+      ]
+   },
+   {
       "name" : "Test2-Tools-Process",
       "pods" : [
          {
@@ -1723,49 +1789,28 @@
       ]
    },
    {
+      "name" : "Tie-Google-Sheets",
+      "pods" : [
+         {
+            "href" : "/pod/Tie/Google/Sheets.html",
+            "name" : "Tie::Google::Sheets"
+         },
+         {
+            "href" : "/pod/Tie/Google/Sheets/Client.html",
+            "name" : "Tie::Google::Sheets::Client"
+         },
+         {
+            "href" : "/pod/Tie/Google/Sheets/Worksheet.html",
+            "name" : "Tie::Google::Sheets::Worksheet"
+         }
+      ]
+   },
+   {
       "name" : "Tie-Hash-DataSection",
       "pods" : [
          {
             "href" : "/pod/Tie/Hash/DataSection.html",
             "name" : "Tie::Hash::DataSection"
-         }
-      ]
-   },
-   {
-      "name" : "Time-ParseDate",
-      "pods" : [
-         {
-            "href" : "/pod/Time/CTime.html",
-            "name" : "Time::CTime"
-         },
-         {
-            "href" : "/pod/Time/DaysInMonth.html",
-            "name" : "Time::DaysInMonth"
-         },
-         {
-            "href" : "/pod/Time/JulianDay.html",
-            "name" : "Time::JulianDay"
-         },
-         {
-            "href" : "/pod/Time/ParseDate.html",
-            "name" : "Time::ParseDate"
-         },
-         {
-            "href" : "/pod/Time/Timezone.html",
-            "name" : "Time::Timezone"
-         }
-      ]
-   },
-   {
-      "name" : "URI-ws",
-      "pods" : [
-         {
-            "href" : "/pod/URI/ws.html",
-            "name" : "URI::ws"
-         },
-         {
-            "href" : "/pod/URI/wss.html",
-            "name" : "URI::wss"
          }
       ]
    },

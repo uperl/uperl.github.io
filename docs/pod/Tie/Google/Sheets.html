@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tie::Google::Sheets</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Tie::Google::Sheets</div>
+    <!--Tie::Google::Sheets--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <li class='indexItem indexItem1'><a href='#TIE_METHODS'>TIE METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#TIEHASH'>TIEHASH</a>
+    <li class='indexItem indexItem2'><a href='#FETCH'>FETCH</a>
+    <li class='indexItem indexItem2'><a href='#STORE'>STORE</a>
+    <li class='indexItem indexItem2'><a href='#DELETE'>DELETE</a>
+    <li class='indexItem indexItem2'><a href='#EXISTS'>EXISTS</a>
+    <li class='indexItem indexItem2'><a href='#CLEAR'>CLEAR</a>
+    <li class='indexItem indexItem2'><a href='#FIRSTKEY%2C_NEXTKEY'>FIRSTKEY, NEXTKEY</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#add_worksheet'>add_worksheet</a>
+    <li class='indexItem indexItem2'><a href='#delete_worksheet'>delete_worksheet</a>
+    <li class='indexItem indexItem2'><a href='#copy_worksheet'>copy_worksheet</a>
+    <li class='indexItem indexItem2'><a href='#worksheet_titles'>worksheet_titles</a>
+    <li class='indexItem indexItem2'><a href='#flush'>flush</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Tie::Google::Sheets - Tie perl variables to Google Sheets</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Tie::Google::Sheets;
+ 
+ tie my %doc, &#39;Tie::Google::Sheets&#39;,
+     spreadsheet_id  =&#62; &#39;1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms&#39;,
+     service_account =&#62; &#39;/path/to/service-account-key.json&#39;;
+ 
+ # read and write individual cells
+ my $name = $doc{Employees}{A1};
+ $doc{Employees}{A2} = &#39;Grace Hopper&#39;;
+ 
+ # create a new worksheet, optionally pre-populated
+ tied(%doc)-&#62;add_worksheet(&#39;Report&#39;, { A1 =&#62; &#39;Total&#39;, B1 =&#62; 42 });
+ 
+ # iterate over worksheet tabs
+ for my $title (keys %doc) {
+     print &#34;$title\n&#34;;
+ }
+ 
+ # remove a worksheet
+ delete $doc{Report};</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module ties a Perl hash to a Google Sheets spreadsheet document. The outer hash is keyed by worksheet (tab) title; each value is itself a hash (implemented by <a href="/pod/Tie/Google/Sheets/Worksheet.html" class="podlinkpod"
+>Tie::Google::Sheets::Worksheet</a>) keyed by cell reference in A1 notation (<code>A1</code>, <code>B12</code>, and so on), so that a spreadsheet can be read and written using ordinary Perl hash syntax:</p>
+
+<pre class="sh_perl"> $doc{&#39;Sheet1&#39;}{&#39;A1&#39;} = &#39;hello&#39;;
+ print $doc{&#39;Sheet1&#39;}{&#39;A1&#39;};</pre>
+
+<p>Authentication is via a Google service account. Remember to share the spreadsheet (or its containing folder) with the service account&#39;s <code>client_email</code> address, the same way you would share it with any other Google account, otherwise API calls will fail with a permission error.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<pre class="sh_perl"> tie my %doc, &#39;Tie::Google::Sheets&#39;, %options;</pre>
+
+<p><code>%options</code> may contain:</p>
+
+<dl>
+<dt><a name="spreadsheet_id"
+>spreadsheet_id</a></dt>
+
+<dd>
+<p>The id of the spreadsheet, taken from its URL (<code>https://docs.google.com/spreadsheets/d/&#60;id&#62;/edit</code>). Required unless <a href="#spreadsheet_url" class="podlinkpod"
+>&#34;spreadsheet_url&#34;</a> is given instead.</p>
+
+<dt><a name="spreadsheet_url"
+>spreadsheet_url</a></dt>
+
+<dd>
+<p>The full URL of the spreadsheet, from which the spreadsheet id will be extracted. Ignored if <a href="#spreadsheet_id" class="podlinkpod"
+>&#34;spreadsheet_id&#34;</a> is also given.</p>
+
+<dt><a name="service_account"
+>service_account</a></dt>
+
+<dd>
+<p>Either a hash reference containing the decoded contents of a Google service account JSON key file, or a path to the key file itself. Required unless <a href="#access_token" class="podlinkpod"
+>&#34;access_token&#34;</a> is given instead.</p>
+
+<dt><a name="access_token"
+>access_token</a></dt>
+
+<dd>
+<p>An OAuth2 bearer token (or a code reference which returns one) to use instead of authenticating with a service account. Useful when the caller already has its own way of obtaining and refreshing tokens (or, in tests, for supplying a fake token).</p>
+
+<dt><a name="ua"
+>ua</a></dt>
+
+<dd>
+<p>A user agent object (for example an <a href="https://metacpan.org/pod/HTTP%3A%3ATiny" class="podlinkpod"
+>HTTP::Tiny</a> or <a href="https://metacpan.org/pod/LWP%3A%3AUserAgent" class="podlinkpod"
+>LWP::UserAgent</a> instance) to be wrapped in an <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a>. Defaults to a plain <a href="https://metacpan.org/pod/HTTP%3A%3ATiny" class="podlinkpod"
+>HTTP::Tiny</a> instance.</p>
+
+<dt><a name="any_ua"
+>any_ua</a></dt>
+
+<dd>
+<p>An already constructed <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a> compatible object (that is, anything providing a <code>request($method, $url, \%options)</code> method with the same contract as <a href="https://metacpan.org/pod/HTTP%3A%3ATiny" class="podlinkpod"
+>HTTP::Tiny</a>). Used as-is instead of wrapping <a href="#ua" class="podlinkpod"
+>&#34;ua&#34;</a>. Mutually exclusive with <a href="#ua" class="podlinkpod"
+>&#34;ua&#34;</a>.</p>
+
+<dt><a name="batch_size"
+>batch_size</a></dt>
+
+<dd>
+<p>Enables write batching. When set to a positive integer, cell writes (that is, <code>$doc{$title}{$cell} = $value</code>) are queued instead of being sent immediately, and are combined into a single API call once the queue reaches <code>batch_size</code> pending writes. Defaults to <code>undef</code>, meaning every write is sent immediately as its own API call.</p>
+
+<p>Regardless of <code>batch_size</code>, queued writes are always flushed before they could otherwise be observed out of order: immediately before any read, before any worksheet is added or deleted, and when <code>%doc</code> (or the last reference to it) goes out of scope. Queued writes can also be flushed explicitly at any time; see <a href="#flush" class="podlinkpod"
+>&#34;flush&#34;</a>.</p>
+
+<dt><a name="backoff_retry"
+>backoff_retry</a></dt>
+
+<dd>
+<p>Enables automatic retry when Google rate limits a request (HTTP status 429). When set to a positive integer, a rate limited API call is retried that many times, with exponential backoff (1, 2, 4, ... seconds) between attempts, before giving up and croaking. Defaults to <code>undef</code>, meaning a rate limited request fails immediately.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="TIE_METHODS"
+>TIE METHODS</a></h1>
+
+<p>This class implements the standard <a href="https://metacpan.org/pod/perltie" class="podlinkpod"
+>perltie</a> <code>TIEHASH</code> protocol; see <a href="https://metacpan.org/pod/perltie" class="podlinkpod"
+>perltie</a> for the full semantics of each method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="TIEHASH"
+>TIEHASH</a></h2>
+
+<p>Constructor, called via <code>tie</code>; see <a href="#CONSTRUCTOR" class="podlinkpod"
+>&#34;CONSTRUCTOR&#34;</a> above.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="FETCH"
+>FETCH</a></h2>
+
+<p>Returns the worksheet named by the given key, as a hashref implemented by <a href="/pod/Tie/Google/Sheets/Worksheet.html" class="podlinkpod"
+>Tie::Google::Sheets::Worksheet</a>, or <code>undef</code> if no worksheet with that title exists on the server.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="STORE"
+>STORE</a></h2>
+
+<p>Creates a new worksheet. The key is the new worksheet&#39;s title; the value must be <code>undef</code> or a hashref of cell reference / value pairs to populate it with. Croaks if a worksheet with that title already exists.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="DELETE"
+>DELETE</a></h2>
+
+<p>Deletes a worksheet.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="EXISTS"
+>EXISTS</a></h2>
+
+<p>Returns true if a worksheet with the given title exists.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="CLEAR"
+>CLEAR</a></h2>
+
+<p>Always croaks: a spreadsheet must keep at least one worksheet, so the tied hash cannot be emptied wholesale.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="FIRSTKEY,_NEXTKEY"
+>FIRSTKEY, NEXTKEY</a></h2>
+
+<p>Together implement iteration (<code>keys</code>, <code>values</code>, <code>each</code>) over the spreadsheet&#39;s worksheet titles.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<p>These are ordinary (non-tie) methods available on the underlying object via <code>tied %doc</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_worksheet"
+>add_worksheet</a></h2>
+
+<pre class="sh_perl"> tied(%doc)-&#62;add_worksheet($title);
+ tied(%doc)-&#62;add_worksheet($title, \%cells);</pre>
+
+<p>Creates a new worksheet named <code>$title</code>. If <code>\%cells</code> is given, its key/value pairs are written into the new worksheet as cell reference / value pairs. Returns the new worksheet hashref, the same as <code>$doc{$title}</code>.</p>
+
+<p>This is equivalent to <code>$doc{$title} = \%cells</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="delete_worksheet"
+>delete_worksheet</a></h2>
+
+<pre class="sh_perl"> tied(%doc)-&#62;delete_worksheet($title);</pre>
+
+<p>Deletes the worksheet named <code>$title</code>. Equivalent to <code>delete $doc{$title}</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_worksheet"
+>copy_worksheet</a></h2>
+
+<pre class="sh_perl"> tied(%doc)-&#62;copy_worksheet($from_title, $to_title);</pre>
+
+<p>Copies the worksheet named <code>$from_title</code> to a new worksheet named <code>$to_title</code>, including its formatting, data validation, and other properties, not just its cell values. Croaks if <code>$from_title</code> doesn&#39;t exist, or if <code>$to_title</code> already exists. Returns the new worksheet hashref, the same as <code>$doc{$to_title}</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="worksheet_titles"
+>worksheet_titles</a></h2>
+
+<pre class="sh_perl"> my @titles = tied(%doc)-&#62;worksheet_titles;</pre>
+
+<p>Returns the titles of all worksheets in the spreadsheet, in the order Google Sheets returns them. Equivalent to <code>keys %doc</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="flush"
+>flush</a></h2>
+
+<pre class="sh_perl"> tied(%doc)-&#62;flush;</pre>
+
+<p>Sends any cell writes queued by the <a href="#batch_size" class="podlinkpod"
+>&#34;batch_size&#34;</a> constructor option as a single API call. A no-op if <code>batch_size</code> wasn&#39;t given, or if there is nothing queued. See <a href="#batch_size" class="podlinkpod"
+>&#34;batch_size&#34;</a> for when this happens automatically.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<ul>
+<li>Every cell access is a separate Google Sheets API call; there is no local caching, and writes are not batched unless <a href="#batch_size" class="podlinkpod"
+>&#34;batch_size&#34;</a> is given. Be mindful of <a href="https://developers.google.com/sheets/api/limits" class="podlinkurl"
+>Google&#39;s API quotas</a> if you access many cells.</li>
+
+<li>A spreadsheet must always have at least one worksheet, so <code>%doc</code> cannot be emptied with <code>%doc = ()</code>; delete worksheets individually instead.</li>
+
+<li>Only cell values are read and written; formatting, formulas results vs formula text, and other cell metadata are not exposed.</li>
+
+<li>Because of how Perl autovivifies nested data structures, reading or writing a cell of a worksheet that doesn&#39;t yet exist (for example <code>$doc{NewSheet}{A1}</code>) creates that worksheet as a side effect, the same way <code>$doc{NewSheet} = undef</code> would. To check whether a worksheet exists without creating it, use <code>exists $doc{$title}</code> or <a href="#worksheet_titles" class="podlinkpod"
+>&#34;worksheet_titles&#34;</a>, not a truth test on <code>$doc{$title}</code>.</li>
+</ul>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Tie::Google::Sheets::Worksheet"
+><a href="/pod/Tie/Google/Sheets/Worksheet.html" class="podlinkpod"
+>Tie::Google::Sheets::Worksheet</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

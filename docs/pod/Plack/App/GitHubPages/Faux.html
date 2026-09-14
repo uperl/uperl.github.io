@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>URI::ws</title>
+    <title>Plack::App::GitHubPages::Faux</title>
     <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
     <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
@@ -11,8 +11,8 @@
   <body onload="sh_highlightDocument();">
     <div class="nx-header-flag-1"></div>
     <div class="nx-header-flag-2"></div>
-    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> URI::ws</div>
-    <!--URI::ws--><a name='___top' class='dummyTopAnchor' ></a>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Plack::App::GitHubPages::Faux</div>
+    <!--Plack::App::GitHubPages::Faux--><a name='___top' class='dummyTopAnchor' ></a>
 
 <div class='indexgroup'>
 <ul   class='indexList indexList1'>
@@ -20,10 +20,6 @@
   <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
   <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
-  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
-  <ul   class='indexList indexList2'>
-    <li class='indexItem indexItem2'><a href='#URI%3A%3Aws-%3Edefault_port'>URI::ws-&#62;default_port</a>
-  </ul>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
@@ -34,7 +30,7 @@
 name="NAME"
 >NAME</a></h1>
 
-<p>URI::ws - WebSocket support for URI package</p>
+<p>Plack::App::GitHubPages::Faux - PSGI app to test your GitHub Pages site</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="VERSION"
@@ -46,33 +42,47 @@ name="VERSION"
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
-<pre class="sh_perl"> use URI;
- my $uri = URI-&#62;new(&#39;ws://localhost:3000/foo&#39;);</pre>
+<pre class="sh_perl"> use Plack::App::GitHubPages::Faux;
+ 
+ my $app = Plack::App::GitHubPages::Faux-&#62;new( root =&#62; &#34;/path/to/htdocs&#34; )-&#62;to_app;</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="DESCRIPTION"
 >DESCRIPTION</a></h1>
 
-<p>After this module is installed, the URI package provides the same set of methods for WebSocket URIs as it does for HTTP ones. For secure WebSockets, see <a href="/pod/URI/wss.html" class="podlinkpod"
->URI::wss</a>.</p>
+<p>This is a static file server PSGI application with some tweaks to operate similar to a GitHub Pages website so that you can do some testing to see if your site looks right before committing. It could also be useful in unit tests for your static site. It is a pretty simple minded subclass of <a href="https://metacpan.org/pod/Plack%3A%3AApp%3A%3AFile" class="podlinkpod"
+>Plack::App::File</a> with these feature additions:</p>
 
-<h1><a class='u' href='#___top' title='click to go to top of document'
-name="METHODS"
->METHODS</a></h1>
+<dl>
+<dt><a name="serve_index.html_files_for_directory_indexes"
+>serve <code>index.html</code> files for directory indexes</a></dt>
 
-<h2><a class='u' href='#___top' title='click to go to top of document'
-name="URI::ws-&#62;default_port"
->URI::ws-&#62;default_port</a></h2>
+<dd>
+<p>If a request is made against a directory with an <code>index.html</code> file, that index will be served as a response.</p>
 
-<p>Returns the default port (80)</p>
+<dt><a name="redirect_to_directory_url_with_trailing_/"
+>redirect to directory url with trailing <code>/</code></a></dt>
+
+<dd>
+<p>This is important to get the right relative URLs in your indexes.</p>
+
+<dt><a name="serve_404.html_for_not_found"
+>serve <code>404.html</code> for not found</a></dt>
+
+<dd>
+<p>You can customize your 404 response on GitHub pages by putting a <code>404.html</code> in the document root. This module will serve that for 404s so that you can see the 404s the way they will be displayed on GitHub pages.</p>
+</dd>
+</dl>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SEE_ALSO"
 >SEE ALSO</a></h1>
 
-<p><a href="https://metacpan.org/pod/URI" class="podlinkpod"
->URI</a>, <a href="/pod/URI/wss.html" class="podlinkpod"
->URI::wss</a></p>
+<dl>
+<dt><a name="Plack::App::File"
+><a href="https://metacpan.org/pod/Plack%3A%3AApp%3A%3AFile" class="podlinkpod"
+>Plack::App::File</a></a></dt>
+</dl>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AUTHOR"
@@ -84,7 +94,7 @@ name="AUTHOR"
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2013 by Graham Ollis.</p>
+<p>This software is copyright (c) 2018-2022 by Graham Ollis.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Frequently Asked Questions</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> Frequently Asked Questions</div>
+    <h2>One of your distributions' tarballs contains macOS extended attributes (like <code>com.apple.provenance</code>). What's going on?</h2>
+
+<p>Depending on which <code>tar</code> you use to extract it, you might see something
+harmless like GNU <code>tar</code>'s:</p>
+
+<p><code>
+tar: Ignoring unknown extended header keyword 'LIBARCHIVE.xattr.com.apple.provenance'
+</code></p>
+
+<p>or, with a <code>tar</code> that actually attempts to honor the attribute (for example
+when extracting as root), an outright error trying to restore an attribute
+that makes no sense on your platform.</p>
+
+<p>The easiest workaround is to avoid extracting the tarball as root, and/or tell
+<code>tar</code> not to bother with the extended attributes at all:</p>
+
+<ul>
+<li><p>With GNU <code>tar</code>, use the option <code>--warning=no-unknown-keyword</code> to
+supress the warnings explicitly.</p>
+
+<p><code>
+tar --warning=no-unknown-keyword -xf Some-Dist-1.23.tar.gz
+</code></p></li>
+<li><p>With a <code>libarchive</code>-based <code>tar</code> (the default on macOS, FreeBSD and
+NetBSD), extracting as a non-root user already skips extended attributes
+by default. As root, it tries to restore them, which is what triggers the
+error — so either extract as a normal user, or pass <code>--no-xattrs</code>
+explicitly:</p>
+
+<p><code>
+tar --no-xattrs -xf Some-Dist-1.23.tar.gz
+</code></p></li>
+</ul>
+
+<p>This shouldn't normally happen. The vast majority of my
+distributions releases are from Linux, and/or built using a <code>Dist::Zilla</code>
+plugin that produces the release tarball itself, rather than shelling out to
+the system <code>tar</code>. Neither of those paths pick up macOS extended attributes.</p>
+
+<p>If you've run into a tarball that does contain them, it's almost certainly one
+of the few older, "classic" distributions that are still built the old
+fashioned way, with a hand-written <code>Makefile.PL</code> and <code>ExtUtils::MakeMaker</code>'s
+own <code>make dist</code>. On macOS, that target shells out to the system <code>tar</code>, which
+by default stores any extended attributes present on the files being archived
+(such as <code>com.apple.provenance</code>, which macOS adds to files automatically, for
+example when they've been downloaded or extracted from another archive) as
+extended <code>pax</code> headers in the resulting tarball.</p>
+
+<p>If this is a bug, then it is a bug in <code>ExtUtils::MakeMaker</code>'s <code>make dist</code>
+target, which doesn't strip or disable extended attribute propagation when it
+invokes <code>tar</code> on macOS. If you run into it, please report it to
+<a href="https://github.com/Perl-Toolchain-Gang/ExtUtils-MakeMaker"><code>ExtUtils::MakeMaker</code></a>
+rather than the individual distribution — it isn't something specific to any
+one distribution's code, and any classic <code>Makefile.PL</code>-based dist released
+from a Mac is equally exposed to it.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

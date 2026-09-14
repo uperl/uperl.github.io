@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tie::Google::Sheets::Client</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Tie::Google::<a href="/pod/Tie/Google/Sheets.html">Sheets</a>::Client</div>
+    <!--Tie::Google::Sheets::Client--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTES'>ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#spreadsheet_id'>spreadsheet_id</a>
+    <li class='indexItem indexItem2'><a href='#ua'>ua</a>
+    <li class='indexItem indexItem2'><a href='#access_token'>access_token</a>
+    <li class='indexItem indexItem2'><a href='#service_account'>service_account</a>
+    <li class='indexItem indexItem2'><a href='#token'>token</a>
+    <li class='indexItem indexItem2'><a href='#token_expires'>token_expires</a>
+    <li class='indexItem indexItem2'><a href='#batch_size'>batch_size</a>
+    <li class='indexItem indexItem2'><a href='#backoff_retry'>backoff_retry</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CONSTRUCTOR'>CONSTRUCTOR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#sheet_titles'>sheet_titles</a>
+    <li class='indexItem indexItem2'><a href='#sheet_id_for_title'>sheet_id_for_title</a>
+    <li class='indexItem indexItem2'><a href='#get_value'>get_value</a>
+    <li class='indexItem indexItem2'><a href='#get_formula'>get_formula</a>
+    <li class='indexItem indexItem2'><a href='#update_value'>update_value</a>
+    <li class='indexItem indexItem2'><a href='#flush'>flush</a>
+    <li class='indexItem indexItem2'><a href='#clear_value'>clear_value</a>
+    <li class='indexItem indexItem2'><a href='#clear_range'>clear_range</a>
+    <li class='indexItem indexItem2'><a href='#get_all_values'>get_all_values</a>
+    <li class='indexItem indexItem2'><a href='#get_all_formulas'>get_all_formulas</a>
+    <li class='indexItem indexItem2'><a href='#add_sheet'>add_sheet</a>
+    <li class='indexItem indexItem2'><a href='#delete_sheet'>delete_sheet</a>
+    <li class='indexItem indexItem2'><a href='#copy_worksheet'>copy_worksheet</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Tie::Google::Sheets::Client - Low level client used internally by Tie::Google::Sheets</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This is a low level class used internally by <a href="/pod/Tie/Google/Sheets.html" class="podlinkpod"
+>Tie::Google::Sheets</a> to talk to the Google Sheets API.
+It is not part of the public interface and may change without notice; do not use it directly.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTES"
+>ATTRIBUTES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="spreadsheet_id"
+>spreadsheet_id</a></h2>
+
+<p>The id of the spreadsheet being accessed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ua"
+>ua</a></h2>
+
+<p>The <a href="https://metacpan.org/pod/HTTP%3A%3AAnyUA" class="podlinkpod"
+>HTTP::AnyUA</a> instance used to make requests.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="access_token"
+>access_token</a></h2>
+
+<p>The OAuth2 bearer token (or code reference) given to <a href="#new" class="podlinkpod"
+>&#34;new&#34;</a>,
+if any.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="service_account"
+>service_account</a></h2>
+
+<p>The decoded service account key,
+if a service account was given to <a href="#new" class="podlinkpod"
+>&#34;new&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="token"
+>token</a></h2>
+
+<p>The most recently obtained OAuth2 access token,
+when authenticating via <a href="#service_account" class="podlinkpod"
+>&#34;service_account&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="token_expires"
+>token_expires</a></h2>
+
+<p>The epoch time at which <a href="#token" class="podlinkpod"
+>&#34;token&#34;</a> expires.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="batch_size"
+>batch_size</a></h2>
+
+<p>The maximum number of pending cell writes accumulated by <a href="#update_value" class="podlinkpod"
+>&#34;update_value&#34;</a> before they are automatically flushed.
+<code>undef</code> (the default) disables batching: <a href="#update_value" class="podlinkpod"
+>&#34;update_value&#34;</a> sends each write immediately.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="backoff_retry"
+>backoff_retry</a></h2>
+
+<p>The maximum number of times an API request will be retried,
+with exponential backoff,
+after being rate limited by Google (HTTP status 429).
+<code>undef</code> (the default) disables retrying: a rate limited request fails immediately.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONSTRUCTOR"
+>CONSTRUCTOR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<pre class="sh_perl"> my $client = Tie::Google::Sheets::Client-&#62;new(%options);</pre>
+
+<p>Constructor. <code>%options</code> are the same as documented in <a href="/pod/Tie/Google/Sheets.html#CONSTRUCTOR" class="podlinkpod"
+>&#34;CONSTRUCTOR&#34; in Tie::Google::Sheets</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sheet_titles"
+>sheet_titles</a></h2>
+
+<pre class="sh_perl"> my $titles = $client-&#62;sheet_titles;</pre>
+
+<p>Returns an array reference of worksheet titles.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="sheet_id_for_title"
+>sheet_id_for_title</a></h2>
+
+<pre class="sh_perl"> my $sheet_id = $client-&#62;sheet_id_for_title($title);</pre>
+
+<p>Returns the numeric sheet id for the worksheet named <code>$title</code>, or <code>undef</code> if there is no such worksheet.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_value"
+>get_value</a></h2>
+
+<pre class="sh_perl"> my $value = $client-&#62;get_value($title, $a1);</pre>
+
+<p>Returns the value of the cell <code>$a1</code> (for example <code>&#34;A1&#34;</code>) in worksheet <code>$title</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_formula"
+>get_formula</a></h2>
+
+<pre class="sh_perl"> my $formula = $client-&#62;get_formula($title, $a1);</pre>
+
+<p>Returns the formula of the cell <code>$a1</code> in worksheet <code>$title</code>, as text (for example <code>&#34;=SUM(A1:A10)&#34;</code>), or the same as <a href="#get_value" class="podlinkpod"
+>&#34;get_value&#34;</a> if the cell doesn&#39;t contain a formula.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="update_value"
+>update_value</a></h2>
+
+<pre class="sh_perl"> $client-&#62;update_value($title, $a1, $value);</pre>
+
+<p>Sets the value of the cell <code>$a1</code> in worksheet <code>$title</code>. If <a href="#batch_size" class="podlinkpod"
+>&#34;batch_size&#34;</a> is set, the write is queued rather than sent immediately; see <a href="#flush" class="podlinkpod"
+>&#34;flush&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="flush"
+>flush</a></h2>
+
+<pre class="sh_perl"> $client-&#62;flush;</pre>
+
+<p>Sends any cell writes queued by <a href="#update_value" class="podlinkpod"
+>&#34;update_value&#34;</a> as a single <code>values.batchUpdate</code> API call. A no-op if nothing is queued. Called automatically before every other API request (so reads always see previously queued writes), when the number of queued writes reaches <a href="#batch_size" class="podlinkpod"
+>&#34;batch_size&#34;</a>, and when the client is garbage collected.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_value"
+>clear_value</a></h2>
+
+<pre class="sh_perl"> $client-&#62;clear_value($title, $a1);</pre>
+
+<p>Clears the value of the cell <code>$a1</code> in worksheet <code>$title</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_range"
+>clear_range</a></h2>
+
+<pre class="sh_perl"> $client-&#62;clear_range($title, $a1);
+ $client-&#62;clear_range($title);</pre>
+
+<p>Clears the value of the cell <code>$a1</code> in worksheet <code>$title</code>, or, if <code>$a1</code> is omitted, clears every cell in the worksheet.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_all_values"
+>get_all_values</a></h2>
+
+<pre class="sh_perl"> my $rows = $client-&#62;get_all_values($title);</pre>
+
+<p>Returns an array reference of array references holding every value in the used range of worksheet <code>$title</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_all_formulas"
+>get_all_formulas</a></h2>
+
+<pre class="sh_perl"> my $rows = $client-&#62;get_all_formulas($title);</pre>
+
+<p>Like <a href="#get_all_values" class="podlinkpod"
+>&#34;get_all_values&#34;</a>, but returns formulas (as text) instead of values, for every cell in the used range of worksheet <code>$title</code> that has one; cells without a formula hold the same value <a href="#get_all_values" class="podlinkpod"
+>&#34;get_all_values&#34;</a> would return.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_sheet"
+>add_sheet</a></h2>
+
+<pre class="sh_perl"> $client-&#62;add_sheet($title);</pre>
+
+<p>Adds a new, empty worksheet named <code>$title</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="delete_sheet"
+>delete_sheet</a></h2>
+
+<pre class="sh_perl"> $client-&#62;delete_sheet($title);</pre>
+
+<p>Deletes the worksheet named <code>$title</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_worksheet"
+>copy_worksheet</a></h2>
+
+<pre class="sh_perl"> $client-&#62;copy_worksheet($from_title, $to_title);</pre>
+
+<p>Copies the worksheet named <code>$from_title</code> to a new worksheet named <code>$to_title</code>, including its formatting, data validation, and other properties, not just its cell values.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

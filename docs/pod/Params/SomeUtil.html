@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Params::SomeUtil</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Params::SomeUtil</div>
+    <!--Params::SomeUtil--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#WHY'>WHY</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#_STRING_%24string'>_STRING $string</a>
+    <li class='indexItem indexItem2'><a href='#_IDENTIFIER_%24string'>_IDENTIFIER $string</a>
+    <li class='indexItem indexItem2'><a href='#_CLASS_%24string'>_CLASS $string</a>
+    <li class='indexItem indexItem2'><a href='#_CLASSISA_%24string%2C_%24class'>_CLASSISA $string, $class</a>
+    <li class='indexItem indexItem2'><a href='#_CLASSDOES_%24string%2C_%24role'>_CLASSDOES $string, $role</a>
+    <li class='indexItem indexItem2'><a href='#_SUBCLASS_%24string%2C_%24class'>_SUBCLASS $string, $class</a>
+    <li class='indexItem indexItem2'><a href='#_NUMBER_%24scalar'>_NUMBER $scalar</a>
+    <li class='indexItem indexItem2'><a href='#_POSINT_%24integer'>_POSINT $integer</a>
+    <li class='indexItem indexItem2'><a href='#_NONNEGINT_%24integer'>_NONNEGINT $integer</a>
+    <li class='indexItem indexItem2'><a href='#_SCALAR_%5C%24scalar'>_SCALAR \$scalar</a>
+    <li class='indexItem indexItem2'><a href='#_SCALAR0_%5C%24scalar'>_SCALAR0 \$scalar</a>
+    <li class='indexItem indexItem2'><a href='#_ARRAY_%24value'>_ARRAY $value</a>
+    <li class='indexItem indexItem2'><a href='#_ARRAY0_%24value'>_ARRAY0 $value</a>
+    <li class='indexItem indexItem2'><a href='#_ARRAYLIKE_%24value'>_ARRAYLIKE $value</a>
+    <li class='indexItem indexItem2'><a href='#_HASH_%24value'>_HASH $value</a>
+    <li class='indexItem indexItem2'><a href='#_HASH0_%24value'>_HASH0 $value</a>
+    <li class='indexItem indexItem2'><a href='#_HASHLIKE_%24value'>_HASHLIKE $value</a>
+    <li class='indexItem indexItem2'><a href='#_CODE_%24value'>_CODE $value</a>
+    <li class='indexItem indexItem2'><a href='#_CODELIKE_%24value'>_CODELIKE $value</a>
+    <li class='indexItem indexItem2'><a href='#_INVOCANT_%24value'>_INVOCANT $value</a>
+    <li class='indexItem indexItem2'><a href='#_INSTANCE_%24object%2C_%24class'>_INSTANCE $object, $class</a>
+    <li class='indexItem indexItem2'><a href='#_INSTANCEDOES_%24object%2C_%24role'>_INSTANCEDOES $object, $role</a>
+    <li class='indexItem indexItem2'><a href='#_REGEX_%24value'>_REGEX $value</a>
+    <li class='indexItem indexItem2'><a href='#_SET_%5C%40array%2C_%24class'>_SET \@array, $class</a>
+    <li class='indexItem indexItem2'><a href='#_SET0_%5C%40array%2C_%24class'>_SET0 \@array, $class</a>
+    <li class='indexItem indexItem2'><a href='#_HANDLE'>_HANDLE</a>
+    <li class='indexItem indexItem2'><a href='#_DRIVER_%24string'>_DRIVER $string</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#TO_DO'>TO DO</a>
+  <li class='indexItem indexItem1'><a href='#SUPPORT'>SUPPORT</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT'>COPYRIGHT</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Params::SomeUtil - Simple,
+compact and correct param-checking functions</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">  # Import some functions
+  use Params::SomeUtil qw{_SCALAR _HASH _INSTANCE};
+  
+  # If you are lazy, or need a lot of them...
+  use Params::SomeUtil &#39;:ALL&#39;;
+  
+  sub foo {
+      my $object  = _INSTANCE(shift, &#39;Foo&#39;) or return undef;
+      my $image   = _SCALAR(shift)          or return undef;
+      my $options = _HASH(shift)            or return undef;
+      # etc...
+  }</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><code>Params::SomeUtil</code> provides a basic set of importable functions that makes checking parameters a hell of a lot easier. This module is a fork of version 1.07 of <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a> with some additional bug fixes, see <a href="#WHY" class="podlinkpod"
+>&#34;WHY&#34;</a> below.</p>
+
+<p>While they can be (and are) used in other contexts, the main point behind this module is that the functions <b>both</b> Do What You Mean, and Do The Right Thing, so they are most useful when you are getting params passed into your code from someone and/or somewhere else and you can&#39;t really trust the quality.</p>
+
+<p>Thus, <code>Params::SomeUtil</code> is of most use at the edges of your API, where params and data are coming in from outside your code.</p>
+
+<p>The functions provided by <code>Params::SomeUtil</code> check in the most strictly correct manner known, are documented as thoroughly as possible so their exact behaviour is clear, and heavily tested so make sure they are not fooled by weird data and Really Bad Things.</p>
+
+<p>To use, simply load the module providing the functions you want to use as arguments (as shown in the SYNOPSIS).</p>
+
+<p>To aid in maintainability, <code>Params::SomeUtil</code> will <b>never</b> export by default.</p>
+
+<p>You must explicitly name the functions you want to export, or use the <code>:ALL</code> param to just have it export everything (although this is not recommended if you have any _FOO functions yourself with which future additions to <code>Params::SomeUtil</code> may clash)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="WHY"
+>WHY</a></h1>
+
+<p><a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a> already exists and has for some time. Unfortunately, while the current maintainer has accepted patches to the project&#39;s git repository, he refuses to make new releases of the module. I offered to help cut a new release but refused citing &#34;quality&#34; as an issue without elaborating, thus this fork. This module includes the following changes that were applied after 1.07:</p>
+
+<dl>
+<dt><a name="Fix_for_RT#87649_and_RT#87649"
+>Fix for <a href="https://rt.cpan.org/Public/Bug/Display.html?id=87649" class="podlinkurl"
+>RT#87649</a> and <a href="https://rt.cpan.org/Public/Bug/Display.html?id=87649" class="podlinkurl"
+>RT#87649</a></a></dt>
+
+<dd>
+<p>These are for _CLASS and _POSINT, with similar fixes for _STRING, _IDENTIFIER, _NUMBER and _NONNEGINT.</p>
+
+<dt><a name="Fix_for_RT#115910"
+>Fix for <a href="https://rt.cpan.org/Public/Bug/Display.html?id=115910" class="podlinkurl"
+>RT#115910</a></a></dt>
+
+<dd>
+<p>But without the Americanised &#34;corrections&#34;.</p>
+</dd>
+</dl>
+
+<p>These are the intentional differences from <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a>:</p>
+
+<dl>
+<dt><a name="XS_build_is_unchanged_from_1.07"
+>XS build is unchanged from 1.07</a></dt>
+
+<dd>
+<p>Although some improvements can likely be made here (patches welcome), the changes made since 1.07 have broken the ability to install this module without a compiler.</p>
+
+<dt><a name="PP_versions_of_functions_are_not_in_a_separate_module"
+>PP versions of functions are not in a separate module</a></dt>
+
+<dd>
+<p>There us currently no <code>Params::SomeUtil::PP</code>. There probably should be, and may later be, but for now I wanted to make the minimum changes to make this viable. (patches welcome)</p>
+
+<dt><a name="Fix_for_RT#5561"
+>Fix for <a href="https://rt.cpan.org/Public/Bug/Display.html?id=75561" class="podlinkurl"
+>RT#5561</a></a></dt>
+
+<dd>
+<p>The XS versions of _ARRAY, _ARRAY0, _HASH and _HASH0 were inconsistent with the pure-perl versions, and the documentation. The suggested fixes in the ticket were applied for _ARRAY and _HASH. It was clear to me from reading the documentation that _ARRAY0 and _HASH0 also had the same bug so they have also been corrected.</p>
+
+<dt><a name="Missing__CLASSCAN,__INSTANCECAN_and__INVOCANTCAN"
+>Missing _CLASSCAN, _INSTANCECAN and _INVOCANTCAN</a></dt>
+
+<dd>
+<p>Upstream <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a> added these to avoid the <code>UNIVERSAL::can</code> pitfall (calling <code>can</code> as a function bypasses any overridden <code>can</code> method), but only in the unreleased 1.105_001 developer release. Since there hasn&#39;t been a public release of <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a> that includes them, they are not implemented here. We will consider implementing them if and when there is one.</p>
+
+<p>If you&#39;re using a new enough Perl to have the core <code>isa</code> operator (5.32+, stable since 5.36), it&#39;s worth reaching for that instead: <code>$thing isa $class</code> dispatches safely without a dependency, for the common case where a class/instance relationship check is all you need.</p>
+</dd>
+</dl>
+
+<p>This is as of <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a> version 1.102, which is the current version as of this writing. If there is a release of <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a> I will endevour to update this list.</p>
+
+<p>My preference would be for releases of <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a> resume and for it to be maintained by someone responsive to tickets. I am not a direct user of <a href="/pod/Params/Util.html" class="podlinkpod"
+>Params::Util</a>, or <a href="/pod/Params/SomeUtil.html" class="podlinkpod"
+>Params::SomeUtil</a> and I do not particularly want to maintain this module, but given the way the CPAN ecosystem works this seems to strangely be the &#34;easiest&#34; way to work around the challenge that I have.</p>
+
+<p>I would love to retire this module and make it a compatibility layer if it becomes unnecessary.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_STRING_$string"
+>_STRING $string</a></h2>
+
+<p>The <code>_STRING</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a normal non-false string of non-zero length.</p>
+
+<p>Note that this will NOT do anything magic to deal with the special <code>&#39;0&#39;</code> false negative case, but will return it.</p>
+
+<pre class="sh_perl">  # &#39;0&#39; not considered valid data
+  my $name = _STRING(shift) or die &#34;Bad name&#34;;
+  
+  # &#39;0&#39; is considered valid data
+  my $string = _STRING($_[0]) ? shift : die &#34;Bad string&#34;;</pre>
+
+<p>Please also note that this function expects a normal string. It does not support overloading or other magic techniques to get a string.</p>
+
+<p>Returns the string as a convenience if it is a valid string, or <code>undef</code> if not.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_IDENTIFIER_$string"
+>_IDENTIFIER $string</a></h2>
+
+<p>The <code>_IDENTIFIER</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a string that is a valid Perl identifier.</p>
+
+<p>Returns the string as a convenience if it is a valid identifier, or <code>undef</code> if not.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_CLASS_$string"
+>_CLASS $string</a></h2>
+
+<p>The <code>_CLASS</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a string that is a valid Perl class.</p>
+
+<p>This function only checks that the format is valid, not that the class is actually loaded. It also assumes &#34;normalised&#34; form, and does not accept class names such as <code>::Foo</code> or <code>D&#39;Oh</code>.</p>
+
+<p>Returns the string as a convenience if it is a valid class name, or <code>undef</code> if not.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_CLASSISA_$string,_$class"
+>_CLASSISA $string, $class</a></h2>
+
+<p>The <code>_CLASSISA</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a string that is a particularly class, or a subclass of it.</p>
+
+<p>This function checks that the format is valid and calls the -&#62;isa method on the class name. It does not check that the class is actually loaded.</p>
+
+<p>It also assumes &#34;normalised&#34; form, and does not accept class names such as <code>::Foo</code> or <code>D&#39;Oh</code>.</p>
+
+<p>Returns the string as a convenience if it is a valid class name, or <code>undef</code> if not.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_CLASSDOES_$string,_$role"
+>_CLASSDOES $string, $role</a></h2>
+
+<p>This routine behaves exactly like <code><a href="#_CLASSISA" class="podlinkpod"
+>&#34;_CLASSISA&#34;</a></code>, but checks with <code>-&#62;DOES</code> rather than <code>-&#62;isa</code>. This is probably only a good idea to use on Perl 5.10 or later, when <a href="https://metacpan.org/pod/UNIVERSAL%3A%3ADOES#DOES" class="podlinkpod"
+>UNIVERSAL::DOES</a> has been implemented.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_SUBCLASS_$string,_$class"
+>_SUBCLASS $string, $class</a></h2>
+
+<p>The <code>_SUBCLASS</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a string that is a subclass of a specified class.</p>
+
+<p>This function checks that the format is valid and calls the -&#62;isa method on the class name. It does not check that the class is actually loaded.</p>
+
+<p>It also assumes &#34;normalised&#34; form, and does not accept class names such as <code>::Foo</code> or <code>D&#39;Oh</code>.</p>
+
+<p>Returns the string as a convenience if it is a valid class name, or <code>undef</code> if not.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_NUMBER_$scalar"
+>_NUMBER $scalar</a></h2>
+
+<p>The <code>_NUMBER</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a number. That is, it is defined and perl thinks it&#39;s a number.</p>
+
+<p>This function is basically a Params::SomeUtil-style wrapper around the <a href="https://metacpan.org/pod/Scalar%3A%3AUtil" class="podlinkpod"
+>Scalar::Util</a> <code>looks_like_number</code> function.</p>
+
+<p>Returns the value as a convenience, or <code>undef</code> if the value is not a number.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_POSINT_$integer"
+>_POSINT $integer</a></h2>
+
+<p>The <code>_POSINT</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a positive integer (of any length).</p>
+
+<p>Returns the value as a convenience, or <code>undef</code> if the value is not a positive integer.</p>
+
+<p>The name itself is derived from the XML schema constraint of the same name.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_NONNEGINT_$integer"
+>_NONNEGINT $integer</a></h2>
+
+<p>The <code>_NONNEGINT</code> function is intended to be imported into your package, and provides a convenient way to test to see if a value is a non-negative integer (of any length). That is, a positive integer, or zero.</p>
+
+<p>Returns the value as a convenience, or <code>undef</code> if the value is not a non-negative integer.</p>
+
+<p>As with other tests that may return false values, care should be taken to test via &#34;defined&#34; in valid boolean contexts.</p>
+
+<pre class="sh_perl">  unless ( defined _NONNEGINT($value) ) {
+     die &#34;Invalid value&#34;;
+  }</pre>
+
+<p>The name itself is derived from the XML schema constraint of the same name.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_SCALAR_\$scalar"
+>_SCALAR \$scalar</a></h2>
+
+<p>The <code>_SCALAR</code> function is intended to be imported into your package, and provides a convenient way to test for a raw and unblessed <code>SCALAR</code> reference, with content of non-zero length.</p>
+
+<p>For a version that allows zero length <code>SCALAR</code> references, see the <code>_SCALAR0</code> function.</p>
+
+<p>Returns the <code>SCALAR</code> reference itself as a convenience, or <code>undef</code> if the value provided is not a <code>SCALAR</code> reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_SCALAR0_\$scalar"
+>_SCALAR0 \$scalar</a></h2>
+
+<p>The <code>_SCALAR0</code> function is intended to be imported into your package, and provides a convenient way to test for a raw and unblessed <code>SCALAR0</code> reference, allowing content of zero-length.</p>
+
+<p>For a simpler &#34;give me some content&#34; version that requires non-zero length, <code>_SCALAR</code> function.</p>
+
+<p>Returns the <code>SCALAR</code> reference itself as a convenience, or <code>undef</code> if the value provided is not a <code>SCALAR</code> reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_ARRAY_$value"
+>_ARRAY $value</a></h2>
+
+<p>The <code>_ARRAY</code> function is intended to be imported into your package, and provides a convenient way to test for a raw and unblessed <code>ARRAY</code> reference containing <b>at least</b> one element of any kind.</p>
+
+<p>For a more basic form that allows zero length ARRAY references, see the <code>_ARRAY0</code> function.</p>
+
+<p>Returns the <code>ARRAY</code> reference itself as a convenience, or <code>undef</code> if the value provided is not an <code>ARRAY</code> reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_ARRAY0_$value"
+>_ARRAY0 $value</a></h2>
+
+<p>The <code>_ARRAY0</code> function is intended to be imported into your package, and provides a convenient way to test for a raw and unblessed <code>ARRAY</code> reference, allowing <code>ARRAY</code> references that contain no elements.</p>
+
+<p>For a more basic &#34;An array of something&#34; form that also requires at least one element, see the <code>_ARRAY</code> function.</p>
+
+<p>Returns the <code>ARRAY</code> reference itself as a convenience, or <code>undef</code> if the value provided is not an <code>ARRAY</code> reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_ARRAYLIKE_$value"
+>_ARRAYLIKE $value</a></h2>
+
+<p>The <code>_ARRAYLIKE</code> function tests whether a given scalar value can respond to array dereferencing. If it can, the value is returned. If it cannot, <code>_ARRAYLIKE</code> returns <code>undef</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_HASH_$value"
+>_HASH $value</a></h2>
+
+<p>The <code>_HASH</code> function is intended to be imported into your package, and provides a convenient way to test for a raw and unblessed <code>HASH</code> reference with at least one entry.</p>
+
+<p>For a version of this function that allows the <code>HASH</code> to be empty, see the <code>_HASH0</code> function.</p>
+
+<p>Returns the <code>HASH</code> reference itself as a convenience, or <code>undef</code> if the value provided is not an <code>HASH</code> reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_HASH0_$value"
+>_HASH0 $value</a></h2>
+
+<p>The <code>_HASH0</code> function is intended to be imported into your package, and provides a convenient way to test for a raw and unblessed <code>HASH</code> reference, regardless of the <code>HASH</code> content.</p>
+
+<p>For a simpler &#34;A hash of something&#34; version that requires at least one element, see the <code>_HASH</code> function.</p>
+
+<p>Returns the <code>HASH</code> reference itself as a convenience, or <code>undef</code> if the value provided is not an <code>HASH</code> reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_HASHLIKE_$value"
+>_HASHLIKE $value</a></h2>
+
+<p>The <code>_HASHLIKE</code> function tests whether a given scalar value can respond to hash dereferencing. If it can, the value is returned. If it cannot, <code>_HASHLIKE</code> returns <code>undef</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_CODE_$value"
+>_CODE $value</a></h2>
+
+<p>The <code>_CODE</code> function is intended to be imported into your package, and provides a convenient way to test for a raw and unblessed <code>CODE</code> reference.</p>
+
+<p>Returns the <code>CODE</code> reference itself as a convenience, or <code>undef</code> if the value provided is not an <code>CODE</code> reference.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_CODELIKE_$value"
+>_CODELIKE $value</a></h2>
+
+<p>The <code>_CODELIKE</code> is the more generic version of <code>_CODE</code>. Unlike <code>_CODE</code>, which checks for an explicit <code>CODE</code> reference, the <code>_CODELIKE</code> function also includes things that act like them, such as blessed objects that overload <code>&#39;&#38;{}&#39;</code>.</p>
+
+<p>Please note that in the case of objects overloaded with &#39;&#38;{}&#39;, you will almost always end up also testing it in &#39;bool&#39; context at some stage.</p>
+
+<p>For example:</p>
+
+<pre class="sh_perl">  sub foo {
+      my $code1 = _CODELIKE(shift) or die &#34;No code param provided&#34;;
+      my $code2 = _CODELIKE(shift);
+      if ( $code2 ) {
+           print &#34;Got optional second code param&#34;;
+      }
+  }</pre>
+
+<p>As such, you will most likely always want to make sure your class has at least the following to allow it to evaluate to true in boolean context.</p>
+
+<pre class="sh_perl">  # Always evaluate to true in boolean context
+  use overload &#39;bool&#39; =&#62; sub () { 1 };</pre>
+
+<p>Returns the callable value as a convenience, or <code>undef</code> if the value provided is not callable.</p>
+
+<p>Note - This function was formerly known as _CALLABLE but has been renamed for greater symmetry with the other _XXXXLIKE functions.</p>
+
+<p>The use of _CALLABLE has been deprecated. It will continue to work, but with a warning, until end-2006, then will be removed.</p>
+
+<p>I apologise for any inconvenience caused.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_INVOCANT_$value"
+>_INVOCANT $value</a></h2>
+
+<p>This routine tests whether the given value is a valid method invocant. This can be either an instance of an object, or a class name.</p>
+
+<p>If so, the value itself is returned. Otherwise, <code>_INVOCANT</code> returns <code>undef</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_INSTANCE_$object,_$class"
+>_INSTANCE $object, $class</a></h2>
+
+<p>The <code>_INSTANCE</code> function is intended to be imported into your package, and provides a convenient way to test for an object of a particular class in a strictly correct manner.</p>
+
+<p>Returns the object itself as a convenience, or <code>undef</code> if the value provided is not an object of that type.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_INSTANCEDOES_$object,_$role"
+>_INSTANCEDOES $object, $role</a></h2>
+
+<p>This routine behaves exactly like <code><a href="#_INSTANCE" class="podlinkpod"
+>&#34;_INSTANCE&#34;</a></code>, but checks with <code>-&#62;DOES</code> rather than <code>-&#62;isa</code>. This is probably only a good idea to use on Perl 5.10 or later, when <a href="https://metacpan.org/pod/UNIVERSAL%3A%3ADOES#DOES" class="podlinkpod"
+>UNIVERSAL::DOES</a> has been implemented.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_REGEX_$value"
+>_REGEX $value</a></h2>
+
+<p>The <code>_REGEX</code> function is intended to be imported into your package, and provides a convenient way to test for a regular expression.</p>
+
+<p>Returns the value itself as a convenience, or <code>undef</code> if the value provided is not a regular expression.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_SET_\@array,_$class"
+>_SET \@array, $class</a></h2>
+
+<p>The <code>_SET</code> function is intended to be imported into your package, and provides a convenient way to test for set of at least one object of a particular class in a strictly correct manner.</p>
+
+<p>The set is provided as a reference to an <code>ARRAY</code> of objects of the class provided.</p>
+
+<p>For an alternative function that allows zero-length sets, see the <code>_SET0</code> function.</p>
+
+<p>Returns the <code>ARRAY</code> reference itself as a convenience, or <code>undef</code> if the value provided is not a set of that class.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_SET0_\@array,_$class"
+>_SET0 \@array, $class</a></h2>
+
+<p>The <code>_SET0</code> function is intended to be imported into your package, and provides a convenient way to test for a set of objects of a particular class in a strictly correct manner, allowing for zero objects.</p>
+
+<p>The set is provided as a reference to an <code>ARRAY</code> of objects of the class provided.</p>
+
+<p>For an alternative function that requires at least one object, see the <code>_SET</code> function.</p>
+
+<p>Returns the <code>ARRAY</code> reference itself as a convenience, or <code>undef</code> if the value provided is not a set of that class.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_HANDLE"
+>_HANDLE</a></h2>
+
+<p>The <code>_HANDLE</code> function is intended to be imported into your package, and provides a convenient way to test whether or not a single scalar value is a file handle.</p>
+
+<p>Unfortunately, in Perl the definition of a file handle can be a little bit fuzzy, so this function is likely to be somewhat imperfect (at first anyway).</p>
+
+<p>That said, it is implement as well or better than the other file handle detectors in existence (and we stole from the best of them).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="_DRIVER_$string"
+>_DRIVER $string</a></h2>
+
+<pre class="sh_perl">  sub foo {
+    my $class = _DRIVER(shift, &#39;My::Driver::Base&#39;) or die &#34;Bad driver&#34;;
+    ...
+  }</pre>
+
+<p>The <code>_DRIVER</code> function is intended to be imported into your package, and provides a convenient way to load and validate a driver class.</p>
+
+<p>The most common pattern when taking a driver class as a parameter is to check that the name is a class (i.e. check against _CLASS) and then to load the class (if it exists) and then ensure that the class returns true for the isa method on some base driver name.</p>
+
+<p>Return the value as a convenience, or <code>undef</code> if the value is not a class name, the module does not exist, the module does not load, or the class fails the isa test.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="TO_DO"
+>TO DO</a></h1>
+
+<p>- Add _CAN to help resolve the UNIVERSAL::can debacle</p>
+
+<p>- Implement an assertion-like version of this module, that dies on error.</p>
+
+<p>- Implement a Test:: version of this module, for use in testing</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SUPPORT"
+>SUPPORT</a></h1>
+
+<p>Bugs should be reported on the GitHub for this repository</p>
+
+<p><a href="https://github.com/uperl/Params-SomeUtil/issues" class="podlinkurl"
+>https://github.com/uperl/Params-SomeUtil/issues</a></p>
+
+<p>For other issues, contact the author.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Adam Kennedy &#60;adamk@cpan.org&#62;</p>
+
+<p>Maintained by</p>
+
+<p>Graham Ollis (PLICEASE)</p>
+
+<p>Contributors</p>
+
+<p>Paul Cochrane (PTC)</p>
+
+<p>Ricardo Signes (RGBS)</p>
+
+<p>RAFL</p>
+
+<p>Andrew Main (ZEFRAM)</p>
+
+<p>David Golden (DAGOLDEN)</p>
+
+<p>Tatsuhiko Miyagawa (MIYAGAWA)</p>
+
+<p>Peter Rabbitson (RIBASUSHI)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://metacpan.org/pod/Params%3A%3AValidate" class="podlinkpod"
+>Params::Validate</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT"
+>COPYRIGHT</a></h1>
+
+<p>Copyright 2005 - 2012 Adam Kennedy. Copyright 2026 Graham Ollis.</p>
+
+<p>This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<p>The full text of the license can be found in the LICENSE file included with this module.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>
