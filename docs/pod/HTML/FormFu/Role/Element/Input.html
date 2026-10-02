@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Role::Element::Input</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Role::Element::Input</div>
+    <!--HTML::FormFu::Role::Element::Input--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#datalist_options'>datalist_options</a>
+    <li class='indexItem indexItem2'><a href='#datalist_values'>datalist_values</a>
+    <li class='indexItem indexItem2'><a href='#datalist_id'>datalist_id</a>
+    <li class='indexItem indexItem2'><a href='#auto_datalist_id'>auto_datalist_id</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTE_ACCESSORS'>ATTRIBUTE ACCESSORS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#alt'>alt</a>
+    <li class='indexItem indexItem2'><a href='#autocomplete'>autocomplete</a>
+    <li class='indexItem indexItem2'><a href='#checked'>checked</a>
+    <li class='indexItem indexItem2'><a href='#maxlength'>maxlength</a>
+    <li class='indexItem indexItem2'><a href='#pattern'>pattern</a>
+    <li class='indexItem indexItem2'><a href='#placeholder'>placeholder</a>
+    <li class='indexItem indexItem2'><a href='#size'>size</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#BOOLEAN_ATTRIBUTE_ACCESSORS'>BOOLEAN ATTRIBUTE ACCESSORS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#autofocus'>autofocus</a>
+    <li class='indexItem indexItem2'><a href='#multiple'>multiple</a>
+    <li class='indexItem indexItem2'><a href='#required'>required</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Role::Element::Input - Role for input fields</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Base-class for <a href="/pod/HTML/FormFu/Element/Button.html" class="podlinkpod"
+>HTML::FormFu::Element::Button</a>,
+<a href="/pod/HTML/FormFu/Element/Checkbox.html" class="podlinkpod"
+>HTML::FormFu::Element::Checkbox</a>,
+<a href="/pod/HTML/FormFu/Element/File.html" class="podlinkpod"
+>HTML::FormFu::Element::File</a>,
+<a href="/pod/HTML/FormFu/Element/Hidden.html" class="podlinkpod"
+>HTML::FormFu::Element::Hidden</a>,
+<a href="/pod/HTML/FormFu/Element/Password.html" class="podlinkpod"
+>HTML::FormFu::Element::Password</a>,
+<a href="/pod/HTML/FormFu/Element/Radio.html" class="podlinkpod"
+>HTML::FormFu::Element::Radio</a>,
+<a href="/pod/HTML/FormFu/Element/Text.html" class="podlinkpod"
+>HTML::FormFu::Element::Text</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="datalist_options"
+>datalist_options</a></h2>
+
+<p>Arguments: none</p>
+
+<p>Arguments: \@options</p>
+
+<p>Use either <a href="#datalist_options" class="podlinkpod"
+>&#34;datalist_options&#34;</a> or <a href="#datalist_values" class="podlinkpod"
+>&#34;datalist_values&#34;</a> to generate a HTML5-compatible <code>datalist</code> group of <code>option</code> tags.
+This will be associated with the <code>input</code> element via a <code>list</code> attribute on the <code>input</code> tag.</p>
+
+<p>The <code>datalist</code> ID attribute <b>must</b> be set using either <a href="#datalist_id" class="podlinkpod"
+>&#34;datalist_id&#34;</a> or <a href="#auto_datalist_id" class="podlinkpod"
+>&#34;auto_datalist_id&#34;</a>.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: foo
+        options:
+          - [ 01, January ]
+          - [ 02, February ]
+          - [ 03, March ]
+          - [ 04, April ]</pre>
+
+<p>The syntax is similar to <a href="/pod/HTML/FormFu/Role/Element/Group.html#options" class="podlinkpod"
+>&#34;options&#34; in HTML::FormFu::Role::Element::Group</a>, except hash-ref items only accept <code>value</code> and <code>label</code> keys (and their variants).</p>
+
+<p>If passed no arguments, it returns an arrayref of the currently set datalist options.</p>
+
+<p>Its arguments must be an array-ref of items. Each item may be an array ref of the form <code>[ $value, $label ]</code> or a hash-ref of the form <code>{ value =&#62; $value, label =&#62; $label }</code>.</p>
+
+<p>When using the hash-ref construct, the <code>label_xml</code> and <code>label_loc</code> variants of <code>label</code> are supported, as are the <code>value_xml</code> and <code>value_loc</code> variants of <code>value</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="datalist_values"
+>datalist_values</a></h2>
+
+<p>Arguments: \@values</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Radiogroup
+        name: foo
+        values:
+          - jan
+          - feb
+          - mar
+          - apr</pre>
+
+<p>A more concise alternative to <a href="#datalist_options" class="podlinkpod"
+>&#34;datalist_options&#34;</a>.</p>
+
+<p>Its arguments must be an array-ref of values. The labels used are the result of <code>ucfirst($value)</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="datalist_id"
+>datalist_id</a></h2>
+
+<p>Arguments: [$string]</p>
+
+<p>Sets the <code>datalist</code> ID attribute, and automatically sets this <code>input</code> element&#39;s <code>list</code> ID to the same.</p>
+
+<p>Either <a href="#datalist_id" class="podlinkpod"
+>&#34;datalist_id&#34;</a> or <a href="#auto_datalist_id" class="podlinkpod"
+>&#34;auto_datalist_id&#34;</a> is required, if either <a href="#datalist_options" class="podlinkpod"
+>&#34;datalist_options&#34;</a> or <a href="#datalist_values" class="podlinkpod"
+>&#34;datalist_values&#34;</a> are set.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_datalist_id"
+>auto_datalist_id</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_datalist_id" class="podlinkpod"
+>&#34;auto_datalist_id&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTE_ACCESSORS"
+>ATTRIBUTE ACCESSORS</a></h1>
+
+<p>Get / set input attributes directly with these methods.</p>
+
+<p>Arguments: [$string]</p>
+
+<p>Return Value: $string</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="alt"
+>alt</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="autocomplete"
+>autocomplete</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="checked"
+>checked</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="maxlength"
+>maxlength</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="pattern"
+>pattern</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="placeholder"
+>placeholder</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="size"
+>size</a></h2>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BOOLEAN_ATTRIBUTE_ACCESSORS"
+>BOOLEAN ATTRIBUTE ACCESSORS</a></h1>
+
+<p>Arguments: [$bool]</p>
+
+<p>Return Value: $self Return Value: $string Return Value: undef</p>
+
+<p>Get / set boolean XHTML attributes such as <code>required=&#34;required&#34;</code>.</p>
+
+<p>If given any true argument, the attribute value will be set equal to the attribute key name. E.g. <code>$element-&#62;required(1)</code> will set the attribute <code>required=&#34;required&#34;</code>.</p>
+
+<p>If given a false argument, the attribute key will be deleted.</p>
+
+<p>When used as a setter, the return value is <code>$self</code> to allow chaining.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="autofocus"
+>autofocus</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="multiple"
+>multiple</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="required"
+>required</a></h2>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Is a sub-class of, and inherits methods from <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Field</a>, <a href="/pod/HTML/FormFu/Element.html" class="podlinkpod"
+>HTML::FormFu::Element</a></p>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

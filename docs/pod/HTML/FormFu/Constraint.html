@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Constraint</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Constraint</div>
+    <!--HTML::FormFu::Constraint--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#type'>type</a>
+    <li class='indexItem indexItem2'><a href='#not'>not</a>
+    <li class='indexItem indexItem2'><a href='#only_on_reps'>only_on_reps</a>
+    <li class='indexItem indexItem2'><a href='#message'>message</a>
+    <li class='indexItem indexItem2'><a href='#message_xml'>message_xml</a>
+    <li class='indexItem indexItem2'><a href='#message_loc'>message_loc</a>
+    <li class='indexItem indexItem2'><a href='#localize_args'>localize_args</a>
+    <li class='indexItem indexItem2'><a href='#force_errors'>force_errors</a>
+    <li class='indexItem indexItem2'><a href='#parent'>parent</a>
+    <li class='indexItem indexItem2'><a href='#form'>form</a>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+    <li class='indexItem indexItem2'><a href='#when'>when</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#EXPERIMENTAL_METHODS'>EXPERIMENTAL METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#fetch_error_message'>fetch_error_message</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CORE_CONSTRAINTS'>CORE CONSTRAINTS</a>
+  <li class='indexItem indexItem1'><a href='#NON-CORE_CONSTRAINTS_AVAILABLE_ON_CPAN'>NON-CORE CONSTRAINTS AVAILABLE ON CPAN</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Constraint - Constrain User Input</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: foo
+        constraints:
+          - type: Length
+            min: 8
+            when:
+              field: bar
+              values: [ 1, 3, 5 ]
+      - type: Text
+        name: bar
+        constraints:
+          - Integer
+          - Required
+    constraints:
+      - SingleValue</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>User input is processed in the following order:</p>
+
+<dl>
+<dt><a name="Filters"
+><a href="/pod/HTML/FormFu/Filter.html" class="podlinkpod"
+>Filters</a></a></dt>
+
+<dd>
+<dt><a name="Constraints"
+><a href="/pod/HTML/FormFu/Constraint.html" class="podlinkpod"
+>Constraints</a></a></dt>
+
+<dd>
+<dt><a name="Inflators"
+><a href="/pod/HTML/FormFu/Inflator.html" class="podlinkpod"
+>Inflators</a></a></dt>
+
+<dd>
+<dt><a name="Validators"
+><a href="/pod/HTML/FormFu/Validator.html" class="podlinkpod"
+>Validators</a></a></dt>
+
+<dd>
+<dt><a name="Transformers"
+><a href="/pod/HTML/FormFu/Transformer.html" class="podlinkpod"
+>Transformers</a></a></dt>
+</dl>
+
+<p>See <a href="/pod/HTML/FormFu.html#FORM_LOGIC_AND_VALIDATION" class="podlinkpod"
+>&#34;FORM LOGIC AND VALIDATION&#34; in HTML::FormFu</a> for further details.</p>
+
+<p><a href="/pod/HTML/FormFu.html#constraints" class="podlinkpod"
+>&#34;constraints&#34; in HTML::FormFu</a> can be called on any <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>form</a>, <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>block element</a> (includes fieldsets) or <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>field element</a>.</p>
+
+<p>If called on a field element, no <code>name</code> argument should be passed.</p>
+
+<p>If called on a <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>form</a> or <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>block element</a>, if no <code>name</code> argument is provided, a new constraint is created for and added to every field on that form or block.</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#FORM_LOGIC_AND_VALIDATION" class="podlinkpod"
+>&#34;FORM LOGIC AND VALIDATION&#34; in HTML::FormFu</a> for further details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="type"
+>type</a></h2>
+
+<p>Returns the <code>type</code> argument originally used to create the constraint.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="not"
+>not</a></h2>
+
+<p>If true, inverts the results of the constraint - such that input that would otherwise fail will pass, and vise-versa.</p>
+
+<p>This value is ignored by some constraints - see the documentation for individual constraints for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="only_on_reps"
+>only_on_reps</a></h2>
+
+<p>Argument: \@repeatable_count</p>
+
+<p>For constraints added to fields within a <a href="/pod/HTML/FormFu/Element/Repeatable.html" class="podlinkpod"
+>Repeatable</a> element, if <code>only_on_reps</code> is set, the constraint will only be run for fields whose <a href="/pod/HTML/FormFu/Role/Element/Field.html#repeatable_count" class="podlinkpod"
+>repeatable_count</a> matches one of these set values.</p>
+
+<p>Not available for the constraints listed in <a href="/pod/HTML/FormFu/Element/Repeatable.html#Unsupported_Constraints" class="podlinkpod"
+>&#34;Unsupported Constraints&#34; in HTML::FormFu::Element::Repeatable</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="message"
+>message</a></h2>
+
+<p>Arguments: $string</p>
+
+<p>Set the message which will be displayed if the constraint fails.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="message_xml"
+>message_xml</a></h2>
+
+<p>Arguments: $string</p>
+
+<p>Variant of <a href="#message" class="podlinkpod"
+>&#34;message&#34;</a> which ensures the value won&#39;t be XML-escaped.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="message_loc"
+>message_loc</a></h2>
+
+<p>Arguments: $string</p>
+
+<p>Variant of <a href="#message" class="podlinkpod"
+>&#34;message&#34;</a> which uses <a href="/pod/HTML/FormFu.html#localize" class="podlinkpod"
+>localize</a> to create the message.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="localize_args"
+>localize_args</a></h2>
+
+<p>Provide arguments that should be passed to <a href="/pod/HTML/FormFu.html#localize" class="podlinkpod"
+>localize</a> to replace <code>[_1]</code>, <code>[_2]</code>, etc. in the localized string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="force_errors"
+>force_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#force_errors" class="podlinkpod"
+>&#34;force_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="parent"
+>parent</a></h2>
+
+<p>Returns the <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>field</a> object that the constraint is associated with.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="form"
+>form</a></h2>
+
+<p>Returns the <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> object that the constraint&#39;s field is attached to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<p>Shorthand for <code>$constraint-&#62;parent-&#62;name</code></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="when"
+>when</a></h2>
+
+<p>Defines a condition for the constraint. Only when the condition is fulfilled the constraint will be applied.</p>
+
+<p>This method expects a hashref.</p>
+
+<p>The <code>field</code> or <code>callback</code> must be supplied, all other fields are optional.</p>
+
+<p>If <code>value</code> or <code>values</code> is not supplied, the constraint will pass if the named field&#39;s value is true.</p>
+
+<p>The following keys are supported:</p>
+
+<dl>
+<dt><a name="field"
+>field</a></dt>
+
+<dd>
+<p>Nested-name of form field that shall be checked against - if <code>when-&#62;{value}</code> is set, the <code>when</code> condition passes if the named field&#39;s value matches that, otherwise the <code>when</code> condition passes if the named field&#39;s value is true.</p>
+
+<p>If the named field is missing from the submission altogether (as an unchecked Checkbox is), its value is treated as not matching.</p>
+
+<dt><a name="fields"
+>fields</a></dt>
+
+<dd>
+<p>Array-ref of nested-names that shall be checked. The <code>when</code> condition passes if all named-fields&#39; values pass, using the same rules as <code>field</code> above. A field missing from the submission does not pass.</p>
+
+<dt><a name="any_field"
+>any_field</a></dt>
+
+<dd>
+<p>Array-ref of nested-names that shall be checked. The <code>when</code> condition passes if any named-fields&#39; values pass, using the same rules as <code>field</code> above.</p>
+
+<dt><a name="value"
+>value</a></dt>
+
+<dd>
+<p>Expected value in the form field &#39;field&#39;</p>
+
+<dt><a name="values"
+>values</a></dt>
+
+<dd>
+<p>Array of multiple values, one must match to fulfill the condition</p>
+
+<dt><a name="not"
+>not</a></dt>
+
+<dd>
+<p>Inverts the when condition - value(s) must not match. A field missing from the submission counts as not matching, so a constraint with <code>not</code> set is applied when, for example, the named Checkbox is unchecked.</p>
+
+<dt><a name="callback"
+>callback</a></dt>
+
+<dd>
+<p>A callback subroutine-reference or fully resolved subroutine name can be supplied to perform complex checks. An hashref of all parameters is passed to the callback sub. In this case all other keys are ignored, including <code>not</code>. You need to return a true value for the constraint to be applied or a false value to not apply it.</p>
+
+<p>The callback subroutine receives 2 arguments:</p>
+
+<ol>
+<li><code>$params</code> (hashref of all submitted parameters)</li>
+
+<li><code>$constraint</code> (the Constraint object)</li>
+</ol>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXPERIMENTAL_METHODS"
+>EXPERIMENTAL METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fetch_error_message"
+>fetch_error_message</a></h2>
+
+<p>Return value: $string</p>
+
+<p>Attempt to return the error message that would be used if this constraint generated an error.</p>
+
+<p>This will generally be correct for simple constraints with a fixed message or which use a placeholder from a known value, such as <a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AConstraint%3A%3AMin#min" class="podlinkpod"
+>&#34;min&#34; in HTML::FormFu::Constraint::Min</a>. This will generally <code>not</code> return the correct message for constraints which use <a href="/pod/HTML/FormFu/Role/Constraint/Others.html#others" class="podlinkpod"
+>&#34;others&#34; in HTML::FormFu::Role::Constraint::Others</a>, where the field with an error is not known without actually fully processing a form submission.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CORE_CONSTRAINTS"
+>CORE CONSTRAINTS</a></h1>
+
+<dl>
+<dt><a name="HTML::FormFu::Constraint::AllOrNone"
+><a href="/pod/HTML/FormFu/Constraint/AllOrNone.html" class="podlinkpod"
+>HTML::FormFu::Constraint::AllOrNone</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::ASCII"
+><a href="/pod/HTML/FormFu/Constraint/ASCII.html" class="podlinkpod"
+>HTML::FormFu::Constraint::ASCII</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::AutoSet"
+><a href="/pod/HTML/FormFu/Constraint/AutoSet.html" class="podlinkpod"
+>HTML::FormFu::Constraint::AutoSet</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Bool"
+><a href="/pod/HTML/FormFu/Constraint/Bool.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Bool</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Callback"
+><a href="/pod/HTML/FormFu/Constraint/Callback.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Callback</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::CallbackOnce"
+><a href="/pod/HTML/FormFu/Constraint/CallbackOnce.html" class="podlinkpod"
+>HTML::FormFu::Constraint::CallbackOnce</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::DateTime"
+><a href="/pod/HTML/FormFu/Constraint/DateTime.html" class="podlinkpod"
+>HTML::FormFu::Constraint::DateTime</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::DependOn"
+><a href="/pod/HTML/FormFu/Constraint/DependOn.html" class="podlinkpod"
+>HTML::FormFu::Constraint::DependOn</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Email"
+><a href="/pod/HTML/FormFu/Constraint/Email.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Email</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Equal"
+><a href="/pod/HTML/FormFu/Constraint/Equal.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Equal</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::File"
+><a href="/pod/HTML/FormFu/Constraint/File.html" class="podlinkpod"
+>HTML::FormFu::Constraint::File</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::File::MIME"
+><a href="/pod/HTML/FormFu/Constraint/File/MIME.html" class="podlinkpod"
+>HTML::FormFu::Constraint::File::MIME</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::File::MaxSize"
+><a href="/pod/HTML/FormFu/Constraint/File/MaxSize.html" class="podlinkpod"
+>HTML::FormFu::Constraint::File::MaxSize</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::File::MinSize"
+><a href="/pod/HTML/FormFu/Constraint/File/MinSize.html" class="podlinkpod"
+>HTML::FormFu::Constraint::File::MinSize</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::File::Size"
+><a href="/pod/HTML/FormFu/Constraint/File/Size.html" class="podlinkpod"
+>HTML::FormFu::Constraint::File::Size</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Integer"
+><a href="/pod/HTML/FormFu/Constraint/Integer.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Integer</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::JSON"
+><a href="/pod/HTML/FormFu/Constraint/JSON.html" class="podlinkpod"
+>HTML::FormFu::Constraint::JSON</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Length"
+><a href="/pod/HTML/FormFu/Constraint/Length.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Length</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::MaxLength"
+><a href="/pod/HTML/FormFu/Constraint/MaxLength.html" class="podlinkpod"
+>HTML::FormFu::Constraint::MaxLength</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::MaxRange"
+><a href="/pod/HTML/FormFu/Constraint/MaxRange.html" class="podlinkpod"
+>HTML::FormFu::Constraint::MaxRange</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::MinLength"
+><a href="/pod/HTML/FormFu/Constraint/MinLength.html" class="podlinkpod"
+>HTML::FormFu::Constraint::MinLength</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::MinRange"
+><a href="/pod/HTML/FormFu/Constraint/MinRange.html" class="podlinkpod"
+>HTML::FormFu::Constraint::MinRange</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::MinMaxFields"
+><a href="/pod/HTML/FormFu/Constraint/MinMaxFields.html" class="podlinkpod"
+>HTML::FormFu::Constraint::MinMaxFields</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Number"
+><a href="/pod/HTML/FormFu/Constraint/Number.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Number</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Printable"
+><a href="/pod/HTML/FormFu/Constraint/Printable.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Printable</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Range"
+><a href="/pod/HTML/FormFu/Constraint/Range.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Range</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Regex"
+><a href="/pod/HTML/FormFu/Constraint/Regex.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Regex</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Required"
+><a href="/pod/HTML/FormFu/Constraint/Required.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Required</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Set"
+><a href="/pod/HTML/FormFu/Constraint/Set.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Set</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::SingleValue"
+><a href="/pod/HTML/FormFu/Constraint/SingleValue.html" class="podlinkpod"
+>HTML::FormFu::Constraint::SingleValue</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint::Word"
+><a href="/pod/HTML/FormFu/Constraint/Word.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Word</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NON-CORE_CONSTRAINTS_AVAILABLE_ON_CPAN"
+>NON-CORE CONSTRAINTS AVAILABLE ON CPAN</a></h1>
+
+<dl>
+<dt><a name="HTML::FormFu::Constraint::reCAPTCHA"
+><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AConstraint%3A%3AreCAPTCHA" class="podlinkpod"
+>HTML::FormFu::Constraint::reCAPTCHA</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>See <a href="/pod/HTML/FormFu/Element/Repeatable.html#Unsupported_Constraints" class="podlinkpod"
+>&#34;Unsupported Constraints&#34; in HTML::FormFu::Element::Repeatable</a> for a list of constraints that won&#39;t work within <a href="/pod/HTML/FormFu/Element/Repeatable.html" class="podlinkpod"
+>HTML::FormFu::Element::Repeatable</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<p>Based on the original source code of <a href="https://metacpan.org/pod/HTML%3A%3AWidget%3A%3AConstraint" class="podlinkpod"
+>HTML::Widget::Constraint</a>, by Sebastian Riedel, <code>sri@oook.de</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

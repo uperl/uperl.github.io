@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Element::SimpleTable</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::<a href="/pod/HTML/FormFu/Element.html">Element</a>::SimpleTable</div>
+    <!--HTML::FormFu::Element::SimpleTable--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#headers'>headers</a>
+    <li class='indexItem indexItem2'><a href='#rows'>rows</a>
+    <li class='indexItem indexItem2'><a href='#odd_class'>odd_class</a>
+    <li class='indexItem indexItem2'><a href='#even_class'>even_class</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Element::SimpleTable - simple table element</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>The following is yaml markup for a table consisting of a header row containing 2 <code>th</code> cells,
+and a further 2 rows,
+each containing 2 <code>td</code> cells.</p>
+
+<pre class="sh_perl">    type: SimpleTable
+    headers:
+      - One
+      - Two
+    rows:
+      -
+        - type: Input
+          name: one_a
+        - type: Input
+          name: two_a
+      -
+        - type: Input
+          name: one_b
+        - type: Input
+          name: two_b</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Sometimes you just really need to use a table to display some fields in a grid format.</p>
+
+<p>As its name suggests, this is a compromise between power and simplicity. If you want more control of the markup, you&#39;ll probably just have to revert to using nested <a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AElement%3A%3A_Block" class="podlinkpod"
+>block&#39;s</a>, setting the tags to table, tr, td, etc. and adding the cell contents as elements.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="headers"
+>headers</a></h2>
+
+<p>Input Value: \@headers</p>
+
+<p><a href="#headers" class="podlinkpod"
+>&#34;headers&#34;</a> accepts an arrayref of strings. Each string is xml-escaped and inserted into a new header cell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="rows"
+>rows</a></h2>
+
+<p>Input Value: \@rows</p>
+
+<p><a href="#rows" class="podlinkpod"
+>&#34;rows&#34;</a> accepts an array-ref, each item representing a new row. Each row should be comprised of an array-ref, each item representing a table cell.</p>
+
+<p>Each cell item should be appropriate for passing to <a href="/pod/HTML/FormFu.html#element" class="podlinkpod"
+>&#34;element&#34; in HTML::FormFu</a>; so either a single element&#39;s definition, or an array-ref of element definitions.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="odd_class"
+>odd_class</a></h2>
+
+<p>Input Value: $string</p>
+
+<p>The supplied string will be used as the class-name for each odd-numbered row (not counting any header row).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="even_class"
+>even_class</a></h2>
+
+<p>Input Value: $string</p>
+
+<p>The supplied string will be used as the class-name for each even-numbered row (not counting any header row).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Is a sub-class of, and inherits methods from <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>HTML::FormFu::Element::Block</a>, <a href="/pod/HTML/FormFu/Element.html" class="podlinkpod"
+>HTML::FormFu::Element</a></p>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

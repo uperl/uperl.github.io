@@ -1,0 +1,1249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Role::Element::Field</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Role::Element::Field</div>
+    <!--HTML::FormFu::Role::Element::Field--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#default'>default</a>
+    <li class='indexItem indexItem2'><a href='#value'>value</a>
+    <li class='indexItem indexItem2'><a href='#non_param'>non_param</a>
+    <li class='indexItem indexItem2'><a href='#placeholder'>placeholder</a>
+    <li class='indexItem indexItem2'><a href='#javascript'>javascript</a>
+    <li class='indexItem indexItem2'><a href='#retain_default'>retain_default</a>
+    <li class='indexItem indexItem2'><a href='#force_default'>force_default</a>
+    <li class='indexItem indexItem2'><a href='#default_empty_value'>default_empty_value</a>
+    <li class='indexItem indexItem2'><a href='#repeatable_count'>repeatable_count</a>
+    <li class='indexItem indexItem2'><a href='#clone'>clone</a>
+    <li class='indexItem indexItem2'><a href='#deflators'>deflators</a>
+    <li class='indexItem indexItem2'><a href='#deflator'>deflator</a>
+    <li class='indexItem indexItem2'><a href='#auto_datalist_id'>auto_datalist_id</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FORM_LOGIC_AND_VALIDATION'>FORM LOGIC AND VALIDATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#filters'>filters</a>
+    <li class='indexItem indexItem2'><a href='#filter'>filter</a>
+    <li class='indexItem indexItem2'><a href='#constraints'>constraints</a>
+    <li class='indexItem indexItem2'><a href='#constraint'>constraint</a>
+    <li class='indexItem indexItem2'><a href='#inflators'>inflators</a>
+    <li class='indexItem indexItem2'><a href='#inflator'>inflator</a>
+    <li class='indexItem indexItem2'><a href='#validators'>validators</a>
+    <li class='indexItem indexItem2'><a href='#validator'>validator</a>
+    <li class='indexItem indexItem2'><a href='#transformers'>transformers</a>
+    <li class='indexItem indexItem2'><a href='#transformer'>transformer</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CUSTOMIZING_GENERATED_MARKUP'>CUSTOMIZING GENERATED MARKUP</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#CONTAINER'>CONTAINER</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#container_tag'>container_tag</a>
+      <li class='indexItem indexItem3'><a href='#container_attributes'>container_attributes</a>
+      <li class='indexItem indexItem3'><a href='#auto_container_class'>auto_container_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_container_label_class'>auto_container_label_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_container_comment_class'>auto_container_comment_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_container_error_class'>auto_container_error_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_container_per_error_class'>auto_container_per_error_class</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#FORM_FIELD'>FORM FIELD</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#auto_id'>auto_id</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#LABEL'>LABEL</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#label'>label</a>
+      <li class='indexItem indexItem3'><a href='#auto_label'>auto_label</a>
+      <li class='indexItem indexItem3'><a href='#label_tag'>label_tag</a>
+      <li class='indexItem indexItem3'><a href='#label_attributes'>label_attributes</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#COMMENT'>COMMENT</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#comment'>comment</a>
+      <li class='indexItem indexItem3'><a href='#comment_attributes'>comment_attributes</a>
+      <li class='indexItem indexItem3'><a href='#auto_comment_class'>auto_comment_class</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#ERROR_CONTAINER'>ERROR CONTAINER</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#error_container_tag'>error_container_tag</a>
+      <li class='indexItem indexItem3'><a href='#error_container_attributes'>error_container_attributes</a>
+      <li class='indexItem indexItem3'><a href='#auto_error_container_class'>auto_error_container_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_error_container_per_error_class'>auto_error_container_per_error_class</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#ERROR_MESSAGES'>ERROR MESSAGES</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#error_tag'>error_tag</a>
+      <li class='indexItem indexItem3'><a href='#auto_error_message'>auto_error_message</a>
+      <li class='indexItem indexItem3'><a href='#error_attributes'>error_attributes</a>
+      <li class='indexItem indexItem3'><a href='#auto_error_field_class'>auto_error_field_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_error_class'>auto_error_class</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#PROCESSOR_CLASSES'>PROCESSOR CLASSES</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#auto_constraint_class'>auto_constraint_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_inflator_class'>auto_inflator_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_validator_class'>auto_validator_class</a>
+      <li class='indexItem indexItem3'><a href='#auto_transformer_class'>auto_transformer_class</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#REORDERING_FIELD_COMPONENTS'>REORDERING FIELD COMPONENTS</a>
+    <li class='indexItem indexItem2'><a href='#layout'>layout</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#Specification'>Specification</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#multi_layout'>multi_layout</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#RENDERING'>RENDERING</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#field_filename'>field_filename</a>
+    <li class='indexItem indexItem2'><a href='#label_filename'>label_filename</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ERROR_HANDLING'>ERROR HANDLING</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#get_errors'>get_errors</a>
+    <li class='indexItem indexItem2'><a href='#add_error'>add_error</a>
+    <li class='indexItem indexItem2'><a href='#clear_errors'>clear_errors</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#INTROSPECTION'>INTROSPECTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#get_deflators'>get_deflators</a>
+    <li class='indexItem indexItem2'><a href='#get_deflator'>get_deflator</a>
+    <li class='indexItem indexItem2'><a href='#get_filters'>get_filters</a>
+    <li class='indexItem indexItem2'><a href='#get_filter'>get_filter</a>
+    <li class='indexItem indexItem2'><a href='#get_constraints'>get_constraints</a>
+    <li class='indexItem indexItem2'><a href='#get_constraint'>get_constraint</a>
+    <li class='indexItem indexItem2'><a href='#get_inflators'>get_inflators</a>
+    <li class='indexItem indexItem2'><a href='#get_inflator'>get_inflator</a>
+    <li class='indexItem indexItem2'><a href='#get_validators'>get_validators</a>
+    <li class='indexItem indexItem2'><a href='#get_validator'>get_validator</a>
+    <li class='indexItem indexItem2'><a href='#get_transformers'>get_transformers</a>
+    <li class='indexItem indexItem2'><a href='#get_transformer'>get_transformer</a>
+    <li class='indexItem indexItem2'><a href='#get_errors'>get_errors</a>
+    <li class='indexItem indexItem2'><a href='#clear_errors'>clear_errors</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#DEPRECATED_METHODS'>DEPRECATED METHODS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Role::Element::Field - Role for all form-field elements</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Base-class for all form-field elements.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default"
+>default</a></h2>
+
+<p>Set the form-field&#39;s default value.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#OUTPUT_ACCESSORS" class="podlinkpod"
+>output accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="value"
+>value</a></h2>
+
+<p>For most fields,
+<a href="#value" class="podlinkpod"
+>&#34;value&#34;</a> is an alias for <a href="#default" class="podlinkpod"
+>&#34;default&#34;</a>.</p>
+
+<p>For the <a href="/pod/HTML/FormFu/Element/Checkbox.html" class="podlinkpod"
+>HTML::FormFu::Element::Checkbox</a> and <a href="/pod/HTML/FormFu/Element/Radio.html" class="podlinkpod"
+>HTML::FormFu::Element::Radio</a> elements,
+<a href="#value" class="podlinkpod"
+>&#34;value&#34;</a> sets what the value of the field will be if it is checked or selected.
+If the <a href="#default" class="podlinkpod"
+>&#34;default&#34;</a> is the same as the <a href="#value" class="podlinkpod"
+>&#34;value&#34;</a>,
+then the field will be checked or selected when rendered.</p>
+
+<p>For the <a href="/pod/HTML/FormFu/Element/Radiogroup.html" class="podlinkpod"
+>HTML::FormFu::Element::Radiogroup</a> and <a href="/pod/HTML/FormFu/Element/Select.html" class="podlinkpod"
+>HTML::FormFu::Element::Select</a> elements,
+the <a href="#value" class="podlinkpod"
+>&#34;value&#34;</a> is ignored: <a href="/pod/HTML/FormFu/Role/Element/Group.html#values" class="podlinkpod"
+>values</a> or <a href="/pod/HTML/FormFu/Role/Element/Group.html#options" class="podlinkpod"
+>options</a> provides the equivalent function.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#OUTPUT_ACCESSORS" class="podlinkpod"
+>output accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="non_param"
+>non_param</a></h2>
+
+<p>Arguments: bool</p>
+
+<p>Default Value: false</p>
+
+<p>If true,
+values for this field are never returned by <a href="/pod/HTML/FormFu.html#params" class="podlinkpod"
+>&#34;params&#34; in HTML::FormFu</a>,
+<a href="/pod/HTML/FormFu.html#param" class="podlinkpod"
+>&#34;param&#34; in HTML::FormFu</a> and <a href="/pod/HTML/FormFu.html#valid" class="podlinkpod"
+>&#34;valid&#34; in HTML::FormFu</a>.</p>
+
+<p>This is useful for Submit buttons,
+when you only use its value as an <a href="/pod/HTML/FormFu.html#indicator" class="podlinkpod"
+>indicator</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="placeholder"
+>placeholder</a></h2>
+
+<p>Sets the HTML5 attribute <code>placeholder</code> to the specified value.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#OUTPUT_ACCESSORS" class="podlinkpod"
+>output accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="javascript"
+>javascript</a></h2>
+
+<p>Arguments: [$javascript]</p>
+
+<p>If set,
+the contents will be rendered within a <code>script</code> tag,
+within the field&#39;s container.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="retain_default"
+>retain_default</a></h2>
+
+<p>If <a href="#retain_default" class="podlinkpod"
+>&#34;retain_default&#34;</a> is true and the form was submitted,
+but the field didn&#39;t have a value submitted,
+then when the form is redisplayed to the user the field will have its value set to its default value,
+rather than the usual behaviour of having an empty value.</p>
+
+<p>Default Value: <code>false</code></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="force_default"
+>force_default</a></h2>
+
+<p>If <a href="#force_default" class="podlinkpod"
+>&#34;force_default&#34;</a> is true and the form was submitted,
+and the field has a default/value set,
+then when the form is redisplayed to the user the field will have its value set to its default value.</p>
+
+<p>If the default value is being changed after FormFu-&#62;process is being called the later default value is respected for rendering,
+*but* nevertheless the input value doesn&#39;t respect that,
+it will remain the first value.</p>
+
+<p>Default Value: <code>false</code></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_empty_value"
+>default_empty_value</a></h2>
+
+<p>Designed for use by Checkbox fields.
+Normally if a checkbox is not checked,
+no value is submitted for that field.
+If <code>default_empty_value</code> is true,
+the Checkbox field is given an empty value during <a href="/pod/HTML/FormFu.html#process" class="podlinkpod"
+>process</a>.
+Please note that,
+with this setting,
+the checkbox gets an EMPTY value (as opposed to no value at all without enabling it),
+NOT the default value assigned to the element (if any).</p>
+
+<p>Default Value: <code>false</code></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="repeatable_count"
+>repeatable_count</a></h2>
+
+<p>Only available for fields attached to a <a href="/pod/HTML/FormFu/Element/Repeatable.html" class="podlinkpod"
+>Repeatable</a> element,
+after <a href="https://metacpan.org/pod/%20HTML%3A%3AFormFu%3A%3AElement%3A%3ARepeatable#repeat" class="podlinkpod"
+>$repeatable-&#62;repeat($count) </a> has been called.</p>
+
+<p>The value is inherited from <a href="/pod/HTML/FormFu/Element/Repeatable.html#repeatable_count" class="podlinkpod"
+>&#34;repeatable_count&#34; in HTML::FormFu::Element::Repeatable</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clone"
+>clone</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#clone" class="podlinkpod"
+>&#34;clone&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="deflators"
+>deflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#deflators" class="podlinkpod"
+>&#34;deflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="deflator"
+>deflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#deflator" class="podlinkpod"
+>&#34;deflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_datalist_id"
+>auto_datalist_id</a></h2>
+
+<p>Arguments: [$string]</p>
+
+<p>If any <a href="/pod/HTML/FormFu/Role/Element/Input.html" class="podlinkpod"
+>Input</a> element had a datalist,
+but does not have <a href="/pod/HTML/FormFu/Role/Element/Input.html#datalist_id" class="podlinkpod"
+>&#34;datalist_id&#34; in HTML::FormFu::Role::Element::Input</a> set,
+<a href="#auto_datalist_id" class="podlinkpod"
+>&#34;auto_datalist_id&#34;</a> is used to generate the datalist id.</p>
+
+<p>The following character substitution will be performed: <code>%f</code> will be replaced by <a href="#id" class="podlinkpod"
+>$form-&#62;id</a>,
+<code>%n</code> will be replaced by <a href="/pod/HTML/FormFu/Element.html#name" class="podlinkpod"
+>$field-&#62;name</a>,
+<code>%r</code> will be replaced by <a href="/pod/HTML/FormFu/Element/Repeatable.html#repeatable_count" class="podlinkpod"
+>$block-&#62;repeatable_count</a>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FORM_LOGIC_AND_VALIDATION"
+>FORM LOGIC AND VALIDATION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filters"
+>filters</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#filters" class="podlinkpod"
+>&#34;filters&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filter"
+>filter</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#filter" class="podlinkpod"
+>&#34;filter&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="constraints"
+>constraints</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#constraints" class="podlinkpod"
+>&#34;constraints&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="constraint"
+>constraint</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#constraint" class="podlinkpod"
+>&#34;constraint&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inflators"
+>inflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#inflators" class="podlinkpod"
+>&#34;inflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inflator"
+>inflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#inflator" class="podlinkpod"
+>&#34;inflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="validators"
+>validators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#validators" class="podlinkpod"
+>&#34;validators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="validator"
+>validator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#validator" class="podlinkpod"
+>&#34;validator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="transformers"
+>transformers</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#transformers" class="podlinkpod"
+>&#34;transformers&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="transformer"
+>transformer</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#transformer" class="podlinkpod"
+>&#34;transformer&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CUSTOMIZING_GENERATED_MARKUP"
+>CUSTOMIZING GENERATED MARKUP</a></h1>
+
+<p>Each field is,
+by default,
+wrapped in a container.
+Each container may also contain a label,
+a comment,
+and after an invalid submission may contain 1 or more error messages.</p>
+
+<p>Example of generated form:</p>
+
+<pre class="sh_perl">    1   &#60;form action=&#34;&#34; method=&#34;post&#34;&#62;
+    2       &#60;div class=&#34;has-errors&#34;&#62;    # container
+    3           &#60;ul class=&#34;errors&#34;&#62;     # error container
+    4               &#60;li&#62;                # error message
+    5                   This field must contain an email address
+    6               &#60;/li&#62;
+    7           &#60;/li&#62;
+    8           &#60;label&#62;Foo&#60;/label&#62;      # label
+    9           &#60;input name=&#34;foo&#34; type=&#34;text&#34; value=&#34;example.com&#34; /&#62;
+    10          &#60;span class=&#34;comment&#34;&#62;  # comment
+    11              This is Foo
+    12          &#60;/span&#62;
+    13      &#60;/div&#62;
+    14  &#60;/form&#62;
+
+    # Line 2 starts the &#39;container&#39; - by default a DIV.
+    # Line 2 starts an error container, which may contain 1 or more error
+             messages - in this case, a unordered list (UL).
+    # Line 4 starts a single error message - in this case, a list item (LI).
+    # Line 8 shows a &#39;label&#39;.
+    # Line 9 shows the field&#39;s &#39;input&#39; tag.
+    # Lines 10 starts a &#39;comment&#39;.</pre>
+
+<p>To re-order the various parts of each form (label, input, errors, etc) and arbitrary extra tags, see the <a href="#layout" class="podlinkpod"
+>layout</a> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="CONTAINER"
+>CONTAINER</a></h2>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="container_tag"
+>container_tag</a></h3>
+
+<p>Default value: &#39;div&#39;</p>
+
+<p>The container wrapping each entire field, any label, comment, and errors.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="container_attributes"
+>container_attributes</a></h3>
+
+<p>Attributes added to the container tag.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_ACCESSOR" class="podlinkpod"
+>attribute accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_container_class"
+>auto_container_class</a></h3>
+
+<p>Default Value: &#39;%t&#39;</p>
+
+<p>If set, then the container of each field will be given a class-name based on the given pattern.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_container_label_class"
+>auto_container_label_class</a></h3>
+
+<p>Default Value: &#39;label&#39;</p>
+
+<p>If set, and if the field has a <a href="#label" class="podlinkpod"
+>label</a>, the container will be given a class-name based on the given pattern.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_container_comment_class"
+>auto_container_comment_class</a></h3>
+
+<p>Default Value: &#39;%t&#39;</p>
+
+<p>If set, and if the field has a <a href="/pod/HTML/FormFu/Role/Element/Field.html#comment" class="podlinkpod"
+>comment</a>, the container will be given a class-name based on the given pattern.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_container_error_class"
+>auto_container_error_class</a></h3>
+
+<p>Default Value: &#39;error&#39;</p>
+
+<p>If set, then the container of each field with an error will be given a class-name based on the given pattern.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_container_per_error_class"
+>auto_container_per_error_class</a></h3>
+
+<p>Default Value: &#39;error_%s_%t&#39;</p>
+
+<p>If set, then the container of each field with an error will be given a class-name based on the given pattern.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>, <code>%s</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="FORM_FIELD"
+>FORM FIELD</a></h2>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_id"
+>auto_id</a></h3>
+
+<p>If set, then the field will be given an <a href="/pod/HTML/FormFu/Element.html#id" class="podlinkpod"
+>id</a> attribute, if it doesn&#39;t have one already.</p>
+
+<p>E.g., setting <code>$form-&#62;auto_id(&#39;%n&#39;)</code> will make each field have an ID the same as the field&#39;s name. This makes our form config simpler, and ensures we don&#39;t need to manually update IDs if any field names are changed.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%r</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="LABEL"
+>LABEL</a></h2>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="label"
+>label</a></h3>
+
+<p>Set a label to communicate the purpose of the form-field to the user.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#OUTPUT_ACCESSORS" class="podlinkpod"
+>output accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_label"
+>auto_label</a></h3>
+
+<p>If <a href="#label" class="podlinkpod"
+>label</a> isn&#39;t already set, the value of <a href="#auto_label" class="podlinkpod"
+>&#34;auto_label&#34;</a> is passed through <a href="/pod/HTML/FormFu.html#localize" class="podlinkpod"
+>localize</a> to generate a label.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>.</p>
+
+<p>The generated string will be passed to <a href="#localize" class="podlinkpod"
+>&#34;localize&#34;</a> to create the label.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="label_tag"
+>label_tag</a></h3>
+
+<p>Default value: &#39;label&#39; (except <a href="/pod/HTML/FormFu/Element/Checkboxgroup.html" class="podlinkpod"
+>Checkboxgroup</a>)</p>
+
+<p>Default value: &#39;legend&#39; (only <a href="/pod/HTML/FormFu/Element/Checkboxgroup.html" class="podlinkpod"
+>Checkboxgroup</a>)</p>
+
+<p>Set which tag is used to wrap a <a href="#label" class="podlinkpod"
+>label</a>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="label_attributes"
+>label_attributes</a></h3>
+
+<p>Attributes added to the label container.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_ACCESSOR" class="podlinkpod"
+>attribute accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="COMMENT"
+>COMMENT</a></h2>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="comment"
+>comment</a></h3>
+
+<p>Set a comment to be displayed along with the form-field.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#OUTPUT_ACCESSORS" class="podlinkpod"
+>output accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="comment_attributes"
+>comment_attributes</a></h3>
+
+<p>Attributes added to the comment container.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_ACCESSOR" class="podlinkpod"
+>attribute accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_comment_class"
+>auto_comment_class</a></h3>
+
+<p>Default Value: &#39;%t&#39;</p>
+
+<p>If set, and if the field has a <a href="/pod/HTML/FormFu/Role/Element/Field.html#comment" class="podlinkpod"
+>comment</a>, the comment tag will be given a class-name based on the given pattern.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ERROR_CONTAINER"
+>ERROR CONTAINER</a></h2>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="error_container_tag"
+>error_container_tag</a></h3>
+
+<p>If set, and if the field has any errors, a container of this type is wrapped around all of the field error messages.</p>
+
+<pre class="sh_perl">    # Example - this would wrap each individual error in a &#39;li&#39; tag,
+    # with a single &#39;ul&#39; tag wrapped around all the errors.
+
+    element:
+      name: foo
+      error_container_tag: ul
+      error_tag: li</pre>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="error_container_attributes"
+>error_container_attributes</a></h3>
+
+<p>Set attributes on the container-tag, if <a href="#error_container_tag" class="podlinkpod"
+>&#34;error_container_tag&#34;</a> is set.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_ACCESSOR" class="podlinkpod"
+>attribute accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_container_class"
+>auto_error_container_class</a></h3>
+
+<p>Add a class-name to the error container.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_container_per_error_class"
+>auto_error_container_per_error_class</a></h3>
+
+<p>Add a class-name to the error container for each error on that field.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>, <code>%s</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="ERROR_MESSAGES"
+>ERROR MESSAGES</a></h2>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="error_tag"
+>error_tag</a></h3>
+
+<p>Default value: &#39;span&#39;</p>
+
+<p>Sets the tag used to wrap each individual error message.</p>
+
+<p>Defaults to <code>span</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_message"
+>auto_error_message</a></h3>
+
+<p>Default Value: &#39;form_%s_%t&#39;</p>
+
+<p>If set, then each error will be given an auto-generated <a href="/pod/HTML/FormFu/Exception/Input.html#message" class="podlinkpod"
+>message</a>, if it doesn&#39;t have one already.</p>
+
+<p>The generated string will be passed to <a href="#localize" class="podlinkpod"
+>&#34;localize&#34;</a> to create the message.</p>
+
+<p>For example, a <a href="/pod/HTML/FormFu/Constraint/Required.html" class="podlinkpod"
+>Required constraint</a> will return the string <code>form_constraint_required</code>. Under the default localization behaviour, the appropriate message for <code>form_constraint_required</code> will be used from the default I18N package.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>, <code>%s</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="error_attributes"
+>error_attributes</a></h3>
+
+<p>Set attributes on the tag of each error message.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_ACCESSOR" class="podlinkpod"
+>attribute accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_field_class"
+>auto_error_field_class</a></h3>
+
+<p>Upon error, add a class name firectly to the field tag (e.g. <code>input</code>, <code>select</code> tag).</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_class"
+>auto_error_class</a></h3>
+
+<p>Default Value: &#39;error_%s_%t&#39;</p>
+
+<p>Add a class-name to the tag of each error message.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>, <code>%s</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="PROCESSOR_CLASSES"
+>PROCESSOR CLASSES</a></h2>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_constraint_class"
+>auto_constraint_class</a></h3>
+
+<p>Add a class-name to the container tag, for each constraint added to the field.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_inflator_class"
+>auto_inflator_class</a></h3>
+
+<p>Add a class-name to the container tag, for each inflator added to the field.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_validator_class"
+>auto_validator_class</a></h3>
+
+<p>Add a class-name to the container tag, for each validator added to the field.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="auto_transformer_class"
+>auto_transformer_class</a></h3>
+
+<p>Add a class-name to the container tag, for each transformer added to the field.</p>
+
+<p>Supports <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SUBSTITUTIONS" class="podlinkpod"
+>substitutions</a>: <code>%f</code>, <code>%n</code>, <code>%t</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="REORDERING_FIELD_COMPONENTS"
+>REORDERING FIELD COMPONENTS</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="layout"
+>layout</a></h2>
+
+<p>Specify the order that each sub-part of the element should appear in the rendered markup.</p>
+
+<pre class="sh_perl">    # Default Value
+    $element-&#62;layout( [
+        &#39;errors&#39;,
+        &#39;label&#39;,
+        &#39;field&#39;,
+        &#39;comment&#39;,
+        &#39;javascript&#39;,
+    ] );</pre>
+
+<p>Example: Move the form field (the input tag or equivalent) inside the label tag, after the label text. Remove the comment - this will now never be rendered.</p>
+
+<pre class="sh_perl">    # YAML config
+    layout:
+      - errors
+      - label:
+          - label_text
+          - field
+      - javascript
+
+    # prettified example of rendered markup
+    &#60;div&#62;
+        &#60;span&#62;This field is required.&#60;/span&#62;
+        &#60;label&#62;
+            Foo
+            &#60;input name=&#34;foo&#34; type=&#34;text&#34; /&#62;
+        &#60;/label&#62;
+    &#60;/div&#62;</pre>
+
+<p>Example: Don&#39;t wrap the label text inside it&#39;s usual tag. Insert the form field (the input tag or equivalent) inside an arbitrary extra tag.</p>
+
+<pre class="sh_perl">    # YAML config
+    layout:
+      - errors
+      - label_text
+      -
+        div:
+          attributes:
+            class: xxx
+          content: field
+      - comment
+      - javascript
+
+    # prettified example of rendered markup
+    &#60;div&#62;
+        &#60;span&#62;This field is required.&#60;/span&#62;
+        Foo
+        &#60;div class=&#34;xxx&#34;&#62;
+            &#60;input name=&#34;foo&#34; type=&#34;text&#34; /&#62;
+        &#60;/div&#62;
+    &#60;/div&#62;</pre>
+
+<p>The following elements override the default <a href="https://metacpan.org/pod/layout" class="podlinkpod"
+>layout</a> value:</p>
+
+<dl>
+<dt><a name="HTML::FormFu::Element::Checkboxgroup"
+><a href="/pod/HTML/FormFu/Element/Checkboxgroup.html" class="podlinkpod"
+>HTML::FormFu::Element::Checkboxgroup</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Hidden"
+><a href="/pod/HTML/FormFu/Element/Hidden.html" class="podlinkpod"
+>HTML::FormFu::Element::Hidden</a></a></dt>
+</dl>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Specification"
+>Specification</a></h3>
+
+<p>The <a href="#layout" class="podlinkpod"
+>layout</a> method accepts an array-ref, hash-ref, or string argument.</p>
+
+<p>The processing is recursive, so each item in an array-ref may be any value accepted by the <a href="#layout" class="podlinkpod"
+>layout</a> method.</p>
+
+<p>A hash-ref must contain a single key and value pair. If the hash key is the string <code>label</code>, it creates a <code>label</code> tag, using any previously defined <a href="#LABEL" class="podlinkpod"
+>LABEL</a> customizations. This allows the label tag to contains other elements, such as the form field.</p>
+
+<p>All other hash key values are asssumed to be an arbitrary block tag name. The value must be a hash-ref, and may contain one or both <code>attributes</code> or <code>content</code> keys.</p>
+
+<p>Any <code>attributes</code> value must be a hash-ref, whose key/values are added to the block tag. No processing or expansion is done to the <code>attributes</code> hash-ref at all.</p>
+
+<p>The <code>content</code> value may be anything accepted by the <a href="#layout" class="podlinkpod"
+>layout</a> method.</p>
+
+<p>The following strings are accepted:</p>
+
+<dl>
+<dt><a name="errors"
+>errors</a></dt>
+
+<dd>
+<p>Renders the element error messages.</p>
+
+<p>See <a href="#ERROR_CONTAINER" class="podlinkpod"
+>ERROR CONTAINER</a> and <a href="#ERROR_MESSAGES" class="podlinkpod"
+>ERROR MESSAGES</a> to customize the tags and attributes.</p>
+
+<dt><a name="label"
+>label</a></dt>
+
+<dd>
+<p>Renders the element <a href="#label" class="podlinkpod"
+>label</a>.</p>
+
+<p>See <a href="#LABEL" class="podlinkpod"
+>LABEL</a> to customize the tag and attributes.</p>
+
+<dt><a name="label_text"
+>label_text</a></dt>
+
+<dd>
+<p>Renders the element <a href="#label" class="podlinkpod"
+>label</a> text, without the usual <a href="#label_tag" class="podlinkpod"
+>label_tag</a>.</p>
+
+<dt><a name="field"
+>field</a></dt>
+
+<dd>
+<p>Renders the form field control (an input tag, button, or other control).</p>
+
+<dt><a name="comment"
+>comment</a></dt>
+
+<dd>
+<p>Renders the element <a href="#comment" class="podlinkpod"
+>comment</a>.</p>
+
+<p>See <a href="#COMMENT" class="podlinkpod"
+>COMMENT</a> to customize the tag and attributes.</p>
+
+<dt><a name="javascript"
+>javascript</a></dt>
+
+<dd>
+<p>Renders a <code>script</code> tag containing any <a href="#javascript" class="podlinkpod"
+>javascript</a>.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="multi_layout"
+>multi_layout</a></h2>
+
+<p>Specify the order that each sub-part of each element within a <a href="/pod/HTML/FormFu/Element/Multi.html" class="podlinkpod"
+>HTML::FormFu::Element::Multi</a> should appear in the rendered markup.</p>
+
+<pre class="sh_perl">    # Default Value
+    $element-&#62;multi_layout( [
+        &#39;label&#39;,
+        &#39;field&#39;,
+    ] );</pre>
+
+<p>Example: Swap the label/field order. This is equivalent to the now-deprecated <a href="#reverse_multi" class="podlinkpod"
+>reverse_multi</a> method.</p>
+
+<pre class="sh_perl">    # YAML config
+    multi_layout:
+      - field
+      - label</pre>
+
+<p>The following elements override the default <code>multi_layout</code> value:</p>
+
+<dl>
+<dt><a name="HTML::FormFu::Element::Checkbox"
+><a href="/pod/HTML/FormFu/Element/Checkbox.html" class="podlinkpod"
+>HTML::FormFu::Element::Checkbox</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RENDERING"
+>RENDERING</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="field_filename"
+>field_filename</a></h2>
+
+<p>The template filename to be used for just the form field - not including the display of any container, label, errors, etc.</p>
+
+<p>Must be set by more specific field classes.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="label_filename"
+>label_filename</a></h2>
+
+<p>The template filename to be used to render the label.</p>
+
+<p>Defaults to <code>field_layout_label</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ERROR_HANDLING"
+>ERROR HANDLING</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_errors"
+>get_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_errors" class="podlinkpod"
+>&#34;get_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_error"
+>add_error</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_errors"
+>clear_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#clear_errors" class="podlinkpod"
+>&#34;clear_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INTROSPECTION"
+>INTROSPECTION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_deflators"
+>get_deflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_deflators" class="podlinkpod"
+>&#34;get_deflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_deflator"
+>get_deflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_deflator" class="podlinkpod"
+>&#34;get_deflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_filters"
+>get_filters</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_filters" class="podlinkpod"
+>&#34;get_filters&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_filter"
+>get_filter</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_filter" class="podlinkpod"
+>&#34;get_filter&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_constraints"
+>get_constraints</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_constraints" class="podlinkpod"
+>&#34;get_constraints&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_constraint"
+>get_constraint</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_constraint" class="podlinkpod"
+>&#34;get_constraint&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_inflators"
+>get_inflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_inflators" class="podlinkpod"
+>&#34;get_inflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_inflator"
+>get_inflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_inflator" class="podlinkpod"
+>&#34;get_inflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_validators"
+>get_validators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_validators" class="podlinkpod"
+>&#34;get_validators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_validator"
+>get_validator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_validator" class="podlinkpod"
+>&#34;get_validator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_transformers"
+>get_transformers</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_transformers" class="podlinkpod"
+>&#34;get_transformers&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_transformer"
+>get_transformer</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_transformer" class="podlinkpod"
+>&#34;get_transformer&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_errors"
+>get_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_errors" class="podlinkpod"
+>&#34;get_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_errors"
+>clear_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#clear_errors" class="podlinkpod"
+>&#34;clear_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DEPRECATED_METHODS"
+>DEPRECATED METHODS</a></h1>
+
+<dl>
+<dt><a name="reverse_single"
+>reverse_single</a></dt>
+
+<dd>
+<p>See <a href="#layout" class="podlinkpod"
+>layout</a> instead.</p>
+
+<dt><a name="reverse_multi"
+>reverse_multi</a></dt>
+
+<dd>
+<p>See <a href="#multi_layout" class="podlinkpod"
+>multi_layout</a> instead.</p>
+
+<dt><a name="errors_filename"
+>errors_filename</a></dt>
+
+<dd>
+<p>See <a href="#layout_errors_filename" class="podlinkpod"
+>layout_errors_filename</a> instead.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Base-class for <a href="/pod/HTML/FormFu/Role/Element/Group.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Group</a>, <a href="/pod/HTML/FormFu/Role/Element/Input.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Input</a>, <a href="/pod/HTML/FormFu/Element/Multi.html" class="podlinkpod"
+>HTML::FormFu::Element::Multi</a>, <a href="/pod/HTML/FormFu/Element/ContentButton.html" class="podlinkpod"
+>HTML::FormFu::Element::ContentButton</a>, <a href="/pod/HTML/FormFu/Element/Textarea.html" class="podlinkpod"
+>HTML::FormFu::Element::Textarea</a>.</p>
+
+<p>Is a sub-class of, and inherits methods from <a href="/pod/HTML/FormFu/Element.html" class="podlinkpod"
+>HTML::FormFu::Element</a></p>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

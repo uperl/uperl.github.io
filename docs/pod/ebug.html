@@ -20,6 +20,7 @@
   <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
   <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#COMMANDS'>COMMANDS</a>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
@@ -37,13 +38,14 @@ extensible console Perl debugger</p>
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.64</p>
+<p>version 0.68</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
 <pre class="sh_perl">  % ebug calc.pl
+  % ebug add.pl 3 &#34;four and a half&#34;
   % ebug &#34;add.pl 3 4&#34;</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
@@ -52,6 +54,180 @@ name="DESCRIPTION"
 
 <p>ebug is an interactive command-line front end to <a href="/pod/Devel/ebug.html" class="podlinkpod"
 >Devel::ebug</a>. It is a simple Perl debugger, much like perl5db.pl.</p>
+
+<p>Any arguments after the program name are passed to the program, each exactly as given, so an argument may contain spaces or other shell metacharacters. If the program and its arguments are given together as a single string instead, that string is interpreted by the shell.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COMMANDS"
+>COMMANDS</a></h1>
+
+<p>At the <code>ebug:</code> prompt, type one of the following commands and press return. Pressing return with an empty line repeats the last command (handy for repeatedly pressing <code>s</code> or <code>n</code> to step through code). Anything that isn&#39;t recognized as a command below is evaluated as Perl code in the debuggee, the same as the <code>e</code> command.</p>
+
+<dl>
+<dt><a name="?_or_h"
+>? or h</a></dt>
+
+<dd>
+<p>Show this list of commands.</p>
+
+<dt><a name="b_LINE"
+>b LINE</a></dt>
+
+<dd>
+<dt><a name="b_LINE_CONDITION"
+>b LINE CONDITION</a></dt>
+
+<dd>
+<p>Set a break point at <code>LINE</code> in the current file, optionally only breaking when <code>CONDITION</code> is true (eg: <code>b 6</code>, <code>b 6 $x &#62; 7</code>).</p>
+
+<dt><a name="b_FILE_LINE"
+>b FILE LINE</a></dt>
+
+<dd>
+<dt><a name="b_FILE_LINE_CONDITION"
+>b FILE LINE CONDITION</a></dt>
+
+<dd>
+<p>Set a break point at <code>LINE</code> in <code>FILE</code> (eg: <code>b code.pl 6</code>).</p>
+
+<dt><a name="b_SUBROUTINE"
+>b SUBROUTINE</a></dt>
+
+<dd>
+<dt><a name="b_SUBROUTINE_CONDITION"
+>b SUBROUTINE CONDITION</a></dt>
+
+<dd>
+<p>Set a break point at the start of <code>SUBROUTINE</code>, given as a fully qualified name, optionally only breaking when <code>CONDITION</code> is true. The condition is checked as the subroutine is entered, so <code>@_</code> holds its arguments (eg: <code>b Calc::fib</code>, <code>b Calc::fib $_[1] &#62; 5</code>).</p>
+
+<dt><a name="bf_FILE"
+>bf FILE</a></dt>
+
+<dd>
+<p>Set a break point that triggers as soon as <code>FILE</code> is loaded (eg: <code>bf Calc.pm</code>).</p>
+
+<dt><a name="d_LINE"
+>d LINE</a></dt>
+
+<dd>
+<dt><a name="d_FILE_LINE"
+>d FILE LINE</a></dt>
+
+<dd>
+<p>Delete the break point at <code>LINE</code> in the current file, or in <code>FILE</code>.</p>
+
+<dt><a name="e_EXPR"
+>e EXPR</a></dt>
+
+<dd>
+<p>Evaluate <code>EXPR</code> as Perl code in the debuggee and print the result (eg: <code>e $x+$y</code>).</p>
+
+<dt><a name="f"
+>f</a></dt>
+
+<dd>
+<p>Show all the filenames currently loaded.</p>
+
+<dt><a name="l"
+>l</a></dt>
+
+<dd>
+<p>List code lines around the current line.</p>
+
+<dt><a name="l_N"
+>l N</a></dt>
+
+<dd>
+<p>List code lines around the current line, and remember <code>N</code> as the number of lines to show from now on.</p>
+
+<dt><a name="L"
+>L</a></dt>
+
+<dd>
+<p>Toggle always listing code lines before each prompt.</p>
+
+<dt><a name="n"
+>n</a></dt>
+
+<dd>
+<p>Next: step onto the next line, stepping over any subroutine calls.</p>
+
+<dt><a name="o"
+>o</a></dt>
+
+<dd>
+<p>Show the debuggee&#39;s captured STDOUT and STDERR.</p>
+
+<dt><a name="p"
+>p</a></dt>
+
+<dd>
+<p>Show the pad: all lexical (<code>my</code>) variables in scope.</p>
+
+<dt><a name="r"
+>r</a></dt>
+
+<dd>
+<p>Run until the next break point or watch point. Pressing Ctrl-C (SIGINT) while running stops the debuggee and drops back into the <code>ebug:</code> prompt instead of killing the console.</p>
+
+<dt><a name="ret"
+>ret</a></dt>
+
+<dd>
+<dt><a name="ret_VALUE"
+>ret VALUE</a></dt>
+
+<dd>
+<p>Return from the current subroutine, optionally forcing the return value to <code>VALUE</code> for testing purposes (eg: <code>ret 3.141</code>).</p>
+
+<dt><a name="restart"
+>restart</a></dt>
+
+<dd>
+<p>Restart the program from the beginning.</p>
+
+<dt><a name="s"
+>s</a></dt>
+
+<dd>
+<p>Step: step onto the next line, stepping into any subroutine calls.</p>
+
+<dt><a name="T"
+>T</a></dt>
+
+<dd>
+<p>Show a stack trace.</p>
+
+<dt><a name="u"
+>u</a></dt>
+
+<dd>
+<dt><a name="u_N"
+>u N</a></dt>
+
+<dd>
+<p>Undo the last command, or the last <code>N</code> commands. This restarts the debuggee and replays the previous session&#39;s state-changing commands.</p>
+
+<dt><a name="w_CONDITION"
+>w CONDITION</a></dt>
+
+<dd>
+<p>Set a watch point: execution stops as soon as <code>CONDITION</code> becomes true (eg: <code>w $t &#62; 10</code>).</p>
+
+<dt><a name="x_EXPR"
+>x EXPR</a></dt>
+
+<dd>
+<p>Evaluate <code>EXPR</code> and dump the result using <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a> (eg: <code>x $object</code>). Pressing Tab after <code>x </code> completes on the names of variables currently in the pad.</p>
+
+<dt><a name="q"
+>q</a></dt>
+
+<dd>
+<p>Quit ebug.</p>
+</dd>
+</dl>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SEE_ALSO"
@@ -74,11 +250,13 @@ name="AUTHOR"
 
 <p>Taisuke Yamada</p>
 
+<p>Richard Leach (HYDAHY)</p>
+
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2005-2021 by Leon Brocard.</p>
+<p>This software is copyright (c) 2005-2026 by Leon Brocard.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 

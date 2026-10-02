@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Manual::Cookbook</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Manual::Cookbook</div>
+    <!--HTML::FormFu::Manual::Cookbook--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#GETTING_STARTED'>GETTING STARTED</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Default_search_paths_for_config_files'>Default search paths for config files</a>
+    <li class='indexItem indexItem2'><a href='#YAML'>YAML</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#BUILDING_A_FORM'>BUILDING A FORM</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Quick_single-file_prototypes'>Quick single-file prototypes</a>
+    <li class='indexItem indexItem2'><a href='#Unsupported_HTML_tags'>Unsupported HTML tags</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#Application-wide_default_values'>Application-wide default values</a>
+  <li class='indexItem indexItem1'><a href='#MODIFYING_A_FORM'>MODIFYING A FORM</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Insert_a_new_field_before_existing_form_fields'>Insert a new field before existing form fields</a>
+    <li class='indexItem indexItem2'><a href='#Form_and_Field_attributes'>Form and Field attributes</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FORM_VALIDATION'>FORM VALIDATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Check_valid_dates'>Check valid dates</a>
+    <li class='indexItem indexItem2'><a href='#Check_valid_URI_%2F_URLs'>Check valid URI / URLs</a>
+    <li class='indexItem indexItem2'><a href='#Implement_a_custom_constraint_%2F_validator'>Implement a custom constraint / validator</a>
+    <li class='indexItem indexItem2'><a href='#Constrain_one_form_field_based_on_the_value_of_another'>Constrain one form field based on the value of another</a>
+    <li class='indexItem indexItem2'><a href='#Constrain_one_form_field_based_on_the_return_value_of_a_callback'>Constrain one form field based on the return value of a callback</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#HTML_MARKUP'>HTML MARKUP</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Indented_HTML'>Indented HTML</a>
+    <li class='indexItem indexItem2'><a href='#Add_a_blank_div_(e.g._for_AJAX_purposes)'>Add a blank div (e.g. for AJAX purposes)</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#DISPLAY'>DISPLAY</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Custom_error_messages'>Custom error messages</a>
+    <li class='indexItem indexItem2'><a href='#Highlight_required_fields_(or_fields_with_certain_types_of_constraint)'>Highlight required fields (or fields with certain types of constraint)</a>
+    <li class='indexItem indexItem2'><a href='#Add_a_popup_hint_to_a_field'>Add a popup hint to a field</a>
+    <li class='indexItem indexItem2'><a href='#Display_filtered_values'>Display filtered values</a>
+    <li class='indexItem indexItem2'><a href='#Multiple_forms_using_Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu'>Multiple forms using Catalyst::Controller::HTML::FormFu</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ADVANCED_CUSTOMISATION'>ADVANCED CUSTOMISATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Installing_the_TT_templates'>Installing the TT templates</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PERFORMANCE'>PERFORMANCE</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Catalyst%3A%3APlugin%3A%3AStackTrace'>Catalyst::Plugin::StackTrace</a>
+    <li class='indexItem indexItem2'><a href='#Template%3A%3AAlloy'>Template::Alloy</a>
+    <li class='indexItem indexItem2'><a href='#HTML%3AFormFu%3A%3APreload'>HTML:FormFu::Preload</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FAQs'>FAQs</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Force_an_element_to_always_have_a_certain_value'>Force an element to always have a certain value</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT'>COPYRIGHT</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Manual::Cookbook - Cooking with HTML::FormFu</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Miscellaneous useful recipes for use with HTML::FormFu</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="GETTING_STARTED"
+>GETTING STARTED</a></h1>
+
+<p>Some useful info for beginners.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Default_search_paths_for_config_files"
+>Default search paths for config files</a></h2>
+
+<p>The current working directory (<code>cwd</code>) (see <a href="/pod/HTML/FormFu.html#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34; in HTML::FormFu</a>).</p>
+
+<p>If you&#39;re using the <code>FormConfig</code> action attribute from <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu" class="podlinkpod"
+>Catalyst::Controller::HTML::FormFu</a>,
+forms should be saved in <code>root/forms</code>.
+See <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu#SYNOPSIS" class="podlinkpod"
+>&#34;SYNOPSIS&#34; in Catalyst::Controller::HTML::FormFu</a> and <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu#config_file_path" class="podlinkpod"
+>&#34;config_file_path&#34; in Catalyst::Controller::HTML::FormFu</a> for further details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="YAML"
+>YAML</a></h2>
+
+<p>Most examples given in the <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> documentation use <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a> syntax.
+You can use any configuration file type supported by <a href="https://metacpan.org/pod/Config%3A%3AAny" class="podlinkpod"
+>Config::Any</a>,
+but this author&#39;s preferred format is YAML.</p>
+
+<p>A form can be populated by a config file by calling <a href="/pod/HTML/FormFu.html#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34; in HTML::FormFu</a> with the filename as an argument.
+The config file is converted to a perl data-structure,
+and then passed to <a href="/pod/HTML/FormFu.html#populate" class="podlinkpod"
+>&#34;populate&#34; in HTML::FormFu</a>.</p>
+
+<p>The config file must contain a hash-ref,
+with the keys corresponding to form method-names,
+and the values being the method arguments.
+For example,
+the following are equivalent:</p>
+
+<pre class="sh_perl">    ---
+    auto_fieldset: 1
+    elements:
+      - name: foo
+      - name: bar
+
+    # the above YAML is equivalent to the following perl code
+
+    $form-&#62;auto_fieldset(1);
+
+    $form-&#62;elements([
+        { name =&#62; &#39;foo&#39; },
+        { name =&#62; &#39;bar&#39; },
+    ]);</pre>
+
+<p>When writing your config file, remember that perl hashes are unordered and cannot have multiple keys with the same name.</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34; in HTML::FormFu</a> and <a href="/pod/HTML/FormFu.html#populate" class="podlinkpod"
+>&#34;populate&#34; in HTML::FormFu</a> for more details.</p>
+
+<p>See <a href="http://www.yaml.org/spec/" class="podlinkurl"
+>http://www.yaml.org/spec/</a> for the YAML specification.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUILDING_A_FORM"
+>BUILDING A FORM</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Quick_single-file_prototypes"
+>Quick single-file prototypes</a></h2>
+
+<p>You can run the following script to quickly view a form&#39;s markup - replace the contents of the <code>__DATA__</code> section with your own YAML config.</p>
+
+<pre class="sh_perl">    #!/usr/bin/perl
+        use warnings;
+    use HTML::FormFu;
+    use YAML::XS qw( LoadFile );
+
+    my $form = HTML::FormFu-&#62;new;
+    my $data = LoadFile(\*DATA);
+
+    $form-&#62;populate($data);
+
+    print $form;
+
+    __DATA__
+    ---
+    auto_fieldset: 1
+    elements:
+      - type: Text
+        name: foo</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Unsupported_HTML_tags"
+>Unsupported HTML tags</a></h2>
+
+<p>You can use the <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>HTML::FormFu::Element::Block</a> element, and set the <a href="/pod/HTML/FormFu/Element/Block.html#tag" class="podlinkpod"
+>tag</a> to create any arbitrary pair of tags.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Block
+        tag: span
+        content_xml: &#34;&#60;b&#62;Hi!&#60;/b&#62;&#34;</pre>
+
+<p>You can use <a href="/pod/HTML/FormFu/Element/Block.html#content" class="podlinkpod"
+>&#34;content&#34; in HTML::FormFu::Element::Block</a>, <a href="/pod/HTML/FormFu/Element/Block.html#content_xml" class="podlinkpod"
+>&#34;content_xml&#34; in HTML::FormFu::Element::Block</a> or <a href="/pod/HTML/FormFu/Element/Block.html#content_loc" class="podlinkpod"
+>&#34;content_loc&#34; in HTML::FormFu::Element::Block</a> to add any content you wish, or use <a href="/pod/HTML/FormFu/Element/Block.html#element" class="podlinkpod"
+>&#34;element&#34; in HTML::FormFu::Element::Block</a> to add elements.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="Application-wide_default_values"
+>Application-wide default values</a></h1>
+
+<p>You can automatically set defaults using <a href="/pod/HTML/FormFu.html#default_args" class="podlinkpod"
+>&#34;default_args&#34; in HTML::FormFu</a>, and if you set this in a <a href="https://metacpan.org/pod/Catalyst" class="podlinkpod"
+>Catalyst</a> application config file, it&#39;ll take effect throughout your entire application, for example:</p>
+
+<pre class="sh_perl">    myapp.yml
+    ---
+    &#39;Controller::HTML::FormFu&#39;:
+      constructor:
+        default_args:
+          elements:
+            Textarea:
+              rows: 10</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="MODIFYING_A_FORM"
+>MODIFYING A FORM</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Insert_a_new_field_before_existing_form_fields"
+>Insert a new field before existing form fields</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#insert_before" class="podlinkpod"
+>&#34;insert_before&#34; in HTML::FormFu</a> and <a href="/pod/HTML/FormFu.html#insert_after" class="podlinkpod"
+>&#34;insert_after&#34; in HTML::FormFu</a>.</p>
+
+<pre class="sh_perl">    my $fieldset = $form-&#62;get_element({ type =&#62; &#39;Fieldset&#39; });
+
+    $fieldset-&#62;insert_before(
+        $form-&#62;element(\%specs),
+        $form-&#62;get_field($name)
+    );</pre>
+
+<p>Another way to approach the problem is to use multiple config files, and decide which to load at runtime:</p>
+
+<pre class="sh_perl">    # user_edit.yml
+    ---
+    elements:
+      - type: Text
+        name: email
+
+    # user_username.yml
+    ---
+    elements:
+      - type: Text
+        name: username
+
+     # user_register.yml
+     ---
+     load_config_file:
+      - user_username.yml
+      - user_edit.yml
+
+    # create a user edit form, with only the email field
+
+    $form-&#62;load_config_file( &#39;user_edit.yml&#39; );
+
+    # create a user registration form with username and email fields
+
+    $form-&#62;load_config_file( &#39;user_register.yml&#39; );</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Form_and_Field_attributes"
+>Form and Field attributes</a></h2>
+
+<p>You can add any arbitrary attributes to a form with <a href="/pod/HTML/FormFu.html#attributes" class="podlinkpod"
+>&#34;attributes&#34; in HTML::FormFu</a>, or to any element with <a href="/pod/HTML/FormFu/Element.html#attributes" class="podlinkpod"
+>&#34;attributes&#34; in HTML::FormFu::Element</a>.</p>
+
+<pre class="sh_perl">    ---
+    attributes_xml:
+      onsubmit: &#34;js_function()&#34;
+    elements:
+      - type: Text
+        name: foo
+        attributes_xml:
+          onchange: &#34;js_function()&#34;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FORM_VALIDATION"
+>FORM VALIDATION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Check_valid_dates"
+>Check valid dates</a></h2>
+
+<p>Use <a href="/pod/HTML/FormFu/Inflator/DateTime.html" class="podlinkpod"
+>HTML::FormFu::Inflator::DateTime</a>. When the inflator is processed, it will try to create a DateTime object. An error will be returned if the supplied values do not make a valid date.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Check_valid_URI_/_URLs"
+>Check valid URI / URLs</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu/Element/URL.html" class="podlinkpod"
+>HTML::FormFu::Element::URL</a> or <a href="/pod/HTML/FormFu/Constraint/Regex.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Regex</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Implement_a_custom_constraint_/_validator"
+>Implement a custom constraint / validator</a></h2>
+
+<p>If <a href="/pod/HTML/FormFu/Constraint/Callback.html" class="podlinkpod"
+>HTML::FormFu::Constraint::Callback</a> or <a href="/pod/HTML/FormFu/Validator/Callback.html" class="podlinkpod"
+>HTML::FormFu::Validator::Callback</a> isn&#39;t sufficient for your needs, you can create your own class that inherits from <a href="/pod/HTML/FormFu/Constraint.html" class="podlinkpod"
+>HTML::FormFu::Constraint</a> or <a href="/pod/HTML/FormFu/Validator.html" class="podlinkpod"
+>HTML::FormFu::Validator</a>, respectively.</p>
+
+<p>It should implement a <code>validate_value</code> method, which returns true is the value is valid, or false otherwise.</p>
+
+<pre class="sh_perl">    package My::Custom::Validator;
+    use Moose;
+    extends &#39;HTML::FormFu::Validator&#39;;
+
+    sub validate_value {
+      my ( $self, $value, $params ) = @_;
+
+      return 1 if value_is_valid( $value );
+
+      return;
+    }
+
+    1;</pre>
+
+<p>Then add your custom validator to the form:</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: foo
+        validators:
+          - &#39;+My::Custom::Validator&#39;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Constrain_one_form_field_based_on_the_value_of_another"
+>Constrain one form field based on the value of another</a></h2>
+
+<p>For example, you have a radiogroup and several text fields, with different text fields being required depending on the value of the radiogroup.</p>
+
+<p>This is achieved using the <code>when</code> attribute of a constraint:</p>
+
+<pre class="sh_perl">    constraints:
+      - type: Length
+        min: 8
+        when:
+          field: bar
+          values: [ 1, 3, 5 ]</pre>
+
+<p>In the above example, the Length constraint is only processed when the form field named &#34;bar&#34; has a value of either 1, 3 or 5.</p>
+
+<p>You can also test for a negative condition using the <code>not</code> attribute:</p>
+
+<pre class="sh_perl">    constraints:
+      - type: Length
+        min: 8
+        when:
+          field: bar
+          values: [ 1, 3, 5 ]
+          not: 1</pre>
+
+<p>Now the constraint will be processed only if the value of field &#34;bar&#34; is NOT 1, 3 or 5.</p>
+
+<p>Note: if you rely on the value of a checkbox for a when-restricted constraint, you might want to consider setting <code>default_empty_value</code> for that checkbox. Take a look at <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Field</a> to learn more.</p>
+
+<p>Please read <a href="/pod/HTML/FormFu/Constraint.html" class="podlinkpod"
+>HTML::FormFu::Constraint</a> for further information.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Constrain_one_form_field_based_on_the_return_value_of_a_callback"
+>Constrain one form field based on the return value of a callback</a></h2>
+
+<p>You can use the <code>when</code> attribute of a constraint also to decide using a callback if the constraint should be applied.</p>
+
+<p>For instance, the following (code) example shows a constraint being applied only if the value of another field contains a pattern</p>
+
+<pre class="sh_perl">    my $apply_if_pattern = sub {
+        my $params = shift;
+        return 1 if $params-&#62;{other_field} =~ m/\A ice_cream \z/xms;
+        return 0;
+    };
+
+    $field-&#62;{constraints} = {
+        type    =&#62; &#39;Required&#39;,
+        when    =&#62; {
+            callback    =&#62; $apply_if_pattern,
+        }
+    }</pre>
+
+<p>Please read <a href="/pod/HTML/FormFu/Constraint.html" class="podlinkpod"
+>HTML::FormFu::Constraint</a> for further information.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="HTML_MARKUP"
+>HTML MARKUP</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Indented_HTML"
+>Indented HTML</a></h2>
+
+<p>Use <a href="/pod/HTML/FormFu/OutputProcessor/Indent.html" class="podlinkpod"
+>HTML::FormFu::OutputProcessor::Indent</a>:</p>
+
+<pre class="sh_perl">    ---
+    output_processors:
+      - Indent</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Add_a_blank_div_(e.g._for_AJAX_purposes)"
+>Add a blank div (e.g. for AJAX purposes)</a></h2>
+
+<p>Simply add a Block element in the relevant place, it defaults to a <code>DIV</code> tag.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: user
+
+      - type: Block
+        id: foo
+
+      - type: Text
+        name: email</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DISPLAY"
+>DISPLAY</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Custom_error_messages"
+>Custom error messages</a></h2>
+
+<p>If you want to display an error message due to an error in your own code, such as a database check; something which isn&#39;t implemented as a <a href="/pod/HTML/FormFu/Constraint.html" class="podlinkpod"
+>Constraint</a> or <a href="/pod/HTML/FormFu/Validator.html" class="podlinkpod"
+>Validator</a>; you can use a <a href="/pod/HTML/FormFu/Constraint/Callback.html" class="podlinkpod"
+>Callback Constraint</a>.</p>
+
+<p>If you don&#39;t provide your own callback routine, the default callback will always pass, regardless of user input.</p>
+
+<p>You can take advantage of this by setting <a href="/pod/HTML/FormFu.html#force_errors" class="podlinkpod"
+>force_errors</a>, to display its error message when needed.</p>
+
+<p>Example config:</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+      - name: email
+      - constraints:
+        type: Callback
+        message: &#39;Email address already in use&#39;</pre>
+
+<p>Example usage:</p>
+
+<pre class="sh_perl">    if ( $@ =~ m/duplicate entry for key &#39;email&#39;/i ) {
+
+        $form-&#62;get_field(&#39;email&#39;)
+             -&#62;get_constraint({ type =&#62; &#39;Callback&#39; })
+             -&#62;force_errors(1);
+
+        $form-&#62;process;
+        # then redisplay the form as normal
+    }</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Highlight_required_fields_(or_fields_with_certain_types_of_constraint)"
+>Highlight required fields (or fields with certain types of constraint)</a></h2>
+
+<p>This can be achieved using the form&#39;s <code>auto_constraint_class</code> method:</p>
+
+<pre class="sh_perl">    $form-&#62;auto_constraint_class( &#39;constraint_%t&#39; );</pre>
+
+<p>The container divs around any form field with a constraint will then have extra CSS classes added, which indicate the type of constraint and allow you to apply appropriate styling with CSS:</p>
+
+<pre class="sh_perl">    /* change background of labels for fields with a Required constraint */
+    fieldset .constraint_required label {
+        background: #f00;
+    }</pre>
+
+<p>This technique can also be used to add content before or after the fields in question (note this will not work in older browsers with more limited CSS support such as IE6):</p>
+
+<pre class="sh_perl">    /* add an asterisk at the end of the label for required fields */
+    fieldset .constraint_required label:after {
+        content: &#39;*&#39;
+    }</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Add_a_popup_hint_to_a_field"
+>Add a popup hint to a field</a></h2>
+
+<p>Most display a tooltip when a user hovers their mouse pointer over an HTML element with a &#34;title&#34; tag. Aural browsers may try to turn the content into speech. You can take advantage of this behaviour to provide a hint to the user about how to complete a form field.</p>
+
+<pre class="sh_perl">    elements:
+      - type: URL
+        name: url
+        label: Website
+        title: &#39;Must start with http:// or https://&#39;</pre>
+
+<p>The above will provide a hint when the &#34;url&#34; field receives focus. Or you could provide the hint for the container tag around both field and label:</p>
+
+<pre class="sh_perl">    elements:
+      - type: URL
+        name: url
+        label: Website
+        container_attributes:
+            title: &#39;Must start with http:// or https://&#39;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Display_filtered_values"
+>Display filtered values</a></h2>
+
+<p>If you have a Filter on a field, such as <a href="/pod/HTML/FormFu/Filter/Whitespace.html" class="podlinkpod"
+>HTML::FormFu::Filter::Whitespace</a> to strip leading / trailing whitespace, then if you redisplay the form the field is normally populated with the value the user originally entered.</p>
+
+<p>If you would like the field to contain the filtered value, use <a href="/pod/HTML/FormFu.html#render_processed_value" class="podlinkpod"
+>&#34;render_processed_value&#34; in HTML::FormFu</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Multiple_forms_using_Catalyst::Controller::HTML::FormFu"
+>Multiple forms using Catalyst::Controller::HTML::FormFu</a></h2>
+
+<p>Sometimes you need to display multiple forms on a single page. If you try to use FormConfig on several actions in a chain, or similar, they all use <code>$c-&#62;stash-&#62;{form}</code> to store the form, hence you only get the last form.</p>
+
+<p>One way to work around such problems is to do a little of the work yourself:</p>
+
+<p>In this example we have a login_form that we want on every page</p>
+
+<pre class="sh_perl">    # root/forms/login.yml:
+    ---
+        indicator: username
+        elements:
+            -
+                type: Text
+                name: username
+                constraints:
+                    - Required
+    ...</pre>
+
+<p>We also have an edit-form</p>
+
+<pre class="sh_perl">    # root/forms/foo/edit.yml
+    ---
+        indicator: foo
+        elements:
+        -
+            type: Text
+            name: foo
+            constraints:
+                - Required
+    ...</pre>
+
+<p>In this example, we want the login form to appear on every page, so we load this in the top-most auto action:</p>
+
+<pre class="sh_perl">    package MyApp::Controller::Root;
+
+    BEGIN { extends &#39;Catalyst::Controller::HTML::FormFu&#39;; }
+
+    sub auto : Private {
+        my ($self, $c) = @_;
+
+        # We want to utilize a lot of the magic that the controller
+        # gives us, so therefore we call $self-&#62;form like this
+
+        my $login_form = $self-&#62;form;
+        $login_form-&#62;load_config_file(&#39;login.yml&#39;);
+
+        # Notice how we put it into another stash var, not &#39;form&#39;
+        $c-&#62;stash-&#62;{login_form} = $login_form;
+        unless ($c-&#62;user_exists) {
+
+            $login_form-&#62;process();
+
+            if ($login_form-&#62;submitted_and_valid) {
+
+                # Since we set indicator, we should only end up here if we
+                # have a username in the form
+                $c-&#62;authenticate({
+                    username =&#62; $login_form-&#62;param_value(&#39;username&#39;),
+                    password =&#62; $login_form-&#62;param_value(&#39;password&#39;),
+                });
+            }
+
+        }
+    }</pre>
+
+<p>Any other page that wants to load another form, can now do so freely:</p>
+
+<pre class="sh_perl">    package MyApp::Controller::Foo;
+
+    sub edit : Local FormConfig {
+        my ( $self, $c ) = @_;
+
+        my $form = $c-&#62;stash-&#62;{form};
+        if ($form-&#62;submitted_and_valid) {
+            # Do whatever you want with it :p
+        }
+    }</pre>
+
+<p>In the view we now have two stash-variables:</p>
+
+<p>In <em>root/foo/edit.tt</em>: [% login_form %] &#60;h2&#62;edit&#60;/h2&#62; [% form %]</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ADVANCED_CUSTOMISATION"
+>ADVANCED CUSTOMISATION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Installing_the_TT_templates"
+>Installing the TT templates</a></h2>
+
+<p>It only makes sense to use the template files if you plan on customising them, as the default <code>string</code> render-method is faster.</p>
+
+<p>As of <code>HTML::FormFu v1.00</code>, <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>TT</a> is no longer listed a required prerequisite - so you&#39;ll need to install it manually if you with to use the template files.</p>
+
+<p>If you&#39;re using the <a href="https://metacpan.org/pod/Catalyst" class="podlinkpod"
+>Catalyst</a> web framework, install <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu" class="podlinkpod"
+>Catalyst::Controller::HTML::FormFu</a> and run the following command:</p>
+
+<pre class="sh_perl">    $ script/myapp_create.pl HTML::FormFu</pre>
+
+<p>This will create a directory, <code>root/formfu</code>, containing the HTML::FormFu template files.</p>
+
+<p>If you extend <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu" class="podlinkpod"
+>Catalyst::Controller::HTML::FormFu</a> and you don&#39;t set HTML::FormFu&#39;s INCLUDE_PATH yourself, it will automatically be set to <code>root/formfu</code> if that directory exists.</p>
+
+<p>If you&#39;re not using <a href="https://metacpan.org/pod/Catalyst" class="podlinkpod"
+>Catalyst</a>, you can create the template files by running the following command:</p>
+
+<pre class="sh_perl">      $ html_formfu_deploy.pl &#60;target-directory&#62;</pre>
+
+<p>Take note that if you choose to customise your own copy of HTML::FormFu&#39;s template files, you&#39;ll need to keep track of the <code>Changes</code> file, when updating HTML::FormFu, so that you can update your own templates if the core templates are updated.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PERFORMANCE"
+>PERFORMANCE</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Catalyst::Plugin::StackTrace"
+>Catalyst::Plugin::StackTrace</a></h2>
+
+<p>If you&#39;re using <a href="https://metacpan.org/pod/Catalyst%3A%3APlugin%3A%3AStackTrace" class="podlinkpod"
+>Catalyst::Plugin::StackTrace</a>, make sure you&#39;re using at least version <code>0.09</code> - earlier versions had performance problems with <code>HTML::FormFu</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Template::Alloy"
+>Template::Alloy</a></h2>
+
+<p>You can also use <a href="https://metacpan.org/pod/Template%3A%3AAlloy" class="podlinkpod"
+>Template::Alloy</a> instead of <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template::Toolkit</a>, it&#39;s mostly compatible, and in many cases provides a reasonable speed increase. You can do this either by setting the <code>HTML_FORMFU_TEMPLATE_ALLOY</code> environment variable to a true value, or by passing <code>TEMPLATE_ALLOY</code> to <a href="/pod/HTML/FormFu.html#tt_args" class="podlinkpod"
+>&#34;tt_args&#34; in HTML::FormFu</a>:</p>
+
+<pre class="sh_perl">    tt_args:
+      TEMPLATE_ALLOY: 1
+      COMPILE_DIR: /tmp
+      COMPILE_PERL: 1</pre>
+
+<p>Template::Alloy&#39;s caching is off by default. Switch it on by setting either <code>COMPILE_EXT</code> or <code>COMPILE_DIR</code>. If you&#39;re running under a persistent environment such as modperl or fastcgi, you should also set <code>COMPILE_PERL</code> to compile the cached templates down to perl code.</p>
+
+<p>Of course, if you wish you can still use <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template::Toolkit</a> to process your own application templates, letting <a href="https://metacpan.org/pod/Template%3A%3AAlloy" class="podlinkpod"
+>Template::Alloy</a> process just the HTML::FormFu templates.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="HTML:FormFu::Preload"
+>HTML:FormFu::Preload</a></h2>
+
+<p>To reduce the runtime for each form that uses a previously unused element or processor - at the expense of greater memory usage - you can preload all FormFu modules - this is only recommended for persistent environments such as modperl or fastcgi:</p>
+
+<pre class="sh_perl">    use HTML::FormFu::Preload;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FAQs"
+>FAQs</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Force_an_element_to_always_have_a_certain_value"
+>Force an element to always have a certain value</a></h2>
+
+<p>See the following:</p>
+
+<p><a href="/pod/HTML/FormFu/Role/Element/Field.html#retain_default" class="podlinkpod"
+>&#34;retain_default&#34; in HTML::FormFu::Role::Element::Field</a>, <a href="/pod/HTML/FormFu/Role/Element/Field.html#force_default" class="podlinkpod"
+>&#34;force_default&#34; in HTML::FormFu::Role::Element::Field</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<p>Will Hawes <code>wdhawes@gmail.com</code></p>
+
+<p>Carl Franks <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT"
+>COPYRIGHT</a></h1>
+
+<p>This document is free, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

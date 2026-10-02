@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Element</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Element</div>
+    <!--HTML::FormFu::Element--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+    <li class='indexItem indexItem2'><a href='#is_field'>is_field</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#BUILDING_AN_ELEMENT'>BUILDING AN ELEMENT</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#load_config_file'>load_config_file</a>
+    <li class='indexItem indexItem2'><a href='#load_config_filestem'>load_config_filestem</a>
+    <li class='indexItem indexItem2'><a href='#config_file_path'>config_file_path</a>
+    <li class='indexItem indexItem2'><a href='#config_callback'>config_callback</a>
+    <li class='indexItem indexItem2'><a href='#populate'>populate</a>
+    <li class='indexItem indexItem2'><a href='#stash'>stash</a>
+    <li class='indexItem indexItem2'><a href='#type'>type</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CHANGING_DEFAULT_BEHAVIOUR'>CHANGING DEFAULT BEHAVIOUR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#render_processed_value'>render_processed_value</a>
+    <li class='indexItem indexItem2'><a href='#force_errors'>force_errors</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ELEMENT_ATTRIBUTES'>ELEMENT ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#attributes'>attributes</a>
+    <li class='indexItem indexItem2'><a href='#attrs'>attrs</a>
+    <li class='indexItem indexItem2'><a href='#attributes_xml'>attributes_xml</a>
+    <li class='indexItem indexItem2'><a href='#attrs_xml'>attrs_xml</a>
+    <li class='indexItem indexItem2'><a href='#add_attributes'>add_attributes</a>
+    <li class='indexItem indexItem2'><a href='#add_attrs'>add_attrs</a>
+    <li class='indexItem indexItem2'><a href='#add_attributes_xml'>add_attributes_xml</a>
+    <li class='indexItem indexItem2'><a href='#add_attrs_xml'>add_attrs_xml</a>
+    <li class='indexItem indexItem2'><a href='#del_attributes'>del_attributes</a>
+    <li class='indexItem indexItem2'><a href='#del_attrs'>del_attrs</a>
+    <li class='indexItem indexItem2'><a href='#del_attributes_xml'>del_attributes_xml</a>
+    <li class='indexItem indexItem2'><a href='#del_attrs_xml'>del_attrs_xml</a>
+    <li class='indexItem indexItem2'><a href='#id'>id</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#MODEL_%2F_DATABASE_INTERACTION'>MODEL / DATABASE INTERACTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#model_config'>model_config</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#RENDERING'>RENDERING</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+    <li class='indexItem indexItem2'><a href='#prepare_id'>prepare_id</a>
+    <li class='indexItem indexItem2'><a href='#prepare_attrs'>prepare_attrs</a>
+    <li class='indexItem indexItem2'><a href='#render'>render</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#INTROSPECTION'>INTROSPECTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#parent'>parent</a>
+    <li class='indexItem indexItem2'><a href='#get_parent'>get_parent</a>
+    <li class='indexItem indexItem2'><a href='#form'>form</a>
+    <li class='indexItem indexItem2'><a href='#clone'>clone</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ADVANCED_CUSTOMISATION'>ADVANCED CUSTOMISATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#tt_args'>tt_args</a>
+    <li class='indexItem indexItem2'><a href='#render_method'>render_method</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CORE_FORM_FIELDS'>CORE FORM FIELDS</a>
+  <li class='indexItem indexItem1'><a href='#OTHER_CORE_ELEMENTS'>OTHER CORE ELEMENTS</a>
+  <li class='indexItem indexItem1'><a href='#ELEMENT_BASE_CLASSES'>ELEMENT BASE CLASSES</a>
+  <li class='indexItem indexItem1'><a href='#REMOVED_METHODS'>REMOVED METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#db'>db</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Element - Element Base Class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: username
+        constraints:
+          - type: Required
+
+      - type: Password
+        name: password
+        constraints:
+          - type: Required
+          - type: Equal
+            others: repeat-password
+
+      - type: Password
+        name: repeat-password
+
+      - type: Submit</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Elements are the basic building block of all forms. Elements may be logical form-fields, blocks such as <code>div</code>s and <code>fieldset</code>s, non-blocks such as <code>hr</code>s and other special elements such as tables.</p>
+
+<p>For simple, automatic handling of fieldsets see the <a href="/pod/HTML/FormFu.html#auto_fieldset" class="podlinkpod"
+>&#34;auto_fieldset&#34; in HTML::FormFu</a> setting.</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#deflators" class="podlinkpod"
+>&#34;deflators&#34; in HTML::FormFu</a> for details of <a href="/pod/HTML/FormFu/Deflator.html" class="podlinkpod"
+>Deflators</a>.</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#FORM_LOGIC_AND_VALIDATION" class="podlinkpod"
+>&#34;FORM LOGIC AND VALIDATION&#34; in HTML::FormFu</a> for details of <a href="/pod/HTML/FormFu/Filter.html" class="podlinkpod"
+>Filters</a>, <a href="/pod/HTML/FormFu/Constraint.html" class="podlinkpod"
+>Constraints</a>, <a href="/pod/HTML/FormFu/Inflator.html" class="podlinkpod"
+>Inflators</a>, <a href="/pod/HTML/FormFu/Validator.html" class="podlinkpod"
+>Validators</a> and <a href="/pod/HTML/FormFu/Transformer.html" class="podlinkpod"
+>Transformers</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<p>For <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>field</a> element, this value is used as the <code>name</code> attribute which the field&#39;s value is associated with.</p>
+
+<p>For all elements, the <a href="#name" class="podlinkpod"
+>&#34;name&#34;</a> value can be useful for identifying and retrieving specific elements.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="is_field"
+>is_field</a></h2>
+
+<p>Return Value: boolean</p>
+
+<p>Returns <code>true</code> or <code>false</code> depending on whether the element is a logical form-field.</p>
+
+<p>This is used by <a href="/pod/HTML/FormFu.html#get_fields" class="podlinkpod"
+>&#34;get_fields&#34; in HTML::FormFu</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUILDING_AN_ELEMENT"
+>BUILDING AN ELEMENT</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="load_config_file"
+>load_config_file</a></h2>
+
+<p>Arguments: $filename</p>
+
+<p>Arguments: \@filenames</p>
+
+<p>Populate an element using a config file:</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Block
+        load_config_file: &#39;elements.yml&#39;</pre>
+
+<p>See <a href="/pod/HTML/FormFu.html#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34; in HTML::FormFu</a> for further details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="load_config_filestem"
+>load_config_filestem</a></h2>
+
+<p>Arguments: $filestem</p>
+
+<p>Arguments: \@filestems</p>
+
+<p>Like <a href="#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34;</a>, but you shouldn&#39;t include the file extension in the passed string. This allows you to change your config-file type, without having to change the code that loads the files.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_file_path"
+>config_file_path</a></h2>
+
+<p>Arguments: $directory_name</p>
+
+<p><a href="#config_file_path" class="podlinkpod"
+>&#34;config_file_path&#34;</a> defines where configuration files will be searched for, if an absolute path is not given to <a href="#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34;</a>.</p>
+
+<p>Default Value: not defined</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_callback"
+>config_callback</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#config_callback" class="podlinkpod"
+>&#34;config_callback&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="populate"
+>populate</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#populate" class="podlinkpod"
+>&#34;populate&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stash"
+>stash</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#stash" class="podlinkpod"
+>&#34;stash&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="type"
+>type</a></h2>
+
+<p>Returns the <code>type</code> argument originally used to create the element.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CHANGING_DEFAULT_BEHAVIOUR"
+>CHANGING DEFAULT BEHAVIOUR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render_processed_value"
+>render_processed_value</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#render_processed_value" class="podlinkpod"
+>&#34;render_processed_value&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="force_errors"
+>force_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#force_errors" class="podlinkpod"
+>&#34;force_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ELEMENT_ATTRIBUTES"
+>ELEMENT ATTRIBUTES</a></h1>
+
+<p>See specific element types for which tag attributes are added to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="attributes"
+>attributes</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="attrs"
+>attrs</a></h2>
+
+<p>Arguments: [%attributes]</p>
+
+<p>Arguments: [\%attributes]</p>
+
+<p>Return Value: $form</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#attributes" class="podlinkpod"
+>&#34;attributes&#34; in HTML::FormFu</a> for details.</p>
+
+<p><a href="#attrs" class="podlinkpod"
+>&#34;attrs&#34;</a> is an alias for <a href="#attributes" class="podlinkpod"
+>&#34;attributes&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="attributes_xml"
+>attributes_xml</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="attrs_xml"
+>attrs_xml</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#attributes_xml" class="podlinkpod"
+>&#34;attributes_xml&#34; in HTML::FormFu</a> for details.</p>
+
+<p><a href="#attrs_xml" class="podlinkpod"
+>&#34;attrs_xml&#34;</a> is an alias for <a href="#attributes_xml" class="podlinkpod"
+>&#34;attributes_xml&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attributes"
+>add_attributes</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attrs"
+>add_attrs</a></h2>
+
+<p>Arguments: [%attributes]</p>
+
+<p>Arguments: [\%attributes]</p>
+
+<p>Return Value: $form</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#add_attributes" class="podlinkpod"
+>&#34;add_attributes&#34; in HTML::FormFu</a> for details.</p>
+
+<p><a href="#add_attrs" class="podlinkpod"
+>&#34;add_attrs&#34;</a> is an alias for <a href="#add_attributes" class="podlinkpod"
+>&#34;add_attributes&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attributes_xml"
+>add_attributes_xml</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_attrs_xml"
+>add_attrs_xml</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#add_attributes_xml" class="podlinkpod"
+>&#34;add_attributes_xml&#34; in HTML::FormFu</a> for details.</p>
+
+<p><a href="#add_attrs_xml" class="podlinkpod"
+>&#34;add_attrs_xml&#34;</a> is an alias for <a href="#add_attributes_xml" class="podlinkpod"
+>&#34;add_attributes_xml&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="del_attributes"
+>del_attributes</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="del_attrs"
+>del_attrs</a></h2>
+
+<p>Arguments: [%attributes]</p>
+
+<p>Arguments: [\%attributes]</p>
+
+<p>Return Value: $form</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#del_attributes" class="podlinkpod"
+>&#34;del_attributes&#34; in HTML::FormFu</a> for details.</p>
+
+<p><a href="#del_attrs" class="podlinkpod"
+>&#34;del_attrs&#34;</a> is an alias for <a href="#del_attributes" class="podlinkpod"
+>&#34;del_attributes&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="del_attributes_xml"
+>del_attributes_xml</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="del_attrs_xml"
+>del_attrs_xml</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#del_attributes_xml" class="podlinkpod"
+>&#34;del_attributes_xml&#34; in HTML::FormFu</a> for details.</p>
+
+<p><a href="#del_attrs_xml" class="podlinkpod"
+>&#34;del_attrs_xml&#34;</a> is an alias for <a href="#del_attributes_xml" class="podlinkpod"
+>&#34;del_attributes_xml&#34;</a>.</p>
+
+<p>The following methods are shortcuts for accessing <a href="#attributes" class="podlinkpod"
+>&#34;attributes&#34;</a> keys.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="id"
+>id</a></h2>
+
+<p>Arguments: [$id]</p>
+
+<p>Return Value: $id</p>
+
+<p>Get or set the element&#39;s DOM id.</p>
+
+<p>Default Value: none</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="MODEL_/_DATABASE_INTERACTION"
+>MODEL / DATABASE INTERACTION</a></h1>
+
+<p>See <a href="/pod/HTML/FormFu/Model.html" class="podlinkpod"
+>HTML::FormFu::Model</a> for further details and available models.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="model_config"
+>model_config</a></h2>
+
+<p>Arguments: \%config</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RENDERING"
+>RENDERING</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<p>This value identifies which template file should be used by <a href="#render" class="podlinkpod"
+>&#34;render&#34;</a> to render the element.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="prepare_id"
+>prepare_id</a></h2>
+
+<p>Arguments: $render</p>
+
+<p>See <a href="/pod/HTML/FormFu/Role/Element/Field.html#prepare_id" class="podlinkpod"
+>&#34;prepare_id&#34; in HTML::FormFu::Role::Element::Field</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="prepare_attrs"
+>prepare_attrs</a></h2>
+
+<p>Arguments: $render</p>
+
+<p>See <a href="/pod/HTML/FormFu/Role/Element/Field.html#prepare_attrs" class="podlinkpod"
+>&#34;prepare_attrs&#34; in HTML::FormFu::Role::Element::Field</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render"
+>render</a></h2>
+
+<p>Return Value: $string</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INTROSPECTION"
+>INTROSPECTION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="parent"
+>parent</a></h2>
+
+<p>Returns the <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>block element</a> or <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>form</a> object that this element is attached to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_parent"
+>get_parent</a></h2>
+
+<p>Arguments: \%options</p>
+
+<pre class="sh_perl">    my $repeatable = $field-&#62;get_parent({ type =&#62; &#39;Repeatable&#39; });</pre>
+
+<p>Traverses the parent hierarchy, returning the first parent that matches the supplied options.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="form"
+>form</a></h2>
+
+<p>Returns the <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> object that the constraint&#39;s field is attached to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clone"
+>clone</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#clone" class="podlinkpod"
+>&#34;clone&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ADVANCED_CUSTOMISATION"
+>ADVANCED CUSTOMISATION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tt_args"
+>tt_args</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#tt_args" class="podlinkpod"
+>&#34;tt_args&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render_method"
+>render_method</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#render_method" class="podlinkpod"
+>&#34;render_method&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CORE_FORM_FIELDS"
+>CORE FORM FIELDS</a></h1>
+
+<dl>
+<dt><a name="HTML::FormFu::Element::Button"
+><a href="/pod/HTML/FormFu/Element/Button.html" class="podlinkpod"
+>HTML::FormFu::Element::Button</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Checkbox"
+><a href="/pod/HTML/FormFu/Element/Checkbox.html" class="podlinkpod"
+>HTML::FormFu::Element::Checkbox</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Checkboxgroup"
+><a href="/pod/HTML/FormFu/Element/Checkboxgroup.html" class="podlinkpod"
+>HTML::FormFu::Element::Checkboxgroup</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::ComboBox"
+><a href="/pod/HTML/FormFu/Element/ComboBox.html" class="podlinkpod"
+>HTML::FormFu::Element::ComboBox</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::ContentButton"
+><a href="/pod/HTML/FormFu/Element/ContentButton.html" class="podlinkpod"
+>HTML::FormFu::Element::ContentButton</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Date"
+><a href="/pod/HTML/FormFu/Element/Date.html" class="podlinkpod"
+>HTML::FormFu::Element::Date</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Email"
+><a href="/pod/HTML/FormFu/Element/Email.html" class="podlinkpod"
+>HTML::FormFu::Element::Email</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::File"
+><a href="/pod/HTML/FormFu/Element/File.html" class="podlinkpod"
+>HTML::FormFu::Element::File</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Hidden"
+><a href="/pod/HTML/FormFu/Element/Hidden.html" class="podlinkpod"
+>HTML::FormFu::Element::Hidden</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Image"
+><a href="/pod/HTML/FormFu/Element/Image.html" class="podlinkpod"
+>HTML::FormFu::Element::Image</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Number"
+><a href="/pod/HTML/FormFu/Element/Number.html" class="podlinkpod"
+>HTML::FormFu::Element::Number</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Password"
+><a href="/pod/HTML/FormFu/Element/Password.html" class="podlinkpod"
+>HTML::FormFu::Element::Password</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Radio"
+><a href="/pod/HTML/FormFu/Element/Radio.html" class="podlinkpod"
+>HTML::FormFu::Element::Radio</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Radiogroup"
+><a href="/pod/HTML/FormFu/Element/Radiogroup.html" class="podlinkpod"
+>HTML::FormFu::Element::Radiogroup</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Reset"
+><a href="/pod/HTML/FormFu/Element/Reset.html" class="podlinkpod"
+>HTML::FormFu::Element::Reset</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Select"
+><a href="/pod/HTML/FormFu/Element/Select.html" class="podlinkpod"
+>HTML::FormFu::Element::Select</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Submit"
+><a href="/pod/HTML/FormFu/Element/Submit.html" class="podlinkpod"
+>HTML::FormFu::Element::Submit</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Textarea"
+><a href="/pod/HTML/FormFu/Element/Textarea.html" class="podlinkpod"
+>HTML::FormFu::Element::Textarea</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Text"
+><a href="/pod/HTML/FormFu/Element/Text.html" class="podlinkpod"
+>HTML::FormFu::Element::Text</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::URL"
+><a href="/pod/HTML/FormFu/Element/URL.html" class="podlinkpod"
+>HTML::FormFu::Element::URL</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OTHER_CORE_ELEMENTS"
+>OTHER CORE ELEMENTS</a></h1>
+
+<dl>
+<dt><a name="HTML::FormFu::Element::Blank"
+><a href="/pod/HTML/FormFu/Element/Blank.html" class="podlinkpod"
+>HTML::FormFu::Element::Blank</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Block"
+><a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>HTML::FormFu::Element::Block</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Fieldset"
+><a href="/pod/HTML/FormFu/Element/Fieldset.html" class="podlinkpod"
+>HTML::FormFu::Element::Fieldset</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Hr"
+><a href="/pod/HTML/FormFu/Element/Hr.html" class="podlinkpod"
+>HTML::FormFu::Element::Hr</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Label"
+><a href="/pod/HTML/FormFu/Element/Label.html" class="podlinkpod"
+>HTML::FormFu::Element::Label</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Multi"
+><a href="/pod/HTML/FormFu/Element/Multi.html" class="podlinkpod"
+>HTML::FormFu::Element::Multi</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Repeatable"
+><a href="/pod/HTML/FormFu/Element/Repeatable.html" class="podlinkpod"
+>HTML::FormFu::Element::Repeatable</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::SimpleTable"
+><a href="/pod/HTML/FormFu/Element/SimpleTable.html" class="podlinkpod"
+>HTML::FormFu::Element::SimpleTable</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::Src"
+><a href="/pod/HTML/FormFu/Element/Src.html" class="podlinkpod"
+>HTML::FormFu::Element::Src</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ELEMENT_BASE_CLASSES"
+>ELEMENT BASE CLASSES</a></h1>
+
+<p>The following are base classes for other elements, and generally needn&#39;t be used directly.</p>
+
+<dl>
+<dt><a name="HTML::FormFu::Role::Element::Field"
+><a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Field</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Role::Element::Group"
+><a href="/pod/HTML/FormFu/Role/Element/Group.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Group</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Role::Element::Input"
+><a href="/pod/HTML/FormFu/Role/Element/Input.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Input</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::_MultiElement"
+><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AElement%3A%3A_MultiElement" class="podlinkpod"
+>HTML::FormFu::Element::_MultiElement</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::_MultiSelect"
+><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AElement%3A%3A_MultiSelect" class="podlinkpod"
+>HTML::FormFu::Element::_MultiSelect</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Element::_MultiText"
+><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AElement%3A%3A_MultiText" class="podlinkpod"
+>HTML::FormFu::Element::_MultiText</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Role::Element::NonBlock"
+><a href="/pod/HTML/FormFu/Role/Element/NonBlock.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::NonBlock</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REMOVED_METHODS"
+>REMOVED METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="db"
+>db</a></h2>
+
+<p>Has been removed; use <a href="#default_args" class="podlinkpod"
+>&#34;default_args&#34;</a> instead.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

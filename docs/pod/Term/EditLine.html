@@ -17,6 +17,7 @@
 <div class='indexgroup'>
 <ul   class='indexList indexList1'>
   <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
   <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
   <ul   class='indexList indexList2'>
@@ -30,7 +31,7 @@
   <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
   <li class='indexItem indexItem1'><a href='#SUPPORT'>SUPPORT</a>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
-  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
   <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
 </ul>
 </div>
@@ -42,20 +43,26 @@ name="NAME"
 <p>Term::EditLine - Perl interface to the NetBSD editline library</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.12</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
 >SYNOPSIS</a></h1>
 
 <pre class="sh_perl">  use Term::EditLine qw(CC_EOF);
-
+ 
   my $el = Term::EditLine-&#62;new(&#39;progname&#39;);
   $el-&#62;set_prompt (&#39;# &#39;);
-
+ 
   $el-&#62;add_fun (&#39;bye&#39;,&#39;desc&#39;,sub { print &#34;\nbye\n&#34;; return CC_EOF; });
-
+ 
   $el-&#62;parse(&#39;bind&#39;,&#39;-e&#39;);
   $el-&#62;parse(&#39;bind&#39;,&#39;^D&#39;,&#39;bye&#39;);
-
-  while (defined($_ = $el-&#62;gets())) {
+ 
+  while (defined(my $line = $el-&#62;gets())) {
     $el-&#62;history_enter($_);
     print $_;
   }</pre>
@@ -81,7 +88,7 @@ name="Functions"
 >gets</a></dt>
 
 <dd>
-<p>Read a line from the tty. If successful returns the line read, or undef if no characters where read or if an error occured.</p>
+<p>Read a line from the tty. If successful returns the line read, or undef if no characters were read or if an error occurred.</p>
 
 <dt><a name="set_prompt_(_PROMPT_)"
 >set_prompt ( PROMPT )</a></dt>
@@ -122,47 +129,47 @@ name="Functions"
 <pre class="sh_perl">  use Term::EditLine;
   use IO::Socket;
   use strict;
-
+ 
   my ($sock,$el,$rin,$buf);
-
+ 
   $sock = IO::Socket::INET-&#62;new(&#34;$ARGV[0]:$ARGV[1]&#34;) or die &#34;...&#34;;
-
+ 
   $rin = &#39;&#39;;
   vec($rin,fileno($sock),1) = 1;
   vec($rin,fileno(STDIN),1) = 1;
-
+ 
   $el = Term::EditLine-&#62;new(&#39;example&#39;);
-
+ 
   $el-&#62;set_prompt(&#39;$ &#39;);
   $el-&#62;set_getc_fun(\&#38;get_c);
   $el-&#62;bind(&#39;-e&#39;);
-
+ 
   while (defined($_ = $el-&#62;gets)) {
     chomp;
     syswrite($sock,&#34;$_\n&#34;,length($_)+1);
   }
-
+ 
   sub get_c {
     my ($tmp,$i,$c);
     while (1) {
       my $rout = $rin;
       if (select ($rout,undef,undef,0.1)) {
         if (vec($rout,fileno($sock),1)) {
-          if(sysread ($sock,$tmp,1024)) {
-            $tmp = $buf . $tmp;
-          }
-          while (($i = index($tmp,&#34;\n&#34;)) != -1) {
-            $_ = substr ($tmp,0,$i);
-            chomp ($_);
-            print &#34;\r\e[0J&#34;;                 # ugly
-            print &#34;$_\n&#34;. $el-&#62;get_prompt(); # hack!
-            $tmp = substr($tmp,$i+1&#60;=length($tmp)?$i+1:length($i+1));
-          }
-          $buf = $tmp;
+      if(sysread ($sock,$tmp,1024)) {
+        $tmp = $buf . $tmp;
+      }
+      while (($i = index($tmp,&#34;\n&#34;)) != -1) {
+        $_ = substr ($tmp,0,$i);
+        chomp ($_);
+        print &#34;\r\e[0J&#34;;                 # ugly
+        print &#34;$_\n&#34;. $el-&#62;get_prompt(); # hack!
+        $tmp = substr($tmp,$i+1&#60;=length($tmp)?$i+1:length($i+1));
+      }
+      $buf = $tmp;
         }
         if (vec($rout,fileno(STDIN),1)) {
-          sysread(STDIN,$c,1);
-          return $c;
+      sysread(STDIN,$c,1);
+      return $c;
         }
       }
     }
@@ -330,13 +337,13 @@ name="SUPPORT"
 
 <p>To report bugs, please use the GitHub bugtracker:</p>
 
-<p><a href="https://github.com/plicease/Term-EditLine/issues" class="podlinkurl"
->https://github.com/plicease/Term-EditLine/issues</a></p>
+<p><a href="https://github.com/uperl/Term-EditLine/issues" class="podlinkurl"
+>https://github.com/uperl/Term-EditLine/issues</a></p>
 
 <p>To submit patches, please create a pull request on GitHub:</p>
 
-<p><a href="https://github.com/plicease/Term-EditLine/pulls" class="podlinkurl"
->https://github.com/plicease/Term-EditLine/pulls</a></p>
+<p><a href="https://github.com/uperl/Term-EditLine/pulls" class="podlinkurl"
+>https://github.com/uperl/Term-EditLine/pulls</a></p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SEE_ALSO"
@@ -357,24 +364,22 @@ name="SEE_ALSO"
 </dl>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
-name="AUTHOR"
->AUTHOR</a></h1>
+name="AUTHORS"
+>AUTHORS</a></h1>
 
-<p>Original Author:</p>
+<ul>
+<li>Ulrich Burgbacher &#60;ulrich@burgbacher.net&#62;</li>
 
-<p>Ulrich Burgbacher, &#60;ulrich@burgbacher.net&#62;</p>
-
-<p>Current Maintainer:</p>
-
-<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>Copyright 2003 by Ulrich Burgbacher</p>
+<p>This software is copyright (c) 2003-2026 by Ulrich Burgbacher.</p>
 
-<p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
 
     <div class="nx-footer">

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::QueryType::Catalyst</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::QueryType::Catalyst</div>
+    <!--HTML::FormFu::QueryType::Catalyst--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#headers'>headers</a>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+    <li class='indexItem indexItem2'><a href='#fh'>fh</a>
+    <li class='indexItem indexItem2'><a href='#slurp'>slurp</a>
+    <li class='indexItem indexItem2'><a href='#basename'>basename</a>
+    <li class='indexItem indexItem2'><a href='#size'>size</a>
+    <li class='indexItem indexItem2'><a href='#tempname'>tempname</a>
+    <li class='indexItem indexItem2'><a href='#type'>type</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#REMOVED_METHODS'>REMOVED METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#catalyst_upload'>catalyst_upload</a>
+    <li class='indexItem indexItem2'><a href='#copy_to'>copy_to</a>
+    <li class='indexItem indexItem2'><a href='#link_to'>link_to</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::QueryType::Catalyst - uploaded file</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>If you use <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu" class="podlinkpod"
+>Catalyst::Controller::HTML::FormFu</a>,
+it will automatically set <a href="/pod/HTML/FormFu.html#query_type" class="podlinkpod"
+>&#34;query_type&#34; in HTML::FormFu</a> to <code>Catalyst</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="headers"
+>headers</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="fh"
+>fh</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="slurp"
+>slurp</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="basename"
+>basename</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="size"
+>size</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tempname"
+>tempname</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="type"
+>type</a></h2>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REMOVED_METHODS"
+>REMOVED METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="catalyst_upload"
+>catalyst_upload</a></h2>
+
+<p>We no longer keep a reference to the <a href="https://metacpan.org/pod/Catalyst%3A%3ARequest%3A%3AUpload" class="podlinkpod"
+>Catalyst::Request::Upload</a> object,
+as it was causing issues under <a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AMultiForm" class="podlinkpod"
+>HTML::FormFu::MultiForm</a> after the <a href="https://metacpan.org/pod/Catalyst" class="podlinkpod"
+>Catalyst</a> 5.8 move to <a href="https://metacpan.org/pod/Moose" class="podlinkpod"
+>Moose</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="copy_to"
+>copy_to</a></h2>
+
+<p>Because <a href="#catalyst_upload" class="podlinkpod"
+>&#34;catalyst_upload&#34;</a> has been removed,
+we can no-longer call this <a href="https://metacpan.org/pod/Catalyst%3A%3ARequest%3A%3AUpload" class="podlinkpod"
+>Catalyst::Request::Upload</a> method.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="link_to"
+>link_to</a></h2>
+
+<p>Because <a href="#catalyst_upload" class="podlinkpod"
+>&#34;catalyst_upload&#34;</a> has been removed,
+we can no-longer call this <a href="https://metacpan.org/pod/Catalyst%3A%3ARequest%3A%3AUpload" class="podlinkpod"
+>Catalyst::Request::Upload</a> method.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Is a sub-class of,
+and inherits methods from <a href="/pod/HTML/FormFu/Upload.html" class="podlinkpod"
+>HTML::FormFu::Upload</a></p>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a>,
+<a href="/pod/HTML/FormFu/Element/File.html" class="podlinkpod"
+>HTML::FormFu::Element::File</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks,
+<code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software,
+you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026,
+2018,
+2016,
+2015,
+2012,
+2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Inflator::DateTime</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::<a href="/pod/HTML/FormFu/Inflator.html">Inflator</a>::DateTime</div>
+    <!--HTML::FormFu::Inflator::DateTime--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#parser'>parser</a>
+    <li class='indexItem indexItem2'><a href='#strptime'>strptime</a>
+    <li class='indexItem indexItem2'><a href='#time_zone'>time_zone</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Inflator::DateTime - DateTime inflator</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: start_date
+        inflators:
+          - type: DateTime
+            parser:
+              strptime: &#39;%d-%m-%Y&#39;
+            strptime:
+              pattern: &#39;%d-%b-%Y&#39;
+              locale: de
+
+      - type: Text
+        name: end_time
+        inflators:
+          - type: DateTime
+            time_zone: Europe/Rome
+            parser:
+              regex: &#39;^ (\d{2}) - (\d{2}) - (\d{4}) $&#39;
+              params: [day, month, year]
+            strptime: &#39;%d-%m-%Y&#39;</pre>
+
+<p>An example of using the same parser declaration for both a DateTime constraint and a DateTime inflator, using YAML references:</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: date
+        constraints:
+          - type: DateTime
+            parser: &#38;PARSER
+              strptime: &#39;%d-%m-%Y&#39;
+        inflators:
+          - type: DateTime
+            parser: *PARSER</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Inflate dates into <a href="https://metacpan.org/pod/DateTime" class="podlinkpod"
+>DateTime</a> objects.</p>
+
+<p>For a corresponding deflator, see <a href="/pod/HTML/FormFu/Deflator/Strftime.html" class="podlinkpod"
+>HTML::FormFu::Deflator::Strftime</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="parser"
+>parser</a></h2>
+
+<p>Arguments: \%args</p>
+
+<p>Required. Define the expected input string, so <a href="https://metacpan.org/pod/DateTime%3A%3AFormat%3A%3ABuilder" class="podlinkpod"
+>DateTime::Format::Builder</a> knows how to inflate it into a <a href="https://metacpan.org/pod/DateTime" class="podlinkpod"
+>DateTime</a> object.</p>
+
+<p>Accepts arguments to be passed to <a href="https://metacpan.org/pod/DateTime%3A%3AFormat%3A%3ABuilder#parser" class="podlinkpod"
+>&#34;parser&#34; in DateTime::Format::Builder</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="strptime"
+>strptime</a></h2>
+
+<p>Arguments: \%args</p>
+
+<p>Arguments: $string</p>
+
+<p>Optional. Define the format that should be used if the <a href="https://metacpan.org/pod/DateTime" class="podlinkpod"
+>DateTime</a> object is stringified.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="time_zone"
+>time_zone</a></h2>
+
+<p>Arguments: $string</p>
+
+<p>Optional. You can pass along a time_zone in which the DateTime will be created. This is useful if the string to parse does not contain time zone information and you want the DateTime to be in a specific zone instead of the floating one (which is likely).</p>
+
+<p>Accepts a hashref of arguments to be passed to <a href="https://metacpan.org/pod/DateTime%3A%3AFormat%3A%3AStrptime#new" class="podlinkpod"
+>&#34;new&#34; in DateTime::Format::Strptime</a>. Alternatively, accepts a single string argument, suitable for passing to <code>DateTime::Format::Strptime-&#62;new( pattern =&#62; $string )</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

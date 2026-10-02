@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Manual::Unicode</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Manual::Unicode</div>
+    <!--Unicode.pod--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#ASSUMPTIONS'>ASSUMPTIONS</a>
+  <li class='indexItem indexItem1'><a href='#BASICS'>BASICS</a>
+  <li class='indexItem indexItem1'><a href='#INPUT'>INPUT</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Input_parameters_from_the_browser'>Input parameters from the browser</a>
+    <li class='indexItem indexItem2'><a href='#Data_from_the_database'>Data from the database</a>
+    <li class='indexItem indexItem2'><a href='#Your_template_files'>Your template files</a>
+    <li class='indexItem indexItem2'><a href='#HTML%3A%3AFormFu%27s_own_template_files'>HTML::FormFu&#39;s own template files</a>
+    <li class='indexItem indexItem2'><a href='#HTML%3A%3AFormFu_form_configuration_files'>HTML::FormFu form configuration files</a>
+    <li class='indexItem indexItem2'><a href='#Your_perl_source_code'>Your perl source code</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#OUTPUT'>OUTPUT</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Data_saved_to_the_database'>Data saved to the database</a>
+    <li class='indexItem indexItem2'><a href='#HTML_sent_to_the_browser'>HTML sent to the browser</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CHANGES_REQUIRED'>CHANGES REQUIRED</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Catalyst_Configuration'>Catalyst Configuration</a>
+    <li class='indexItem indexItem2'><a href='#DBIx%3A%3AClass_Configuration'>DBIx::Class Configuration</a>
+    <li class='indexItem indexItem2'><a href='#TT_Configuration'>TT Configuration</a>
+    <li class='indexItem indexItem2'><a href='#HTML%3A%3AFormFu_Template_Configuration'>HTML::FormFu Template Configuration</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT'>COPYRIGHT</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Unicode.pod - Working with unicode</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Working with unicode.</p>
+
+<p>For a practical example,
+see the Catalyst application in the <code>examples/unicode</code> directory in this distribution.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ASSUMPTIONS"
+>ASSUMPTIONS</a></h1>
+
+<p>In this tutorial,
+we&#39;re assuming that all encodings are UTF-8.
+It&#39;s relatively simple to combine different encodings from different sources,
+but that&#39;s beyond the scope of this tutorial.</p>
+
+<p>For simplicity,
+we&#39;re also going to assume that you&#39;re using <a href="https://metacpan.org/pod/Catalyst" class="podlinkpod"
+>Catalyst</a> for your web-framework,
+<a href="https://metacpan.org/pod/DBIx%3A%3AClass" class="podlinkpod"
+>DBIx::Class</a> for your database ORM,
+<a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>TT</a> for your templating system,
+and YAML format <code>HTML::FormFu</code> configuration files,
+with <a href="https://metacpan.org/pod/YAML%3A%3AXS" class="podlinkpod"
+>YAML::XS</a> installed.
+However,
+the principles we&#39;ll cover should translate to whatever technologies you chose to work with.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BASICS"
+>BASICS</a></h1>
+
+<p>To make it short and sweet: you must decode all data going into your program,
+and encode all data coming from your program.</p>
+
+<p>Skip to <a href="#CHANGES_REQUIRED" class="podlinkpod"
+>&#34;CHANGES REQUIRED&#34;</a> if you want to see what you need to do without any other explanation.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INPUT"
+>INPUT</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Input_parameters_from_the_browser"
+>Input parameters from the browser</a></h2>
+
+<p>If you&#39;re using <code>Catalyst</code>,
+<a href="https://metacpan.org/pod/Catalyst%3A%3APlugin%3A%3AUnicode" class="podlinkpod"
+>Catalyst::Plugin::Unicode</a> will decode all input parameters sent from the browser to your application - see <a href="#Catalyst_Configuration" class="podlinkpod"
+>&#34;Catalyst Configuration&#34;</a>.</p>
+
+<p>If you&#39;re using some other framework or,
+in any case,
+you need to decode the input parameters yourself,
+please take a look at <a href="/pod/HTML/FormFu/Filter/Encode.html" class="podlinkpod"
+>HTML::FormFu::Filter::Encode</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Data_from_the_database"
+>Data from the database</a></h2>
+
+<p>If you&#39;re using <a href="https://metacpan.org/pod/DBIx%3A%3AClass" class="podlinkpod"
+>DBIx::Class</a>,
+<a href="https://metacpan.org/pod/DBIx%3A%3AClass%3A%3AUTF8Columns" class="podlinkpod"
+>DBIx::Class::UTF8Columns</a> is likely the best options,
+as it will decode all input retrieved from the database - see <a href="#DBIx%3A%3AClass_Configuration" class="podlinkpod"
+>&#34;DBIx::Class Configuration&#34;</a>.</p>
+
+<p>In other cases (i.e.
+plain DBI),
+you still need to decode the string data coming from the database.
+This varies depending on the database server.
+For MySQL,
+for instance,
+you can use the <code>mysql_enable_utf8</code> attribute: see <a href="https://metacpan.org/pod/DBD%3A%3Amysql" class="podlinkpod"
+>DBD::mysql</a> documentation for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Your_template_files"
+>Your template files</a></h2>
+
+<p>Set TT to decode all template files - see <a href="#TT_Configuration" class="podlinkpod"
+>&#34;TT Configuration&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="HTML::FormFu&#39;s_own_template_files"
+>HTML::FormFu&#39;s own template files</a></h2>
+
+<p>Set <code>HTML::FormFu</code> to decode all template files - see <a href="#HTML%3A%3AFormFu_Template_Configuration" class="podlinkpod"
+>&#34;HTML::FormFu Template Configuration&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="HTML::FormFu_form_configuration_files"
+>HTML::FormFu form configuration files</a></h2>
+
+<p>If you&#39;re using <code>YAML</code> config files,
+your files will automatically be decoded by <code>load_config_file|HTML::FormFu/load_config_file</code> and <code>load_config_filestem|HTML::FormFu/load_config_filestem</code>.</p>
+
+<p>If you have <a href="https://metacpan.org/pod/Config%3A%3AGeneral" class="podlinkpod"
+>Config::General</a> config files,
+your files will automatically be decoded by <code>load_config_file|HTML::FormFu/load_config_file</code> and <code>load_config_filestem|HTML::FormFu/load_config_filestem</code>,
+which automatically sets <a href="https://metacpan.org/pod/Config%3A%3AGeneral" class="podlinkpod"
+>Config::General&#39;s</a> <code>-UTF8</code> setting.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Your_perl_source_code"
+>Your perl source code</a></h2>
+
+<p>Any perl source files which contain Unicode characters must use the <a href="https://metacpan.org/pod/utf8" class="podlinkpod"
+>utf8</a> module.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OUTPUT"
+>OUTPUT</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Data_saved_to_the_database"
+>Data saved to the database</a></h2>
+
+<p>With <code>DBIx::Class</code>,
+<a href="https://metacpan.org/pod/DBIx%3A%3AClass%3A%3AUTF8Columns" class="podlinkpod"
+>DBIx::Class::UTF8Columns</a> will encode all data sent to the database - see <a href="#DBIx%3A%3AClass_Configuration" class="podlinkpod"
+>&#34;DBIx::Class Configuration&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="HTML_sent_to_the_browser"
+>HTML sent to the browser</a></h2>
+
+<p>With <code>Catalyst</code>,
+<a href="https://metacpan.org/pod/Catalyst%3A%3APlugin%3A%3AUnicode" class="podlinkpod"
+>Catalyst::Plugin::Unicode</a> will encode all output sent from your application to the browser - see <a href="#Catalyst_Configuration" class="podlinkpod"
+>&#34;Catalyst Configuration&#34;</a>.</p>
+
+<p>In other circumstances you need to be sure to output your Unicode (decoded) strings in UTF-8.
+To do this you can encode your output before it&#39;s sent to the browser with something like:</p>
+
+<pre class="sh_perl">    use utf8;
+    if ( $output &#38;&#38; utf8::is_utf8($output) ){
+        utf8::encode( $output ); # Encodes in-place
+    }</pre>
+
+<p>Another option is to set the <code>binmode</code> for <code>STDOUT</code>:</p>
+
+<pre class="sh_perl">    bindmode STDOUT, &#39;:utf8&#39;;</pre>
+
+<p>However, be sure to do this <b>only</b> when sending UTF-8 data: if you&#39;re serving images, PFD files, etc, <code>binmode</code> should remain set to <code>:raw</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CHANGES_REQUIRED"
+>CHANGES REQUIRED</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Catalyst_Configuration"
+>Catalyst Configuration</a></h2>
+
+<p>Add <a href="https://metacpan.org/pod/Catalyst%3A%3APlugin%3A%3AUnicode" class="podlinkpod"
+>Catalyst::Plugin::Unicode</a> to the list of Catalyst plugins:</p>
+
+<pre class="sh_perl">    use Catalyst qw( ConfigLoader Static::Simple Unicode );</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="DBIx::Class_Configuration"
+>DBIx::Class Configuration</a></h2>
+
+<p>Add <a href="https://metacpan.org/pod/DBIx%3A%3AClass%3A%3AUTF8Columns" class="podlinkpod"
+>DBIx::Class::UTF8Columns</a> to the list of components loaded, for each table that has columns storing unicode:</p>
+
+<pre class="sh_perl">    __PACKAGE__-&#62;load_components( qw( UTF8Columns HTML::FormFu PK::Auto Core ) );</pre>
+
+<p>Pass each column name that will store unicode to <code>utf8_columns()</code>:</p>
+
+<pre class="sh_perl">    __PACKAGE__-&#62;utf8_columns( qw( lastname firstname ) );</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="TT_Configuration"
+>TT Configuration</a></h2>
+
+<p>Tell TT to decode all template files, by adding the following to your application config in MyApp.pm</p>
+
+<pre class="sh_perl">    package MyApp;
+        use parent &#39;Catalyst&#39;;
+    use Catalyst qw( ConfigLoader );
+
+    MyApp-&#62;config({
+        &#39;View::TT&#39; =&#62; {
+            ENCODING =&#62; &#39;UTF-8&#39;,
+        },
+    });
+
+    1;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="HTML::FormFu_Template_Configuration"
+>HTML::FormFu Template Configuration</a></h2>
+
+<p>Make <code>HTML::FormFu</code> tell TT to decode all template files, by adding the following to your <code>myapp.yml</code> Catalyst configuration file:</p>
+
+<pre class="sh_perl">    package MyApp;
+        use parent &#39;Catalyst&#39;;
+    use Catalyst qw( ConfigLoader );
+
+    MyApp-&#62;config({
+        &#39;Controller::HTML::FormFu&#39; =&#62; {
+            constructor =&#62; {
+                tt_args =&#62; {
+                    ENCODING =&#62; &#39;UTF-8&#39;,
+                },
+            },
+        },
+    });
+
+    1;</pre>
+
+<p>These above 2 examples should be combined, like so:</p>
+
+<pre class="sh_perl">    package MyApp;
+        use parent &#39;Catalyst&#39;;
+    use Catalyst qw( ConfigLoader );
+
+    MyApp-&#62;config({
+        &#39;Controller::HTML::FormFu&#39; =&#62; {
+            constructor =&#62; {
+                tt_args =&#62; {
+                    ENCODING =&#62; &#39;UTF-8&#39;,
+                },
+            },
+        },
+        &#39;View::TT&#39; =&#62; {
+            ENCODING =&#62; &#39;UTF-8&#39;,
+        },
+    });
+
+    1;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHORS"
+>AUTHORS</a></h1>
+
+<p>Carl Franks <code>cfranks@cpan.org</code> Michele Beltrame <code>arthas@cpan.org</code> (contributions)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT"
+>COPYRIGHT</a></h1>
+
+<p>This document is free, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

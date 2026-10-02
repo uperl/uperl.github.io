@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Element::Repeatable</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::<a href="/pod/HTML/FormFu/Element.html">Element</a>::Repeatable</div>
+    <!--HTML::FormFu::Element::Repeatable--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#repeat'>repeat</a>
+    <li class='indexItem indexItem2'><a href='#counter_name'>counter_name</a>
+    <li class='indexItem indexItem2'><a href='#max_counter'>max_counter</a>
+    <li class='indexItem indexItem2'><a href='#counter_clamped'>counter_clamped</a>
+    <li class='indexItem indexItem2'><a href='#increment_field_names'>increment_field_names</a>
+    <li class='indexItem indexItem2'><a href='#repeatable_count'>repeatable_count</a>
+    <li class='indexItem indexItem2'><a href='#repeatable_count_no_inherit'>repeatable_count_no_inherit</a>
+    <li class='indexItem indexItem2'><a href='#nested_name'>nested_name</a>
+    <li class='indexItem indexItem2'><a href='#attributes'>attributes</a>
+    <li class='indexItem indexItem2'><a href='#attrs'>attrs</a>
+    <li class='indexItem indexItem2'><a href='#tag'>tag</a>
+    <li class='indexItem indexItem2'><a href='#auto_id'>auto_id</a>
+    <li class='indexItem indexItem2'><a href='#content'>content</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Unsupported_Constraints'>Unsupported Constraints</a>
+    <li class='indexItem indexItem2'><a href='#Work-arounds'>Work-arounds</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Element::Repeatable - repeatable block element</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Repeatable
+        name: my_rep
+        elements:
+          - name: foo
+          - name: bar</pre>
+
+<p>Calling <code>$element-&#62;repeat(2)</code> would result in the following markup:</p>
+
+<pre class="sh_perl">    &#60;div&#62;
+        &#60;input name=&#34;my_rep.foo_1&#34; type=&#34;text&#34; /&#62;
+        &#60;input name=&#34;my_rep.bar_1&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;
+    &#60;div&#62;
+        &#60;input name=&#34;my_rep.foo_2&#34; type=&#34;text&#34; /&#62;
+        &#60;input name=&#34;my_rep.bar_2&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;</pre>
+
+<p>Example of constraints:</p>
+
+<pre class="sh_perl">    ----
+    elements:
+      - type: Repeatable
+        name: my_rep
+        elements:
+          - name: id
+
+          - name: foo
+            constraints:
+              - type: Required
+                when:
+                  field: &#39;my_rep.id&#39; # use full nested-name
+
+          - name: bar
+            constraints:
+              - type: Equal
+                others: &#39;my_rep.foo&#39; # use full nested-name</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Provides a way to extend a form at run-time, by copying and repeating its child elements.</p>
+
+<p>The elements intended for copying must be added before <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a> is called.</p>
+
+<p>Although the Repeatable element inherits from <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>Block</a>, it doesn&#39;t generate a block tag around all the repeated elements - instead it places each repeat of the elements in a new <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>Block</a> element, which inherits the Repeatable&#39;s display settings, such as <a href="#attributes" class="podlinkpod"
+>&#34;attributes&#34;</a> and <a href="#tag" class="podlinkpod"
+>&#34;tag&#34;</a>.</p>
+
+<p>For all constraints attached to fields within a Repeatable block which use either <a href="/pod/HTML/FormFu/Role/Constraint/Others.html#others" class="podlinkpod"
+>others</a> or <a href="/pod/HTML/FormFu/Constraint.html#when" class="podlinkpod"
+>when</a> containing names of fields within the same Repeatable block, when <a href="https://metacpan.org/pod/repeat" class="podlinkpod"
+>repeat</a> is called, those names will automatically be updated to the new nested-name for each field (taking into account <a href="https://metacpan.org/pod/increment_field_names" class="podlinkpod"
+>increment_field_names</a>).</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="repeat"
+>repeat</a></h2>
+
+<p>Arguments: [$count]</p>
+
+<p>Return Value: $arrayref_of_new_child_blocks</p>
+
+<p>This method creates <code>$count</code> number of copies of the child elements. If no argument <code>$count</code> is provided, it defaults to <code>1</code>.</p>
+
+<p>Note that <code>$form-&#62;process</code> will call <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a> automatically to ensure the initial child elements are correctly set up - unless you call <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a> manually first, in which case the child elements you created will be left untouched (otherwise <a href="/pod/HTML/FormFu.html#process" class="podlinkpod"
+>process</a> would overwrite your changes).</p>
+
+<p>Any subsequent call to <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a> will delete the previously copied elements before creating new copies - this means you cannot make repeated calls to <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a> within a loop to create more copies.</p>
+
+<p>Each copy of the elements returned are contained in a new <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>Block</a> element. For example, calling <code>$element-&#62;repeat(2)</code> on a Repeatable element containing 2 Text fields would return 2 <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>Block</a> elements, each containing a copy of the 2 Text fields.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="counter_name"
+>counter_name</a></h2>
+
+<p>Arguments: $name</p>
+
+<p>If true, the <a href="/pod/HTML/FormFu.html#query" class="podlinkpod"
+>&#34;query&#34; in HTML::FormFu</a> will be searched during <a href="/pod/HTML/FormFu.html#process" class="podlinkpod"
+>&#34;process&#34; in HTML::FormFu</a> for a parameter with the given name. The value for that parameter will be passed to <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a>, to automatically create the new copies.</p>
+
+<p>If <a href="#increment_field_names" class="podlinkpod"
+>&#34;increment_field_names&#34;</a> is true (the default), this is essential: if the elements corresponding to the new fieldnames (foo_1, bar_2, etc.) are not present on the form during <a href="/pod/HTML/FormFu.html#process" class="podlinkpod"
+>&#34;process&#34; in HTML::FormFu</a>, no Processors (Constraints, etc.) will be run on the fields, and their values will not be returned by <a href="/pod/HTML/FormFu.html#params" class="podlinkpod"
+>&#34;params&#34; in HTML::FormFu</a> or <a href="/pod/HTML/FormFu.html#param" class="podlinkpod"
+>&#34;param&#34; in HTML::FormFu</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="max_counter"
+>max_counter</a></h2>
+
+<p>Arguments: $number</p>
+
+<p>Default Value: <code>100</code></p>
+
+<p>The largest repeat count that will be accepted from the <a href="#counter_name" class="podlinkpod"
+>&#34;counter_name&#34;</a> query parameter. A larger client-supplied value is clamped to this number.</p>
+
+<p>The default is inherited from <a href="/pod/HTML/FormFu.html#repeatable_max_counter" class="podlinkpod"
+>&#34;repeatable_max_counter&#34; in HTML::FormFu</a>, so setting that on the form sets the default for all its Repeatable elements.</p>
+
+<p>Set to <code>0</code> to accept any client-supplied count without clamping. Doing so lets a single request drive an unbounded number of element clones.</p>
+
+<p>Calling <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a> from application code is not affected by this setting, so a form repeated once per database row is unaffected however many rows there are.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="counter_clamped"
+>counter_clamped</a></h2>
+
+<p>Read-only boolean. True if the most recent <a href="/pod/HTML/FormFu.html#process" class="podlinkpod"
+>&#34;process&#34; in HTML::FormFu</a> call clamped the client-supplied count to <a href="#max_counter" class="podlinkpod"
+>&#34;max_counter&#34;</a>. Reset to false at the start of each <a href="/pod/HTML/FormFu.html#process" class="podlinkpod"
+>&#34;process&#34; in HTML::FormFu</a> call.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="increment_field_names"
+>increment_field_names</a></h2>
+
+<p>Arguments: $bool</p>
+
+<p>Default Value: 1</p>
+
+<p>If true, then all fields will have <code>_n</code> appended to their name, where <code>n</code> is the <a href="#repeatable_count" class="podlinkpod"
+>&#34;repeatable_count&#34;</a> value.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="repeatable_count"
+>repeatable_count</a></h2>
+
+<p>This is set on each new <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>Block</a> element returned by <a href="#repeat" class="podlinkpod"
+>&#34;repeat&#34;</a>, starting at number <code>1</code>.</p>
+
+<p>Because this is an &#39;inherited accessor&#39; available on all elements, it can be used to determine whether any element is a child of a Repeatable element.</p>
+
+<p>Only available after <a href="https://metacpan.org/pod/repeat" class="podlinkpod"
+>repeat</a> has been called.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="repeatable_count_no_inherit"
+>repeatable_count_no_inherit</a></h2>
+
+<p>A non-inheriting variant of <a href="#repeatable_count" class="podlinkpod"
+>&#34;repeatable_count&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="nested_name"
+>nested_name</a></h2>
+
+<p>If the <a href="#nested_name" class="podlinkpod"
+>&#34;nested_name&#34;</a> attribute is set, the naming scheme of the Repeatable element&#39;s children is switched to add the counter to the repeatable blocks themselves.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Repeatable
+        nested_name: my_rep
+        elements:
+          - name: foo
+          - name: bar</pre>
+
+<p>Calling <code>$element-&#62;repeat(2)</code> would result in the following markup:</p>
+
+<pre class="sh_perl">    &#60;div&#62;
+        &#60;input name=&#34;my_rep_1.foo&#34; type=&#34;text&#34; /&#62;
+        &#60;input name=&#34;my_rep_1.bar&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;
+    &#60;div&#62;
+        &#60;input name=&#34;my_rep_2.foo&#34; type=&#34;text&#34; /&#62;
+        &#60;input name=&#34;my_rep_2.bar&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;</pre>
+
+<p>Because this is an &#39;inherited accessor&#39; available on all elements, it can be used to determine whether any element is a child of a Repeatable element.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="attributes"
+>attributes</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="attrs"
+>attrs</a></h2>
+
+<p>Any attributes set will be passed to every repeated Block of elements.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Repeatable
+        name: my_rep
+        attributes:
+          class: rep
+        elements:
+          - name: foo</pre>
+
+<p>Calling <code>$element-&#62;repeat(2)</code> would result in the following markup:</p>
+
+<pre class="sh_perl">    &#60;div class=&#34;rep&#34;&#62;
+        &#60;input name=&#34;my_rep.foo_1&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;
+    &#60;div class=&#34;rep&#34;&#62;
+        &#60;input name=&#34;my_rep.foo_2&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;</pre>
+
+<p>See <a href="/pod/HTML/FormFu.html#attributes" class="podlinkpod"
+>&#34;attributes&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tag"
+>tag</a></h2>
+
+<p>The <a href="#tag" class="podlinkpod"
+>&#34;tag&#34;</a> value will be passed to every repeated Block of elements.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Repeatable
+        name: my_rep
+        tag: span
+        elements:
+          - name: foo</pre>
+
+<p>Calling <code>$element-&#62;repeat(2)</code> would result in the following markup:</p>
+
+<pre class="sh_perl">    &#60;span&#62;
+        &#60;input name=&#34;my_rep.foo_1&#34; type=&#34;text&#34; /&#62;
+    &#60;/span&#62;
+    &#60;span&#62;
+        &#60;input name=&#34;my_rep.foo_2&#34; type=&#34;text&#34; /&#62;
+    &#60;/span&#62;</pre>
+
+<p>See <a href="/pod/HTML/FormFu/Element/Block.html#tag" class="podlinkpod"
+>&#34;tag&#34; in HTML::FormFu::Element::Block</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_id"
+>auto_id</a></h2>
+
+<p>As well as the usual substitutions, any instances of <code>%r</code> will be replaced with the value of <a href="#repeatable_count" class="podlinkpod"
+>&#34;repeatable_count&#34;</a>.</p>
+
+<p>See <a href="/pod/HTML/FormFu/Element/Block.html#auto_id" class="podlinkpod"
+>&#34;auto_id&#34; in HTML::FormFu::Element::Block</a> for further details.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Repeatable
+        name: my_rep
+        auto_id: &#34;%n_%r&#34;
+        elements:
+          - name: foo</pre>
+
+<p>Calling <code>$element-&#62;repeat(2)</code> would result in the following markup:</p>
+
+<pre class="sh_perl">    &#60;div&#62;
+        &#60;input name=&#34;my_rep.foo_1&#34; id=&#34;foo_1&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;
+    &#60;div&#62;
+        &#60;input name=&#34;my_rep.foo_2&#34; id=&#34;foo_2&#34; type=&#34;text&#34; /&#62;
+    &#60;/div&#62;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="content"
+>content</a></h2>
+
+<p>Not supported for Repeatable elements - will throw a fatal error if called as a setter.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Unsupported_Constraints"
+>Unsupported Constraints</a></h2>
+
+<p>Note that constraints with an <a href="/pod/HTML/FormFu/Role/Constraint/Others.html" class="podlinkpod"
+>others</a> method do not work correctly within a Repeatable block. Currently, these are: <a href="/pod/HTML/FormFu/Constraint/AllOrNone.html" class="podlinkpod"
+>AllOrNone</a>, <a href="/pod/HTML/FormFu/Constraint/DependOn.html" class="podlinkpod"
+>DependOn</a>, <a href="/pod/HTML/FormFu/Constraint/Equal.html" class="podlinkpod"
+>Equal</a>, <a href="/pod/HTML/FormFu/Constraint/MinMaxFields.html" class="podlinkpod"
+>MinMaxFields</a>, <a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AConstraint%3A%3AreCAPTCHA" class="podlinkpod"
+>reCAPTCHA</a>. Also, the <a href="/pod/HTML/FormFu/Constraint/CallbackOnce.html" class="podlinkpod"
+>CallbackOnce</a> constraint won&#39;t work within a Repeatable block, as it wouldn&#39;t make much sense.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Work-arounds"
+>Work-arounds</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu/Filter/ForceListValue.html" class="podlinkpod"
+>HTML::FormFu::Filter::ForceListValue</a> to address a problem with <a href="https://metacpan.org/pod/increment_field_names" class="podlinkpod"
+>increment_field_names</a> disabled, and increasing the <a href="https://metacpan.org/pod/repeat" class="podlinkpod"
+>repeat</a> on the server-side.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Is a sub-class of, and inherits methods from <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>HTML::FormFu::Element::Block</a>, <a href="/pod/HTML/FormFu/Element.html" class="podlinkpod"
+>HTML::FormFu::Element</a></p>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

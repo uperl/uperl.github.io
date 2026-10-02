@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Devel::ebug::Wire</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Devel::<a href="/pod/Devel/ebug.html">ebug</a>::Wire</div>
+    <!--Devel::ebug::Wire--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#Blessed_references'>Blessed references</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#detect'>detect</a>
+    <li class='indexItem indexItem2'><a href='#encode'>encode</a>
+    <li class='indexItem indexItem2'><a href='#decode'>decode</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Devel::ebug::Wire - Serialization for the Devel::ebug wire protocol</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.68</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Devel::ebug::Wire;
+
+ my $line = Devel::ebug::Wire::encode(&#39;json&#39;, { command =&#62; &#39;step&#39; });
+ my $req  = Devel::ebug::Wire::decode(Devel::ebug::Wire::detect($line), $line);</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>The frontend and the backend exchange Perl data structures as single newline terminated lines over a socket. This module is the one place that knows how those lines are written and read.</p>
+
+<p>Two formats are understood:</p>
+
+<dl>
+<dt><a name="yaml"
+><code>yaml</code></a></dt>
+
+<dd>
+<p>The original format: <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a> <code>Dump</code> output, hex packed so that it occupies a single line. This is the default, and what every existing client speaks.</p>
+
+<dt><a name="json"
+><code>json</code></a></dt>
+
+<dd>
+<p>Plain JSON, one object per line. Chosen with the <code>serializer</code> attribute of <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a>, or by setting <code>DEVEL_EBUG_SERIALIZER</code> in the environment.</p>
+
+<p>JSON is the format to pick when the other end of the socket is not Perl. Hex packed YAML asks a client to implement YAML, object deserialization and a hex decoder before it can say hello; a JSON line can be read by anything.</p>
+</dd>
+</dl>
+
+<p>The JSON encoder is only loaded when JSON is actually used, so it is not needed to run the debugger, and neither is <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a> when JSON is in use. <a href="https://metacpan.org/pod/Cpanel%3A%3AJSON%3A%3AXS" class="podlinkpod"
+>Cpanel::JSON::XS</a> is used if it is installed, otherwise <a href="https://metacpan.org/pod/JSON%3A%3APP" class="podlinkpod"
+>JSON::PP</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="Blessed_references"
+>Blessed references</a></h2>
+
+<p>YAML carries blessed references itself, and the protocol relies on it: <code>stack_trace</code> returns <a href="https://metacpan.org/pod/Devel%3A%3AStackTrace%3A%3AFrame" class="podlinkpod"
+>Devel::StackTrace::Frame</a> objects that the frontend calls methods on. JSON has no equivalent, so a blessed reference is written as</p>
+
+<pre class="sh_perl"> { &#34;__bless__&#34;: &#34;Some::Class&#34;, &#34;__value__&#34;: { ... } }</pre>
+
+<p>and blessed back into its class on the way out. Scalar references get the same treatment through <code>__scalarref__</code>.</p>
+
+<p>References JSON cannot represent at all - code, globs, regular expressions, filehandles - are replaced by their stringified form. These only ever turn up in values sampled from the program being debugged, such as the arguments in a stack frame, where a readable placeholder is the best that can be done and is what the reader wanted anyway.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="detect"
+>detect</a></h2>
+
+<pre class="sh_perl"> my $format = Devel::ebug::Wire::detect($line);</pre>
+
+<p>Works out which format a line arrived in.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="encode"
+>encode</a></h2>
+
+<pre class="sh_perl"> my $line = Devel::ebug::Wire::encode($format, $data);</pre>
+
+<p>Serializes a data structure to a single line, without the terminating newline.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="decode"
+>decode</a></h2>
+
+<pre class="sh_perl"> my $data = Devel::ebug::Wire::decode($format, $line);</pre>
+
+<p>The inverse of <code>encode</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Original author: Leon Brocard &#60;acme@astray.com&#62;</p>
+
+<p>Current maintainer: Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<p>Contributors:</p>
+
+<p>Brock Wilcox &#60;awwaiid@thelackthereof.org&#62;</p>
+
+<p>Taisuke Yamada</p>
+
+<p>Richard Leach (HYDAHY)</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2005-2026 by Leon Brocard.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

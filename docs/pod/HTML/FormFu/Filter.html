@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Filter</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Filter</div>
+    <!--HTML::FormFu::Filter--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#type'>type</a>
+    <li class='indexItem indexItem2'><a href='#localise_args'>localise_args</a>
+    <li class='indexItem indexItem2'><a href='#parent'>parent</a>
+    <li class='indexItem indexItem2'><a href='#get_parent'>get_parent</a>
+    <li class='indexItem indexItem2'><a href='#form'>form</a>
+    <li class='indexItem indexItem2'><a href='#name'>name</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CORE_FILTERS'>CORE FILTERS</a>
+  <li class='indexItem indexItem1'><a href='#FILTER_BASE_CLASSES'>FILTER BASE CLASSES</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Filter - Filter Base Class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: foo
+        filters:
+          - type: Encode
+            candidates:
+              - utf8
+              - Hebrew
+      - type: Text
+        name: bar
+        filters:
+          - LowerCase
+          - Encode
+    filters:
+      - TrimEdges</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><code>filters()</code> and <code>filter</code> can be called on any <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>form</a>, <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>block element</a> (includes fieldsets) or <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>field element</a>.</p>
+
+<p>If called on a field element, no <code>name</code> argument should be passed.</p>
+
+<p>If called on a <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>form</a> or <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>block element</a>, if no <code>name</code> argument is provided, a new filter is created for and added to every field on that form or block.</p>
+
+<p>See <a href="/pod/HTML/FormFu.html#FORM_LOGIC_AND_VALIDATION" class="podlinkpod"
+>&#34;FORM LOGIC AND VALIDATION&#34; in HTML::FormFu</a> for further details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="type"
+>type</a></h2>
+
+<p>Returns the <code>type</code> argument originally used to create the filter.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="localise_args"
+>localise_args</a></h2>
+
+<p>Provide arguments that should be passed to <a href="/pod/HTML/FormFu.html#localize" class="podlinkpod"
+>localize</a> to replace <code>[_1]</code>, <code>[_2]</code>, etc. in the localized string.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="parent"
+>parent</a></h2>
+
+<p>Returns the <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Field</a> object that the filter is associated with.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_parent"
+>get_parent</a></h2>
+
+<p>Arguments: \%options</p>
+
+<p>Traverses the parent hierarchy, returning the first parent that matches the supplied options.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="form"
+>form</a></h2>
+
+<p>Returns the <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> object that the filter&#39;s field is attached to.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="name"
+>name</a></h2>
+
+<p>Shorthand for <code>$filter-&#62;parent-&#62;name</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CORE_FILTERS"
+>CORE FILTERS</a></h1>
+
+<dl>
+<dt><a name="HTML::FormFu::Filter::Callback"
+><a href="/pod/HTML/FormFu/Filter/Callback.html" class="podlinkpod"
+>HTML::FormFu::Filter::Callback</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::CompoundJoin"
+><a href="/pod/HTML/FormFu/Filter/CompoundJoin.html" class="podlinkpod"
+>HTML::FormFu::Filter::CompoundJoin</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::CompoundSprintf"
+><a href="/pod/HTML/FormFu/Filter/CompoundSprintf.html" class="podlinkpod"
+>HTML::FormFu::Filter::CompoundSprintf</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::CopyValue"
+><a href="/pod/HTML/FormFu/Filter/CopyValue.html" class="podlinkpod"
+>HTML::FormFu::Filter::CopyValue</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::Default"
+><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AFilter%3A%3ADefault" class="podlinkpod"
+>HTML::FormFu::Filter::Default</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::Encode"
+><a href="/pod/HTML/FormFu/Filter/Encode.html" class="podlinkpod"
+>HTML::FormFu::Filter::Encode</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::ForceListValue"
+><a href="/pod/HTML/FormFu/Filter/ForceListValue.html" class="podlinkpod"
+>HTML::FormFu::Filter::ForceListValue</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::FormatNumber"
+><a href="/pod/HTML/FormFu/Filter/FormatNumber.html" class="podlinkpod"
+>HTML::FormFu::Filter::FormatNumber</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::HTMLEscape"
+><a href="/pod/HTML/FormFu/Filter/HTMLEscape.html" class="podlinkpod"
+>HTML::FormFu::Filter::HTMLEscape</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::HTMLScrubber"
+><a href="/pod/HTML/FormFu/Filter/HTMLScrubber.html" class="podlinkpod"
+>HTML::FormFu::Filter::HTMLScrubber</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::LowerCase"
+><a href="/pod/HTML/FormFu/Filter/LowerCase.html" class="podlinkpod"
+>HTML::FormFu::Filter::LowerCase</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::NonNumeric"
+><a href="/pod/HTML/FormFu/Filter/NonNumeric.html" class="podlinkpod"
+>HTML::FormFu::Filter::NonNumeric</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::Regex"
+><a href="/pod/HTML/FormFu/Filter/Regex.html" class="podlinkpod"
+>HTML::FormFu::Filter::Regex</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::Split"
+><a href="/pod/HTML/FormFu/Filter/Split.html" class="podlinkpod"
+>HTML::FormFu::Filter::Split</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::TrimEdges"
+><a href="/pod/HTML/FormFu/Filter/TrimEdges.html" class="podlinkpod"
+>HTML::FormFu::Filter::TrimEdges</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::UpperCase"
+><a href="/pod/HTML/FormFu/Filter/UpperCase.html" class="podlinkpod"
+>HTML::FormFu::Filter::UpperCase</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Filter::Whitespace"
+><a href="/pod/HTML/FormFu/Filter/Whitespace.html" class="podlinkpod"
+>HTML::FormFu::Filter::Whitespace</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FILTER_BASE_CLASSES"
+>FILTER BASE CLASSES</a></h1>
+
+<p>The following are base classes for other filters, and generally needn&#39;t be used directly.</p>
+
+<dl>
+<dt><a name="HTML::FormFu::Filter::_Compound"
+><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AFilter%3A%3A_Compound" class="podlinkpod"
+>HTML::FormFu::Filter::_Compound</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<p>Based on the original source code of <a href="https://metacpan.org/pod/HTML%3A%3AWidget%3A%3AFilter" class="podlinkpod"
+>HTML::Widget::Filter</a>, by Sebastian Riedel.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

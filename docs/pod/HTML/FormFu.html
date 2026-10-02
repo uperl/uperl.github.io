@@ -1,0 +1,2426 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::FormFu</div>
+    <!--HTML::FormFu--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#BUILDING_A_FORM'>BUILDING A FORM</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#new'>new</a>
+    <li class='indexItem indexItem2'><a href='#load_config_file'>load_config_file</a>
+    <li class='indexItem indexItem2'><a href='#config_callback'>config_callback</a>
+    <li class='indexItem indexItem2'><a href='#populate'>populate</a>
+    <li class='indexItem indexItem2'><a href='#default_values'>default_values</a>
+    <li class='indexItem indexItem2'><a href='#config_file_path'>config_file_path</a>
+    <li class='indexItem indexItem2'><a href='#indicator'>indicator</a>
+    <li class='indexItem indexItem2'><a href='#repeatable_max_counter'>repeatable_max_counter</a>
+    <li class='indexItem indexItem2'><a href='#auto_fieldset'>auto_fieldset</a>
+    <li class='indexItem indexItem2'><a href='#form_error_message'>form_error_message</a>
+    <li class='indexItem indexItem2'><a href='#force_error_message'>force_error_message</a>
+    <li class='indexItem indexItem2'><a href='#default_args'>default_args</a>
+    <ul   class='indexList indexList3'>
+      <li class='indexItem indexItem3'><a href='#Pseudo_types'>Pseudo types</a>
+      <li class='indexItem indexItem3'><a href='#Alternatives'>Alternatives</a>
+      <li class='indexItem indexItem3'><a href='#Match_ancestor'>Match ancestor</a>
+      <li class='indexItem indexItem3'><a href='#Don%27t_match_ancestor'>Don&#39;t match ancestor</a>
+      <li class='indexItem indexItem3'><a href='#Order'>Order</a>
+      <li class='indexItem indexItem3'><a href='#Clashes'>Clashes</a>
+      <li class='indexItem indexItem3'><a href='#Strictness'>Strictness</a>
+    </ul>
+    <li class='indexItem indexItem2'><a href='#javascript'>javascript</a>
+    <li class='indexItem indexItem2'><a href='#javascript_src'>javascript_src</a>
+    <li class='indexItem indexItem2'><a href='#stash'>stash</a>
+    <li class='indexItem indexItem2'><a href='#elements'>elements</a>
+    <li class='indexItem indexItem2'><a href='#element'>element</a>
+    <li class='indexItem indexItem2'><a href='#deflators'>deflators</a>
+    <li class='indexItem indexItem2'><a href='#deflator'>deflator</a>
+    <li class='indexItem indexItem2'><a href='#insert_before'>insert_before</a>
+    <li class='indexItem indexItem2'><a href='#insert_after'>insert_after</a>
+    <li class='indexItem indexItem2'><a href='#remove_element'>remove_element</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FORM_LOGIC_AND_VALIDATION'>FORM LOGIC AND VALIDATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#filters'>filters</a>
+    <li class='indexItem indexItem2'><a href='#filter'>filter</a>
+    <li class='indexItem indexItem2'><a href='#constraints'>constraints</a>
+    <li class='indexItem indexItem2'><a href='#constraint'>constraint</a>
+    <li class='indexItem indexItem2'><a href='#inflators'>inflators</a>
+    <li class='indexItem indexItem2'><a href='#inflator'>inflator</a>
+    <li class='indexItem indexItem2'><a href='#validators'>validators</a>
+    <li class='indexItem indexItem2'><a href='#validator'>validator</a>
+    <li class='indexItem indexItem2'><a href='#transformers'>transformers</a>
+    <li class='indexItem indexItem2'><a href='#transformer'>transformer</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CHANGING_DEFAULT_BEHAVIOUR'>CHANGING DEFAULT BEHAVIOUR</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#render_processed_value'>render_processed_value</a>
+    <li class='indexItem indexItem2'><a href='#force_errors'>force_errors</a>
+    <li class='indexItem indexItem2'><a href='#params_ignore_underscore'>params_ignore_underscore</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#FORM_ATTRIBUTES'>FORM ATTRIBUTES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#attributes'>attributes</a>
+    <li class='indexItem indexItem2'><a href='#id'>id</a>
+    <li class='indexItem indexItem2'><a href='#action'>action</a>
+    <li class='indexItem indexItem2'><a href='#enctype'>enctype</a>
+    <li class='indexItem indexItem2'><a href='#method'>method</a>
+    <li class='indexItem indexItem2'><a href='#title'>title</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CSS_CLASSES'>CSS CLASSES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#form_error_message_class'>form_error_message_class</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#LOCALIZATION'>LOCALIZATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#languages'>languages</a>
+    <li class='indexItem indexItem2'><a href='#localize_class'>localize_class</a>
+    <li class='indexItem indexItem2'><a href='#localize'>localize</a>
+    <li class='indexItem indexItem2'><a href='#loc'>loc</a>
+    <li class='indexItem indexItem2'><a href='#locale'>locale</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PROCESSING_A_FORM'>PROCESSING A FORM</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#query'>query</a>
+    <li class='indexItem indexItem2'><a href='#query_type'>query_type</a>
+    <li class='indexItem indexItem2'><a href='#process'>process</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SUBMITTED_FORM_VALUES_AND_ERRORS'>SUBMITTED FORM VALUES AND ERRORS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#submitted'>submitted</a>
+    <li class='indexItem indexItem2'><a href='#submitted_and_valid'>submitted_and_valid</a>
+    <li class='indexItem indexItem2'><a href='#params'>params</a>
+    <li class='indexItem indexItem2'><a href='#param_value'>param_value</a>
+    <li class='indexItem indexItem2'><a href='#param_array'>param_array</a>
+    <li class='indexItem indexItem2'><a href='#param_list'>param_list</a>
+    <li class='indexItem indexItem2'><a href='#param'>param</a>
+    <li class='indexItem indexItem2'><a href='#valid'>valid</a>
+    <li class='indexItem indexItem2'><a href='#has_errors'>has_errors</a>
+    <li class='indexItem indexItem2'><a href='#get_errors'>get_errors</a>
+    <li class='indexItem indexItem2'><a href='#get_error'>get_error</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#MODEL_%2F_DATABASE_INTERACTION'>MODEL / DATABASE INTERACTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#default_model'>default_model</a>
+    <li class='indexItem indexItem2'><a href='#model'>model</a>
+    <li class='indexItem indexItem2'><a href='#model_config'>model_config</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#MODIFYING_A_SUBMITTED_FORM'>MODIFYING A SUBMITTED FORM</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#add_valid'>add_valid</a>
+    <li class='indexItem indexItem2'><a href='#clear_errors'>clear_errors</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#RENDERING_A_FORM'>RENDERING A FORM</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#render'>render</a>
+    <li class='indexItem indexItem2'><a href='#start'>start</a>
+    <li class='indexItem indexItem2'><a href='#end'>end</a>
+    <li class='indexItem indexItem2'><a href='#hidden_fields'>hidden_fields</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#PLUGIN_SYSTEM'>PLUGIN SYSTEM</a>
+  <li class='indexItem indexItem1'><a href='#ADVANCED_CUSTOMISATION'>ADVANCED CUSTOMISATION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#render_method'>render_method</a>
+    <li class='indexItem indexItem2'><a href='#filename'>filename</a>
+    <li class='indexItem indexItem2'><a href='#tt_args'>tt_args</a>
+    <li class='indexItem indexItem2'><a href='#add_tt_args'>add_tt_args</a>
+    <li class='indexItem indexItem2'><a href='#tt_module'>tt_module</a>
+    <li class='indexItem indexItem2'><a href='#render_data'>render_data</a>
+    <li class='indexItem indexItem2'><a href='#render_data_non_recursive'>render_data_non_recursive</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#INTROSPECTION'>INTROSPECTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#get_fields'>get_fields</a>
+    <li class='indexItem indexItem2'><a href='#get_field'>get_field</a>
+    <li class='indexItem indexItem2'><a href='#get_elements'>get_elements</a>
+    <li class='indexItem indexItem2'><a href='#get_element'>get_element</a>
+    <li class='indexItem indexItem2'><a href='#get_all_elements'>get_all_elements</a>
+    <li class='indexItem indexItem2'><a href='#get_all_element'>get_all_element</a>
+    <li class='indexItem indexItem2'><a href='#get_deflators'>get_deflators</a>
+    <li class='indexItem indexItem2'><a href='#get_deflator'>get_deflator</a>
+    <li class='indexItem indexItem2'><a href='#get_filters'>get_filters</a>
+    <li class='indexItem indexItem2'><a href='#get_filter'>get_filter</a>
+    <li class='indexItem indexItem2'><a href='#get_constraints'>get_constraints</a>
+    <li class='indexItem indexItem2'><a href='#get_constraint'>get_constraint</a>
+    <li class='indexItem indexItem2'><a href='#get_inflators'>get_inflators</a>
+    <li class='indexItem indexItem2'><a href='#get_inflator'>get_inflator</a>
+    <li class='indexItem indexItem2'><a href='#get_validators'>get_validators</a>
+    <li class='indexItem indexItem2'><a href='#get_validator'>get_validator</a>
+    <li class='indexItem indexItem2'><a href='#get_transformers'>get_transformers</a>
+    <li class='indexItem indexItem2'><a href='#get_transformer'>get_transformer</a>
+    <li class='indexItem indexItem2'><a href='#clone'>clone</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTE_ACCESSORS'>ATTRIBUTE ACCESSORS</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTE_SHORT-CUTS'>ATTRIBUTE SHORT-CUTS</a>
+  <li class='indexItem indexItem1'><a href='#INHERITING_ACCESSORS'>INHERITING ACCESSORS</a>
+  <li class='indexItem indexItem1'><a href='#OUTPUT_ACCESSORS'>OUTPUT ACCESSORS</a>
+  <li class='indexItem indexItem1'><a href='#BOOLEAN_ATTRIBUTE_ACCESSORS'>BOOLEAN ATTRIBUTE ACCESSORS</a>
+  <li class='indexItem indexItem1'><a href='#ATTRIBUTE_SUBSTITUTIONS'>ATTRIBUTE SUBSTITUTIONS</a>
+  <li class='indexItem indexItem1'><a href='#DEPRECATION_POLICY'>DEPRECATION POLICY</a>
+  <li class='indexItem indexItem1'><a href='#RESTORING_LEGACY_HTML_CLASSES'>RESTORING LEGACY HTML CLASSES</a>
+  <li class='indexItem indexItem1'><a href='#DEPRECATED_METHODS'>DEPRECATED METHODS</a>
+  <li class='indexItem indexItem1'><a href='#REMOVED_METHODS'>REMOVED METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#element_defaults'>element_defaults</a>
+    <li class='indexItem indexItem2'><a href='#model_class'>model_class</a>
+    <li class='indexItem indexItem2'><a href='#defaults_from_model'>defaults_from_model</a>
+    <li class='indexItem indexItem2'><a href='#save_to_model'>save_to_model</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#BEST_PRACTICES'>BEST PRACTICES</a>
+  <li class='indexItem indexItem1'><a href='#COOKBOOK'>COOKBOOK</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#UNICODE'>UNICODE</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#EXAMPLES'>EXAMPLES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#vertically-aligned_CSS'>vertically-aligned CSS</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#CONTRIBUTORS'>CONTRIBUTORS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu - HTML Form Creation,
+Rendering and Validation Framework</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>Note: These examples make use of <a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AModel%3A%3ADBIC" class="podlinkpod"
+>HTML::FormFu::Model::DBIC</a>.
+As of <code>HTML::FormFu</code> v02.005,
+the <a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AModel%3A%3ADBIC" class="podlinkpod"
+>HTML::FormFu::Model::DBIC</a> module is not bundled with <code>HTML::FormFu</code> and is available in a stand-alone distribution.</p>
+
+<pre class="sh_perl">    use HTML::FormFu;
+
+    my $form = HTML::FormFu-&#62;new;
+
+    $form-&#62;load_config_file(&#39;form.yml&#39;);
+
+    $form-&#62;process( $cgi_query );
+
+    if ( $form-&#62;submitted_and_valid ) {
+        # do something with $form-&#62;params
+    }
+    else {
+        # display the form
+        $template-&#62;param( form =&#62; $form );
+    }</pre>
+
+<p>If you&#39;re using <a href="https://metacpan.org/pod/Catalyst" class="podlinkpod"
+>Catalyst</a>, a more suitable example might be:</p>
+
+<pre class="sh_perl">    package MyApp::Controller::User;
+    use Moose;
+    extends &#39;Catalyst::Controller::HTML::FormFu&#39;;
+
+    sub user : Chained CaptureArgs(1) {
+        my ( $self, $c, $id ) = @_;
+
+        my $rs = $c-&#62;model(&#39;Schema&#39;)-&#62;resultset(&#39;User&#39;);
+
+        $c-&#62;stash-&#62;{user} = $rs-&#62;find( $id );
+
+        return;
+    }
+
+    sub edit : Chained(&#39;user&#39;) Args(0) FormConfig {
+        my ( $self, $c ) = @_;
+
+        my $form = $c-&#62;stash-&#62;{form};
+        my $user = $c-&#62;stash-&#62;{user};
+
+        if ( $form-&#62;submitted_and_valid ) {
+
+            $form-&#62;model-&#62;update( $user );
+
+            $c-&#62;res-&#62;redirect( $c-&#62;uri_for( &#34;/user/$id&#34; ) );
+            return;
+        }
+
+        $form-&#62;model-&#62;default_values( $user )
+            if ! $form-&#62;submitted;
+
+    }</pre>
+
+<p>Note: Because <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> is automatically called for you by the Catalyst controller; if you make any modifications to the form within your action method, such as adding or changing elements, adding constraints, etc; you must call <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> again yourself before using <a href="#submitted_and_valid" class="podlinkpod"
+>&#34;submitted_and_valid&#34;</a>, any of the methods listed under <a href="#SUBMITTED_FORM_VALUES_AND_ERRORS" class="podlinkpod"
+>&#34;SUBMITTED FORM VALUES AND ERRORS&#34;</a> or <a href="#MODIFYING_A_SUBMITTED_FORM" class="podlinkpod"
+>&#34;MODIFYING A SUBMITTED FORM&#34;</a>, or rendering the form.</p>
+
+<p>Here&#39;s an example of a config file to create a basic login form (all examples here are <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a>, but you can use any format supported by <a href="https://metacpan.org/pod/Config%3A%3AAny" class="podlinkpod"
+>Config::Any</a>), you can also create forms directly in your perl code, rather than using an external config file.</p>
+
+<pre class="sh_perl">    ---
+    action: /login
+    indicator: submit
+    auto_fieldset: 1
+
+    elements:
+      - type: Text
+        name: user
+        constraints:
+          - Required
+
+      - type: Password
+        name: pass
+        constraints:
+          - Required
+
+      - type: Submit
+        name: submit
+
+    constraints:
+      - SingleValue</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> is a HTML form framework which aims to be as easy as possible to use for basic web forms, but with the power and flexibility to do anything else you might want to do (as long as it involves forms).</p>
+
+<p>You can configure almost any part of formfu&#39;s behaviour and output. By default formfu renders &#34;XHTML 1.0 Strict&#34; compliant markup, with as little extra markup as possible, but with sufficient CSS class names to allow for a wide-range of output styles to be generated by changing only the CSS.</p>
+
+<p>All methods listed below (except <a href="#new" class="podlinkpod"
+>&#34;new&#34;</a>) can either be called as a normal method on your <code>$form</code> object, or as an option in your config file. Examples will mainly be shown in <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a> config syntax.</p>
+
+<p>This documentation follows the convention that method arguments surrounded by square brackets <code>[]</code> are <i>optional</i>, and all other arguments are required.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BUILDING_A_FORM"
+>BUILDING A FORM</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="new"
+>new</a></h2>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $form</p>
+
+<p>Create a new <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> object.</p>
+
+<p>Any method which can be called on the <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> object may instead be passed as an argument to <a href="#new" class="podlinkpod"
+>&#34;new&#34;</a>.</p>
+
+<pre class="sh_perl">    my $form = HTML::FormFu-&#62;new({
+        action        =&#62; &#39;/search&#39;,
+        method        =&#62; &#39;GET&#39;,
+        auto_fieldset =&#62; 1,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="load_config_file"
+>load_config_file</a></h2>
+
+<p>Arguments: $filename</p>
+
+<p>Arguments: \@filenames</p>
+
+<p>Return Value: $form</p>
+
+<p>Accepts a filename or list of file names, whose filetypes should be of any format recognized by <a href="https://metacpan.org/pod/Config%3A%3AAny" class="podlinkpod"
+>Config::Any</a>.</p>
+
+<p>The content of each config file is passed to <a href="#populate" class="podlinkpod"
+>&#34;populate&#34;</a>, and so are added to the form.</p>
+
+<p><a href="#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34;</a> may be called in a config file itself, so as to allow common settings to be kept in a single config file which may be loaded by any form.</p>
+
+<pre class="sh_perl">    ---
+    load_config_file:
+      - file1
+      - file2</pre>
+
+<p>YAML multiple documents within a single file. The document start marker is a line containing 3 dashes. Multiple documents will be applied in order, just as if multiple filenames had been given.</p>
+
+<p>In the following example, multiple documents are taken advantage of to load another config file after the elements are added. (If this were a single document, the <code>load_config_file</code> would be called before <code>elements</code>, regardless of its position in the file).</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - name: one
+      - name: two
+
+    ---
+    load_config_file: ext.yml</pre>
+
+<p>Relative paths are resolved from the <a href="#config_file_path" class="podlinkpod"
+>&#34;config_file_path&#34;</a> directory if it is set, otherwise from the current working directory.</p>
+
+<p>See <a href="#BEST_PRACTICES" class="podlinkpod"
+>&#34;BEST PRACTICES&#34;</a> for advice on organising config files.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_callback"
+>config_callback</a></h2>
+
+<p>Arguments: \%options</p>
+
+<p>If defined, the arguments are used to create a <a href="https://metacpan.org/pod/Data%3A%3AVisitor%3A%3ACallback" class="podlinkpod"
+>Data::Visitor::Callback</a> object during <a href="#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34;</a> which may be used to pre-process the config before it is sent to <a href="#populate" class="podlinkpod"
+>&#34;populate&#34;</a>.</p>
+
+<p>For example, the code below adds a callback to a form that will dynamically alter any config value ending in &#34;.yml&#34; to end in &#34;.yaml&#34; when you call <a href="#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34;</a>:</p>
+
+<pre class="sh_perl">    $form-&#62;config_callback({
+      plain_value =&#62; sub {
+        my( $visitor, $data ) = @_;
+        s/\.yml/.yaml/;
+      }
+    });</pre>
+
+<p>Default Value: not defined</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="populate"
+>populate</a></h2>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $form</p>
+
+<p>Each option key/value passed may be any <a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> method-name and arguments.</p>
+
+<p>Provides a simple way to set multiple values, or add multiple elements to a form with a single method-call.</p>
+
+<p>Attempts to call the method-names in a semi-intelligent order (see the source of populate() in <code>HTML::FormFu::ObjectUtil</code> for details).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_values"
+>default_values</a></h2>
+
+<p>Arguments: \%defaults</p>
+
+<p>Return Value: $form</p>
+
+<p>Set multiple field&#39;s default values from a single hash-ref.</p>
+
+<p>The hash-ref&#39;s keys correspond to a form field&#39;s name, and the value is passed to the field&#39;s <a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3A_Field#default" class="podlinkpod"
+>default method</a>.</p>
+
+<p>This should be called after all fields have been added to the form, and before <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> is called (otherwise, call <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> again before rendering the form).</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="config_file_path"
+>config_file_path</a></h2>
+
+<p>Arguments: $directory_name</p>
+
+<p><a href="#config_file_path" class="podlinkpod"
+>&#34;config_file_path&#34;</a> defines where configuration files will be searched for, if an absolute path is not given to <a href="#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34;</a>.</p>
+
+<p>Default Value: not defined</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<p>Is an <a href="#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="indicator"
+>indicator</a></h2>
+
+<p>Arguments: $field_name</p>
+
+<p>Arguments: \&#38;coderef</p>
+
+<p>If <a href="#indicator" class="podlinkpod"
+>&#34;indicator&#34;</a> is set to a fieldname, <a href="#submitted" class="podlinkpod"
+>&#34;submitted&#34;</a> will return true if a value for that fieldname was submitted.</p>
+
+<p>If <a href="#indicator" class="podlinkpod"
+>&#34;indicator&#34;</a> is set to a code-ref, it will be called as a subroutine with the two arguments <code>$form</code> and <code>$query</code>, and its return value will be used as the return value for <a href="#submitted" class="podlinkpod"
+>&#34;submitted&#34;</a>.</p>
+
+<p>If <a href="#indicator" class="podlinkpod"
+>&#34;indicator&#34;</a> is not set, <a href="#submitted" class="podlinkpod"
+>&#34;submitted&#34;</a> will return true if a value for any known fieldname was submitted.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="repeatable_max_counter"
+>repeatable_max_counter</a></h2>
+
+<p>Arguments: $number</p>
+
+<p>Default Value: <code>100</code></p>
+
+<p>The default <a href="/pod/HTML/FormFu/Element/Repeatable.html#max_counter" class="podlinkpod"
+>max_counter</a> for all <a href="/pod/HTML/FormFu/Element/Repeatable.html" class="podlinkpod"
+>Repeatable</a> elements in this form. Individual Repeatable elements can override this by setting their own <a href="/pod/HTML/FormFu/Element/Repeatable.html#max_counter" class="podlinkpod"
+>max_counter</a>.</p>
+
+<p>Set to <code>0</code> to disable clamping form-wide.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_fieldset"
+>auto_fieldset</a></h2>
+
+<p>Arguments: 1</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $fieldset</p>
+
+<p>This setting is suitable for most basic forms, and means you can generally ignore adding fieldsets yourself.</p>
+
+<p>Calling <code>$form-&#62;auto_fieldset(1)</code> immediately adds a fieldset element to the form. Thereafter, <code>$form-&#62;elements()</code> will add all elements (except fieldsets) to that fieldset, rather than directly to the form.</p>
+
+<p>To be specific, the elements are added to the <i>last</i> fieldset on the form, so if you add another fieldset, any further elements will be added to that fieldset.</p>
+
+<p>Also, you may pass a hashref to auto_fieldset(), and this will be used to set defaults for the first fieldset created.</p>
+
+<p>A few examples and their output, to demonstrate:</p>
+
+<p>2 elements with no fieldset.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Text
+        name: foo
+      - type: Text
+        name: bar
+
+    &#60;form action=&#34;&#34; method=&#34;post&#34;&#62;
+      &#60;div class=&#34;text&#34;&#62;
+        &#60;input name=&#34;foo&#34; type=&#34;text&#34; /&#62;
+      &#60;/div&#62;
+      &#60;div class=&#34;text&#34;&#62;
+        &#60;input name=&#34;bar&#34; type=&#34;text&#34; /&#62;
+      &#60;/div&#62;
+    &#60;/form&#62;</pre>
+
+<p>2 elements with an <a href="#auto_fieldset" class="podlinkpod"
+>&#34;auto_fieldset&#34;</a>.</p>
+
+<pre class="sh_perl">    ---
+    auto_fieldset: 1
+    elements:
+      - type: Text
+        name: foo
+      - type: Text
+        name: bar
+
+    &#60;form action=&#34;&#34; method=&#34;post&#34;&#62;
+      &#60;fieldset&#62;
+        &#60;div class=&#34;text&#34;&#62;
+          &#60;input name=&#34;foo&#34; type=&#34;text&#34; /&#62;
+        &#60;/div&#62;
+        &#60;div class=&#34;text&#34;&#62;
+          &#60;input name=&#34;bar&#34; type=&#34;text&#34; /&#62;
+        &#60;/div&#62;
+      &#60;/fieldset&#62;
+    &#60;/form&#62;</pre>
+
+<p>The 3rd element is within a new fieldset</p>
+
+<pre class="sh_perl">    ---
+    auto_fieldset: { id: fs }
+    elements:
+      - type: Text
+        name: foo
+      - type: Text
+        name: bar
+      - type: Fieldset
+      - type: Text
+        name: baz
+
+    &#60;form action=&#34;&#34; method=&#34;post&#34;&#62;
+      &#60;fieldset id=&#34;fs&#34;&#62;
+        &#60;div class=&#34;text&#34;&#62;
+          &#60;input name=&#34;foo&#34; type=&#34;text&#34; /&#62;
+        &#60;/div&#62;
+        &#60;div class=&#34;text&#34;&#62;
+          &#60;input name=&#34;bar&#34; type=&#34;text&#34; /&#62;
+        &#60;/div&#62;
+      &#60;/fieldset&#62;
+      &#60;fieldset&#62;
+        &#60;div class=&#34;text&#34;&#62;
+          &#60;input name=&#34;baz&#34; type=&#34;text&#34; /&#62;
+        &#60;/div&#62;
+      &#60;/fieldset&#62;
+    &#60;/form&#62;</pre>
+
+<p>Because of this behaviour, if you want nested fieldsets you will have to add each nested fieldset directly to its intended parent.</p>
+
+<pre class="sh_perl">    my $parent = $form-&#62;get_element({ type =&#62; &#39;Fieldset&#39; });
+
+    $parent-&#62;element(&#39;fieldset&#39;);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="form_error_message"
+>form_error_message</a></h2>
+
+<p>Arguments: $string</p>
+
+<p>Normally, input errors cause an error message to be displayed alongside the appropriate form field. If you&#39;d also like a general error message to be displayed at the top of the form, you can set the message with <a href="#form_error_message" class="podlinkpod"
+>&#34;form_error_message&#34;</a>.</p>
+
+<p>To set the CSS class for the message, see <a href="#form_error_message_class" class="podlinkpod"
+>&#34;form_error_message_class&#34;</a>.</p>
+
+<p>To change the markup used to display the message, edit the <code>form_error_message</code> template file. See <a href="#render_method" class="podlinkpod"
+>&#34;render_method&#34;</a>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#OUTPUT_ACCESSORS" class="podlinkpod"
+>output accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="force_error_message"
+>force_error_message</a></h2>
+
+<p>If true, forces the <a href="#form_error_message" class="podlinkpod"
+>&#34;form_error_message&#34;</a> to be displayed even if there are no field errors.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_args"
+>default_args</a></h2>
+
+<p>Arguments: \%defaults</p>
+
+<p>Set defaults which will be added to every element, constraint, etc. of the given type which is subsequently added to the form.</p>
+
+<p>For example, to make every <code>Text</code> element automatically have a size of <code>10</code>, and make every <code>Strftime</code> deflator automatically get its strftime set to <code>%d/%m/%Y</code>:</p>
+
+<pre class="sh_perl">    default_args:
+        elements:
+            Text:
+                size: 10
+        deflators:
+            Strftime:
+                strftime: &#39;%d/%m/%Y&#39;</pre>
+
+<p>An example to make all DateTime elements automatically get an appropriate Strftime deflator and a DateTime inflator:</p>
+
+<pre class="sh_perl">    default_args:
+        elements:
+            DateTime:
+                deflators:
+                    type: Strftime
+                    strftime: &#39;%d-%m-%Y&#39;
+                inflators:
+                    type: DateTime
+                    parser:
+                        strptime: &#39;%d-%m-%Y&#39;</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Pseudo_types"
+>Pseudo types</a></h3>
+
+<p>As a special case, you can also use the <code>elements</code> keys <code>Block</code>, <code>Field</code> and <code>Input</code> to match any element which inherits from <a href="/pod/HTML/FormFu/Element/Block.html" class="podlinkpod"
+>HTML::FormFu::Element::Block</a> or which <code>does</code> <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Field</a> or <a href="/pod/HTML/FormFu/Role/Element/Input.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Input</a>.</p>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Alternatives"
+>Alternatives</a></h3>
+
+<p>Each <code>elements</code> key can contain an <code>any</code> list using the <code>|</code> divider: e.g.</p>
+
+<pre class="sh_perl">    # apply the given class to any Element of type Password or Button
+    default_args:
+        elements:
+            &#39;Password|Button&#39;:
+                attrs:
+                    class: novalidate</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Match_ancestor"
+>Match ancestor</a></h3>
+
+<p>Each <code>elements</code> key list can contain a type starting with <code>+</code> to only match elements with an ancestor of the given type: e.g.</p>
+
+<pre class="sh_perl">    # only apple the given class to an Input field within a Multi block
+    default_args:
+        elements:
+            &#39;Input|+Multi&#39;:
+                attrs:
+                    class: novalidate</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Don&#39;t_match_ancestor"
+>Don&#39;t match ancestor</a></h3>
+
+<p>Each <code>elements</code> key list can contain a type starting with <code>-</code> to only match elements who do not have an ancestor of the given type: e.g.</p>
+
+<pre class="sh_perl">    # apply the given class only to Input fields that are not in a Multi block
+    default_args:
+        elements:
+            &#39;Input|-Multi&#39;:
+                attrs:
+                    class: validate</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Order"
+>Order</a></h3>
+
+<p>The arguments are applied in least- to most-specific order: <code>Block</code>, <code>Field</code>, <code>Input</code>, <code>$type</code>. Within each of these, arguments are applied in order of shortest-first to longest-last.</p>
+
+<p>The <code>type</code> key must match the value returned by <code>type</code>, e.g. <a href="/pod/HTML/FormFu/Element.html#type" class="podlinkpod"
+>&#34;type&#34; in HTML::FormFu::Element</a>. If, for example, you have a custom element outside of the <code>HTML::FormFu::Element::*</code> namespace, which you load via <code>$form-&#62;element({ type =&#62; &#39;+My::Custom::Element&#39; })</code>, the key given to <a href="#default_args" class="podlinkpod"
+>&#34;default_args&#34;</a> should <b>not</b> include the leading <code>+</code>, as that is stripped-out of the returned <code>type()</code> value. Example:</p>
+
+<pre class="sh_perl">    # don&#39;t include the leading &#39;+&#39; here
+    default_args:
+        elements:
+            &#39;My::Custom::Element&#39;:
+                attrs:
+                    class: whatever
+
+    # do include the leading &#39;+&#39; here
+    elements:
+        - type: +My::Custom::Element</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Clashes"
+>Clashes</a></h3>
+
+<p><a href="#default_args" class="podlinkpod"
+>&#34;default_args&#34;</a> generates a single hashref to pass to <a href="#populate" class="podlinkpod"
+>&#34;populate&#34;</a>, merging arguments for each type in turn - meaning <a href="#populate" class="podlinkpod"
+>&#34;populate&#34;</a> is only called once in total - not once for each type. Because scalar values are <b>not</b> merged - this means later values will override earlier values: e.g.</p>
+
+<pre class="sh_perl">    # Normally, calling $field-&#62;add_attrs({ class =&#62; &#39;input&#39; })
+    # then calling      $field-&#62;add_attrs({ class =&#62; &#39;not-in-multi&#39; })
+    # would result in both values being retained:
+    #           class=&#34;input not-in-multi&#34;
+    #
+    # However, default_args() creates a single data-structure to pass once
+    # to populate(), so any scalar values will overwrite earlier ones
+    # before they reach populate().
+    #
+    # The below example would result in the longest-matching key
+    # overwriting any others:
+    #           class=&#34;not-in-multi&#34;
+    #
+    default_args:
+        elements:
+            Input:
+                add_attrs:
+                    class: input
+            &#39;Input:-Multi&#39;:
+                add_attrs:
+                    class: not-in-multi</pre>
+
+<h3><a class='u' href='#___top' title='click to go to top of document'
+name="Strictness"
+>Strictness</a></h3>
+
+<p>Note: Unlike the proper methods which have aliases, for example <a href="#elements" class="podlinkpod"
+>&#34;elements&#34;</a> which is an alias for <a href="#element" class="podlinkpod"
+>&#34;element&#34;</a> - the keys given to <code>default_args</code> must be of the plural form, e.g.:</p>
+
+<pre class="sh_perl">    default_args:
+        elements:          {}
+        deflators:         {}
+        filters:           {}
+        constraints:       {}
+        inflators:         {}
+        validators:        {}
+        transformers:      {}
+        output_processors: {}</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="javascript"
+>javascript</a></h2>
+
+<p>If set, the contents will be rendered within a <code>script</code> tag, inside the top of the form.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="javascript_src"
+>javascript_src</a></h2>
+
+<p>Arguments: $url</p>
+
+<p>Arguments: \@urls</p>
+
+<p>Adds a <code>script</code> tag for each URL, immediately before any <a href="#javascript" class="podlinkpod"
+>&#34;javascript&#34;</a> section.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="stash"
+>stash</a></h2>
+
+<p>Arguments: [\%private_stash]</p>
+
+<p>Return Value: \%stash</p>
+
+<p>Provides a hash-ref in which you can store any data you might want to associate with the form.</p>
+
+<pre class="sh_perl">    ---
+    stash:
+      foo: value
+      bar: value</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="elements"
+>elements</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="element"
+>element</a></h2>
+
+<p>Arguments: $type</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $element</p>
+
+<p>Arguments: \@arrayref_of_types_or_options</p>
+
+<p>Return Value: @elements</p>
+
+<p>Adds a new element to the form. See <a href="/pod/HTML/FormFu/Element.html#CORE_FORM_FIELDS" class="podlinkpod"
+>&#34;CORE FORM FIELDS&#34; in HTML::FormFu::Element</a> and <a href="/pod/HTML/FormFu/Element.html#OTHER_CORE_ELEMENTS" class="podlinkpod"
+>&#34;OTHER CORE ELEMENTS&#34; in HTML::FormFu::Element</a> for a list of core elements.</p>
+
+<p>If you want to load an element from a namespace other than <code>HTML::FormFu::Element::</code>, you can use a fully qualified package-name by prefixing it with <code>+</code>.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: +MyApp::CustomElement
+        name: foo</pre>
+
+<p>If a <code>type</code> is not provided in the <code>\%options</code>, the default <code>Text</code> will be used.</p>
+
+<p><a href="#element" class="podlinkpod"
+>&#34;element&#34;</a> is an alias for <a href="#elements" class="podlinkpod"
+>&#34;elements&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="deflators"
+>deflators</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="deflator"
+>deflator</a></h2>
+
+<p>Arguments: $type</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $deflator</p>
+
+<p>Arguments: \@arrayref_of_types_or_options</p>
+
+<p>Return Value: @deflators</p>
+
+<p>A <a href="/pod/HTML/FormFu/Deflator.html" class="podlinkpod"
+>deflator</a> may be associated with any form field, and allows you to provide <a href="/pod/HTML/FormFu/Role/Element/Field.html#default" class="podlinkpod"
+>$field-&#62;default</a> with a value which may be an object.</p>
+
+<p>If an object doesn&#39;t stringify to a suitable value for display, the <a href="/pod/HTML/FormFu/Deflator.html" class="podlinkpod"
+>deflator</a> can ensure that the form field receives a suitable string value instead.</p>
+
+<p>See <a href="/pod/HTML/FormFu/Deflator.html#CORE_DEFLATORS" class="podlinkpod"
+>&#34;CORE DEFLATORS&#34; in HTML::FormFu::Deflator</a> for a list of core deflators.</p>
+
+<p>If a <code>name</code> attribute isn&#39;t provided, a new deflator is created for and added to every field on the form.</p>
+
+<p>If you want to load a deflator in a namespace other than <code>HTML::FormFu::Deflator::</code>, you can use a fully qualified package-name by prefixing it with <code>+</code>.</p>
+
+<p><a href="#deflator" class="podlinkpod"
+>&#34;deflator&#34;</a> is an alias for <a href="#deflators" class="podlinkpod"
+>&#34;deflators&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="insert_before"
+>insert_before</a></h2>
+
+<p>Arguments: $new_element, $existing_element</p>
+
+<p>Return Value: $new_element</p>
+
+<p>The 1st argument must be the element you want added, the 2nd argument must be the existing element that the new element should be placed before.</p>
+
+<pre class="sh_perl">    my $new = $form-&#62;element(\%specs);
+
+    my $position = $form-&#62;get_element({ type =&#62; $type, name =&#62; $name });
+
+    $form-&#62;insert_before( $new, $position );</pre>
+
+<p>In the first line of the above example, the <code>$new</code> element is initially added to the end of the form. However, the <code>insert_before</code> method reparents the <code>$new</code> element, so it will no longer be on the end of the form. Because of this, if you try to copy an element from one form to another, it will &#39;steal&#39; the element, instead of copying it. In this case, you must use <code>clone</code>:</p>
+
+<pre class="sh_perl">    my $new = $form1-&#62;get_element({ type =&#62; $type1, name =&#62; $name1 })
+                    -&#62;clone;
+
+    my $position = $form2-&#62;get_element({ type =&#62; $type2, name =&#62; $name2 });
+
+    $form2-&#62;insert_before( $new, $position );</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="insert_after"
+>insert_after</a></h2>
+
+<p>Arguments: $new_element, $existing_element</p>
+
+<p>Return Value: $new_element</p>
+
+<p>The 1st argument must be the element you want added, the 2nd argument must be the existing element that the new element should be placed after.</p>
+
+<pre class="sh_perl">    my $new = $form-&#62;element(\%specs);
+
+    my $position = $form-&#62;get_element({ type =&#62; $type, name =&#62; $name });
+
+    $form-&#62;insert_after( $new, $position );</pre>
+
+<p>In the first line of the above example, the <code>$new</code> element is initially added to the end of the form. However, the <code>insert_after</code> method reparents the <code>$new</code> element, so it will no longer be on the end of the form. Because of this, if you try to copy an element from one form to another, it will &#39;steal&#39; the element, instead of copying it. In this case, you must use <code>clone</code>:</p>
+
+<pre class="sh_perl">    my $new = $form1-&#62;get_element({ type =&#62; $type1, name =&#62; $name1 })
+                    -&#62;clone;
+
+    my $position = $form2-&#62;get_element({ type =&#62; $type2, name =&#62; $name2 });
+
+    $form2-&#62;insert_after( $new, $position );</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="remove_element"
+>remove_element</a></h2>
+
+<p>Arguments: $element</p>
+
+<p>Return Value: $element</p>
+
+<p>Removes the <code>$element</code> from the form or block&#39;s array of children.</p>
+
+<pre class="sh_perl">    $form-&#62;remove_element( $element );</pre>
+
+<p>The orphaned element cannot be usefully used for anything until it is re-attached to a form or block with <a href="#insert_before" class="podlinkpod"
+>&#34;insert_before&#34;</a> or <a href="#insert_after" class="podlinkpod"
+>&#34;insert_after&#34;</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FORM_LOGIC_AND_VALIDATION"
+>FORM LOGIC AND VALIDATION</a></h1>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a> provides several stages for what is traditionally described as <i>validation</i>. These are:</p>
+
+<dl>
+<dt><a name="HTML::FormFu::Filter"
+><a href="/pod/HTML/FormFu/Filter.html" class="podlinkpod"
+>HTML::FormFu::Filter</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Constraint"
+><a href="/pod/HTML/FormFu/Constraint.html" class="podlinkpod"
+>HTML::FormFu::Constraint</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Inflator"
+><a href="/pod/HTML/FormFu/Inflator.html" class="podlinkpod"
+>HTML::FormFu::Inflator</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Validator"
+><a href="/pod/HTML/FormFu/Validator.html" class="podlinkpod"
+>HTML::FormFu::Validator</a></a></dt>
+
+<dd>
+<dt><a name="HTML::FormFu::Transformer"
+><a href="/pod/HTML/FormFu/Transformer.html" class="podlinkpod"
+>HTML::FormFu::Transformer</a></a></dt>
+</dl>
+
+<p>The first stage, the filters, allow for cleanup of user-input, such as encoding, or removing leading/trailing whitespace, or removing non-digit characters from a creditcard number.</p>
+
+<p>All of the following stages allow for more complex processing, and each of them have a mechanism to allow exceptions to be thrown, to represent input errors. In each stage, all form fields must be processed without error for the next stage to proceed. If there were any errors, the form should be re-displayed to the user, to allow them to input correct values.</p>
+
+<p>Constraints are intended for low-level validation of values, such as &#34;is this an integer?&#34;, &#34;is this value within bounds?&#34; or &#34;is this a valid email address?&#34;.</p>
+
+<p>Inflators are intended to allow a value to be turned into an appropriate object. The resulting object will be passed to subsequent Validators and Transformers, and will also be returned by <a href="#params" class="podlinkpod"
+>&#34;params&#34;</a> and <a href="#param" class="podlinkpod"
+>&#34;param&#34;</a>.</p>
+
+<p>Validators are intended for higher-level validation, such as business-logic and database constraints such as &#34;is this username unique?&#34;. Validators are only run if all Constraints and Inflators have run without errors. It is expected that most Validators will be application-specific, and so each will be implemented as a separate class written by the HTML::FormFu user.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filters"
+>filters</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filter"
+>filter</a></h2>
+
+<p>Arguments: $type</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $filter</p>
+
+<p>Arguments: \@arrayref_of_types_or_options</p>
+
+<p>Return Value: @filters</p>
+
+<p>If you provide a <code>name</code> or <code>names</code> value, the filter will be added to just that named field. If you do not provide a <code>name</code> or <code>names</code> value, the filter will be added to all <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>fields</a> already attached to the form.</p>
+
+<p>See <a href="/pod/HTML/FormFu/Filter.html#CORE_FILTERS" class="podlinkpod"
+>&#34;CORE FILTERS&#34; in HTML::FormFu::Filter</a> for a list of core filters.</p>
+
+<p>If you want to load a filter in a namespace other than <code>HTML::FormFu::Filter::</code>, you can use a fully qualified package-name by prefixing it with <code>+</code>.</p>
+
+<p><a href="#filter" class="podlinkpod"
+>&#34;filter&#34;</a> is an alias for <a href="#filters" class="podlinkpod"
+>&#34;filters&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="constraints"
+>constraints</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="constraint"
+>constraint</a></h2>
+
+<p>Arguments: $type</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $constraint</p>
+
+<p>Arguments: \@arrayref_of_types_or_options</p>
+
+<p>Return Value: @constraints</p>
+
+<p>See <a href="/pod/HTML/FormFu/Constraint.html#CORE_CONSTRAINTS" class="podlinkpod"
+>&#34;CORE CONSTRAINTS&#34; in HTML::FormFu::Constraint</a> for a list of core constraints.</p>
+
+<p>If a <code>name</code> attribute isn&#39;t provided, a new constraint is created for and added to every field on the form.</p>
+
+<p>If you want to load a constraint in a namespace other than <code>HTML::FormFu::Constraint::</code>, you can use a fully qualified package-name by prefixing it with <code>+</code>.</p>
+
+<p><a href="#constraint" class="podlinkpod"
+>&#34;constraint&#34;</a> is an alias for <a href="#constraints" class="podlinkpod"
+>&#34;constraints&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inflators"
+>inflators</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inflator"
+>inflator</a></h2>
+
+<p>Arguments: $type</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $inflator</p>
+
+<p>Arguments: \@arrayref_of_types_or_options</p>
+
+<p>Return Value: @inflators</p>
+
+<p>See <a href="/pod/HTML/FormFu/Inflator.html#CORE_INFLATORS" class="podlinkpod"
+>&#34;CORE INFLATORS&#34; in HTML::FormFu::Inflator</a> for a list of core inflators.</p>
+
+<p>If a <code>name</code> attribute isn&#39;t provided, a new inflator is created for and added to every field on the form.</p>
+
+<p>If you want to load an inflator in a namespace other than <code>HTML::FormFu::Inflator::</code>, you can use a fully qualified package-name by prefixing it with <code>+</code>.</p>
+
+<p><a href="#inflator" class="podlinkpod"
+>&#34;inflator&#34;</a> is an alias for <a href="#inflators" class="podlinkpod"
+>&#34;inflators&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="validators"
+>validators</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="validator"
+>validator</a></h2>
+
+<p>Arguments: $type</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $validator</p>
+
+<p>Arguments: \@arrayref_of_types_or_options</p>
+
+<p>Return Value: @validators</p>
+
+<p>See <a href="/pod/HTML/FormFu/Validator.html#CORE_VALIDATORS" class="podlinkpod"
+>&#34;CORE VALIDATORS&#34; in HTML::FormFu::Validator</a> for a list of core validators.</p>
+
+<p>If a <code>name</code> attribute isn&#39;t provided, a new validator is created for and added to every field on the form.</p>
+
+<p>If you want to load a validator in a namespace other than <code>HTML::FormFu::Validator::</code>, you can use a fully qualified package-name by prefixing it with <code>+</code>.</p>
+
+<p><a href="#validator" class="podlinkpod"
+>&#34;validator&#34;</a> is an alias for <a href="#validators" class="podlinkpod"
+>&#34;validators&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="transformers"
+>transformers</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="transformer"
+>transformer</a></h2>
+
+<p>Arguments: $type</p>
+
+<p>Arguments: \%options</p>
+
+<p>Return Value: $transformer</p>
+
+<p>Arguments: \@arrayref_of_types_or_options</p>
+
+<p>Return Value: @transformers</p>
+
+<p>See <a href="/pod/HTML/FormFu/Transformer.html#CORE_TRANSFORMERS" class="podlinkpod"
+>&#34;CORE TRANSFORMERS&#34; in HTML::FormFu::Transformer</a> for a list of core transformers.</p>
+
+<p>If a <code>name</code> attribute isn&#39;t provided, a new transformer is created for and added to every field on the form.</p>
+
+<p>If you want to load a transformer in a namespace other than <code>HTML::FormFu::Transformer::</code>, you can use a fully qualified package-name by prefixing it with <code>+</code>.</p>
+
+<p><a href="#transformer" class="podlinkpod"
+>&#34;transformer&#34;</a> is an alias for <a href="#transformers" class="podlinkpod"
+>&#34;transformers&#34;</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CHANGING_DEFAULT_BEHAVIOUR"
+>CHANGING DEFAULT BEHAVIOUR</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render_processed_value"
+>render_processed_value</a></h2>
+
+<p>The default behaviour when re-displaying a form after a submission, is that the field contains the original unchanged user-submitted value.</p>
+
+<p>If <a href="#render_processed_value" class="podlinkpod"
+>&#34;render_processed_value&#34;</a> is true, the field value will be the final result after all Filters, Inflators and Transformers have been run. Deflators will also be run on the value.</p>
+
+<p>If you set this on a field with an Inflator, but without an equivalent Deflator, you should ensure that the Inflators stringify back to a usable value, so as not to confuse / annoy the user.</p>
+
+<p>Default Value: false</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<p>Is an <a href="#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="force_errors"
+>force_errors</a></h2>
+
+<p>Force a constraint to fail, regardless of user input.</p>
+
+<p>If this is called at runtime, after the form has already been processed, you must called <a href="/pod/HTML/FormFu.html#process" class="podlinkpod"
+>&#34;process&#34; in HTML::FormFu</a> again before redisplaying the form to the user.</p>
+
+<p>Default Value: false</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element, an element or a single constraint. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<p>Is an <a href="#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="params_ignore_underscore"
+>params_ignore_underscore</a></h2>
+
+<p>If true, causes <a href="#params" class="podlinkpod"
+>&#34;params&#34;</a>, <a href="#param" class="podlinkpod"
+>&#34;param&#34;</a> and <a href="#valid" class="podlinkpod"
+>&#34;valid&#34;</a> to ignore any fields whose name starts with an underscore <code>_</code>.</p>
+
+<p>The field is still processed as normal, and errors will cause <a href="#submitted_and_valid" class="podlinkpod"
+>&#34;submitted_and_valid&#34;</a> to return false.</p>
+
+<p>Default Value: false</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FORM_ATTRIBUTES"
+>FORM ATTRIBUTES</a></h1>
+
+<p>All attributes are added to the rendered form&#39;s start tag.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="attributes"
+>attributes</a></h2>
+
+<pre class="sh_perl">    # Example
+    ---
+    attributes:
+      id: form
+      class: fancy_form</pre>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_ACCESSOR" class="podlinkpod"
+>attribute accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="id"
+>id</a></h2>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SHORT-CUTS" class="podlinkpod"
+>attribute short-cut</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="action"
+>action</a></h2>
+
+<p>Default Value: &#34;&#34;</p>
+
+<p>Get or set the action associated with the form. The default is no action, which causes most browsers to submit to the current URI.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SHORT-CUTS" class="podlinkpod"
+>attribute short-cut</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="enctype"
+>enctype</a></h2>
+
+<p>Get or set the encoding type of the form. Valid values are <code>application/x-www-form-urlencoded</code> and <code>multipart/form-data</code>.</p>
+
+<p>If the form contains a File element, the enctype is automatically set to <code>multipart/form-data</code>.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SHORT-CUTS" class="podlinkpod"
+>attribute short-cut</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="method"
+>method</a></h2>
+
+<p>Default Value: &#34;post&#34;</p>
+
+<p>Get or set the method used to submit the form. Can be set to either &#34;post&#34; or &#34;get&#34;.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SHORT-CUTS" class="podlinkpod"
+>attribute short-cut</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="title"
+>title</a></h2>
+
+<p>Get or set the form&#39;s title attribute.</p>
+
+<p>Is an <a href="/pod/HTML/FormFu.html#ATTRIBUTE_SHORT-CUTS" class="podlinkpod"
+>attribute short-cut</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CSS_CLASSES"
+>CSS CLASSES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="form_error_message_class"
+>form_error_message_class</a></h2>
+
+<p>Class attribute for the error message displayed at the top of the form.</p>
+
+<p>See <a href="#form_error_message" class="podlinkpod"
+>&#34;form_error_message&#34;</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LOCALIZATION"
+>LOCALIZATION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="languages"
+>languages</a></h2>
+
+<p>Arguments: [\@languages]</p>
+
+<p>A list of languages which will be passed to the localization object.</p>
+
+<p>Default Value: [&#39;en&#39;]</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="localize_class"
+>localize_class</a></h2>
+
+<p>Arguments: [$class_name]</p>
+
+<p>Classname to be used for the default localization object.</p>
+
+<p>Default Value: &#39;HTML::FormFu::I18N&#39;</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="localize"
+>localize</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="loc"
+>loc</a></h2>
+
+<p>Arguments: [$key, @arguments]</p>
+
+<p>Compatible with the <code>maketext</code> method in <a href="https://metacpan.org/pod/Locale%3A%3AMaketext" class="podlinkpod"
+>Locale::Maketext</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="locale"
+>locale</a></h2>
+
+<p>Arguments: $locale</p>
+
+<p>Currently only used by <a href="/pod/HTML/FormFu/Deflator/FormatNumber.html" class="podlinkpod"
+>HTML::FormFu::Deflator::FormatNumber</a> and <a href="/pod/HTML/FormFu/Filter/FormatNumber.html" class="podlinkpod"
+>HTML::FormFu::Filter::FormatNumber</a>.</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<p>Is an <a href="#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PROCESSING_A_FORM"
+>PROCESSING A FORM</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="query"
+>query</a></h2>
+
+<p>Arguments: [$query_object]</p>
+
+<p>Arguments: \%params</p>
+
+<p>Provide a <a href="https://metacpan.org/pod/CGI" class="podlinkpod"
+>CGI</a> compatible query object or a hash-ref of submitted names/values. Alternatively, the query object can be passed directly to the <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> object.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="query_type"
+>query_type</a></h2>
+
+<p>Arguments: [$query_type]</p>
+
+<p>Set which module is being used to provide the <a href="#query" class="podlinkpod"
+>&#34;query&#34;</a>.</p>
+
+<p>The <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu" class="podlinkpod"
+>Catalyst::Controller::HTML::FormFu</a> automatically sets this to <code>Catalyst</code>.</p>
+
+<p>Valid values are <code>CGI</code>, <code>Catalyst</code> and <code>CGI::Simple</code>.</p>
+
+<p>Default Value: &#39;CGI&#39;</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="process"
+>process</a></h2>
+
+<p>Arguments: [$query_object]</p>
+
+<p>Arguments: [\%params]</p>
+
+<p>Process the provided query object or input values. <code>process</code> must be called before calling any of the methods listed under <a href="#SUBMITTED_FORM_VALUES_AND_ERRORS" class="podlinkpod"
+>&#34;SUBMITTED FORM VALUES AND ERRORS&#34;</a> and <a href="#MODIFYING_A_SUBMITTED_FORM" class="podlinkpod"
+>&#34;MODIFYING A SUBMITTED FORM&#34;</a>.</p>
+
+<p><code>process</code> must also be called at least once before printing the form or calling <a href="#render" class="podlinkpod"
+>&#34;render&#34;</a> or <a href="#render_data" class="podlinkpod"
+>&#34;render_data&#34;</a>.</p>
+
+<p>Note to users of <a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu" class="podlinkpod"
+>Catalyst::Controller::HTML::FormFu</a>: Because <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> is automatically called for you by the Catalyst controller; if you make any modifications to the form within your action method, such as adding or changing elements, adding constraints, etc; you must call <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> again yourself before using <a href="#submitted_and_valid" class="podlinkpod"
+>&#34;submitted_and_valid&#34;</a>, any of the methods listed under <a href="#SUBMITTED_FORM_VALUES_AND_ERRORS" class="podlinkpod"
+>&#34;SUBMITTED FORM VALUES AND ERRORS&#34;</a> or <a href="#MODIFYING_A_SUBMITTED_FORM" class="podlinkpod"
+>&#34;MODIFYING A SUBMITTED FORM&#34;</a>, or rendering the form.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SUBMITTED_FORM_VALUES_AND_ERRORS"
+>SUBMITTED FORM VALUES AND ERRORS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="submitted"
+>submitted</a></h2>
+
+<p>Returns true if the form has been submitted. See <a href="#indicator" class="podlinkpod"
+>&#34;indicator&#34;</a> for details on how this is computed.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="submitted_and_valid"
+>submitted_and_valid</a></h2>
+
+<p>Shorthand for <code>$form-&#62;submitted &#38;&#38; !$form-&#62;has_errors</code></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="params"
+>params</a></h2>
+
+<p>Return Value: \%params</p>
+
+<p>Returns a hash-ref of all valid input for which there were no errors.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="param_value"
+>param_value</a></h2>
+
+<p>Arguments: $field_name</p>
+
+<p>A more reliable, recommended version of <a href="#param" class="podlinkpod"
+>&#34;param&#34;</a>. Guaranteed to always return a single value, regardless of whether it&#39;s called in list context or not. If multiple values were submitted, this only returns the first value. If the value is invalid or the form was not submitted, it returns <code>undef</code>. This makes it suitable for use in list context, where a single value is required.</p>
+
+<pre class="sh_perl">    $db-&#62;update({
+        name    =&#62; $form-&#62;param_value(&#39;name&#39;),
+        address =&#62; $form-&#62;param_value(&#39;address),
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="param_array"
+>param_array</a></h2>
+
+<p>Arguments: $field_name</p>
+
+<p>Guaranteed to always return an array-ref of values, regardless of context and regardless of whether multiple values were submitted or not. If the value is invalid or the form was not submitted, it returns an empty array-ref.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="param_list"
+>param_list</a></h2>
+
+<p>Arguments: $field_name</p>
+
+<p>Guaranteed to always return a list of values, regardless of context. If the value is invalid or the form was not submitted, it returns an empty list.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="param"
+>param</a></h2>
+
+<p>Arguments: [$field_name]</p>
+
+<p>Return Value: $input_value</p>
+
+<p>Return Value: @valid_names</p>
+
+<p>No longer recommended for use, as its behaviour is hard to predict. Use <a href="#param_value" class="podlinkpod"
+>&#34;param_value&#34;</a>, <a href="#param_array" class="podlinkpod"
+>&#34;param_array&#34;</a> or <a href="#param_list" class="podlinkpod"
+>&#34;param_list&#34;</a> instead.</p>
+
+<p>A (readonly) method similar to that of <a href="https://metacpan.org/pod/CGI" class="podlinkpod"
+>CGI&#39;s</a>.</p>
+
+<p>If a field name is given, in list-context returns any valid values submitted for that field, and in scalar-context returns only the first of any valid values submitted for that field.</p>
+
+<p>If no argument is given, returns a list of all valid input field names without errors.</p>
+
+<p>Passing more than 1 argument is a fatal error.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="valid"
+>valid</a></h2>
+
+<p>Arguments: [$field_name]</p>
+
+<p>Return Value: @valid_names</p>
+
+<p>Return Value: $bool</p>
+
+<p>If a field name if given, returns <code>true</code> if that field had no errors and <code>false</code> if there were errors.</p>
+
+<p>If no argument is given, returns a list of all valid input field names without errors.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="has_errors"
+>has_errors</a></h2>
+
+<p>Arguments: [$field_name]</p>
+
+<p>Return Value: @names</p>
+
+<p>Return Value: $bool</p>
+
+<p>If a field name if given, returns <code>true</code> if that field had errors and <code>false</code> if there were no errors.</p>
+
+<p>If no argument is given, returns a list of all input field names with errors.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_errors"
+>get_errors</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@errors</p>
+
+<p>Returns an array-ref of exception objects from all fields in the form.</p>
+
+<p>Accepts both <code>name</code>, <code>type</code> and <code>stage</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_errors({
+        name  =&#62; &#39;foo&#39;,
+        type  =&#62; &#39;Regex&#39;,
+        stage =&#62; &#39;constraint&#39;
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_error"
+>get_error</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $error</p>
+
+<p>Accepts the same arguments as <a href="#get_errors" class="podlinkpod"
+>&#34;get_errors&#34;</a>, but only returns the first error found.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="MODEL_/_DATABASE_INTERACTION"
+>MODEL / DATABASE INTERACTION</a></h1>
+
+<p>See <a href="/pod/HTML/FormFu/Model.html" class="podlinkpod"
+>HTML::FormFu::Model</a> for further details and available models.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_model"
+>default_model</a></h2>
+
+<p>Arguments: $model_name</p>
+
+<p>Default Value: &#39;DBIC&#39;</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="model"
+>model</a></h2>
+
+<p>Arguments: [$model_name]</p>
+
+<p>Return Value: $model</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="model_config"
+>model_config</a></h2>
+
+<p>Arguments: \%config</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="MODIFYING_A_SUBMITTED_FORM"
+>MODIFYING A SUBMITTED FORM</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_valid"
+>add_valid</a></h2>
+
+<p>Arguments: $name, $value</p>
+
+<p>Return Value: $value</p>
+
+<p>The provided value replaces any current value for the named field. This value will be returned in subsequent calls to <a href="#params" class="podlinkpod"
+>&#34;params&#34;</a> and <a href="#param" class="podlinkpod"
+>&#34;param&#34;</a> and the named field will be included in calculations for <a href="#valid" class="podlinkpod"
+>&#34;valid&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_errors"
+>clear_errors</a></h2>
+
+<p>Deletes all errors from a submitted form.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RENDERING_A_FORM"
+>RENDERING A FORM</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render"
+>render</a></h2>
+
+<p>Return Value: $string</p>
+
+<p>You must call <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> once after building the form, and before calling <a href="#render" class="podlinkpod"
+>&#34;render&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="start"
+>start</a></h2>
+
+<p>Return Value: $string</p>
+
+<p>Returns the form start tag, and any output of <a href="#form_error_message" class="podlinkpod"
+>&#34;form_error_message&#34;</a> and <a href="#javascript" class="podlinkpod"
+>&#34;javascript&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="end"
+>end</a></h2>
+
+<p>Return Value: $string</p>
+
+<p>Returns the form end tag.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="hidden_fields"
+>hidden_fields</a></h2>
+
+<p>Return Value: $string</p>
+
+<p>Returns all hidden form fields.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="PLUGIN_SYSTEM"
+>PLUGIN SYSTEM</a></h1>
+
+<p><code>HTML::FormFu</code> provides a plugin-system that allows plugins to be easily added to a form or element, to change the default behaviour or output.</p>
+
+<p>See <a href="/pod/HTML/FormFu/Plugin.html" class="podlinkpod"
+>HTML::FormFu::Plugin</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ADVANCED_CUSTOMISATION"
+>ADVANCED CUSTOMISATION</a></h1>
+
+<p>By default, formfu renders &#34;XHTML 1.0 Strict&#34; compliant markup, with as little extra markup as possible. Many hooks are provided to add programmatically-generated CSS class names, to allow for a wide-range of output styles to be generated by changing only the CSS.</p>
+
+<p>Basic customisation of the markup is possible via the <a href="/pod/HTML/FormFu/Role/Element/Field.html#layout" class="podlinkpod"
+>layout</a> and <a href="/pod/HTML/FormFu/Role/Element/Field.html#multi_layout" class="podlinkpod"
+>multi_layout</a> methods. This allows you to reorder the position of various parts of each field - such as the label, comment, error messages and the input tag - as well as inserting any other arbitrary tags you may wish.</p>
+
+<p>If this is not sufficient, you can make completely personalise the markup by telling HTML::FormFu to use an external rendering engine, such as <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template Toolkit</a> or <a href="https://metacpan.org/pod/Template%3A%3AAlloy" class="podlinkpod"
+>Template::Alloy</a>. See <a href="#render_method" class="podlinkpod"
+>&#34;render_method&#34;</a> and <a href="#tt_module" class="podlinkpod"
+>&#34;tt_module&#34;</a> for details.</p>
+
+<p>Even if you set HTML::FormFu to use <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template::Toolkit</a> to render, the forms, HTML::FormFu can still be used in conjunction with whichever other templating system you prefer to use for your own page layouts, whether it&#39;s <a href="https://metacpan.org/pod/HTML%3A%3ATemplate" class="podlinkpod"
+>HTML::Template</a>: <code>&#60;TMPL_VAR form&#62;</code>, <a href="https://metacpan.org/pod/Petal" class="podlinkpod"
+>Petal</a>: <code>&#60;form tal:replace=&#34;form&#34;&#62;&#60;/form&#62;</code> or <a href="https://metacpan.org/pod/Template%3A%3AMagic" class="podlinkpod"
+>Template::Magic</a>: <code>&#60;!-- {form} --&#62;</code>.</p>
+
+<p>As of <code>HTML::FormFu v1.00</code>, <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>TT</a> is no longer listed a required prerequisite - so you&#39;ll need to install it manually if you wish to use the template files.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render_method"
+>render_method</a></h2>
+
+<p>Default Value: <code>string</code></p>
+
+<p>Can be set to <code>tt</code> to generate the form with external template files.</p>
+
+<p>To customise the markup, you&#39;ll need a copy of the template files, local to your application. See <a href="/pod/HTML/FormFu/Manual/Cookbook.html#Installing_the_TT_templates" class="podlinkpod"
+>&#34;Installing the TT templates&#34; in HTML::FormFu::Manual::Cookbook</a> for further details.</p>
+
+<p>You can customise the markup for a single element by setting that element&#39;s <a href="#render_method" class="podlinkpod"
+>&#34;render_method&#34;</a> to <code>tt</code>, while the rest of the form uses the default <code>string</code> render-method. Note though, that if you try setting the form or a Block&#39;s <a href="#render_method" class="podlinkpod"
+>&#34;render_method&#34;</a> to <code>tt</code>, and then set a child element&#39;s <a href="#render_method" class="podlinkpod"
+>&#34;render_method&#34;</a> to <code>string</code>, that setting will be ignored, and the child elements will still use the <code>tt</code> render-method.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - name: foo
+        render_method: tt
+        filename: custom_field
+
+      - name: bar
+
+    # in this example, &#39;foo&#39; will use a custom template,
+    # while bar will use the default &#39;string&#39; rendering method</pre>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<p>Is an <a href="#INHERITING_ACCESSORS" class="podlinkpod"
+>inheriting accessor</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filename"
+>filename</a></h2>
+
+<p>Change the template filename used for the form.</p>
+
+<p>Default Value: &#34;form&#34;</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tt_args"
+>tt_args</a></h2>
+
+<p>Arguments: [\%constructor_arguments]</p>
+
+<p>Accepts a hash-ref of arguments passed to <a href="#render_method" class="podlinkpod"
+>&#34;render_method&#34;</a>, which is called internally by <a href="#render" class="podlinkpod"
+>&#34;render&#34;</a>.</p>
+
+<p>Within tt_args, the keys <code>RELATIVE</code> and <code>RECURSION</code> are overridden to always be true, as these are a basic requirement for the <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template</a> engine.</p>
+
+<p>The system directory containing HTML::FormFu&#39;s template files is always added to the end of <code>INCLUDE_PATH</code>, so that the core template files will be found. You only need to set this yourself if you have your own copy of the template files for customisation purposes.</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="add_tt_args"
+>add_tt_args</a></h2>
+
+<p>Arguments: [\%constructor_arguments]</p>
+
+<p>Ensures that the hash-ref argument is merged with any existing hash-ref value of <a href="#tt_args" class="podlinkpod"
+>&#34;tt_args&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tt_module"
+>tt_module</a></h2>
+
+<p>Default Value: Template</p>
+
+<p>The module used when <a href="#render_method" class="podlinkpod"
+>&#34;render_method&#34;</a> is set to <code>tt</code>. Should provide an interface compatible with <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template</a>.</p>
+
+<p>This method is a special &#39;inherited accessor&#39;, which means it can be set on the form, a block element or a single element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, through any block elements and up to the form, searching for a defined value.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render_data"
+>render_data</a></h2>
+
+<p>Usually called implicitly by <a href="#render" class="podlinkpod"
+>&#34;render&#34;</a>. Returns the data structure that would normally be passed onto the <code>string</code> or <code>tt</code> render-methods.</p>
+
+<p>As with <a href="#render" class="podlinkpod"
+>&#34;render&#34;</a>, you must call <a href="#process" class="podlinkpod"
+>&#34;process&#34;</a> once after building the form, and before calling <a href="#render_data" class="podlinkpod"
+>&#34;render_data&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="render_data_non_recursive"
+>render_data_non_recursive</a></h2>
+
+<p>Like <a href="#render_data" class="podlinkpod"
+>&#34;render_data&#34;</a>, but doesn&#39;t include the data for any child-elements.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INTROSPECTION"
+>INTROSPECTION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_fields"
+>get_fields</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@elements</p>
+
+<p>Returns all fields in the form (specifically, all elements which have a true <a href="/pod/HTML/FormFu/Element.html#is_field" class="podlinkpod"
+>&#34;is_field&#34; in HTML::FormFu::Element</a> value).</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_fields({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;Radio&#39;,
+    });</pre>
+
+<p>Accepts also an Regexp to search for results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_elements({
+        name =&#62; qr/oo/,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_field"
+>get_field</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $element</p>
+
+<p>Accepts the same arguments as <a href="#get_fields" class="podlinkpod"
+>&#34;get_fields&#34;</a>, but only returns the first field found.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_elements"
+>get_elements</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@elements</p>
+
+<p>Returns all top-level elements in the form (not recursive). See <a href="#get_all_elements" class="podlinkpod"
+>&#34;get_all_elements&#34;</a> for a recursive version.</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_elements({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;Radio&#39;,
+    });</pre>
+
+<p>Accepts also an Regexp to search for results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_elements({
+        name =&#62; qr/oo/,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_element"
+>get_element</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $element</p>
+
+<p>Accepts the same arguments as <a href="#get_elements" class="podlinkpod"
+>&#34;get_elements&#34;</a>, but only returns the first element found.</p>
+
+<p>See <a href="#get_all_element" class="podlinkpod"
+>&#34;get_all_element&#34;</a> for a recursive version.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_all_elements"
+>get_all_elements</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@elements</p>
+
+<p>Returns all elements in the form recursively.</p>
+
+<p>Optionally accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    # return all Text elements
+
+    $form-&#62;get_all_elements({
+        type =&#62; &#39;Text&#39;,
+    });</pre>
+
+<p>Accepts also an Regexp to search for results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_elements({
+        name =&#62; qr/oo/,
+    });</pre>
+
+<p>See <a href="#get_elements" class="podlinkpod"
+>&#34;get_elements&#34;</a> for a non-recursive version.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_all_element"
+>get_all_element</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $element</p>
+
+<p>Accepts the same arguments as <a href="#get_all_elements" class="podlinkpod"
+>&#34;get_all_elements&#34;</a>, but only returns the first element found.</p>
+
+<pre class="sh_perl">    # return the first Text field found, regardless of whether it&#39;s
+    # within a fieldset or not
+
+    $form-&#62;get_all_element({
+        type =&#62; &#39;Text&#39;,
+    });</pre>
+
+<p>Accepts also an Regexp to search for results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_elements({
+        name =&#62; qr/oo/,
+    });</pre>
+
+<p>See <a href="#get_all_elements" class="podlinkpod"
+>&#34;get_all_elements&#34;</a> for a non-recursive version.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_deflators"
+>get_deflators</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@deflators</p>
+
+<p>Returns all top-level deflators from all fields.</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_deflators({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;Strftime&#39;,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_deflator"
+>get_deflator</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $element</p>
+
+<p>Accepts the same arguments as <a href="#get_deflators" class="podlinkpod"
+>&#34;get_deflators&#34;</a>, but only returns the first deflator found.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_filters"
+>get_filters</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@filters</p>
+
+<p>Returns all top-level filters from all fields.</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_filters({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;LowerCase&#39;,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_filter"
+>get_filter</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $filter</p>
+
+<p>Accepts the same arguments as <a href="#get_filters" class="podlinkpod"
+>&#34;get_filters&#34;</a>, but only returns the first filter found.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_constraints"
+>get_constraints</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@constraints</p>
+
+<p>Returns all constraints from all fields.</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_constraints({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;Equal&#39;,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_constraint"
+>get_constraint</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $constraint</p>
+
+<p>Accepts the same arguments as <a href="#get_constraints" class="podlinkpod"
+>&#34;get_constraints&#34;</a>, but only returns the first constraint found.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_inflators"
+>get_inflators</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@inflators</p>
+
+<p>Returns all inflators from all fields.</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_inflators({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;DateTime&#39;,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_inflator"
+>get_inflator</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $inflator</p>
+
+<p>Accepts the same arguments as <a href="#get_inflators" class="podlinkpod"
+>&#34;get_inflators&#34;</a>, but only returns the first inflator found.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_validators"
+>get_validators</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@validators</p>
+
+<p>Returns all validators from all fields.</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_validators({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;Callback&#39;,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_validator"
+>get_validator</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $validator</p>
+
+<p>Accepts the same arguments as <a href="#get_validators" class="podlinkpod"
+>&#34;get_validators&#34;</a>, but only returns the first validator found.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_transformers"
+>get_transformers</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: \@transformers</p>
+
+<p>Returns all transformers from all fields.</p>
+
+<p>Accepts both <code>name</code> and <code>type</code> arguments to narrow the returned results.</p>
+
+<pre class="sh_perl">    $form-&#62;get_transformers({
+        name =&#62; &#39;foo&#39;,
+        type =&#62; &#39;Callback&#39;,
+    });</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_transformer"
+>get_transformer</a></h2>
+
+<p>Arguments: [%options]</p>
+
+<p>Arguments: [\%options]</p>
+
+<p>Return Value: $transformer</p>
+
+<p>Accepts the same arguments as <a href="#get_transformers" class="podlinkpod"
+>&#34;get_transformers&#34;</a>, but only returns the first transformer found.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clone"
+>clone</a></h2>
+
+<p>Returns a deep clone of the <code>$form</code> object.</p>
+
+<p>Because of scoping issues, code references (such as in Callback constraints) are copied instead of cloned.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTE_ACCESSORS"
+>ATTRIBUTE ACCESSORS</a></h1>
+
+<p>For the basic method, e.g. <code>/attributes</code>:</p>
+
+<p>Arguments: [%attributes]</p>
+
+<p>Arguments: [\%attributes]</p>
+
+<p>Return Value: $form</p>
+
+<p>As a special case, if no arguments are passed, the attributes hash-ref is returned. This allows the following idioms.</p>
+
+<pre class="sh_perl">    # set a value
+    $form-&#62;attributes-&#62;{id} = &#39;form&#39;;
+
+    # delete all attributes
+    %{ $form-&#62;attributes } = ();</pre>
+
+<p>All methods documented as &#39;attribute accessors&#39; also have the following variants generated:</p>
+
+<p><code>*_xml</code> can be used as a setter, and ensures that its argument is not XML-escaped in the rendered form.</p>
+
+<p><code>*_loc</code> can he used as a setter, and passes the arguments through <a href="#localize" class="podlinkpod"
+>&#34;localize&#34;</a>.</p>
+
+<p><code>add_*</code> can be used to append a word to an attribute without overwriting any already-existing value.</p>
+
+<pre class="sh_perl">    # Example
+    $form-&#62;attributes({ class =&#62; &#39;fancy&#39; });
+    $form-&#62;add_attributes({ class =&#62; &#39;pants&#39; });
+    # class=&#34;fancy pants&#34;</pre>
+
+<p><code>add_*_xml</code>, like <code>add_*</code>, but ensures it doesn&#39;t get XML-escaped.</p>
+
+<p><code>add_*_loc</code>, like <code>add_*</code>, but passing the arguments through <a href="#localize" class="podlinkpod"
+>&#34;localize&#34;</a>.</p>
+
+<p><code>del_*</code> can be used to remove a word from an attribute value.</p>
+
+<pre class="sh_perl">    # Example
+    $form-&#62;attributes({ class =&#62; &#39;fancy pants&#39; });
+    $form-&#62;del_attributes({ class =&#62; &#39;pants&#39; });
+    # class=&#34;fancy&#34;</pre>
+
+<p><code>del_*_xml</code>, like <code>del_*</code>, but ensures it doesn&#39;t get XML-escaped.</p>
+
+<p><code>del_*_loc</code>, like <code>del_*</code>, but passing the arguments through <a href="#localize" class="podlinkpod"
+>&#34;localize&#34;</a>.</p>
+
+<p>Also, any attribute method-name which contains the word <code>attributes</code> also has aliases created for all these variants, with the word <code>attributes</code> replaced by <code>attrs</code>.</p>
+
+<pre class="sh_perl">    # For example, the attributes() method would have all these variant
+    # methods available
+
+    $form-&#62;attributes({ class =&#62; &#39;fancy&#39; });
+    $form-&#62;attributes_xml({ title =&#62; &#39;&#60;b&#62;fancy&#60;/b&#62;&#39; });
+    $form-&#62;attributes_loc({ title =&#62; &#39;fancy&#39; });
+    $form-&#62;add_attributes({ class =&#62; &#39;fancy&#39; });
+    $form-&#62;add_attributes_xml({ title =&#62; &#39;&#60;b&#62;fancy&#60;/b&#62;&#39; });
+    $form-&#62;add_attributes_loc({ title =&#62; &#39;fancy&#39; });
+    $form-&#62;del_attributes({ class =&#62; &#39;fancy&#39; });
+    $form-&#62;del_attributes_xml({ title =&#62; &#39;&#60;b&#62;fancy&#60;/b&#62;&#39; });
+    $form-&#62;del_attributes_loc({ title =&#62; &#39;fancy&#39; });
+
+    # Because the method contains the word &#39;attributes&#39;, it also gets the
+    # following short-forms
+
+    $form-&#62;attrs({ class =&#62; &#39;fancy&#39; });
+    $form-&#62;attrs_xml({ title =&#62; &#39;&#60;b&#62;fancy&#60;/b&#62;&#39; });
+    $form-&#62;attrs_loc({ title =&#62; &#39;fancy&#39; });
+    $form-&#62;add_attrs({ class =&#62; &#39;fancy&#39; });
+    $form-&#62;add_attrs_xml({ title =&#62; &#39;&#60;b&#62;fancy&#60;/b&#62;&#39; });
+    $form-&#62;add_attrs_loc({ title =&#62; &#39;fancy&#39; });
+    $form-&#62;del_attrs({ class =&#62; &#39;fancy&#39; });
+    $form-&#62;del_attrs_xml({ title =&#62; &#39;&#60;b&#62;fancy&#60;/b&#62;&#39; });
+    $form-&#62;del_attrs_loc({ title =&#62; &#39;fancy&#39; });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTE_SHORT-CUTS"
+>ATTRIBUTE SHORT-CUTS</a></h1>
+
+<p>All methods documented as &#39;attribute short-cuts&#39; are short-cuts to directly access individual attribute key/values.</p>
+
+<pre class="sh_perl">    # Example
+    $form-&#62;id( &#39;login&#39; );
+    $id = $form-&#62;id;
+
+    # is equivalent to:
+    $form-&#62;attributes({ id =&#62; &#39;login&#39; });
+    $id = $form-&#62;attributes-&#62;{id};</pre>
+
+<p>All attribute short-cuts also have a <code>*_xml</code> variant.</p>
+
+<pre class="sh_perl">    # Example
+    $form-&#62;id_xml( $xml );
+
+    # is equivalent to:
+    $form-&#62;attributes_xml({ id =&#62; $xml });</pre>
+
+<p>All attribute short-cuts also have a <code>*_loc</code> variant.</p>
+
+<pre class="sh_perl">    # Example
+    $form-&#62;title_loc( $key );
+
+    # is equivalent to:
+    $form-&#62;attributes_loc({ title =&#62; $key });</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INHERITING_ACCESSORS"
+>INHERITING ACCESSORS</a></h1>
+
+<p>All methods documented as &#39;inheriting accessors&#39; can be set on the form, a block element or a single field element. When the value is read, if no value is defined it automatically traverses the element&#39;s hierarchy of parents, searching for a defined value.</p>
+
+<p>All inherited accessors also have a <code>*_no_inherit</code> variant, which can be used as a getter to fetch any defined value, without traversing the hierarchy of parents. This variant cannot be used as a setter.</p>
+
+<p>E.g., the <a href="#auto_id" class="podlinkpod"
+>&#34;auto_id&#34;</a> has a variant named <code>auto_id_no_inherit</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="OUTPUT_ACCESSORS"
+>OUTPUT ACCESSORS</a></h1>
+
+<p>All methods documented as &#39;output accessors&#39; also have <code>*_xml</code> and <code>*_loc</code> variants.</p>
+
+<p>The <code>*_xml</code> variant can be used as a setter, and ensures that its argument is not XML-escaped in the rendered form.</p>
+
+<p>The <code>*_loc</code> variant can be used as a setter, and passes the arguments through <a href="#localize" class="podlinkpod"
+>&#34;localize&#34;</a>.</p>
+
+<p>E.g., the <a href="/pod/HTML/FormFu/Role/Element/Field.html#label" class="podlinkpod"
+>label</a> method has variants named <code>label_xml</code> and <code>label_loc</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BOOLEAN_ATTRIBUTE_ACCESSORS"
+>BOOLEAN ATTRIBUTE ACCESSORS</a></h1>
+
+<p>To support boolean attributes, whose value should either be equal to the attribute name, or empty. Any true value will switch the attribute &#39;on&#39;, any false value will remove the attribute.</p>
+
+<pre class="sh_perl">    # Example
+
+    $field-&#62;autofocus(1);
+    # equivalent to:
+    $field-&#62;attributes({ autofocus =&#62; &#39;autofocus&#39; });
+
+    $field-&#62;autofocus(0);;
+    # equivalent to:
+    delete $field-&#62;attributes-&#62;{autofocus};</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="ATTRIBUTE_SUBSTITUTIONS"
+>ATTRIBUTE SUBSTITUTIONS</a></h1>
+
+<p>Some attributes support character substitutions: the following substitutions are possible:</p>
+
+<pre class="sh_perl">    %f # $form-&#62;id
+    %n # $field-&#62;name
+    %t # lc( $field-&#62;type )
+    %r # $block-&#62;repeatable_count
+    %s # $error-&#62;stage</pre>
+
+<p>These allow each field to have consistent attributes, while remaining unique.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DEPRECATION_POLICY"
+>DEPRECATION POLICY</a></h1>
+
+<p>We try our best to not make incompatible changes, but if they&#39;re required we&#39;ll make every effort possible to provide backwards compatibility for several release-cycles, issuing a warnings about the changes, before removing the legacy features.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RESTORING_LEGACY_HTML_CLASSES"
+>RESTORING LEGACY HTML CLASSES</a></h1>
+
+<p><code>v1.00</code> dropped most of the default HTML class-names, with the intention that each application should define just what it needs, without needing to reset unwanted options first. We also gain the benefit of less markup being generated, speeding up both <a href="#render" class="podlinkpod"
+>render</a> and HTTP transfers.</p>
+
+<p>To restore the previous behaviour, set the following options.</p>
+
+<p>If you&#39;re using <a href="#BEST_PRACTICES" class="podlinkpod"
+>best practices</a>, you&#39;ll only need to set these once per-application in your app-wide config file.</p>
+
+<pre class="sh_perl">    ---
+    auto_container_class: &#39;%t&#39;
+    auto_container_label_class: &#39;label&#39;
+    auto_container_comment_class: &#39;comment&#39;
+    auto_comment_class: &#39;comment&#39;
+    auto_container_error_class: &#39;error&#39;
+    auto_container_per_error_class: &#39;error_%s_%t&#39;
+    auto_error_class: &#39;error_message error_%s_%t&#39;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DEPRECATED_METHODS"
+>DEPRECATED METHODS</a></h1>
+
+<p>See <a href="/pod/HTML/FormFu/Role/Element/Field.html#DEPRECATED_METHODS" class="podlinkpod"
+>&#34;DEPRECATED METHODS&#34; in HTML::FormFu::Role::Element::Field</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REMOVED_METHODS"
+>REMOVED METHODS</a></h1>
+
+<p>See also <a href="/pod/HTML/FormFu/Element.html#REMOVED_METHODS" class="podlinkpod"
+>&#34;REMOVED METHODS&#34; in HTML::FormFu::Element</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="element_defaults"
+>element_defaults</a></h2>
+
+<p>Has been removed; see <a href="#default_args" class="podlinkpod"
+>&#34;default_args&#34;</a> instead.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="model_class"
+>model_class</a></h2>
+
+<p>Has been removed; use <a href="#default_model" class="podlinkpod"
+>&#34;default_model&#34;</a> instead.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="defaults_from_model"
+>defaults_from_model</a></h2>
+
+<p>Has been removed; use <a href="/pod/HTML/FormFu/Model.html#default_values" class="podlinkpod"
+>&#34;default_values&#34; in HTML::FormFu::Model</a> instead.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="save_to_model"
+>save_to_model</a></h2>
+
+<p>Has been removed; use <a href="/pod/HTML/FormFu/Model.html#update" class="podlinkpod"
+>&#34;update&#34; in HTML::FormFu::Model</a> instead.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BEST_PRACTICES"
+>BEST PRACTICES</a></h1>
+
+<p>It is advisable to keep application-wide (or global) settings in a single config file, which should be loaded by each form.</p>
+
+<p>See <a href="#load_config_file" class="podlinkpod"
+>&#34;load_config_file&#34;</a>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COOKBOOK"
+>COOKBOOK</a></h1>
+
+<p><a href="/pod/HTML/FormFu/Manual/Cookbook.html" class="podlinkpod"
+>HTML::FormFu::Manual::Cookbook</a></p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="UNICODE"
+>UNICODE</a></h2>
+
+<p><a href="/pod/HTML/FormFu/Manual/Unicode.html" class="podlinkpod"
+>HTML::FormFu::Manual::Unicode</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EXAMPLES"
+>EXAMPLES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="vertically-aligned_CSS"
+>vertically-aligned CSS</a></h2>
+
+<p>The distribution directory <code>examples/vertically-aligned</code> contains a form with example CSS for a &#34;vertically aligned&#34; theme.</p>
+
+<p>This can be viewed by opening the file <code>vertically-aligned.html</code> in a web-browser.</p>
+
+<p>If you wish to experiment with making changes, the form is defined in file <code>vertically-aligned.yml</code>, and the HTML file can be updated with any changes by running the following command (while in the distribution root directory).</p>
+
+<pre class="sh_perl">    perl examples/vertically-aligned/vertically-aligned.pl</pre>
+
+<p>This uses the <a href="https://metacpan.org/pod/Template" class="podlinkpod"
+>Template Toolkit</a> file <code>vertically-aligned.tt</code>, and the CSS is defined in files <code>vertically-aligned.css</code> and <code>vertically-aligned-ie.css</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AImager" class="podlinkpod"
+>HTML::FormFu::Imager</a></p>
+
+<p><a href="https://metacpan.org/pod/Catalyst%3A%3AController%3A%3AHTML%3A%3AFormFu" class="podlinkpod"
+>Catalyst::Controller::HTML::FormFu</a></p>
+
+<p><a href="https://metacpan.org/pod/HTML%3A%3AFormFu%3A%3AModel%3A%3ADBIC" class="podlinkpod"
+>HTML::FormFu::Model::DBIC</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CONTRIBUTORS"
+>CONTRIBUTORS</a></h1>
+
+<p>Brian Cassidy</p>
+
+<p>Ozum Eldogan</p>
+
+<p>Ruben Fonseca</p>
+
+<p>Ronald Kimball</p>
+
+<p>Daisuke Maki</p>
+
+<p>Andreas Marienborg</p>
+
+<p>Mario Minati</p>
+
+<p>Steve Nolte</p>
+
+<p>Moritz Onken</p>
+
+<p>Doug Orleans</p>
+
+<p>Matthias Dietrich</p>
+
+<p>Dean Hamstead</p>
+
+<p>Karen Etheridge</p>
+
+<p>Nigel Metheringham</p>
+
+<p>Based on the original source code of <a href="https://metacpan.org/pod/HTML%3A%3AWidget" class="podlinkpod"
+>HTML::Widget</a>, by Sebastian Riedel, <code>sri@oook.de</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

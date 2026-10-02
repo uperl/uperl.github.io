@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Element::Checkboxgroup</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::<a href="/pod/HTML/FormFu/Element.html">Element</a>::Checkboxgroup</div>
+    <!--HTML::FormFu::Element::Checkboxgroup--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#options'>options</a>
+    <li class='indexItem indexItem2'><a href='#values'>values</a>
+    <li class='indexItem indexItem2'><a href='#value_range'>value_range</a>
+    <li class='indexItem indexItem2'><a href='#auto_id'>auto_id</a>
+    <li class='indexItem indexItem2'><a href='#reverse_group'>reverse_group</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Element::Checkboxgroup - Group of checkbox form fields</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<p>YAML config:</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Checkboxgroup
+        name: subjects
+        options:
+          - [ &#39;Math&#39; ]
+          - [ &#39;Science&#39; ]
+          - [ &#39;English&#39; ]</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Convenient to use group of checkbox fields.</p>
+
+<p>Use the same syntax as you would to create a Select element optgroup to create Checkboxgroup sub-groups, see <a href="/pod/HTML/FormFu/Role/Element/Group.html#options" class="podlinkpod"
+>&#34;options&#34; in HTML::FormFu::Role::Element::Group</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="options"
+>options</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu/Role/Element/Group.html#options" class="podlinkpod"
+>&#34;options&#34; in HTML::FormFu::Role::Element::Group</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="values"
+>values</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu/Role/Element/Group.html#values" class="podlinkpod"
+>&#34;values&#34; in HTML::FormFu::Role::Element::Group</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="value_range"
+>value_range</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu/Role/Element/Group.html#value_range" class="podlinkpod"
+>&#34;value_range&#34; in HTML::FormFu::Role::Element::Group</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_id"
+>auto_id</a></h2>
+
+<p>In addition to the substitutions documented by <a href="/pod/HTML/FormFu.html#auto_id" class="podlinkpod"
+>&#34;auto_id&#34; in HTML::FormFu</a>, <code>%c</code> will be replaced by an incremented integer, to ensure there are no duplicated ID&#39;s, and <code>%v</code> will be replaced by the item&#39;s value to allow multiple elements with the same name to coexist, and their labels to correctly select the appropriate item.</p>
+
+<pre class="sh_perl">    ---
+    elements:
+      type: Checkboxgroup
+      name: foo
+      auto_id: &#34;%n_%c&#34;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="reverse_group"
+>reverse_group</a></h2>
+
+<p>If true, then the label for each checkbox in the checkbox group should be rendered to the right of the field control. Otherwise, the label is rendered to the left of the field control.</p>
+
+<p>The default value is <code>true</code>, causing each label to be rendered to the right of its field control (or to be explicit: the markup for the label comes after the field control in the source).</p>
+
+<p>Default Value: <code>true</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Is a sub-class of, and inherits methods from <a href="/pod/HTML/FormFu/Role/Element/Group.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Group</a>, <a href="/pod/HTML/FormFu/Role/Element/Field.html" class="podlinkpod"
+>HTML::FormFu::Role::Element::Field</a>, <a href="/pod/HTML/FormFu/Element.html" class="podlinkpod"
+>HTML::FormFu::Element</a></p>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

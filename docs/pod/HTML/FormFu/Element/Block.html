@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Element::Block</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::<a href="/pod/HTML/FormFu/Element.html">Element</a>::Block</div>
+    <!--HTML::FormFu::Element::Block--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#tag'>tag</a>
+    <li class='indexItem indexItem2'><a href='#content'>content</a>
+    <li class='indexItem indexItem2'><a href='#content_xml'>content_xml</a>
+    <li class='indexItem indexItem2'><a href='#content_loc'>content_loc</a>
+    <li class='indexItem indexItem2'><a href='#elements'>elements</a>
+    <li class='indexItem indexItem2'><a href='#element'>element</a>
+    <li class='indexItem indexItem2'><a href='#deflators'>deflators</a>
+    <li class='indexItem indexItem2'><a href='#deflator'>deflator</a>
+    <li class='indexItem indexItem2'><a href='#filters'>filters</a>
+    <li class='indexItem indexItem2'><a href='#filter'>filter</a>
+    <li class='indexItem indexItem2'><a href='#constraints'>constraints</a>
+    <li class='indexItem indexItem2'><a href='#constraint'>constraint</a>
+    <li class='indexItem indexItem2'><a href='#inflators'>inflators</a>
+    <li class='indexItem indexItem2'><a href='#inflator'>inflator</a>
+    <li class='indexItem indexItem2'><a href='#validators'>validators</a>
+    <li class='indexItem indexItem2'><a href='#validator'>validator</a>
+    <li class='indexItem indexItem2'><a href='#transformers'>transformers</a>
+    <li class='indexItem indexItem2'><a href='#transformer'>transformer</a>
+    <li class='indexItem indexItem2'><a href='#auto_datalist_id'>auto_datalist_id</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CSS_CLASSES'>CSS CLASSES</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#auto_id'>auto_id</a>
+    <li class='indexItem indexItem2'><a href='#auto_block_id'>auto_block_id</a>
+    <li class='indexItem indexItem2'><a href='#auto_label'>auto_label</a>
+    <li class='indexItem indexItem2'><a href='#auto_error_field_class'>auto_error_field_class</a>
+    <li class='indexItem indexItem2'><a href='#auto_error_class'>auto_error_class</a>
+    <li class='indexItem indexItem2'><a href='#auto_error_message'>auto_error_message</a>
+    <li class='indexItem indexItem2'><a href='#auto_constraint_class'>auto_constraint_class</a>
+    <li class='indexItem indexItem2'><a href='#auto_inflator_class'>auto_inflator_class</a>
+    <li class='indexItem indexItem2'><a href='#auto_validator_class'>auto_validator_class</a>
+    <li class='indexItem indexItem2'><a href='#auto_transformer_class'>auto_transformer_class</a>
+    <li class='indexItem indexItem2'><a href='#default_args'>default_args</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#RENDERING'>RENDERING</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#start'>start</a>
+    <li class='indexItem indexItem2'><a href='#end'>end</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#INTROSPECTION'>INTROSPECTION</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#get_elements'>get_elements</a>
+    <li class='indexItem indexItem2'><a href='#get_element'>get_element</a>
+    <li class='indexItem indexItem2'><a href='#get_all_elements'>get_all_elements</a>
+    <li class='indexItem indexItem2'><a href='#get_fields'>get_fields</a>
+    <li class='indexItem indexItem2'><a href='#get_field'>get_field</a>
+    <li class='indexItem indexItem2'><a href='#get_deflators'>get_deflators</a>
+    <li class='indexItem indexItem2'><a href='#get_deflator'>get_deflator</a>
+    <li class='indexItem indexItem2'><a href='#get_filters'>get_filters</a>
+    <li class='indexItem indexItem2'><a href='#get_filter'>get_filter</a>
+    <li class='indexItem indexItem2'><a href='#get_constraints'>get_constraints</a>
+    <li class='indexItem indexItem2'><a href='#get_constraint'>get_constraint</a>
+    <li class='indexItem indexItem2'><a href='#get_inflators'>get_inflators</a>
+    <li class='indexItem indexItem2'><a href='#get_inflator'>get_inflator</a>
+    <li class='indexItem indexItem2'><a href='#get_validators'>get_validators</a>
+    <li class='indexItem indexItem2'><a href='#get_validator'>get_validator</a>
+    <li class='indexItem indexItem2'><a href='#get_transformers'>get_transformers</a>
+    <li class='indexItem indexItem2'><a href='#get_transformer'>get_transformer</a>
+    <li class='indexItem indexItem2'><a href='#get_errors'>get_errors</a>
+    <li class='indexItem indexItem2'><a href='#clear_errors'>clear_errors</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#REMOVED_METHODS'>REMOVED METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#element_defaults'>element_defaults</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Element::Block - Block element</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    ---
+    elements:
+      - type: Block
+        elements:
+          - type: Text
+            name: foo
+
+      - type: Block
+        tag: span
+        content: Whatever</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Block element which may contain other elements.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="tag"
+>tag</a></h2>
+
+<p>Specifies which tag name should be used to render the block.</p>
+
+<p>Default Value: &#39;div&#39;</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="content"
+>content</a></h2>
+
+<p>If <a href="#content" class="podlinkpod"
+>&#34;content&#34;</a> is set, it is used as the block&#39;s contents, and any attached elements are ignored.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="content_xml"
+>content_xml</a></h2>
+
+<p>Arguments: $string</p>
+
+<p>If you don&#39;t want the content to be XML-escaped, use the <a href="#content_xml" class="podlinkpod"
+>&#34;content_xml&#34;</a> method instead of <a href="#content" class="podlinkpod"
+>&#34;content&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="content_loc"
+>content_loc</a></h2>
+
+<p>Arguments: $localization_key</p>
+
+<p>To set the content to a localized string, set <a href="#content_loc" class="podlinkpod"
+>&#34;content_loc&#34;</a> to a key in your L10N file instead of using <a href="#content" class="podlinkpod"
+>&#34;content&#34;</a>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="elements"
+>elements</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#elements" class="podlinkpod"
+>&#34;elements&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="element"
+>element</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#element" class="podlinkpod"
+>&#34;element&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="deflators"
+>deflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#deflators" class="podlinkpod"
+>&#34;deflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="deflator"
+>deflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#deflator" class="podlinkpod"
+>&#34;deflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filters"
+>filters</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#filters" class="podlinkpod"
+>&#34;filters&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="filter"
+>filter</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#filter" class="podlinkpod"
+>&#34;filter&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="constraints"
+>constraints</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#constraints" class="podlinkpod"
+>&#34;constraints&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="constraint"
+>constraint</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#constraint" class="podlinkpod"
+>&#34;constraint&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inflators"
+>inflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#inflators" class="podlinkpod"
+>&#34;inflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="inflator"
+>inflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#inflator" class="podlinkpod"
+>&#34;inflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="validators"
+>validators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#validators" class="podlinkpod"
+>&#34;validators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="validator"
+>validator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#validator" class="podlinkpod"
+>&#34;validator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="transformers"
+>transformers</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#transformers" class="podlinkpod"
+>&#34;transformers&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="transformer"
+>transformer</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#transformer" class="podlinkpod"
+>&#34;transformer&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_datalist_id"
+>auto_datalist_id</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_datalist_id" class="podlinkpod"
+>&#34;auto_datalist_id&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CSS_CLASSES"
+>CSS CLASSES</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_id"
+>auto_id</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_id" class="podlinkpod"
+>&#34;auto_id&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_block_id"
+>auto_block_id</a></h2>
+
+<p>Arguments: [$string]</p>
+
+<p>If set, the Block will be given an auto-generated <a href="/pod/HTML/FormFu/Element.html#id" class="podlinkpod"
+>id</a> attribute, if it doesn&#39;t have one already.</p>
+
+<p>The following character substitution will be performed: <code>%f</code> will be replaced by <a href="#id" class="podlinkpod"
+>$form-&#62;id</a>, <code>%r</code> will be replaced by <a href="/pod/HTML/FormFu/Element/Repeatable.html#repeatable_count" class="podlinkpod"
+>$block-&#62;repeatable_count</a>.</p>
+
+<p>Default Value: not defined</p>
+
+<p>Unlike most other auto_* methods, this is not an &#39;inherited accessor&#39;.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_label"
+>auto_label</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_label" class="podlinkpod"
+>&#34;auto_label&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_field_class"
+>auto_error_field_class</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_error_field_class" class="podlinkpod"
+>&#34;auto_error_field_class&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_class"
+>auto_error_class</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_error_class" class="podlinkpod"
+>&#34;auto_error_class&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_error_message"
+>auto_error_message</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_error_message" class="podlinkpod"
+>&#34;auto_error_message&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_constraint_class"
+>auto_constraint_class</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_constraint_class" class="podlinkpod"
+>&#34;auto_constraint_class&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_inflator_class"
+>auto_inflator_class</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_inflator_class" class="podlinkpod"
+>&#34;auto_inflator_class&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_validator_class"
+>auto_validator_class</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_validator_class" class="podlinkpod"
+>&#34;auto_validator_class&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="auto_transformer_class"
+>auto_transformer_class</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#auto_transformer_class" class="podlinkpod"
+>&#34;auto_transformer_class&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="default_args"
+>default_args</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#default_args" class="podlinkpod"
+>&#34;default_args&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="RENDERING"
+>RENDERING</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="start"
+>start</a></h2>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="end"
+>end</a></h2>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="INTROSPECTION"
+>INTROSPECTION</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_elements"
+>get_elements</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_elements" class="podlinkpod"
+>&#34;get_elements&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_element"
+>get_element</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_element" class="podlinkpod"
+>&#34;get_element&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_all_elements"
+>get_all_elements</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_all_elements" class="podlinkpod"
+>&#34;get_all_elements&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_fields"
+>get_fields</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_fields" class="podlinkpod"
+>&#34;get_fields&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_field"
+>get_field</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_field" class="podlinkpod"
+>&#34;get_field&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_deflators"
+>get_deflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_deflators" class="podlinkpod"
+>&#34;get_deflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_deflator"
+>get_deflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_deflator" class="podlinkpod"
+>&#34;get_deflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_filters"
+>get_filters</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_filters" class="podlinkpod"
+>&#34;get_filters&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_filter"
+>get_filter</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_filter" class="podlinkpod"
+>&#34;get_filter&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_constraints"
+>get_constraints</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_constraints" class="podlinkpod"
+>&#34;get_constraints&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_constraint"
+>get_constraint</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_constraint" class="podlinkpod"
+>&#34;get_constraint&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_inflators"
+>get_inflators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_inflators" class="podlinkpod"
+>&#34;get_inflators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_inflator"
+>get_inflator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_inflator" class="podlinkpod"
+>&#34;get_inflator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_validators"
+>get_validators</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_validators" class="podlinkpod"
+>&#34;get_validators&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_validator"
+>get_validator</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_validator" class="podlinkpod"
+>&#34;get_validator&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_transformers"
+>get_transformers</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_transformers" class="podlinkpod"
+>&#34;get_transformers&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_transformer"
+>get_transformer</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_transformer" class="podlinkpod"
+>&#34;get_transformer&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="get_errors"
+>get_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#get_errors" class="podlinkpod"
+>&#34;get_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="clear_errors"
+>clear_errors</a></h2>
+
+<p>See <a href="/pod/HTML/FormFu.html#clear_errors" class="podlinkpod"
+>&#34;clear_errors&#34; in HTML::FormFu</a> for details.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<p>Base-class for <a href="/pod/HTML/FormFu/Element/Fieldset.html" class="podlinkpod"
+>HTML::FormFu::Element::Fieldset</a>.</p>
+
+<p>Is a sub-class of, and inherits methods from <a href="/pod/HTML/FormFu/Element.html" class="podlinkpod"
+>HTML::FormFu::Element</a></p>
+
+<p><a href="/pod/HTML/FormFu.html" class="podlinkpod"
+>HTML::FormFu</a></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="REMOVED_METHODS"
+>REMOVED METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="element_defaults"
+>element_defaults</a></h2>
+
+<p>Has been removed; use <a href="#default_args" class="podlinkpod"
+>&#34;default_args&#34;</a> instead.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

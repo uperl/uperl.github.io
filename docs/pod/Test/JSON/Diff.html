@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test::JSON::Diff</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> Test::JSON::Diff</div>
+    <!--Test::JSON::Diff--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#json_eq_or_diff'>json_eq_or_diff</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>Test::JSON::Diff - Check two large JSON strings for structural equality</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.02</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use Test2::V0;
+ use Test::JSON::Diff qw( json_eq_or_diff );
+
+ json_eq_or_diff &#39;{&#34;a&#34;:1,&#34;b&#34;:[1,2]}&#39;, &#39;{ &#34;b&#34; : [1,2], &#34;a&#34; : 1 }&#39;;
+ json_eq_or_diff $actual_json, $expected_json, &#39;response body&#39;;
+ json_eq_or_diff $actual_json, $expected_json, { max_lines =&#62; 100 };
+ json_eq_or_diff $actual_json, $expected_json, &#39;response body&#39;, { context =&#62; 5 };
+
+ done_testing;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides a <a href="https://metacpan.org/pod/Test2" class="podlinkpod"
+>Test2</a> compatible test for comparing two JSON documents for structural equality. It is intended for large documents, so the JSON is never decoded into Perl. Instead each document is canonicalized with <code>jq</code> and, only if they differ, the canonical forms are compared with <code>diff</code>. The failure diagnostic is a unified diff of the pretty-printed JSON.</p>
+
+<p>Two documents are considered the same if they differ only in:</p>
+
+<dl>
+<dt><a name="object_key_order"
+>object key order</a></dt>
+
+<dd>
+<p><code>{&#34;a&#34;:&#34;b&#34;,&#34;c&#34;:&#34;d&#34;}</code> is the same as <code>{&#34;c&#34;:&#34;d&#34;,&#34;a&#34;:&#34;b&#34;}</code>.</p>
+
+<dt><a name="whitespace_outside_of_strings"
+>whitespace outside of strings</a></dt>
+
+<dd>
+<p><code>{&#34;a&#34;:&#34;b&#34;}</code> is the same as <code>{ &#34;a&#34; : &#34;b&#34; }</code>.</p>
+</dd>
+</dl>
+
+<p>Any other difference is a failure, including:</p>
+
+<dl>
+<dt><a name="array_order"
+>array order</a></dt>
+
+<dd>
+<p><code>[1,2]</code> is not the same as <code>[2,1]</code>.</p>
+
+<dt><a name="types"
+>types</a></dt>
+
+<dd>
+<p><code>[1]</code> is not the same as <code>[&#34;1&#34;]</code>, and <code>[true]</code> is not the same as <code>[1]</code>.</p>
+
+<dt><a name="number_literals"
+>number literals</a></dt>
+
+<dd>
+<p><code>[1]</code> is not the same as <code>[1.0]</code>. Number literals are compared as written, which also means that large integers are compared exactly.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="json_eq_or_diff"
+>json_eq_or_diff</a></h2>
+
+<pre class="sh_perl"> json_eq_or_diff $actual_json, $expected_json;
+ json_eq_or_diff $actual_json, $expected_json, $test_name;
+ json_eq_or_diff $actual_json, $expected_json, \%options;
+ json_eq_or_diff $actual_json, $expected_json, $test_name, \%options;</pre>
+
+<p>Passes if <code>$actual_json</code> and <code>$expected_json</code> are structurally the same JSON. Both must be strings of raw, undecoded, UTF-8 encoded JSON containing exactly one JSON value. If either is not valid JSON, the test fails and the diagnostic contains the error reported by <code>jq</code>.</p>
+
+<p>If the documents differ, the diagnostic is a unified diff of the pretty-printed, key sorted JSON, with the expected document as the original (<code>-</code>) and the actual document as the new (<code>+</code>).</p>
+
+<p><code>$test_name</code> defaults to <code>json is the same</code>.</p>
+
+<p>Options:</p>
+
+<dl>
+<dt><a name="context"
+>context</a></dt>
+
+<dd>
+<p>The number of lines of context around each change in the diff. Defaults to <code>3</code>.</p>
+
+<dt><a name="max_lines"
+>max_lines</a></dt>
+
+<dd>
+<p>The maximum number of lines of diff output to include in the diagnostic. If the diff is longer, the remaining lines are replaced with <code>...</code>. Defaults to <code>50</code>.</p>
+</dd>
+</dl>
+
+<p>This function will die if an unrecognized option is passed, or if either <code>jq</code> or <code>diff</code> cannot be found in the <code>PATH</code>.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>Strings containing wide characters are not currently supported; the JSON must be passed as UTF-8 encoded bytes.</p>
+
+<p>This module requires <code>jq</code> 1.7 or later, since older versions do not preserve number literals. This is checked when the distribution is installed, but not at runtime.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="Test::Differences"
+><a href="https://metacpan.org/pod/Test%3A%3ADifferences" class="podlinkpod"
+>Test::Differences</a></a></dt>
+
+<dd>
+<dt><a name="https://jqlang.org"
+><a href="https://jqlang.org" class="podlinkurl"
+>https://jqlang.org</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

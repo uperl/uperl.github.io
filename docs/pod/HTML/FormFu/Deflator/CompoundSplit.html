@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Deflator::CompoundSplit</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::<a href="/pod/HTML/FormFu/Deflator.html">Deflator</a>::CompoundSplit</div>
+    <!--HTML::FormFu::Deflator::CompoundSplit--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#split'>split</a>
+    <li class='indexItem indexItem2'><a href='#join'>join</a>
+    <li class='indexItem indexItem2'><a href='#field_order'>field_order</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Deflator::CompoundSplit - CompoundSplit deflator</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl">    ---
+    element:
+      - type: Multi
+        name: address
+
+        elements:
+          - name: number
+          - name: street
+
+        deflator:
+          - type: CompoundSplit
+
+    # set the default
+
+    $form-&#62;get_field(&#39;address&#39;)-&#62;default( $address );</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>Deflator to allow you to set several field&#39;s values at once.</p>
+
+<p>For use with a <a href="/pod/HTML/FormFu/Element/Multi.html" class="podlinkpod"
+>HTML::FormFu::Element::Multi</a> group of fields.</p>
+
+<p>A <a href="/pod/HTML/FormFu/Role/Element/Field.html#default" class="podlinkpod"
+>default</a> value passed to the <a href="/pod/HTML/FormFu/Element/Multi.html" class="podlinkpod"
+>Multi</a> field will be split according to the <a href="#split" class="podlinkpod"
+>&#34;split&#34;</a> setting, and its resulting parts passed to its child elements.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="split"
+>split</a></h2>
+
+<p>Arguments: $regex</p>
+
+<p>Default Value: <code>qr/ +/</code></p>
+
+<p>Regex used to split the default value. Defaults to a regex matching 1 or more space characters.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="join"
+>join</a></h2>
+
+<p>Arguments: $string</p>
+
+<p>Default Value: <code>&#39; &#39;</code></p>
+
+<p>If splitting the value results in more parts than there are fields, any extra parts are joined again to form the value for the last field. The value of <a href="#join" class="podlinkpod"
+>&#34;join&#34;</a> is used to join these values.</p>
+
+<p>Defaults to a single space.</p>
+
+<p>For example, if the Multi element contains fields <code>number</code> and <code>name</code>, and is given the value <code>10 Downing Street</code>; when split this results in 3 parts: <code>10</code>, <code>Downing</code> and <code>Street</code>. In this case, the 1st part, <code>10</code> is assigned to the first field, and the 2nd and 3rd parts are re-joined with a space to give the single value <code>Downing Street</code>, which is assigned to the 2nd field.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="field_order"
+>field_order</a></h2>
+
+<p>Arguments: \@order</p>
+
+<p>If the parts from the split value should be assigned to the fields in a different order, you must provide an arrayref containing the names, in the order they should be assigned to.</p>
+
+<pre class="sh_perl">    ---
+    element:
+      - type: Multi
+        name: address
+
+        elements:
+          - name: street
+          - name: number
+
+        deflator:
+          - type: CompoundSplit
+            field_order:
+              - number
+              - street</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

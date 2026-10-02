@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML::FormFu::Validator</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> HTML::<a href="/pod/HTML/FormFu.html">FormFu</a>::Validator</div>
+    <!--HTML::FormFu::Validator--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <li class='indexItem indexItem1'><a href='#CORE_VALIDATORS'>CORE VALIDATORS</a>
+  <li class='indexItem indexItem1'><a href='#BEST_PRACTICES'>BEST PRACTICES</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>HTML::FormFu::Validator - Validator Base Class</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 2.09</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="METHODS"
+>METHODS</a></h1>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CORE_VALIDATORS"
+>CORE VALIDATORS</a></h1>
+
+<dl>
+<dt><a name="HTML::FormFu::Validator::Callback"
+><a href="/pod/HTML/FormFu/Validator/Callback.html" class="podlinkpod"
+>HTML::FormFu::Validator::Callback</a></a></dt>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="BEST_PRACTICES"
+>BEST PRACTICES</a></h1>
+
+<p>Try to avoid using callbacks if possible.
+Below is a more maintainable and reusable approach,
+which also keeps the code out of the controller.</p>
+
+<p>A normal application&#39;s directory would contain:</p>
+
+<pre class="sh_perl">    lib/HTML/FormFu/Constraint/MyApp/
+    lib/HTML/FormFu/Validator/MyApp/
+    lib/HTML/FormFu/Plugin/MyApp/
+    etc.</pre>
+
+<p>Then, the form config file would just need:</p>
+
+<pre class="sh_perl">    validator: &#39;MyApp::SomeValidator&#39;</pre>
+
+<p>And the class would be something like this:</p>
+
+<pre class="sh_perl">    package HTML::FormFu::Validator::MyApp::SomeValidator;
+
+    use Moose;
+    extends &#39;HTML::FormFu::Validator&#39;;
+
+    sub validate_value {
+        my ( $self, $value, $params ) = @_;
+
+        my $c = $self-&#62;form-&#62;stash-&#62;{context};
+
+        return 1 if $c-&#62;model(&#39;DBIC&#39;)-&#62;is_valid($value);
+
+        # assuming you want to return a custom error message
+        # which perhaps includes something retrieved from the model
+        # otherwise, just return 0
+        die HTML::FormFu::Exception::Validator-&#62;new({
+            message =&#62; &#39;custom error message&#39;,
+        });
+    }
+
+    1;</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks, <code>cfranks@cpan.org</code></p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="LICENSE"
+>LICENSE</a></h1>
+
+<p>This library is free software, you can redistribute it and/or modify it under the same terms as Perl itself.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Carl Franks &#60;cpan@fireartist.com&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026, 2018, 2016, 2015, 2012, 2011 by Carl Franks.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

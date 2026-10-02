@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SQL::AST::Simple</title>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/sh_main.min.js"></script>
+    <script type="text/javascript" src="https://shjs.wdlabs.com/lang/sh_perl.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://shjs.wdlabs.com/css/sh_acid.css">
+    <link type="text/css" rel="stylesheet" href="https://hatch.wdlabs.com/css/default.css">
+  </head>
+  <body onload="sh_highlightDocument();">
+    <div class="nx-header-flag-1"></div>
+    <div class="nx-header-flag-2"></div>
+    <div class="nx-header-title"><a href="/">🌻</a> <a href="/pod/">📖</a> SQL::AST::Simple</div>
+    <!--SQL::AST::Simple--><a name='___top' class='dummyTopAnchor' ></a>
+
+<div class='indexgroup'>
+<ul   class='indexList indexList1'>
+  <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
+  <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
+  <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
+  <li class='indexItem indexItem1'><a href='#FUNCTIONS'>FUNCTIONS</a>
+  <ul   class='indexList indexList2'>
+    <li class='indexItem indexItem2'><a href='#parse'>parse</a>
+    <li class='indexItem indexItem2'><a href='#parse_expr'>parse_expr</a>
+    <li class='indexItem indexItem2'><a href='#unparse'>unparse</a>
+    <li class='indexItem indexItem2'><a href='#unparse_expr'>unparse_expr</a>
+  </ul>
+  <li class='indexItem indexItem1'><a href='#THE_DATA_STRUCTURE'>THE DATA STRUCTURE</a>
+  <li class='indexItem indexItem1'><a href='#CAVEATS'>CAVEATS</a>
+  <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
+  <li class='indexItem indexItem1'><a href='#AUTHOR'>AUTHOR</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
+</ul>
+</div>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="NAME"
+>NAME</a></h1>
+
+<p>SQL::AST::Simple - Parse SQL into a plain Perl data structure and back again</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.01</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SYNOPSIS"
+>SYNOPSIS</a></h1>
+
+<pre class="sh_perl"> use SQL::AST::Simple qw( parse unparse parse_expr unparse_expr );
+
+ my $ast = parse(&#39;SELECT a, b FROM t WHERE a &#62; 1&#39;, dialect =&#62; &#39;postgresql&#39;);
+
+ # $ast is an array reference of statements, each a tree of plain
+ # hashes, arrays and scalars.  Poke at it however you like:
+ $ast-&#62;[0]{Query}{body}{Select}{from}[0]{relation}{Table}{name}[0]{Identifier}{value} = &#39;u&#39;;
+
+ say unparse($ast);   # SELECT a, b FROM u WHERE a &#62; 1
+
+ # Expressions can be handled on their own, without a statement around them:
+ $ast-&#62;[0]{Query}{body}{Select}{selection} = parse_expr(&#39;a &#62; 1 AND b = 2&#39;);
+ say unparse_expr($ast-&#62;[0]{Query}{body}{Select}{selection});   # a &#62; 1 AND b = 2</pre>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="DESCRIPTION"
+>DESCRIPTION</a></h1>
+
+<p>This module provides Perl bindings for the Rust <a href="https://crates.io/crates/sqlparser" class="podlinkurl"
+>sqlparser</a> crate. It exposes two operations: turning SQL text into the parser&#39;s abstract syntax tree as an ordinary Perl data structure, and turning such a data structure back into SQL text. Each comes in a form for whole statements and a form for a lone expression. There is no object layer; the tree is what the crate&#39;s serde serialization produces, decoded from JSON. That keeps the module small and makes every node the crate knows about available without any wrapping, at the cost of a somewhat verbose structure.</p>
+
+<p>Nothing is exported by default.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="FUNCTIONS"
+>FUNCTIONS</a></h1>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="parse"
+>parse</a></h2>
+
+<pre class="sh_perl"> my $ast = parse($sql);
+ my $ast = parse($sql, dialect =&#62; $name);</pre>
+
+<p>Parses <code>$sql</code>, which may contain several semicolon separated statements, and returns an array reference with one element per statement. Throws an exception with the parser&#39;s message, including line and column, if the text cannot be parsed.</p>
+
+<p>Options:</p>
+
+<dl>
+<dt><a name="dialect"
+>dialect</a></dt>
+
+<dd>
+<p>Which SQL dialect to parse with. Defaults to <code>generic</code>, which is the most permissive. Recognized names (case insensitive) are <code>generic</code>, <code>ansi</code>, <code>postgresql</code> (or <code>postgres</code>), <code>mysql</code>, <code>sqlite</code>, <code>mssql</code>, <code>oracle</code>, <code>snowflake</code>, <code>bigquery</code>, <code>redshift</code>, <code>clickhouse</code>, <code>duckdb</code>, <code>databricks</code>, <code>hive</code>, <code>spark</code> (or <code>sparksql</code>) and <code>teradata</code>.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="parse_expr"
+>parse_expr</a></h2>
+
+<pre class="sh_perl"> my $expr = parse_expr($sql);
+ my $expr = parse_expr($sql, dialect =&#62; $name);</pre>
+
+<p>Parses <code>$sql</code> as a single expression, such as the condition of a <code>WHERE</code> clause, and returns it as a hash reference. The whole of <code>$sql</code> must be consumed by the expression; a leading <code>WHERE</code> keyword or anything left over after the expression is an error. Takes the same <code>dialect</code> option as <a href="#parse" class="podlinkpod"
+>&#34;parse&#34;</a>.</p>
+
+<p>The result is exactly what appears inside a statement wherever the crate expects an expression, so it can be spliced into a tree from <a href="#parse" class="podlinkpod"
+>&#34;parse&#34;</a>, for instance as the <code>selection</code> of a <code>SELECT</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unparse"
+>unparse</a></h2>
+
+<pre class="sh_perl"> my $sql = unparse($ast);
+ my $sql = unparse($ast, pretty =&#62; 1);</pre>
+
+<p>Takes an array reference of statements as returned by <a href="#parse" class="podlinkpod"
+>&#34;parse&#34;</a>, or a single statement hash reference, and returns the SQL text. Multiple statements are joined with <code>&#34;; &#34;</code>. Throws an exception if the structure does not deserialize into a valid AST.</p>
+
+<p>Options:</p>
+
+<dl>
+<dt><a name="pretty"
+>pretty</a></dt>
+
+<dd>
+<p>If true, statements are formatted with indentation and newlines rather than on a single line, and are joined with <code>&#34;;\n&#34;</code>.</p>
+</dd>
+</dl>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="unparse_expr"
+>unparse_expr</a></h2>
+
+<pre class="sh_perl"> my $sql = unparse_expr($expr);</pre>
+
+<p>Takes an expression hash reference, as returned by <a href="#parse_expr" class="podlinkpod"
+>&#34;parse_expr&#34;</a> or lifted out of a statement, and returns the SQL text. Throws an exception if the structure does not deserialize into a valid expression. There is no <code>pretty</code> option; expressions are always rendered on one line.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="THE_DATA_STRUCTURE"
+>THE DATA STRUCTURE</a></h1>
+
+<p>The tree mirrors the Rust types of the <code>sqlparser</code> crate one to one, as serialized by serde. A few rules of thumb cover most of it:</p>
+
+<ul>
+<li>Rust enums are &#34;externally tagged&#34;: a hash with a single key naming the variant, whose value is the payload. A <code>SELECT</code> statement is <code>{ Query =&#62; {...} }</code>, a column reference in an expression is <code>{ Identifier =&#62; {...} }</code>, a literal is <code>{ Value =&#62; {...} }</code>. Variants without payload are plain strings.</li>
+
+<li>Rust structs are hashes keyed by field name; <code>Option</code> fields that are absent are <code>undef</code>; <code>Vec</code> fields are array references.</li>
+
+<li>Booleans come back as JSON boolean objects. When you set a boolean field yourself use <code>\1</code> or <code>\0</code> (or the <code>true</code>/<code>false</code> constants from your JSON module). A plain Perl <code>1</code> would be encoded as a number and rejected by <a href="#unparse" class="podlinkpod"
+>&#34;unparse&#34;</a>.</li>
+
+<li>Numeric literals are kept as strings, exactly as they appeared in the source, so that precision is never lost. Any field that holds a string must be given a Perl string; if you have computed a number, stringify it first.</li>
+
+<li>Most nodes carry a <code>span</code> hash recording where they appeared in the source. <a href="#unparse" class="podlinkpod"
+>&#34;unparse&#34;</a> ignores the contents but requires the field to be present, so the easiest way to build a new node is to parse a small snippet (with <a href="#parse_expr" class="podlinkpod"
+>&#34;parse_expr&#34;</a> for an expression) and lift the piece you need out of the result, rather than constructing hashes by hand.</li>
+</ul>
+
+<p>The easiest way to learn the shape for a given construct is to parse an example and dump it. The exact shape depends on the version of the crate the bindings are built against, which is pinned in the distribution&#39;s <code>ffi/Cargo.toml</code>; a release that bumps it may change the structure and will say so in the change log.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="CAVEATS"
+>CAVEATS</a></h1>
+
+<p>The parser is syntactic only and deliberately permissive. It will accept some SQL that a given database would reject, and occasionally reject vendor syntax it does not yet know. Round tripping is not byte for byte: comments are dropped, keywords are upper cased, and whitespace is normalized.</p>
+
+<p>Building this distribution requires a Rust toolchain (<code>cargo</code>) at install time.</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="SEE_ALSO"
+>SEE ALSO</a></h1>
+
+<dl>
+<dt><a name="https://crates.io/crates/sqlparser"
+><a href="https://crates.io/crates/sqlparser" class="podlinkurl"
+>https://crates.io/crates/sqlparser</a></a></dt>
+
+<dd>
+<p>The parser this module wraps.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="AUTHOR"
+>AUTHOR</a></h1>
+
+<p>Graham Ollis &#60;plicease@cpan.org&#62;</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
+
+<p>This software is copyright (c) 2026 by Graham Ollis.</p>
+
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
+
+
+    <div class="nx-footer">
+      <p>
+        [
+            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://pl.atypus.org">pl.atypus.org</a> |
+            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://uperl.github.io">uperl</a>
+        ]
+        Copyright &copy; 2022 Graham Ollis
+      </p>
+    </div>
+  </body>
+</html>

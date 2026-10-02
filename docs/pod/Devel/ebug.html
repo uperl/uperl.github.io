@@ -24,6 +24,8 @@
   <ul   class='indexList indexList2'>
     <li class='indexItem indexItem2'><a href='#new'>new</a>
     <li class='indexItem indexItem2'><a href='#program'>program</a>
+    <li class='indexItem indexItem2'><a href='#args'>args</a>
+    <li class='indexItem indexItem2'><a href='#serializer'>serializer</a>
     <li class='indexItem indexItem2'><a href='#load'>load</a>
   </ul>
   <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
@@ -41,18 +43,24 @@
     <li class='indexItem indexItem2'><a href='#filename'>filename</a>
     <li class='indexItem indexItem2'><a href='#filenames'>filenames</a>
     <li class='indexItem indexItem2'><a href='#finished'>finished</a>
+    <li class='indexItem indexItem2'><a href='#interrupt'>interrupt</a>
     <li class='indexItem indexItem2'><a href='#line'>line</a>
     <li class='indexItem indexItem2'><a href='#next'>next</a>
     <li class='indexItem indexItem2'><a href='#output'>output</a>
     <li class='indexItem indexItem2'><a href='#package'>package</a>
     <li class='indexItem indexItem2'><a href='#pad'>pad</a>
+    <li class='indexItem indexItem2'><a href='#pid'>pid</a>
     <li class='indexItem indexItem2'><a href='#return'>return</a>
     <li class='indexItem indexItem2'><a href='#run'>run</a>
+    <li class='indexItem indexItem2'><a href='#run_nowait'>run_nowait</a>
+    <li class='indexItem indexItem2'><a href='#running'>running</a>
+    <li class='indexItem indexItem2'><a href='#socket'>socket</a>
     <li class='indexItem indexItem2'><a href='#step'>step</a>
     <li class='indexItem indexItem2'><a href='#subroutine'>subroutine</a>
     <li class='indexItem indexItem2'><a href='#stack_trace'>stack_trace</a>
     <li class='indexItem indexItem2'><a href='#stack_trace_human'>stack_trace_human</a>
     <li class='indexItem indexItem2'><a href='#undo'>undo</a>
+    <li class='indexItem indexItem2'><a href='#wait_for_stop'>wait_for_stop</a>
     <li class='indexItem indexItem2'><a href='#watch_point'>watch_point</a>
     <li class='indexItem indexItem2'><a href='#yaml'>yaml</a>
   </ul>
@@ -74,7 +82,7 @@ extensible Perl debugger</p>
 name="VERSION"
 >VERSION</a></h1>
 
-<p>version 0.64</p>
+<p>version 0.68</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -153,7 +161,14 @@ name="DESCRIPTION"
 
 <p>Internally, <a href="/pod/Devel/ebug.html" class="podlinkpod"
 >Devel::ebug</a> consists of two parts. The frontend is <a href="/pod/Devel/ebug.html" class="podlinkpod"
->Devel::ebug</a>, which you interact with. The frontend starts the code you are debugging in the background under the backend (running it under perl -d:ebug code.pl). The backend starts a TCP server, which the frontend then connects to, and uses this to drive the backend. This adds some flexibility in the debugger. There is some minor security in the client/server startup (a secret word), and a random port is used from 3141-4165 so that multiple debugging sessions can happen concurrently.</p>
+>Devel::ebug</a>, which you interact with. The frontend starts the code you are debugging in the background under the backend (running it under perl -d:ebug code.pl), and the two talk over a TCP socket on localhost, which the frontend uses to drive the backend. This adds some flexibility in the debugger.</p>
+
+<p>When <a href="#load" class="podlinkpod"
+>&#34;load&#34;</a> starts the program, the frontend listens on a port chosen by the operating system and passes it to the backend in the <code>DEVEL_EBUG_CONNECT</code> environment variable, along with a random secret word in <code>SECRET</code>. The backend connects back to that port and sends the secret before anything else, so the frontend can tell it apart from anything else that connects. Because the port is chosen by the operating system, any number of debugging sessions can run concurrently.</p>
+
+<p>Without <code>DEVEL_EBUG_CONNECT</code>, the backend instead listens on a port from 3141-4165 derived from the secret, and waits for a frontend to attach with that secret, as <a href="/pod/ebug_server.html" class="podlinkpod"
+>ebug_server</a> and <a href="/pod/ebug_client.html" class="podlinkpod"
+>ebug_client</a> do. A frontend with the wrong secret is turned away without ending the session.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="CONSTRUCTOR"
@@ -176,6 +191,42 @@ name="program"
 
 <pre class="sh_perl">  $ebug-&#62;program(&#34;calc.pl&#34;);</pre>
 
+<p>The program is run through the shell, so it may also carry arguments for the program (<code>&#34;add.pl 3 4&#34;</code>), subject to the shell&#39;s word splitting and interpolation. To pass arguments that must arrive exactly as given, set <a href="#args" class="podlinkpod"
+>&#34;args&#34;</a> instead.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="args"
+>args</a></h2>
+
+<p>The args method sets the command-line arguments for the program, as an array reference:</p>
+
+<pre class="sh_perl">  $ebug-&#62;program(&#34;add.pl&#34;);
+  $ebug-&#62;args([ 3, &#34;four and a half&#34; ]);</pre>
+
+<p>When args is set the program is started without going through the shell, so each argument reaches the program&#39;s <code>@ARGV</code> unchanged, even if it contains spaces, quotes or other shell metacharacters. In that case <a href="#program" class="podlinkpod"
+>&#34;program&#34;</a> is taken as the path of the program alone. The arguments are used again each time the program is restarted, for example by <code>undo</code>.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="serializer"
+>serializer</a></h2>
+
+<p>The serializer method selects how requests and responses are written on the socket between the frontend and the backend:</p>
+
+<pre class="sh_perl">  $ebug-&#62;serializer(&#34;json&#34;);</pre>
+
+<p><code>yaml</code> is the default and is what every existing client speaks: <a href="https://metacpan.org/pod/YAML" class="podlinkpod"
+>YAML</a> output, hex packed onto a single line. <code>json</code> writes one plain JSON object per line instead, which is the format to choose when the other end is not Perl - a JSON line can be read by anything, whereas hex packed YAML asks a client for a YAML parser, object deserialization and a hex decoder first.</p>
+
+<p>It can also be set with the <code>DEVEL_EBUG_SERIALIZER</code> environment variable, which is how to choose the format for a frontend you do not construct yourself, such as <a href="/pod/ebug_client.html" class="podlinkpod"
+>ebug_client</a>.</p>
+
+<p>The backend replies in whichever format each request arrived in, so nothing has to be arranged with it beforehand. Selecting <code>json</code> uses <a href="https://metacpan.org/pod/Cpanel%3A%3AJSON%3A%3AXS" class="podlinkpod"
+>Cpanel::JSON::XS</a> if it is installed, and otherwise requires <a href="https://metacpan.org/pod/JSON%3A%3APP" class="podlinkpod"
+>JSON::PP</a>, which has shipped with perl since 5.14 but is not otherwise a prerequisite of this distribution.</p>
+
+<p>See <a href="/pod/Devel/ebug/Wire.html" class="podlinkpod"
+>Devel::ebug::Wire</a> for the details of both formats.</p>
+
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="load"
 >load</a></h2>
@@ -187,6 +238,9 @@ name="load"
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="METHODS"
 >METHODS</a></h1>
+
+<p>If the program being debugged goes away without the debugger&#39;s help, for example because it was killed, crashed in XS code or called <code>POSIX::_exit</code>, any method that talks to it croaks with an error that begins <code>Devel::ebug: lost the connection to the debugger</code>. For a program started with <a href="#load" class="podlinkpod"
+>&#34;load&#34;</a>, the error also says how it ended.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="break_point"
@@ -238,6 +292,11 @@ name="break_point_subroutine"
 
 <pre class="sh_perl">  my $line = $ebug-&#62;break_point_subroutine(&#34;main::add&#34;);
   $ebug-&#62;break_point_subroutine(&#34;Calc::fib&#34;);</pre>
+
+<p>It takes an optional condition, as <a href="#break_point" class="podlinkpod"
+>&#34;break_point&#34;</a> does, so that the program only stops when the condition is true. At that point the subroutine has just been called, so <code>@_</code> holds its arguments:</p>
+
+<pre class="sh_perl">  $ebug-&#62;break_point_subroutine(&#34;Calc::fib&#34;, &#39;$_[1] &#62; 5&#39;);</pre>
 
 <p>The return value is the line at which the break point is set.</p>
 
@@ -351,6 +410,25 @@ name="finished"
 <pre class="sh_perl">  print &#34;Finished!\n&#34; if $ebug-&#62;finished;</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
+name="interrupt"
+>interrupt</a></h2>
+
+<p>The interrupt method asks a running program to stop at the next statement, as if a break point were there. It is meant for a program started with <a href="#run_nowait" class="podlinkpod"
+>&#34;run_nowait&#34;</a>, or for calling from a signal handler during <a href="#run" class="podlinkpod"
+>&#34;run&#34;</a>:</p>
+
+<pre class="sh_perl">  $ebug-&#62;run_nowait;
+  ...
+  $ebug-&#62;interrupt;
+  $ebug-&#62;wait_for_stop;</pre>
+
+<p>It returns true if the program was signalled, and false without doing anything if the program is not running. Call <a href="#wait_for_stop" class="podlinkpod"
+>&#34;wait_for_stop&#34;</a> afterwards to find out where it stopped.</p>
+
+<p>Interrupting works by sending <code>SIGINT</code> to the program, so it is only supported for a program started with <a href="#load" class="podlinkpod"
+>&#34;load&#34;</a> on the same host, and not on Windows; it croaks otherwise. Like pressing Ctrl-C, it takes effect once the program next executes a Perl statement, so a long call into XS code finishes first.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
 name="line"
 >line</a></h2>
 
@@ -393,6 +471,13 @@ name="pad"
   }</pre>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
+name="pid"
+>pid</a></h2>
+
+<p>The pid method returns the process id of the program being debugged, as reported by the program itself. This can differ from the process started by <a href="#load" class="podlinkpod"
+>&#34;load&#34;</a> when the program is run through the shell.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
 name="return"
 >return</a></h2>
 
@@ -408,9 +493,45 @@ name="return"
 name="run"
 >run</a></h2>
 
-<p>The run subroutine starts executing the code. It will only stop on a break point or watch point.</p>
+<p>The run subroutine starts executing the code. It will only stop on a break point, a watch point, an <a href="#interrupt" class="podlinkpod"
+>&#34;interrupt&#34;</a> or the end of the program. To start running without waiting for it to stop, see <a href="#run_nowait" class="podlinkpod"
+>&#34;run_nowait&#34;</a>.</p>
 
 <pre class="sh_perl">  $ebug-&#62;run;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="run_nowait"
+>run_nowait</a></h2>
+
+<p>The run_nowait method starts executing the code like <a href="#run" class="podlinkpod"
+>&#34;run&#34;</a>, but returns straight away instead of waiting for the program to stop:</p>
+
+<pre class="sh_perl">  $ebug-&#62;run_nowait;</pre>
+
+<p>While the program is running, the only methods that may be called are <a href="#interrupt" class="podlinkpod"
+>&#34;interrupt&#34;</a>, <a href="#running" class="podlinkpod"
+>&#34;running&#34;</a> and <a href="#wait_for_stop" class="podlinkpod"
+>&#34;wait_for_stop&#34;</a>; anything else croaks. The <a href="#socket" class="podlinkpod"
+>&#34;socket&#34;</a> becomes readable when the program stops, so a frontend with an event loop can wait on it rather than calling <a href="#wait_for_stop" class="podlinkpod"
+>&#34;wait_for_stop&#34;</a> right away.</p>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="running"
+>running</a></h2>
+
+<p>The running method returns true between <a href="#run_nowait" class="podlinkpod"
+>&#34;run_nowait&#34;</a> and <a href="#wait_for_stop" class="podlinkpod"
+>&#34;wait_for_stop&#34;</a>:</p>
+
+<pre class="sh_perl">  print &#34;still going\n&#34; if $ebug-&#62;running;</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="socket"
+>socket</a></h2>
+
+<p>The socket method returns the socket connected to the program being debugged. Do not read from or write to it; it is only useful for waiting, for example with <a href="https://metacpan.org/pod/IO%3A%3ASelect" class="podlinkpod"
+>IO::Select</a>, for it to become readable after <a href="#run_nowait" class="podlinkpod"
+>&#34;run_nowait&#34;</a>.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="step"
@@ -464,6 +585,21 @@ name="undo"
 <p>It can also undo multiple commands:</p>
 
 <pre class="sh_perl">  $ebug-&#62;undo(3);</pre>
+
+<h2><a class='u' href='#___top' title='click to go to top of document'
+name="wait_for_stop"
+>wait_for_stop</a></h2>
+
+<p>The wait_for_stop method waits for a program started with <a href="#run_nowait" class="podlinkpod"
+>&#34;run_nowait&#34;</a> to stop, at a break point, a watch point, an <a href="#interrupt" class="podlinkpod"
+>&#34;interrupt&#34;</a> or the end of the program, and updates <a href="#filename" class="podlinkpod"
+>&#34;filename&#34;</a>, <a href="#line" class="podlinkpod"
+>&#34;line&#34;</a> and so on to match:</p>
+
+<pre class="sh_perl">  $ebug-&#62;wait_for_stop;
+  print $ebug-&#62;filename, &#34;:&#34;, $ebug-&#62;line, &#34;\n&#34;;</pre>
+
+<p>It returns straight away if the program is not running.</p>
 
 <h2><a class='u' href='#___top' title='click to go to top of document'
 name="watch_point"
@@ -529,6 +665,16 @@ name="CAVEATS"
 <p><a href="/pod/Devel/ebug.html" class="podlinkpod"
 >Devel::ebug</a> does not handle signals under Windows.</p>
 
+<p>Running <code>perl -d:ebug script.pl</code> directly does not work, and will fail with <code>No DB::DB routine defined</code>. <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> is the frontend class; it is not itself a <code>-d</code> debugger backend. The backend is the internal <a href="/pod/Devel/ebug/Backend.html" class="podlinkpod"
+>Devel::ebug::Backend</a> module, which is invoked automatically as <code>perl -d:ebug::Backend script.pl</code> when you call <code>$ebug-&#62;load</code>. To debug a script, either use the <a href="/pod/ebug.html" class="podlinkpod"
+>ebug</a> command, or use <a href="/pod/Devel/ebug.html" class="podlinkpod"
+>Devel::ebug</a> programmatically:</p>
+
+<pre class="sh_perl">  my $ebug = Devel::ebug-&#62;new;
+  $ebug-&#62;program(&#39;script.pl&#39;);
+  $ebug-&#62;load;</pre>
+
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="AUTHOR"
 >AUTHOR</a></h1>
@@ -543,11 +689,13 @@ name="AUTHOR"
 
 <p>Taisuke Yamada</p>
 
+<p>Richard Leach (HYDAHY)</p>
+
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="COPYRIGHT_AND_LICENSE"
 >COPYRIGHT AND LICENSE</a></h1>
 
-<p>This software is copyright (c) 2005-2021 by Leon Brocard.</p>
+<p>This software is copyright (c) 2005-2026 by Leon Brocard.</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
