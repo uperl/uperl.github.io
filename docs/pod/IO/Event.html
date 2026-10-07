@@ -17,6 +17,7 @@
 <div class='indexgroup'>
 <ul   class='indexList indexList1'>
   <li class='indexItem indexItem1'><a href='#NAME'>NAME</a>
+  <li class='indexItem indexItem1'><a href='#VERSION'>VERSION</a>
   <li class='indexItem indexItem1'><a href='#SYNOPSIS'>SYNOPSIS</a>
   <li class='indexItem indexItem1'><a href='#DESCRIPTION'>DESCRIPTION</a>
   <li class='indexItem indexItem1'><a href='#CHOOSING_AN_EVENT_HANDLER'>CHOOSING AN EVENT HANDLER</a>
@@ -29,17 +30,18 @@
   <li class='indexItem indexItem1'><a href='#MANDATORY_HANDLERS'>MANDATORY HANDLERS</a>
   <li class='indexItem indexItem1'><a href='#OPTIONAL_HANDLERS'>OPTIONAL HANDLERS</a>
   <li class='indexItem indexItem1'><a href='#METHODS'>METHODS</a>
+  <li class='indexItem indexItem1'><a href='#EVENT_LOOP_FUNCTIONS'>EVENT LOOP FUNCTIONS</a>
   <li class='indexItem indexItem1'><a href='#TIMER_API'>TIMER API</a>
   <li class='indexItem indexItem1'><a href='#IDLE_API'>IDLE API</a>
-  <li class='indexItem indexItem1'><a href='#SUBSTITUED_METHODS'>SUBSTITUED METHODS</a>
+  <li class='indexItem indexItem1'><a href='#SUBSTITUTED_METHODS'>SUBSTITUTED METHODS</a>
   <li class='indexItem indexItem1'><a href='#EXAMPLE_SERVER'>EXAMPLE SERVER</a>
   <li class='indexItem indexItem1'><a href='#SYSREAD_and_EOF'>SYSREAD and EOF</a>
   <li class='indexItem indexItem1'><a href='#DESTRUCTION'>DESTRUCTION</a>
   <li class='indexItem indexItem1'><a href='#DATA_STRUCTURE'>DATA STRUCTURE</a>
   <li class='indexItem indexItem1'><a href='#SEE_ALSO'>SEE ALSO</a>
   <li class='indexItem indexItem1'><a href='#BUGS'>BUGS</a>
-  <li class='indexItem indexItem1'><a href='#LICENSE'>LICENSE</a>
-  <li class='indexItem indexItem1'><a href='#POD_ERRORS'>POD ERRORS</a>
+  <li class='indexItem indexItem1'><a href='#AUTHORS'>AUTHORS</a>
+  <li class='indexItem indexItem1'><a href='#COPYRIGHT_AND_LICENSE'>COPYRIGHT AND LICENSE</a>
 </ul>
 </div>
 
@@ -48,6 +50,12 @@ name="NAME"
 >NAME</a></h1>
 
 <p>IO::Event - Tied Filehandles for Nonblocking IO with Object Callbacks</p>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="VERSION"
+>VERSION</a></h1>
+
+<p>version 0.814</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYNOPSIS"
@@ -64,15 +72,15 @@ name="SYNOPSIS"
  my $ioe = IO::Event::Socket::UNIX-&#62;new( [ARGS] )
 
  my $timer = IO::Event-&#62;timer(
-        [after =&#62; $seconds],
-        interval =&#62; $seconds,
-        cb =&#62; CODE);
+    [after =&#62; $seconds],
+    interval =&#62; $seconds,
+    cb =&#62; CODE);
 
  my $idler = IO::Event-&#62;idle(
-        [min =&#62; $seconds], 
-        [max =&#62; $seconds],
-        [reentrant =&#62; 0],
-        cb =&#62; CODE);
+    [min =&#62; $seconds],
+    [max =&#62; $seconds],
+    [reentrant =&#62; 0],
+    cb =&#62; CODE);
 
  IO::Event::loop();
 
@@ -84,7 +92,7 @@ name="DESCRIPTION"
 
 <p>IO::Event provides a object-based callback system for handling nonblocking IO. The design goal is to provide a system that just does the right thing w/o the user needing to think about it much.</p>
 
-<p>All APIs are kept as simple as possible yet at the same time, all functionality is accesible if needed. Simple things are easy. Hard things are possible.</p>
+<p>All APIs are kept as simple as possible yet at the same time, all functionality is accessible if needed. Simple things are easy. Hard things are possible.</p>
 
 <p>Most of the time file handling syntax will work fine: <code>&#60;$filehandle&#62;</code> and <code>print $filehandle &#39;stuff&#39;</code>.</p>
 
@@ -191,7 +199,7 @@ name="CONSTRUCTORS"
 >IO::Event-&#62;new($filehandle, [ $handler, [ $options ]])</a></dt>
 
 <dd>
-<p>The basic <code>new</code> constructor takes a filehandle and returns a psuedo-filehandle. Treat the IO::Event object as a filehandle. Do not use the original filehandle without good reason (let us know if you find a good reason so we can fix the problem).</p>
+<p>The basic <code>new</code> constructor takes a filehandle and returns a pseudo-filehandle. Treat the IO::Event object as a filehandle. Do not use the original filehandle without good reason (let us know if you find a good reason so we can fix the problem).</p>
 
 <p>The handler is the class or object where you provide callback functions to handle IO events. It defaults to the package of the calling context.</p>
 
@@ -214,7 +222,7 @@ name="CONSTRUCTORS"
 >write_only</a></dt>
 
 <dd>
-<p>Set to true if this is a write-only filehandle. Do not attept to read.</p>
+<p>Set to true if this is a write-only filehandle. Do not attempt to read.</p>
 
 <dt><a name="autoread"
 >autoread</a></dt>
@@ -230,7 +238,7 @@ name="CONSTRUCTORS"
 <dd>
 <p>This constructor uses IO::Socket::INET-&#62;new() to create a socket using the ARGS provided. It returns an IO::Event object.</p>
 
-<p>The handler defaults as above or can be set with an additional pseudo-parameter for IO::Socket::UNIX-&#62;new(): <code>Handler</code>. A description for the socket can be provided with an additional psuedo-parameter: <code>Description</code>.</p>
+<p>The handler defaults as above or can be set with an additional pseudo-parameter for IO::Socket::UNIX-&#62;new(): <code>Handler</code>. A description for the socket can be provided with an additional pseudo-parameter: <code>Description</code>.</p>
 
 <dt><a name="IO::Event::Socket::UNIX-&#62;new(_[ARGS]_)"
 >IO::Event::Socket::UNIX-&#62;new( [ARGS] )</a></dt>
@@ -238,7 +246,7 @@ name="CONSTRUCTORS"
 <dd>
 <p>This constructor uses IO::Socket::UNIX-&#62;new() to create a socket using the ARGS provided. It returns an IO::Event object.</p>
 
-<p>The handler defaults as above or can be set with an additional pseudo-parameter for IO::Socket::UNIX-&#62;new(): <code>Handler</code>. A description for the socket can be provided with an additional psuedo-parameter: <code>Description</code>.</p>
+<p>The handler defaults as above or can be set with an additional pseudo-parameter for IO::Socket::UNIX-&#62;new(): <code>Handler</code>. A description for the socket can be provided with an additional pseudo-parameter: <code>Description</code>.</p>
 </dd>
 </dl>
 
@@ -255,14 +263,14 @@ name="MANDATORY_HANDLERS"
 <dd>
 <p>Invoked when there is fresh data in the input buffer. The input can be retrieved via directly reading it from <code>$$input_buffer_reference</code> or via <code>read()</code> from the $ioe filehandle, or by using a variety of standard methods for getting data:</p>
 
-<pre class="sh_perl">        &#60;$ioe&#62;                  like IO::Handle
-        $ioe-&#62;get()             like Data::LineBuffer
-        $ioe-&#62;read()            like IO::Handle
-        $ioe-&#62;sysread()         like IO::Handle
-        $ioe-&#62;getline()         like IO::Handle
-        $ioe-&#62;getlines()        like IO::Handle
-        $ioe-&#62;getsome()         see below
-        $ioe-&#62;ungets()          like FileHandle::Unget</pre>
+<pre class="sh_perl">    &#60;$ioe&#62;          like IO::Handle
+    $ioe-&#62;get()     like Data::LineBuffer
+    $ioe-&#62;read()        like IO::Handle
+    $ioe-&#62;sysread()     like IO::Handle
+    $ioe-&#62;getline()     like IO::Handle
+    $ioe-&#62;getlines()    like IO::Handle
+    $ioe-&#62;getsome()     see below
+    $ioe-&#62;ungets()      like FileHandle::Unget</pre>
 
 <p>At end-of-file, ie_input will only be invoked once. There may or may not be data in the input buffer.</p>
 
@@ -272,11 +280,11 @@ name="MANDATORY_HANDLERS"
 <dd>
 <p>Invoked when a listen()ing socket is ready to accept(). It should call accept:</p>
 
-<pre class="sh_perl">        sub ie_connection
-        {
-                my ($pkg, $ioe) = @_;
-                my $newfh = $ioe-&#62;accept()
-        }</pre>
+<pre class="sh_perl">    sub ie_connection
+    {
+        my ($pkg, $ioe) = @_;
+        my $newfh = $ioe-&#62;accept()
+    }</pre>
 
 <dt><a name="ie_read_ready($handler,_$ioe,_$underlying_file_handle)"
 >ie_read_ready($handler, $ioe, $underlying_file_handle)</a></dt>
@@ -288,7 +296,7 @@ name="MANDATORY_HANDLERS"
 >ie_werror($handler, $ioe, $output_buffer_reference)</a></dt>
 
 <dd>
-<p>A write error has occured when trying to drain the write buffer. Provide an empty subroutine if you don&#39;t care.</p>
+<p>A write error has occurred when trying to drain the write buffer. Provide an empty subroutine if you don&#39;t care.</p>
 </dd>
 </dl>
 
@@ -327,7 +335,7 @@ name="OPTIONAL_HANDLERS"
 >ie_connect_failed($handler, $ioe, $error_code)</a></dt>
 
 <dd>
-<p>This is invoked when a <code>connect()</code> fails. For a timeout, the error code will be ETIMEOUT.</p>
+<p>This is invoked when a <code>connect()</code> fails. For a timeout, the error code will be <code>ETIMEDOUT</code>.</p>
 
 <dt><a name="ie_died($handler,_$ioe,_$method,_$@)"
 >ie_died($handler, $ioe, $method, $@)</a></dt>
@@ -361,31 +369,31 @@ name="METHODS"
 
 <p>In addition to methods described in detail below, the following methods behave like their <code>IO</code> (mostly <code>IO::Socket</code>) counterparts (except for being mostly non-blocking...):</p>
 
-<pre class="sh_perl">        connect
-        listen
-        open
-        read
-        sysread
-        syswrite
-        print
-        eof
-        shutdown</pre>
+<pre class="sh_perl">    connect
+    listen
+    open
+    read
+    sysread
+    syswrite
+    print
+    eof
+    shutdown</pre>
 
 <p>Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods are passed to underlying <code>Event</code> objects:</p>
 
-<pre class="sh_perl">        loop
-        unloop
-        and many more...</pre>
+<pre class="sh_perl">    loop
+    unloop
+    and many more...</pre>
 
 <p>Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods are passed to underlying <code>IO</code> objects:</p>
 
-<pre class="sh_perl">        fileno
-        stat
-        truncate
-        error
-        opened
-        untaint
-        and many more...</pre>
+<pre class="sh_perl">    fileno
+    stat
+    truncate
+    error
+    opened
+    untaint
+    and many more...</pre>
 
 <p>IO::Event defines its own methods too:</p>
 
@@ -474,7 +482,7 @@ name="METHODS"
 >-&#62;input_record_separator($new_sep)</a></dt>
 
 <dd>
-<p>IO::Handle doesn&#39;t allow input_record_separator&#39;s on a per filehandle basis. IO::Event does. If you don&#39;t ever set a filehandle&#39;s input record separator, then it contineously defaults to the current value of <code>$/</code>. If you set it, then it will use your value and never look at <code>$/</code> again.</p>
+<p>IO::Handle doesn&#39;t allow input_record_separator&#39;s on a per filehandle basis. IO::Event does. If you don&#39;t ever set a filehandle&#39;s input record separator, then it continuously defaults to the current value of <code>$/</code>. If you set it, then it will use your value and never look at <code>$/</code> again.</p>
 
 <dt><a name="-&#62;readevents($readevents)"
 >-&#62;readevents($readevents)</a></dt>
@@ -492,7 +500,7 @@ name="METHODS"
 >-&#62;autoread($autoread)</a></dt>
 
 <dd>
-<p>Get/set automatic reading if data when data can be read. Without autoread turned on, the input buffer ins&#39;t filled and none of the read methods will work. The point of this is for working with non-data filehandles. This is an experts-only method that kinda defeats the purpose of this module. This would be necessary using recv() to get data.</p>
+<p>Get/set automatic reading if data when data can be read. Without autoread turned on, the input buffer isn&#39;t filled and none of the read methods will work. The point of this is for working with non-data filehandles. This is an experts-only method that kinda defeats the purpose of this module. This would be necessary using recv() to get data.</p>
 
 <dt><a name="-&#62;drain()"
 >-&#62;drain()</a></dt>
@@ -517,15 +525,54 @@ name="METHODS"
 
 <dd>
 <p>Close close immediately, even if there is output buffered.</p>
-</dd>
-</dl>
 
-<dl>
 <dt><a name="-&#62;ie_desc([new_description])"
 >-&#62;ie_desc([new description])</a></dt>
 
 <dd>
 <p>Returns (and sets) the text description of the filehandle. For debugging.</p>
+</dd>
+</dl>
+
+<h1><a class='u' href='#___top' title='click to go to top of document'
+name="EVENT_LOOP_FUNCTIONS"
+>EVENT LOOP FUNCTIONS</a></h1>
+
+<p>These dispatch to whichever event handler was chosen (see <a href="#CHOOSING_AN_EVENT_HANDLER" class="podlinkpod"
+>&#34;CHOOSING AN EVENT HANDLER&#34;</a>).</p>
+
+<dl>
+<dt><a name="IO::Event::loop()"
+>IO::Event::loop()</a></dt>
+
+<dd>
+<p>Run the event loop.</p>
+
+<dt><a name="IO::Event::unloop()"
+>IO::Event::unloop()</a></dt>
+
+<dd>
+<p>Exit the current event loop.</p>
+
+<dt><a name="IO::Event::unloop_all()"
+>IO::Event::unloop_all()</a></dt>
+
+<dd>
+<p>Exit all running event loops.</p>
+
+<dt><a name="IO::Event-&#62;timer(_[ARGS]_)"
+>IO::Event-&#62;timer( [ARGS] )</a></dt>
+
+<dd>
+<p>Create a timer. See <a href="#TIMER_API" class="podlinkpod"
+>&#34;TIMER API&#34;</a> for the arguments.</p>
+
+<dt><a name="IO::Event-&#62;idle(_[ARGS]_)"
+>IO::Event-&#62;idle( [ARGS] )</a></dt>
+
+<dd>
+<p>Create an idle event. See <a href="#IDLE_API" class="podlinkpod"
+>&#34;IDLE API&#34;</a> for the arguments.</p>
 </dd>
 </dl>
 
@@ -604,8 +651,8 @@ name="IDLE_API"
 >Event</a>) are supported on idle objects: start(), again(), now(), stop(), cancel(), is_cancelled(), is_running(), is_suspended(), pending.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
-name="SUBSTITUED_METHODS"
->SUBSTITUED METHODS</a></h1>
+name="SUBSTITUTED_METHODS"
+>SUBSTITUTED METHODS</a></h1>
 
 <p>Any method invocations that fail because the method isn&#39;t defined in IO::Event will by tried twice more: once using trying for a method on the inner (hidden) filehandle and once more trying for a method on the Event object that&#39;s used to create the select loop for this module.</p>
 
@@ -615,29 +662,29 @@ name="SUBSTITUED_METHODS"
 name="EXAMPLE_SERVER"
 >EXAMPLE SERVER</a></h1>
 
-<pre class="sh_perl">        # This is a tcp line echo server
+<pre class="sh_perl">    # This is a tcp line echo server
 
-        my $listener = IO::Event::Socket::INET-&#62;new(
-                Listen =&#62; 10,
-                Proto =&#62; &#39;tcp&#39;,
-                LocalPort =&#62; 2821,
-        );
+    my $listener = IO::Event::Socket::INET-&#62;new(
+        Listen =&#62; 10,
+        Proto =&#62; &#39;tcp&#39;,
+        LocalPort =&#62; 2821,
+    );
 
-        Event::loop();
+    Event::loop();
 
-        sub ie_connection
-        {
-                my ($pkg, $lstnr) = @_;
-                my $client = $lstnr-&#62;accept();
-                printf &#34;accepted connection from %s:%s\n&#34;,
-                        $client-&#62;peerhost, $client-&#62;peerport;
-        }
+    sub ie_connection
+    {
+        my ($pkg, $lstnr) = @_;
+        my $client = $lstnr-&#62;accept();
+        printf &#34;accepted connection from %s:%s\n&#34;,
+            $client-&#62;peerhost, $client-&#62;peerport;
+    }
 
-        sub ie_input
-        {
-                my ($pkg, $client, $ibufref) = @_;
-                print $client &#60;$client&#62;;
-        }</pre>
+    sub ie_input
+    {
+        my ($pkg, $client, $ibufref) = @_;
+        print $client &#60;$client&#62;;
+    }</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SYSREAD_and_EOF"
@@ -663,7 +710,7 @@ name="DATA_STRUCTURE"
 
 <p>The syntax is kinda funny:</p>
 
-<pre class="sh_perl">        ${*$filehandle}{&#39;your_hash_key&#39;}  </pre>
+<pre class="sh_perl">    ${*$filehandle}{&#39;your_hash_key&#39;}</pre>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
 name="SEE_ALSO"
@@ -705,39 +752,37 @@ name="BUGS"
 <p>The test suite only covers 40% of the code. The module is used by its author and seems solid.</p>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
-name="LICENSE"
->LICENSE</a></h1>
+name="AUTHORS"
+>AUTHORS</a></h1>
 
-<p>Copyright (C) 2002-2009 David Muir Sharnoff &#60;muir@idiom.org&#62;. Copyright (C) 2011-2013 Google, Inc. This module may be used/copied/etc on the same terms as Perl itself.</p>
+<ul>
+<li>David Muir Sharnoff &#60;cpan@dave.sharnoff.org&#62;</li>
 
-<p>This module is packaged for Fedora by Emmanuel Seyman &#60;emmanuel@seyman.fr&#62;</p>
+<li>Graham Ollis &#60;plicease@cpan.org&#62;</li>
+</ul>
 
 <h1><a class='u' href='#___top' title='click to go to top of document'
-name="POD_ERRORS"
->POD ERRORS</a></h1>
+name="COPYRIGHT_AND_LICENSE"
+>COPYRIGHT AND LICENSE</a></h1>
 
-<p>Hey! <b>The above document had some coding errors, which are explained below:</b></p>
+<p>This software is copyright (c) 2002-2026 by David Muir Sharnoff &#60;muir@idiom.org&#62;.</p>
 
-<dl>
-<dt><a name="Around_line_476:"
->Around line 476:</a></dt>
-
-<dd>
-<p>&#39;=item&#39; outside of any &#39;=over&#39;</p>
-</dd>
-</dl>
+<p>This is free software; you can redistribute it and/or modify it under the same terms as the Perl 5 programming language system itself.</p>
 
 
     <div class="nx-footer">
       <p>
         [
-            <a href="https://www.wdlabs.com">www.wdlabs.com</a> |
+            <a href="https://www.wdlabs.com">wdlabs.com</a> |
             <a href="https://alienfile.org">alienfile.org</a> |
+            <a href="https://dbxl.org">dbxl.org</a> |
+            <a href="https://perlwasm.org">perlwasm.org</a> |
             <a href="https://pl.atypus.org">pl.atypus.org</a> |
-            <a href="https://perlwasm.github.io">perlwasm</a> |
+            <a href="https://ticoedit.org">ticoedit.org</a> |
+            <a href="https://turboperl.org">turboperl.org</a> |
             <a href="https://uperl.github.io">uperl</a>
         ]
-        Copyright &copy; 2022 Graham Ollis
+        Copyright &copy; 2026 Graham Ollis
       </p>
     </div>
   </body>
